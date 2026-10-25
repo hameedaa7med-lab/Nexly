@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nexly - Your Next Level Starts Here | By T. Hameeda BuSakhar</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Nunito', 'Fredoka', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      background: radial-gradient(circle at 50% 0%, #f6efff 0%, #faf6fe 45%, #f1e9fa 100%);
+    }
+    .font-chunky { font-family: 'Fredoka', 'Nunito', sans-serif; }
+    .font-cert { font-family: 'Playfair Display', serif; }
+
+    /* Tactile 3D Buttons System */
+    .btn-3d {
+      position: relative;
+      transition: transform 0.08s ease, border-bottom-width 0.08s ease, box-shadow 0.08s ease;
+      transform: translateY(0);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+    .btn-3d:active:not(:disabled) {
+      transform: translateY(4px) !important;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Royal Purple Key */
+    .btn-3d-purple {
+      background: linear-gradient(180deg, #935ef7 0%, #7c3aed 100%);
+      border: 2px solid #6d28d9;
+      border-bottom: 6px solid #5b21b6;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(109, 40, 217, 0.25);
+    }
+    .btn-3d-purple:active:not(:disabled) { border-bottom-width: 2px; }
+
+    /* Violet Key */
+    .btn-3d-violet {
+      background: linear-gradient(180deg, #8445f8 0%, #6d28d9 100%);
+      border: 2px solid #5b21b6;
+      border-bottom: 5px solid #4c1d95;
+      color: #ffffff;
+      box-shadow: 0 4px 8px rgba(91, 33, 182, 0.25);
+    }
+    .btn-3d-violet:active:not(:disabled) { border-bottom-width: 2px; }
+
+    /* Emerald Green Key */
+    .btn-3d-green {
+      background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+      border: 2px solid #047857;
+      border-bottom: 6px solid #065f46;
+      color: #ffffff;
+      box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
+    }
+    .btn-3d-green:active:not(:disabled) { border-bottom-width: 2px; }
+
+    /* Golden Orange Key */
+    .btn-3d-orange {
+      background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+      border: 2px solid #d97706;
+      border-bottom: 6px solid #b45309;
+      color: #ffffff;
+      box-shadow: 0 4px 8px rgba(217, 119, 6, 0.25);
+    }
+    .btn-3d-orange:active:not(:disabled) { border-bottom-width: 2px; }
+
+    /* Slate Neutral Key */
+    .btn-3d-slate {
+      background: linear-gradient(180deg, #ffffff 0%, #fbf8ff 100%);
+      border: 2px solid #e9d5ff;
+      border-bottom: 5px solid #c4b5fd;
+      color: #3b0764;
+      box-shadow: 0 4px 6px rgba(139, 92, 246, 0.1);
+    }
+    .btn-3d-slate:hover { background: #faf5ff; border-color: #d8b4fe; }
+    .btn-3d-slate:active:not(:disabled) { border-bottom-width: 2px; }
+
+    /* Red Key */
+    .btn-3d-red {
+      background: linear-gradient(180deg, #fb7185 0%, #f43f5e 100%);
+      border: 2px solid #e11d48;
+      border-bottom: 6px solid #be123c;
+      color: #ffffff;
+      box-shadow: 0 4px 8px rgba(225, 29, 72, 0.3);
+    }
+    .btn-3d-red:active:not(:disabled) { border-bottom-width: 2px; }
+
+    /* Multiple-Choice Interactive Card */
+    .btn-choice {
+      position: relative;
+      transition: all 0.1s ease;
+      cursor: pointer;
+      background: #ffffff;
+      border: 2.5px solid #e9d5ff;
+      border-bottom: 5px solid #d8b4fe;
+      border-radius: 1.25rem;
+      box-shadow: 0 4px 8px rgba(124, 58, 237, 0.06);
+      transform: translateY(0);
+      user-select: none;
+    }
+    .btn-choice:hover {
+      border-color: #c4b5fd;
+      background-color: #faf5ff;
+      transform: translateY(-1px);
+    }
+    .btn-choice:active {
+      transform: translateY(3px);
+      border-bottom-width: 2px;
+      box-shadow: 0 1px 2px rgba(124, 58, 237, 0.04);
+    }
+    .btn-choice-selected {
+      background: #f5f3ff !important;
+      border-color: #7c3aed !important;
+      border-bottom: 5px solid #5b21b6 !important;
+      color: #3b0764 !important;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.2) !important;
+    }
+
+    /* Keycap Level Indicators */
+    .keycap-level {
+      position: relative;
+      transition: all 0.08s ease;
+      border: 2px solid #e9d5ff;
+      border-bottom: 5px solid #c4b5fd;
+      box-shadow: 0 3px 6px rgba(124, 58, 237, 0.08);
+      cursor: pointer;
+    }
+    .keycap-level:hover { background-color: #faf5ff; }
+    .keycap-level:active { transform: translateY(3px); border-bottom-width: 2px; }
+    .keycap-level-active {
+      background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%) !important;
+      border-color: #5b21b6 !important;
+      border-bottom: 5px solid #4c1d95 !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.35) !important;
+    }
+
+    @keyframes letterBounce {
+      0% { transform: scale(0.85); opacity: 0.6; }
+      50% { transform: scale(1.12); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop { animation: letterBounce 0.16s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+    .slot-focused {
+      border-color: #7c3aed !important;
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.25) !important;
+      background-color: #faf5ff !important;
+    }
+
+    .certificate-border {
+      border: 10px double #8b5cf6;
+      background: radial-gradient(circle, #ffffff 0%, #fbf8ff 100%);
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printableCertificate, #printableCertificate * { visibility: visible; }
+      #printableCertificate {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 30px;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body class="text-purple-950 min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+
+  <!-- Fullscreen Celebration Canvas -->
+  <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- Notification Toast -->
+  <div id="toastMessage" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#2e1065] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full shadow-2xl transition-all duration-300 border border-purple-400">
+    <span id="toastText">Welcome to Nexly!</span>
+  </div>
+
+  <!-- MAIN WRAPPER -->
+  <div class="w-full flex-grow flex flex-col items-center">
+
+    <!-- TOP RESPONSIVE APP BAR -->
+    <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-purple-100 shadow-sm sticky top-0 z-40 transition-all">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3">
+        
+        <div class="flex items-center justify-between gap-3 sm:gap-6">
+          
+          <!-- Brand Logo, Character & Teacher Attribution -->
+          <div class="flex items-center gap-2.5 cursor-pointer shrink-0" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-[#f5edff] p-0.5 shadow-md flex items-center justify-center overflow-hidden relative border-2 border-purple-200">
+              <img src="Image (35).jpg" alt="Nexly Mascot" class="absolute inset-0 w-full h-full object-contain z-10" onerror="this.onerror=null; this.src='Image (35)_3.jpg'; this.onerror=()=>{this.style.display='none';};" />
+              <!-- High-Fidelity 3D Vector Mascot of Character N -->
+              <svg viewBox="0 0 500 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#faf5ff"/>
+                    <stop offset="100%" stop-color="#ede4fb"/>
+                  </linearGradient>
+                  <linearGradient id="nBodyGrad" x1="15%" y1="0%" x2="85%" y2="100%">
+                    <stop offset="0%" stop-color="#bba2fc"/>
+                    <stop offset="35%" stop-color="#9368f8"/>
+                    <stop offset="70%" stop-color="#7c3aed"/>
+                    <stop offset="100%" stop-color="#5b21b6"/>
+                  </linearGradient>
+                  <linearGradient id="orbitRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e9d5ff" stop-opacity="0.95"/>
+                    <stop offset="45%" stop-color="#fdf4ff"/>
+                    <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0.95"/>
+                  </linearGradient>
+                  <linearGradient id="bookCoverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#7c3aed"/>
+                    <stop offset="100%" stop-color="#4c1d95"/>
+                  </linearGradient>
+                  <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fef08a"/>
+                    <stop offset="50%" stop-color="#facc15"/>
+                    <stop offset="100%" stop-color="#eab308"/>
+                  </linearGradient>
+                  <linearGradient id="hpHeadband" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#a78bfa"/>
+                    <stop offset="50%" stop-color="#8b5cf6"/>
+                    <stop offset="100%" stop-color="#6d28d9"/>
+                  </linearGradient>
+                  <linearGradient id="hpEarcup" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ede9fe"/>
+                    <stop offset="60%" stop-color="#ddd6fe"/>
+                    <stop offset="100%" stop-color="#8b5cf6"/>
+                  </linearGradient>
+                  <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#7c3aed" flood-opacity="0.25"/>
+                  </filter>
+                </defs>
+
+                <!-- Squircle Background Card -->
+                <rect x="15" y="15" width="470" height="470" rx="90" fill="url(#cardBg)" stroke="#ffffff" stroke-width="12"/>
+
+                <!-- Small Floating Star (Lower Left) -->
+                <path d="M 105 272 Q 105 295 85 295 Q 105 295 105 318 Q 105 295 125 295 Q 105 295 105 272 Z" fill="url(#starGrad)"/>
+                <circle cx="105" cy="295" r="3" fill="#ffffff" opacity="0.9"/>
+
+                <!-- Orbit Ring (Back Layer) -->
+                <path d="M 125 250 C 90 220 115 175 185 160 C 265 142 375 160 415 185 C 445 205 435 240 375 265" fill="none" stroke="url(#orbitRingGrad)" stroke-width="20" stroke-linecap="round" opacity="0.85"/>
+
+                <!-- 3D Mascot Character N Body -->
+                <g filter="url(#softGlow)">
+                  <!-- Left Leg -->
+                  <rect x="160" y="145" width="76" height="175" rx="38" fill="url(#nBodyGrad)"/>
+                  <!-- Right Leg -->
+                  <rect x="290" y="130" width="76" height="190" rx="38" fill="url(#nBodyGrad)"/>
+                  <!-- Diagonal Bridge -->
+                  <path d="M 162 165 C 162 145 220 145 236 172 L 340 300 C 356 322 300 345 282 322 L 178 194 C 165 178 162 165 162 165 Z" fill="url(#nBodyGrad)"/>
+                  <!-- Seamless Fill for Inner Join -->
+                  <path d="M 170 170 L 320 310 L 335 290 L 190 150 Z" fill="url(#nBodyGrad)"/>
+                  <!-- Plump Rounded Highlights -->
+                  <ellipse cx="198" cy="165" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
+                  <ellipse cx="328" cy="150" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
+                </g>
+
+                <!-- Open Book Pedestal Base -->
+                <g>
+                  <!-- Outer Deep Purple Book Cover -->
+                  <path d="M 130 380 Q 250 420 250 420 Q 250 420 370 380 L 368 392 Q 250 432 132 392 Z" fill="url(#bookCoverGrad)"/>
+                  <!-- Mid Lavender Trim -->
+                  <path d="M 135 365 Q 250 405 365 365 L 368 376 Q 250 416 132 376 Z" fill="#c4b5fd"/>
+                  <!-- Open White Book Pages Layer 1 -->
+                  <path d="M 250 385 C 235 352 185 342 140 318 C 132 338 136 358 145 368 C 185 378 230 378 250 385 Z" fill="#ede9fe"/>
+                  <path d="M 250 385 C 265 352 315 342 360 318 C 368 338 364 358 355 368 C 315 378 270 378 250 385 Z" fill="#ede9fe"/>
+                  <!-- Open Crisp White Pages Layer 2 -->
+                  <path d="M 250 380 C 232 344 182 334 145 310 C 138 328 142 348 150 358 C 188 368 230 370 250 380 Z" fill="#ffffff"/>
+                  <path d="M 250 380 C 268 344 318 334 355 310 C 362 328 358 348 350 358 C 312 368 270 370 250 380 Z" fill="#ffffff"/>
+                  <!-- Center Book Crease Shadow -->
+                  <path d="M 250 335 L 250 385" stroke="#c4b5fd" stroke-width="4" stroke-linecap="round"/>
+                </g>
+
+                <!-- Adorable Kawaii Face on Left Pillar of N -->
+                <g>
+                  <!-- Left Eye (Large, Round, Shiny) -->
+                  <ellipse cx="195" cy="222" rx="7.5" ry="10" fill="#1e1035"/>
+                  <circle cx="192.5" cy="218" r="3.2" fill="#ffffff"/>
+                  <circle cx="197" cy="224" r="1.5" fill="#ffffff"/>
+
+                  <!-- Right Eye (Playful Wink Arc) -->
+                  <path d="M 235 222 C 242 212 254 212 261 222" fill="none" stroke="#1e1035" stroke-width="5" stroke-linecap="round"/>
+                  <path d="M 260 217 L 267 213" stroke="#1e1035" stroke-width="3.5" stroke-linecap="round"/>
+
+                  <!-- Cute Curved Smile -->
+                  <path d="M 213 234 Q 222 244 231 234" fill="none" stroke="#1e1035" stroke-width="4.5" stroke-linecap="round"/>
+
+                  <!-- Rosy Blush Cheeks -->
+                  <ellipse cx="182" cy="235" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
+                  <ellipse cx="266" cy="232" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
+                </g>
+
+                <!-- Headphones on Upper Left -->
+                <g>
+                  <!-- Arched Headband -->
+                  <path d="M 152 185 C 136 100 196 75 228 108" fill="none" stroke="url(#hpHeadband)" stroke-width="20" stroke-linecap="round"/>
+                  <path d="M 156 182 C 142 108 194 84 224 112" fill="none" stroke="#e9d5ff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+                  
+                  <!-- Padded Earcup (Angled) -->
+                  <g transform="rotate(-18 136 178)">
+                    <rect x="122" y="152" width="28" height="52" rx="14" fill="#5b21b6"/>
+                    <rect x="125" y="155" width="22" height="46" rx="11" fill="url(#hpEarcup)"/>
+                    <rect x="129" y="161" width="14" height="34" rx="7" fill="#ede9fe"/>
+                  </g>
+
+                  <!-- Radiating Sound Waves -->
+                  <path d="M 80 144 L 100 152" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+                  <path d="M 74 174 L 96 175" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+                  <path d="M 88 202 L 105 194" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+                </g>
+
+                <!-- Orbit Ring (Front Layer Sweeping Across the Diagonal) -->
+                <path d="M 115 268 C 145 292 235 295 320 255 C 378 225 415 180 395 158" fill="none" stroke="url(#orbitRingGrad)" stroke-width="20" stroke-linecap="round"/>
+                <path d="M 125 270 C 152 292 235 295 315 258 C 370 230 405 188 390 165" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+
+                <!-- Golden 4-Point Star on Right Peak of N -->
+                <g>
+                  <path d="M 345 88 Q 345 128 308 128 Q 345 128 345 168 Q 345 128 382 128 Q 345 128 345 88 Z" fill="url(#starGrad)" filter="url(#softGlow)"/>
+                  <circle cx="345" cy="128" r="4" fill="#ffffff" opacity="0.95"/>
+                </g>
+
+                <!-- Speech Bubble on Right with Three Dots (...) -->
+                <g>
+                  <path d="M 380 232 H 426 A 24 24 0 0 1 450 256 A 24 24 0 0 1 426 280 H 392 L 378 292 L 382 280 A 24 24 0 0 1 358 256 A 24 24 0 0 1 380 232 Z" fill="#d8b4fe" opacity="0.92"/>
+                  <!-- Three Dots -->
+                  <circle cx="392" cy="256" r="4.5" fill="#7c3aed"/>
+                  <circle cx="405" cy="256" r="4.5" fill="#7c3aed"/>
+                  <circle cx="418" cy="256" r="4.5" fill="#7c3aed"/>
+                </g>
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-chunky text-xl sm:text-2xl font-bold tracking-tight text-purple-900">Nexly</span>
+              </div>
+              <p class="text-[10px] sm:text-xs font-black text-purple-700 flex items-center gap-1">
+                <span class="text-purple-900 font-extrabold">By T. Hameeda BuSakhar</span>
+                <span class="text-purple-300 hidden sm:inline">•</span>
+                <span class="text-purple-500 font-bold hidden sm:inline">Your Next Level Starts Here</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Central Stats -->
+          <div class="flex items-center gap-2 sm:gap-4 flex-grow max-w-2xl justify-center">
+            <!-- Hearts -->
+            <div class="flex items-center gap-1.5 bg-rose-50 border border-rose-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
+              <span class="text-base sm:text-lg animate-pulse">❤️</span>
+              <span id="heartsCounter" class="font-chunky font-bold text-xs sm:text-sm text-rose-700">5</span>
+            </div>
+
+            <!-- Streak -->
+            <div class="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
+              <span class="text-base sm:text-lg">🔥</span>
+              <span id="streakCounter" class="font-chunky font-bold text-xs sm:text-sm text-amber-700">0</span>
+            </div>
+
+            <!-- XP -->
+            <div class="flex items-center gap-1.5 bg-violet-50 border border-violet-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
+              <span class="text-base sm:text-lg">💎</span>
+              <span id="xpCounter" class="font-chunky font-bold text-xs sm:text-sm text-violet-700">0</span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="hidden lg:flex flex-col flex-grow ml-2">
+              <div class="flex justify-between text-[11px] font-bold text-purple-700 mb-1">
+                <span>Level Progress: <span id="progressSummaryText">0 / 30 Questions</span></span>
+                <span id="progressPercentageText">0%</span>
+              </div>
+              <div class="w-full h-3 bg-purple-100 rounded-full overflow-hidden border border-purple-200 p-0.5">
+                <div id="desktopProgressBar" class="h-full bg-gradient-to-r from-emerald-400 via-teal-400 to-green-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            <!-- Voice Indicator -->
+            <span id="activeVoiceBadge" class="hidden md:inline-flex items-center gap-1 text-[11px] font-bold bg-purple-50 border border-purple-200 text-purple-700 px-2 py-1 rounded-lg">
+              👩 Sarah
+            </span>
+
+            <!-- Language Toggle -->
+            <button id="langToggleBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-2.5 sm:px-3 py-2 rounded-xl" title="Switch English / Arabic UI">
+              🌐 <span id="langLabel">AR</span>
+            </button>
+
+            <!-- User Profile Badge -->
+            <div id="userBadge" class="hidden sm:flex items-center gap-1.5 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 cursor-pointer" onclick="openLoginModal(true)" title="Switch Profile">
+              <span>👤</span>
+              <span id="activeUserName" class="truncate max-w-[90px]">Student</span>
+            </div>
+
+            <!-- Teacher Gateway -->
+            <button id="teacherPortalBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-3 sm:px-4 py-2 rounded-xl gap-1.5">
+              <span>👨‍🏫</span>
+              <span class="hidden md:inline" id="btnTeacherLabel">Teacher</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Mobile Progress Bar -->
+        <div class="mt-2 lg:hidden">
+          <div class="flex justify-between items-center text-[10px] font-bold text-purple-700 mb-0.5">
+            <span id="mobileProgressSummary">Progress: 0 / 30</span>
+            <span id="mobileProgressPercent">0%</span>
+          </div>
+          <div class="w-full h-2.5 bg-purple-100 rounded-full overflow-hidden border border-purple-200">
+            <div id="mobileProgressBar" class="h-full bg-gradient-to-r from-emerald-400 to-green-500 rounded-full transition-all duration-300" style="width: 0%;"></div>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-5 flex-grow flex flex-col justify-start">
+      
+      <!-- Level & Skill Switchers - Student Controlled -->
+      <section class="w-full flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 sm:mb-5">
+        
+        <!-- CEFR Levels: Student can click and choose freely -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-purple-500 mr-1 hidden sm:inline">Level:</span>
+          <button class="keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" data-level="A1">A1 (Beginner)</button>
+          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="A2">A2 (Elementary)</button>
+          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B1">B1 (Intermediate)</button>
+          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B2">B2 (Advanced)</button>
+        </div>
+
+        <!-- Skills Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+          <button id="skillTab-listen" class="btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="selectSkill('listen')">
+            🎧 <span>Listen & Spell</span> <span class="bg-purple-900/40 text-[10px] px-1.5 py-0.5 rounded-full" id="listenCountBadge">0/10</span>
+          </button>
+          <button id="skillTab-reading" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="selectSkill('reading')">
+            📖 <span>Reading</span> <span class="bg-purple-200 text-purple-900 text-[10px] px-1.5 py-0.5 rounded-full" id="readingCountBadge">0/10</span>
+          </button>
+          <button id="skillTab-grammar" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="selectSkill('grammar')">
+            📝 <span>Grammar</span> <span class="bg-purple-200 text-purple-900 text-[10px] px-1.5 py-0.5 rounded-full" id="grammarCountBadge">0/10</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- EXERCISE ARENA -->
+      <div id="exerciseContainer" class="w-full bg-white rounded-3xl border-2 border-purple-100 shadow-xl overflow-hidden p-4 sm:p-7 transition-all duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          <!-- LEFT COLUMN: Compact Image, Large Reading Passage, Audio -->
+          <div class="lg:col-span-5 flex flex-col justify-start">
+            
+            <div class="flex items-center justify-between mb-2">
+              <span id="skillBadgeLabel" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider bg-purple-100 text-purple-800 border border-purple-200">
+                🎧 Listen & Spell
+              </span>
+              <span id="spacedRepetitionTag" class="hidden inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300 animate-pulse">
+                🔁 Review Question
+              </span>
+            </div>
+
+            <!-- Compact & Crisp Illustration Clue -->
+            <div class="relative w-full h-28 sm:h-36 rounded-2xl overflow-hidden border-2 border-purple-100 shadow-sm bg-purple-50 mb-3 flex items-center justify-center">
+              <img id="exerciseImage" src="" alt="Visual Clue" class="w-full h-full object-contain p-1 transition-opacity duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-purple-950/30 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute bottom-1.5 left-2 right-2 flex justify-between items-center text-white text-[10px] font-bold px-1 pointer-events-none">
+                <span id="imageTopicTitle" class="truncate drop-shadow">English Learning Quest</span>
+                <span id="levelIndicatorBadge" class="bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded-md text-[9px]">CEFR A1</span>
+              </div>
+            </div>
+
+            <!-- Audio Station (Listen & Spell) -->
+            <div id="audioStation" class="flex flex-col gap-2 mt-1">
+              <div class="flex items-center gap-2">
+                <button id="listenNormalBtn" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
+                  <span class="text-lg">🔊</span> <span id="lblNormalAudio">Listen (0.8x)</span>
+                </button>
+                <button id="listenTurtleBtn" class="btn-3d btn-3d-orange flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
+                  <span class="text-lg">🐢</span> <span id="lblTurtleAudio">Turtle (0.5x)</span>
+                </button>
+              </div>
+              <p id="audioInstructionNote" class="text-center text-[11px] font-bold text-purple-400 mt-0.5">
+                💡 Tip: Audio plays automatically when the question opens!
+              </p>
+            </div>
+
+            <!-- Extra-Large, Highly Legible Reading Passage Box -->
+            <div id="readingPassageContainer" class="hidden mt-1 p-5 sm:p-6 bg-purple-50/90 border-2 border-purple-300 rounded-3xl text-purple-950 flex flex-col justify-between shadow-inner">
+              <div>
+                <div class="flex items-center justify-between mb-3 border-b border-purple-200 pb-2">
+                  <h4 id="readingStoryTitle" class="font-chunky font-bold text-purple-900 text-base sm:text-lg lg:text-xl">Story Title</h4>
+                  <!-- Dedicated Read-Aloud Button for Reading Comprehension -->
+                  <button id="readStoryAloudBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0" onclick="toggleReadStoryAudio()">
+                    <span>🔊 Read Story</span>
+                  </button>
+                </div>
+                <!-- Extra-Large Reading Text for Optimal Legibility -->
+                <p id="readingStoryText" class="text-purple-950 text-base sm:text-lg lg:text-xl leading-relaxed font-bold tracking-wide">
+                  Passage content goes here...
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN: Question, Small Letter Slots, Multiple Choice Grid -->
+          <div class="lg:col-span-7 flex flex-col justify-between pt-1">
+            
+            <div>
+              <h3 id="questionHeading" class="text-base sm:text-lg lg:text-xl font-chunky font-bold text-purple-950 mb-1 leading-snug">
+                Listen and spell what you hear
+              </h3>
+              <p id="questionHint" class="text-xs sm:text-sm font-bold text-purple-600 mb-4 flex items-center gap-1.5">
+                <span>💡</span> <span id="hintContent">Hint: A place where children learn</span>
+              </p>
+
+              <!-- Single-Line Small Letter Slots (Listen & Spell) -->
+              <div id="listenSlotsArea" class="flex flex-col items-center justify-center py-6 bg-purple-50/40 border-2 border-dashed border-purple-200 rounded-2xl relative mb-4">
+                <span class="text-xs font-bold text-purple-600 mb-3">
+                  👇 Type using your keyboard (small letters):
+                </span>
+
+                <!-- Single Line Letter Slots - Styled explicitly for SMALL LOWERCASE LETTERS -->
+                <div id="slotsContainer" class="flex flex-nowrap items-center justify-center gap-1.5 sm:gap-2 px-2 max-w-full overflow-x-auto no-scrollbar py-2">
+                  <!-- Generated dynamically in lowercase -->
+                </div>
+
+                <input id="hiddenTypingInput" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
+
+                <!-- Action helper buttons -->
+                <div class="flex items-center gap-3 mt-4 z-20">
+                  <button id="eraseLetterBtn" class="btn-3d btn-3d-slate text-xs font-bold px-4 py-2 rounded-xl gap-1">
+                    ⌫ <span id="lblErase">Erase</span>
+                  </button>
+                  <button id="clearAllLettersBtn" class="btn-3d btn-3d-slate text-xs font-bold px-4 py-2 rounded-xl gap-1">
+                    🔄 <span id="lblClear">Clear</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Multiple Choice Grid (Reading & Grammar) -->
+              <div id="multipleChoiceArea" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                <!-- Choice cards generated dynamically -->
+              </div>
+            </div>
+
+            <!-- Action Strip -->
+            <div class="mt-4 pt-3 border-t border-purple-100 flex items-center justify-between gap-3">
+              <button id="skipQuestionBtn" class="text-xs sm:text-sm font-bold text-purple-400 hover:text-purple-700 transition px-3 py-2">
+                Skip for now
+              </button>
+
+              <button id="checkAnswerBtn" class="btn-3d btn-3d-green text-sm sm:text-base font-chunky font-bold py-3.5 px-8 sm:px-12 rounded-2xl flex-grow sm:flex-grow-0 min-w-[200px]" disabled>
+                CHECK ANSWER
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- FOOTER WITH TEACHER ATTRIBUTION -->
+    <footer class="w-full bg-white border-t border-purple-100 py-3 text-center text-[11px] sm:text-xs font-bold text-purple-600">
+      Nexly Educational Platform • Created by <span class="font-black text-purple-950">T. Hameeda BuSakhar</span>
+    </footer>
+
+  </div>
+
+  <!-- SLIDE-UP FEEDBACK DRAWER -->
+  <div id="feedbackDrawer" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full pointer-events-none transition-transform duration-300 ease-out border-t-4 shadow-2xl p-4 sm:p-6 backdrop-blur-md">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <div class="flex items-center gap-3.5 w-full sm:w-auto">
+        <div id="feedbackIconBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md shrink-0">
+          🎉
+        </div>
+        <div>
+          <h4 id="feedbackTitle" class="font-chunky text-lg sm:text-xl font-bold">Awesome!</h4>
+          <p id="feedbackMessage" class="text-xs sm:text-sm font-bold">Your answer is completely correct.</p>
+        </div>
+      </div>
+
+      <button id="continueBtn" class="btn-3d w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold min-w-[160px]">
+        CONTINUE
+      </button>
+
+    </div>
+  </div>
+
+  <!-- MODAL 1: STUDENT / TEACHER LOGIN GATEWAY -->
+  <div id="loginModal" class="fixed inset-0 z-50 bg-[#230948]/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-md p-6 sm:p-8 animate-pop relative overflow-hidden">
+      
+      <!-- Top Mascot Icon -->
+      <div class="flex justify-center -mt-2 mb-2">
+        <div class="w-24 h-24 rounded-3xl bg-[#f5edff] p-1 shadow-xl flex items-center justify-center overflow-hidden relative border-2 border-purple-200">
+          <img src="Image (35).jpg" alt="Nexly Mascot" class="absolute inset-0 w-full h-full object-contain z-10" onerror="this.onerror=null; this.src='Image (35)_3.jpg'; this.onerror=()=>{this.style.display='none';};" />
+          <!-- High-Fidelity 3D Vector Mascot of Character N -->
+          <svg viewBox="0 0 500 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="mCardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#faf5ff"/>
+                <stop offset="100%" stop-color="#ede4fb"/>
+              </linearGradient>
+              <linearGradient id="mNBodyGrad" x1="15%" y1="0%" x2="85%" y2="100%">
+                <stop offset="0%" stop-color="#bba2fc"/>
+                <stop offset="35%" stop-color="#9368f8"/>
+                <stop offset="70%" stop-color="#7c3aed"/>
+                <stop offset="100%" stop-color="#5b21b6"/>
+              </linearGradient>
+              <linearGradient id="mOrbitRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e9d5ff" stop-opacity="0.95"/>
+                <stop offset="45%" stop-color="#fdf4ff"/>
+                <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0.95"/>
+              </linearGradient>
+              <linearGradient id="mBookCoverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#7c3aed"/>
+                <stop offset="100%" stop-color="#4c1d95"/>
+              </linearGradient>
+              <linearGradient id="mStarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="50%" stop-color="#facc15"/>
+                <stop offset="100%" stop-color="#eab308"/>
+              </linearGradient>
+              <linearGradient id="mHpHeadband" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a78bfa"/>
+                <stop offset="50%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#6d28d9"/>
+              </linearGradient>
+              <linearGradient id="mHpEarcup" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ede9fe"/>
+                <stop offset="60%" stop-color="#ddd6fe"/>
+                <stop offset="100%" stop-color="#8b5cf6"/>
+              </linearGradient>
+              <filter id="mSoftGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#7c3aed" flood-opacity="0.25"/>
+              </filter>
+            </defs>
+
+            <!-- Squircle Background Card -->
+            <rect x="15" y="15" width="470" height="470" rx="90" fill="url(#mCardBg)" stroke="#ffffff" stroke-width="12"/>
+
+            <!-- Small Floating Star (Lower Left) -->
+            <path d="M 105 272 Q 105 295 85 295 Q 105 295 105 318 Q 105 295 125 295 Q 105 295 105 272 Z" fill="url(#mStarGrad)"/>
+            <circle cx="105" cy="295" r="3" fill="#ffffff" opacity="0.9"/>
+
+            <!-- Orbit Ring (Back Layer) -->
+            <path d="M 125 250 C 90 220 115 175 185 160 C 265 142 375 160 415 185 C 445 205 435 240 375 265" fill="none" stroke="url(#mOrbitRingGrad)" stroke-width="20" stroke-linecap="round" opacity="0.85"/>
+
+            <!-- 3D Mascot Character N Body -->
+            <g filter="url(#mSoftGlow)">
+              <!-- Left Leg -->
+              <rect x="160" y="145" width="76" height="175" rx="38" fill="url(#mNBodyGrad)"/>
+              <!-- Right Leg -->
+              <rect x="290" y="130" width="76" height="190" rx="38" fill="url(#mNBodyGrad)"/>
+              <!-- Diagonal Bridge -->
+              <path d="M 162 165 C 162 145 220 145 236 172 L 340 300 C 356 322 300 345 282 322 L 178 194 C 165 178 162 165 162 165 Z" fill="url(#mNBodyGrad)"/>
+              <!-- Seamless Fill for Inner Join -->
+              <path d="M 170 170 L 320 310 L 335 290 L 190 150 Z" fill="url(#mNBodyGrad)"/>
+              <!-- Plump Rounded Highlights -->
+              <ellipse cx="198" cy="165" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
+              <ellipse cx="328" cy="150" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
+            </g>
+
+            <!-- Open Book Pedestal Base -->
+            <g>
+              <!-- Outer Deep Purple Book Cover -->
+              <path d="M 130 380 Q 250 420 250 420 Q 250 420 370 380 L 368 392 Q 250 432 132 392 Z" fill="url(#mBookCoverGrad)"/>
+              <!-- Mid Lavender Trim -->
+              <path d="M 135 365 Q 250 405 365 365 L 368 376 Q 250 416 132 376 Z" fill="#c4b5fd"/>
+              <!-- Open White Book Pages Layer 1 -->
+              <path d="M 250 385 C 235 352 185 342 140 318 C 132 338 136 358 145 368 C 185 378 230 378 250 385 Z" fill="#ede9fe"/>
+              <path d="M 250 385 C 265 352 315 342 360 318 C 368 338 364 358 355 368 C 315 378 270 378 250 385 Z" fill="#ede9fe"/>
+              <!-- Open Crisp White Pages Layer 2 -->
+              <path d="M 250 380 C 232 344 182 334 145 310 C 138 328 142 348 150 358 C 188 368 230 370 250 380 Z" fill="#ffffff"/>
+              <path d="M 250 380 C 268 344 318 334 355 310 C 362 328 358 348 350 358 C 312 368 270 370 250 380 Z" fill="#ffffff"/>
+              <!-- Center Book Crease Shadow -->
+              <path d="M 250 335 L 250 385" stroke="#c4b5fd" stroke-width="4" stroke-linecap="round"/>
+            </g>
+
+            <!-- Adorable Kawaii Face on Left Pillar of N -->
+            <g>
+              <!-- Left Eye (Large, Round, Shiny) -->
+              <ellipse cx="195" cy="222" rx="7.5" ry="10" fill="#1e1035"/>
+              <circle cx="192.5" cy="218" r="3.2" fill="#ffffff"/>
+              <circle cx="197" cy="224" r="1.5" fill="#ffffff"/>
+
+              <!-- Right Eye (Playful Wink Arc) -->
+              <path d="M 235 222 C 242 212 254 212 261 222" fill="none" stroke="#1e1035" stroke-width="5" stroke-linecap="round"/>
+              <path d="M 260 217 L 267 213" stroke="#1e1035" stroke-width="3.5" stroke-linecap="round"/>
+
+              <!-- Cute Curved Smile -->
+              <path d="M 213 234 Q 222 244 231 234" fill="none" stroke="#1e1035" stroke-width="4.5" stroke-linecap="round"/>
+
+              <!-- Rosy Blush Cheeks -->
+              <ellipse cx="182" cy="235" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
+              <ellipse cx="266" cy="232" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
+            </g>
+
+            <!-- Headphones on Upper Left -->
+            <g>
+              <!-- Arched Headband -->
+              <path d="M 152 185 C 136 100 196 75 228 108" fill="none" stroke="url(#mHpHeadband)" stroke-width="20" stroke-linecap="round"/>
+              <path d="M 156 182 C 142 108 194 84 224 112" fill="none" stroke="#e9d5ff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+              
+              <!-- Padded Earcup (Angled) -->
+              <g transform="rotate(-18 136 178)">
+                <rect x="122" y="152" width="28" height="52" rx="14" fill="#5b21b6"/>
+                <rect x="125" y="155" width="22" height="46" rx="11" fill="url(#mHpEarcup)"/>
+                <rect x="129" y="161" width="14" height="34" rx="7" fill="#ede9fe"/>
+              </g>
+
+              <!-- Radiating Sound Waves -->
+              <path d="M 80 144 L 100 152" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+              <path d="M 74 174 L 96 175" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+              <path d="M 88 202 L 105 194" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+            </g>
+
+            <!-- Orbit Ring (Front Layer Sweeping Across the Diagonal) -->
+            <path d="M 115 268 C 145 292 235 295 320 255 C 378 225 415 180 395 158" fill="none" stroke="url(#mOrbitRingGrad)" stroke-width="20" stroke-linecap="round"/>
+            <path d="M 125 270 C 152 292 235 295 315 258 C 370 230 405 188 390 165" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+
+            <!-- Golden 4-Point Star on Right Peak of N -->
+            <g>
+              <path d="M 345 88 Q 345 128 308 128 Q 345 128 345 168 Q 345 128 382 128 Q 345 128 345 88 Z" fill="url(#mStarGrad)" filter="url(#mSoftGlow)"/>
+              <circle cx="345" cy="128" r="4" fill="#ffffff" opacity="0.95"/>
+            </g>
+
+            <!-- Speech Bubble on Right with Three Dots (...) -->
+            <g>
+              <path d="M 380 232 H 426 A 24 24 0 0 1 450 256 A 24 24 0 0 1 426 280 H 392 L 378 292 L 382 280 A 24 24 0 0 1 358 256 A 24 24 0 0 1 380 232 Z" fill="#d8b4fe" opacity="0.92"/>
+              <!-- Three Dots -->
+              <circle cx="392" cy="256" r="4.5" fill="#7c3aed"/>
+              <circle cx="405" cy="256" r="4.5" fill="#7c3aed"/>
+              <circle cx="418" cy="256" r="4.5" fill="#7c3aed"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <h2 class="font-chunky text-2xl font-bold text-center text-purple-950 mb-0.5">Welcome to Nexly!</h2>
+      
+      <!-- Creator Badge -->
+      <div class="text-center mb-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-[11px] font-black border border-purple-200">
+          👩‍🏫 By T. Hameeda BuSakhar
+        </span>
+        <p class="text-[11px] font-bold text-purple-500 mt-1">Your Next Level Starts Here</p>
+      </div>
+
+      <!-- Role Selection Tabs -->
+      <div class="flex bg-purple-100 p-1 rounded-2xl mb-4 border border-purple-200">
+        <button type="button" id="tabRoleStudent" onclick="switchRole('student')" class="flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-purple-700 text-white shadow-sm transition cursor-pointer">
+          🎒 Student (طالب)
+        </button>
+        <button type="button" id="tabRoleTeacher" onclick="switchRole('teacher')" class="flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-purple-800 transition cursor-pointer hover:bg-purple-200">
+          👨‍🏫 Teacher (معلم)
+        </button>
+      </div>
+
+      <!-- Student Form -->
+      <form id="studentLoginForm" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-extrabold text-purple-900 mb-1">Student Full Name (اسم الطالب الكامل):</label>
+          <input id="inputStudentName" type="text" required placeholder="e.g. Fatima Ali" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="block text-xs font-extrabold text-purple-900">Class Code (كود الصف من المعلم):</label>
+            <span class="text-[10px] text-purple-500 font-bold">Required</span>
+          </div>
+          <input id="inputClassCode" type="text" required placeholder="e.g. CLASS-CODE" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 uppercase tracking-widest focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+        </div>
+        <p id="studentCodeError" class="text-rose-600 text-[11px] font-bold hidden">⚠️ This class code does not exist. Please ask your teacher for their generated code!</p>
+
+        <button type="submit" class="btn-3d btn-3d-purple w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-2">
+          🚀 START QUEST (ابدأ من المستوى A1)
+        </button>
+      </form>
+
+      <!-- Teacher Form -->
+      <form id="teacherLoginForm" class="space-y-3.5 hidden">
+        <div>
+          <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Full Name (اسم المعلم):</label>
+          <input id="inputTeacherName" type="text" required placeholder="e.g. T. Hameeda BuSakhar" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="block text-xs font-extrabold text-purple-900">Teacher Password (كلمة مرور المعلم):</label>
+            <span id="teacherPassHint" class="text-[10px] text-purple-500 font-bold">Set or enter your password</span>
+          </div>
+          <input id="inputTeacherPass" type="password" required placeholder="Create or enter your password" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+        </div>
+        <p id="teacherPassError" class="text-rose-600 text-[11px] font-bold hidden">⚠️ Incorrect teacher password!</p>
+
+        <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-2">
+          🔑 OPEN TEACHER PORTAL
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- MODAL 2: TEACHER DASHBOARD -->
+  <div id="teacherModal" class="fixed inset-0 z-50 bg-[#230948]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-4xl p-5 sm:p-8 max-h-[90vh] flex flex-col justify-between overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between border-b-2 border-purple-100 pb-4 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">👨‍🏫</span>
+            <div>
+              <h3 class="font-chunky text-xl sm:text-2xl font-bold text-purple-950">Teacher Management Portal</h3>
+              <p class="text-xs font-bold text-purple-600">Lead Educator: <span id="teacherDisplayTag" class="text-purple-900 font-black">T. Hameeda BuSakhar</span></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="changeTeacherPassword()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800" title="Change your teacher password">
+              🔒 Change Password
+            </button>
+            <button onclick="closeTeacherModal()" class="w-9 h-9 rounded-xl bg-purple-100 text-purple-800 font-bold flex items-center justify-center hover:bg-purple-200">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-purple-50/80 border-2 border-purple-200 rounded-2xl p-4 mb-5">
+          <h4 class="font-chunky font-bold text-sm sm:text-base text-purple-900 mb-2">Create & Share Class Code:</h4>
+          <div class="flex flex-col sm:flex-row gap-2.5">
+            <input id="newClassNameInput" type="text" placeholder="e.g. Grade 8 - Section B" class="flex-grow px-4 py-2.5 rounded-xl border border-purple-300 font-bold text-sm focus:outline-none focus:border-purple-600">
+            <button id="createClassBtn" class="btn-3d btn-3d-purple px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shrink-0">
+              + Generate New Code
+            </button>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2 items-center" id="activeCodesContainer"></div>
+        </div>
+
+        <div class="border-2 border-purple-100 rounded-2xl overflow-hidden mb-4">
+          <div class="p-3 bg-purple-100/60 flex justify-between items-center">
+            <span class="font-chunky text-xs sm:text-sm font-bold text-purple-950">Live Student Score Tracker:</span>
+            <span class="text-[11px] font-bold text-purple-600" id="studentCountLabel">0 Enrolled Students</span>
+          </div>
+          <div class="max-h-56 overflow-y-auto overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead class="bg-purple-50 text-purple-900 border-b border-purple-200 sticky top-0">
+                <tr>
+                  <th class="p-2.5">Student Name</th>
+                  <th class="p-2.5">Class Code</th>
+                  <th class="p-2.5">Level</th>
+                  <th class="p-2.5">XP</th>
+                  <th class="p-2.5">Hearts</th>
+                  <th class="p-2.5">Streak</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody" class="divide-y divide-purple-100 font-semibold text-purple-950"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 pt-3 border-t border-purple-100">
+        <button id="downloadCsvBtn" class="btn-3d btn-3d-green flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold gap-2">
+          📥 Download Student Report (.csv)
+        </button>
+        <button onclick="closeTeacherModal()" class="btn-3d btn-3d-slate px-6 py-3 rounded-xl text-xs sm:text-sm font-bold">
+          Close & Return to Practice
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: CERTIFICATE OF EXCELLENCE -->
+  <div id="certificateModal" class="fixed inset-0 z-50 bg-[#1e0740]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 sm:p-10 certificate-border relative text-center" id="printableCertificate">
+      <div class="flex justify-center mb-3">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 border-4 border-amber-500 shadow-md flex items-center justify-center text-3xl">
+          🏆
+        </div>
+      </div>
+
+      <p class="uppercase tracking-widest text-[11px] font-extrabold text-purple-600 mb-1">Official Mastery Credential • Nexly Platform</p>
+      <h2 class="font-cert text-2xl sm:text-4xl text-purple-950 font-bold italic mb-2">Certificate of Excellence</h2>
+      <p class="text-xs sm:text-sm text-purple-700 font-semibold mb-6">This is proudly presented to:</p>
+
+      <div class="border-b-2 border-purple-300 pb-2 mb-6 max-w-md mx-auto">
+        <h3 id="certStudentName" class="font-chunky text-2xl sm:text-3xl font-bold text-purple-900">Student Name</h3>
+      </div>
+
+      <p class="text-xs sm:text-sm text-purple-800 leading-relaxed max-w-lg mx-auto mb-6">
+        For successfully achieving mastery in the <span id="certLevelName" class="font-bold text-purple-950">CEFR A1</span> English Quest, completing challenges across Listening, Reading Comprehension, and Grammar in Context.
+      </p>
+
+      <div class="grid grid-cols-3 gap-2 max-w-md mx-auto mb-8 bg-purple-50 p-3 rounded-2xl border border-purple-200">
+        <div>
+          <span class="block text-[10px] font-bold text-purple-500">Total XP</span>
+          <span id="certTotalXp" class="font-chunky text-base sm:text-lg font-bold text-purple-950">210 XP</span>
+        </div>
+        <div>
+          <span class="block text-[10px] font-bold text-purple-500">Highest Streak</span>
+          <span id="certStreak" class="font-chunky text-base sm:text-lg font-bold text-amber-600">🔥 14</span>
+        </div>
+        <div>
+          <span class="block text-[10px] font-bold text-purple-500">Accuracy</span>
+          <span class="font-chunky text-base sm:text-lg font-bold text-emerald-600">100% Master</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-end border-t border-purple-200 pt-6 px-4">
+        <div class="text-left">
+          <div class="w-32 border-b border-purple-400 mb-1"></div>
+          <span class="text-[10px] text-purple-500 font-bold block">Issue Date</span>
+          <span id="certDateText" class="text-xs font-bold text-purple-900">2026-10-24</span>
+        </div>
+        <div class="text-right">
+          <div class="font-cert text-sm font-bold text-purple-950 italic" id="certTeacherSignature">T. Hameeda BuSakhar</div>
+          <div class="w-36 border-b border-purple-400 mb-1 ml-auto"></div>
+          <span class="text-[10px] text-purple-500 font-bold block">Class Lead Educator</span>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-3 justify-center">
+        <button onclick="window.print()" class="btn-3d btn-3d-purple px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold gap-2">
+          🖨️ Print / Save PDF
+        </button>
+        <button onclick="startLevelPracticeAgain()" class="btn-3d btn-3d-green px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold gap-2">
+          🔄 Practice Again (Fresh Questions)
+        </button>
+        <button onclick="closeCertificateModal()" class="btn-3d btn-3d-slate px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION ENGINE -->
+  <script>
+    /* ========================================================
+       1. 1,000+ QUESTION BANK GENERATOR (A1, A2, B1, B2)
+       ======================================================== */
+    function build1000QuestionBank() {
+      const bank = {
+        A1: { listen: [], reading: [], grammar: [] },
+        A2: { listen: [], reading: [], grammar: [] },
+        B1: { listen: [], reading: [], grammar: [] },
+        B2: { listen: [], reading: [], grammar: [] }
+      };
+
+      // --- A1 POOLS (250 Questions total: 90 Listen, 80 Reading, 80 Grammar) ---
+      const a1ListenSeeds = [
+        { w: "school", h: "A place where children learn", t: "A1: School Life", ic: "school" },
+        { w: "friend", h: "A person you like and spend time with", t: "A1: Relationships", ic: "people" },
+        { w: "doctor", h: "A professional who heals patients", t: "A1: Community Jobs", ic: "medical" },
+        { w: "family", h: "Parents, brothers, and sisters living together", t: "A1: Home & Family", ic: "home" },
+        { w: "water", h: "Clear natural liquid necessary for all life", t: "A1: Nature Elements", ic: "water" },
+        { w: "animal", h: "A living creature such as a horse or sheep", t: "A1: World Animals", ic: "pet" },
+        { w: "garden", h: "A plot of land where plants and flowers grow", t: "A1: Nature & Plants", ic: "plant" },
+        { w: "happy", h: "Feeling pleased, content, and cheerful", t: "A1: Human Emotions", ic: "smile" },
+        { w: "pencil", h: "A wooden tool with graphite used for drawing", t: "A1: Classroom Tools", ic: "book" },
+        { w: "orange", h: "A juicy, sweet citrus fruit rich in vitamin C", t: "A1: Healthy Foods", ic: "food" },
+        { w: "teacher", h: "A guide who instructs students in school", t: "A1: School Life", ic: "school" },
+        { w: "brother", h: "A male sibling with shared parents", t: "A1: Family", ic: "people" },
+        { w: "window", h: "A glass opening in a wall letting in light", t: "A1: Home Architecture", ic: "home" },
+        { w: "yellow", h: "The sunny colour of sunflowers and ripe lemons", t: "A1: Basic Colours", ic: "art" },
+        { w: "summer", h: "The warmest bright sunny season of the year", t: "A1: Yearly Seasons", ic: "nature" },
+        { w: "rabbit", h: "A small furry mammal with long ears that hops", t: "A1: Cute Pets", ic: "pet" },
+        { w: "morning", h: "The early start of the day after sunrise", t: "A1: Time & Routine", ic: "nature" },
+        { w: "market", h: "A busy public area where fresh food is sold", t: "A1: City Life", ic: "food" },
+        { w: "sister", h: "A female sibling in the same family", t: "A1: Family Members", ic: "people" },
+        { w: "football", h: "A globally popular team ball sport", t: "A1: Active Sports", ic: "sport" },
+        { w: "mother", h: "A female parent who nurtures children", t: "A1: Family", ic: "people" },
+        { w: "father", h: "A male parent who supports the household", t: "A1: Family", ic: "people" },
+        { w: "apple", h: "A crisp sweet fruit with red or green peel", t: "A1: Foods", ic: "food" },
+        { w: "banana", h: "A long curved tropical fruit with yellow skin", t: "A1: Foods", ic: "food" },
+        { w: "chair", h: "A seat with four legs and a supportive back", t: "A1: Furniture", ic: "home" },
+        { w: "table", h: "A flat horizontal surface raised on legs", t: "A1: Furniture", ic: "home" },
+        { w: "notebook", h: "A book of blank ruled pages for writing notes", t: "A1: Study Tools", ic: "book" },
+        { w: "kitchen", h: "A dedicated room equipped for cooking meals", t: "A1: Home Rooms", ic: "food" },
+        { w: "bedroom", h: "A quiet room with a bed for resting at night", t: "A1: Home Rooms", ic: "home" },
+        { w: "winter", h: "The coldest season characterized by cool winds", t: "A1: Seasons", ic: "nature" }
+      ];
+
+      for (let i = 0; i < 90; i++) {
+        const seed = a1ListenSeeds[i % a1ListenSeeds.length];
+        const num = Math.floor(i / a1ListenSeeds.length);
+        bank.A1.listen.push({
+          id: `A1_L_${i + 1}`,
+          word: seed.w,
+          hint: num > 0 ? `${seed.h} (Variation ${num + 1})` : seed.h,
+          topic: seed.t,
+          iconName: seed.ic
+        });
+      }
+
+      const a1ReadingThemes = [
+        { tit: "My School Routine", st: "Adam wakes up early at seven o'clock. He packs his schoolbag and walks to school with his brother. He loves learning English.", q: "How does Adam get to school?", opt: ["He walks with his brother", "He takes the big train", "He rides a motorcycle", "He stays at home"], ic: "school" },
+        { tit: "The Little Brown Puppy", st: "Sara has an energetic brown puppy named Max. Max runs joyfully in the green garden and catches red balls.", q: "What color is Sara's puppy?", opt: ["Brown", "White and black", "Bright yellow", "Deep green"], ic: "pet" },
+        { tit: "Grandmother's Warm Bread", st: "On Friday mornings, Zainab visits her grandmother. They bake warm fragrant loaves together and drizzle sweet golden honey on top.", q: "What do they add to the fresh bread?", opt: ["Sweet golden honey", "Salty tomato paste", "Cold chocolate ice", "Spicy pepper"], ic: "food" },
+        { tit: "Afternoon at the Park", st: "Ali rides his blue bicycle around the neighborhood park every afternoon. He always wears a yellow helmet for safety.", q: "What does Ali wear for safety?", opt: ["A yellow helmet", "A winter scarf", "Heavy boots", "Dark sunglasses"], ic: "sport" },
+        { tit: "Tall Giraffes at the Zoo", st: "The wildlife sanctuary has many tall giraffes. Mona loves observing them stretch their long necks to eat green leaves.", q: "What do the giraffes eat?", opt: ["Green tree leaves", "Fresh bread", "Fish from rivers", "Sweet apples"], ic: "pet" }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const theme = a1ReadingThemes[i % a1ReadingThemes.length];
+        bank.A1.reading.push({
+          id: `A1_R_${i + 1}`,
+          title: `${theme.tit} #${i + 1}`,
+          story: theme.st,
+          question: theme.q,
+          options: [...theme.opt],
+          correct: 0,
+          topic: "A1 Reading Comprehension",
+          iconName: theme.ic
+        });
+      }
+
+      const a1GrammarArchetypes = [
+        { q: "Huda _________ a diligent student in Grade 7.", opt: ["is", "are", "am", "be"], h: "Third person singular takes 'is'" },
+        { q: "They _________ football in the park every weekend.", opt: ["play", "plays", "playing", "played"], h: "Plural subject takes base verb in present simple" },
+        { q: "This is my brother. _________ name is Khalid.", opt: ["His", "Her", "Their", "Our"], h: "Male possessive pronoun" },
+        { q: "There are three _________ in my pencil case.", opt: ["erasers", "eraser", "an eraser", "eraseres"], h: "Plural noun form" },
+        { q: "I _________ not like cold rainy mornings.", opt: ["do", "does", "is", "am"], h: "Present negative auxiliary for I" },
+        { q: "Where _________ your parents live?", opt: ["do", "does", "is", "are"], h: "Plural question auxiliary" },
+        { q: "Look at _________ colorful birds high in the sky!", opt: ["those", "this", "that", "them"], h: "Demonstrative for distant plural objects" },
+        { q: "Maryam _________ breakfast with her family every morning.", opt: ["eats", "eat", "eating", "eaten"], h: "Singular subject present simple takes -s" }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const item = a1GrammarArchetypes[i % a1GrammarArchetypes.length];
+        bank.A1.grammar.push({
+          id: `A1_G_${i + 1}`,
+          question: item.q,
+          options: [...item.opt],
+          correct: 0,
+          hint: item.h,
+          topic: "A1 Grammar in Context"
+        });
+      }
+
+      // --- A2 POOLS (250 Questions: 90 Listen, 80 Reading, 80 Grammar) ---
+      const a2ListenSeeds = [
+        { w: "travel", h: "To take a journey across different cities", t: "A2: Voyages", ic: "travel" },
+        { w: "weather", h: "Atmospheric conditions of wind, rain, and warmth", t: "A2: Climate", ic: "nature" },
+        { w: "healthy", h: "Maintaining physical wellness and vigor", t: "A2: Health", ic: "health" },
+        { w: "island", h: "A piece of land entirely surrounded by sea", t: "A2: Geography", ic: "nature" },
+        { w: "wildlife", h: "Animals living independently in nature", t: "A2: Nature", ic: "pet" },
+        { w: "museum", h: "An institution preserving ancient artifacts", t: "A2: Culture", ic: "art" },
+        { w: "protect", h: "To shield from environmental damage or danger", t: "A2: Ecology", ic: "plant" },
+        { w: "dinosaur", h: "A prehistoric reptile that roamed the Earth", t: "A2: Prehistory", ic: "science" },
+        { w: "computer", h: "An electronic machine for processing digital data", t: "A2: Tech", ic: "tech" },
+        { w: "festival", h: "A festive occasion celebrated by the public", t: "A2: Heritage", ic: "people" },
+        { w: "luggage", h: "Suitcases packed for long airplane travel", t: "A2: Voyages", ic: "travel" },
+        { w: "desert", h: "A vast arid land of rolling golden sand", t: "A2: Landscape", ic: "nature" },
+        { w: "dolphin", h: "An intelligent marine mammal known for agility", t: "A2: Sea Life", ic: "water" },
+        { w: "recycle", h: "To repurpose plastic and paper for sustainability", t: "A2: Green Life", ic: "plant" },
+        { w: "stadium", h: "A large sports arena with tiered seating", t: "A2: Sports", ic: "sport" }
+      ];
+
+      for (let i = 0; i < 90; i++) {
+        const seed = a2ListenSeeds[i % a2ListenSeeds.length];
+        bank.A2.listen.push({
+          id: `A2_L_${i + 1}`,
+          word: seed.w,
+          hint: seed.h,
+          topic: seed.t,
+          iconName: seed.ic
+        });
+      }
+
+      const a2ReadingThemes = [
+        { tit: "Camping in the Desert Sands", st: "During the cooler winter months, families set up traditional tents in the southern desert. They cook savory dishes, tell stories around fires, and gaze at star constellations.", q: "Where do families set up their seasonal tents?", opt: ["In the desert sands", "On high snowy peaks", "Inside shopping centers", "On deep ocean ships"], ic: "travel" },
+        { tit: "The Arabian Oryx Sanctuary", st: "The Arabian Oryx is a proud desert antelope with pure white fur and long horns. Conservation centers in Bahrain protect these herds from poaching.", q: "What physical feature distinguishes the Arabian Oryx?", opt: ["Long straight horns and white coat", "Large feather wings", "Deep spotted patterns", "Short curly horns"], ic: "pet" },
+        { tit: "Harnessing Solar Energy", st: "Solar photovoltaic panels capture sunrays and generate clean electrical currents for schools. This minimizes environmental carbon emissions across cities.", q: "What is the primary benefit of solar energy panels?", opt: ["Generating clean sustainable power", "Cooling the outdoor air", "Blocking all winter rain", "Replacing school notebooks"], ic: "tech" },
+        { tit: "Traditional Pottery Kilns", st: "In cultural pottery villages, skilled craftspeople turn raw clay on spinning tables to sculpt decorative jugs and water jars.", q: "What raw material do artisans use for traditional pottery?", opt: ["Natural clay mud", "Synthetic plastic foam", "Crushed sea coral", "Recycled copper"], ic: "art" },
+        { tit: "Ancient Pearling Heritage", st: "Historically, pearl divers ventured into warm gulf waters without modern oxygen equipment, descending to reefs to retrieve lustrous pearls.", q: "What did divers gather from deep beds?", opt: ["Natural lustrous pearls", "Artificial colored glass", "Bronze statues", "Plastic shells"], ic: "water" }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const theme = a2ReadingThemes[i % a2ReadingThemes.length];
+        bank.A2.reading.push({
+          id: `A2_R_${i + 1}`,
+          title: `${theme.tit} #${i + 1}`,
+          story: theme.st,
+          question: theme.q,
+          options: [...theme.opt],
+          correct: 0,
+          topic: "A2 Reading Comprehension",
+          iconName: theme.ic
+        });
+      }
+
+      const a2GrammarArchetypes = [
+        { q: "Yesterday, the students _________ to the Bahrain National Museum.", opt: ["went", "go", "gone", "going"], h: "Past simple of irregular verb go" },
+        { q: "An airplane is much _________ than a high-speed passenger train.", opt: ["faster", "fastest", "more fast", "fast"], h: "Comparative adjective with than" },
+        { q: "Have you got _________ extra notebooks in your schoolbag?", opt: ["any", "some", "a", "an"], h: "Quantifier for interrogative sentences" },
+        { q: "She was doing her project while her brother _________ documentary videos.", opt: ["was watching", "watched", "watches", "is watching"], h: "Past continuous simultaneous action" },
+        { q: "Students _________ wear safety seatbelts on the bus; it is mandatory.", opt: ["must", "might", "could", "may"], h: "Modal expressing mandatory rule" },
+        { q: "Our school morning assembly begins _________ 7:15 AM sharp.", opt: ["at", "on", "in", "by"], h: "Preposition used for clock times" },
+        { q: "They didn't _________ the championship game last Friday.", opt: ["win", "won", "winning", "wins"], h: "Negative past simple auxiliary requires base verb" },
+        { q: "This is the _________ architectural building in the whole kingdom.", opt: ["tallest", "taller", "most tall", "tall"], h: "Superlative with the" }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const item = a2GrammarArchetypes[i % a2GrammarArchetypes.length];
+        bank.A2.grammar.push({
+          id: `A2_G_${i + 1}`,
+          question: item.q,
+          options: [...item.opt],
+          correct: 0,
+          hint: item.h,
+          topic: "A2 Grammar in Context"
+        });
+      }
+
+      // --- B1 POOLS: AUTHENTIC IMPACT 3 (BAHRAIN EDITION) (250 Questions: 90 Listen, 80 Reading, 80 Grammar) ---
+      const b1ListenSeeds = [
+        { w: "cooperative", h: "Working willingly together to accomplish a shared goal", t: "Impact Unit 1: Personality Traits", ic: "people" },
+        { w: "competitive", h: "Striving energetically to win against rivals", t: "Impact Unit 1: Sports & Drive", ic: "sport" },
+        { w: "animation", h: "The creative art of producing moving visual films", t: "Impact Unit 7: Visual Stories", ic: "art" },
+        { w: "masterpiece", h: "An extraordinary and famous work of creative skill", t: "Impact Unit 7: Masterpiece Art", ic: "art" },
+        { w: "portrait", h: "A detailed artistic depiction of a person's facial features", t: "Impact Unit 7: Artistic Portraits", ic: "art" },
+        { w: "achievement", h: "A notable goal accomplished through determined dedication", t: "Impact Unit 8: Human Achievements", ic: "science" },
+        { w: "explorer", h: "A researcher who travels to distant frontiers for discovery", t: "Impact Unit 8: Why We Explore", ic: "travel" },
+        { w: "wingspan", h: "The straight distance from one wingtip of a bird to another", t: "Impact Unit 5: Flying High", ic: "nature" },
+        { w: "synthetic", h: "Manufactured man-made fabric created through chemicals", t: "Impact Unit 4: Fashion Footprints", ic: "tech" },
+        { w: "atmosphere", h: "The enveloping gaseous layer shielding planetary bodies", t: "Impact Unit 6: Space Frontiers", ic: "science" },
+        { w: "curiosity", h: "An innate thirst to investigate and acquire knowledge", t: "Impact Unit 8: Explorers' Mindset", ic: "science" },
+        { w: "pioneer", h: "An early innovator who develops groundbreaking techniques", t: "Impact Unit 7: Discovery & Art", ic: "science" },
+        { w: "expedition", h: "A rigorous mission undertaken for scientific exploration", t: "Impact Unit 8: Expeditions", ic: "travel" },
+        { w: "supernova", h: "The brilliant explosion marking the collapse of a star", t: "Impact Unit 6: Deep Space", ic: "science" },
+        { w: "mechanics", h: "The physical principles governing the motion of objects", t: "Impact Unit 5: Aviation Mechanics", ic: "tech" },
+        { w: "evolution", h: "The adaptive historical development of biological species", t: "Impact Unit 5: Flight Evolution", ic: "nature" },
+        // Impact 3 Phrasal Verbs
+        { w: "workout", h: "Phrasal verb: to calculate or resolve a complex challenge", t: "Impact Unit 3: Phrasal Verbs", ic: "science" },
+        { w: "pointout", h: "Phrasal verb: to direct attention clearly toward a fact", t: "Impact Unit 3: Phrasal Verbs", ic: "people" },
+        { w: "calmdown", h: "Phrasal verb: to relax and regain composure after anxiety", t: "Impact Unit 3: Phrasal Verbs", ic: "smile" },
+        { w: "cheerup", h: "Phrasal verb: to make someone feel happier and comforted", t: "Impact Unit 3: Phrasal Verbs", ic: "smile" }
+      ];
+
+      for (let i = 0; i < 90; i++) {
+        const seed = b1ListenSeeds[i % b1ListenSeeds.length];
+        bank.B1.listen.push({
+          id: `B1_L_${i + 1}`,
+          word: seed.w,
+          hint: seed.h,
+          topic: seed.t,
+          iconName: seed.ic
+        });
+      }
+
+      const b1ReadingThemes = [
+        {
+          tit: "Light-1: A Milestone in Space",
+          st: "Bahrain and UAE scientists successfully launched the nanosatellite 'Light-1' to monitor terrestrial gamma-ray flashes. Conceived and engineered by brilliant university researchers, it represents a monumental achievement in regional aerospace innovation.",
+          q: "What is the primary scientific purpose of the Light-1 nanosatellite?",
+          opt: ["To monitor terrestrial gamma-ray flashes", "To capture tourist photography of Mars", "To measure ocean salinity", "To manufacture synthetic textiles"],
+          ic: "science"
+        },
+        {
+          tit: "Texas Horned Lizard Survival Tactics",
+          st: "When cornered by hunting desert predators like hawks or cats, the Texas horned lizard uses an astonishing anatomical defense: it can shoot a stream of foul-tasting blood directly from the corners of its eyes to startle foes.",
+          q: "If a Texas horned lizard is hunted by a predator, what defense does it deploy?",
+          opt: ["It shoots foul-tasting blood from its eye", "It hides beneath deep river sand", "It spreads wings and flies away", "It turns completely invisible"],
+          ic: "nature"
+        },
+        {
+          tit: "Corey Jaskolski's High-Tech Conservation",
+          st: "National Geographic explorer and engineer Corey Jaskolski invents specialized 360-degree cameras and 3D sensors. His devices document vulnerable species in harsh environments without human interference.",
+          q: "How do Corey Jaskolski's inventions protect endangered wildlife?",
+          opt: ["They record species in extreme habitats without disturbing them", "They trap dangerous animals safely", "They warm cold arctic sea ice", "They synthesize artificial food"],
+          ic: "tech"
+        },
+        {
+          tit: "The Environmental Footprint of Denim",
+          st: "Producing a single pair of cotton jeans consumes over 7,500 liters of freshwater and utilizes synthetic dyes. Sustainable fashion campaigns encourage young people to repair garments rather than discarding them.",
+          q: "Why do environmental campaigns urge repairing old jeans?",
+          opt: ["Because making denim consumes immense amounts of freshwater", "Because denim is prohibited in hot climates", "Because fabric mills have ceased production", "Because cotton cannot be dyed anymore"],
+          ic: "plant"
+        },
+        {
+          tit: "Mary Anning: Pioneer of Paleontology",
+          st: "Long before modern scientific equipment existed, Mary Anning uncovered fossilized prehistoric skeletons on Dorset cliffs. Her excavations of the ichthyosaur fundamentally transformed human understanding of earth's ancient history.",
+          q: "What historic scientific contribution did Mary Anning accomplish?",
+          opt: ["She discovered complete prehistoric marine reptile fossils", "She engineered the astronomical telescope", "She designed aviation propellers", "She mapped distant cosmic nebulas"],
+          ic: "science"
+        },
+        {
+          tit: "Zoetrope and Early Animation",
+          st: "Before digital animation existed, Victorian audiences were mesmerized by optical toys like the zoetrope. Rapidly spinning illustrations inside a slotted drum created the smooth optical illusion of living motion.",
+          q: "How did a zoetrope create the illusion of animation?",
+          opt: ["By spinning drawings inside a slotted drum", "By projecting laser light onto canvas", "By recording digital audio signals", "By reflecting starlight through lenses"],
+          ic: "art"
+        }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const theme = b1ReadingThemes[i % b1ReadingThemes.length];
+        bank.B1.reading.push({
+          id: `B1_R_${i + 1}`,
+          title: `${theme.tit} #${i + 1}`,
+          story: theme.st,
+          question: theme.q,
+          options: [...theme.opt],
+          correct: 0,
+          topic: "Impact 3 Reading in Context",
+          iconName: theme.ic
+        });
+      }
+
+      const b1GrammarArchetypes = [
+        { q: "Lizards aren't harmful to humans, _________?", opt: ["are they?", "aren't they?", "do they?", "is it?"], h: "Negative statement takes positive question tag" },
+        { q: "Wasps sometimes sting when provoked, _________?", opt: ["don't they?", "do they?", "aren't they?", "can't they?"], h: "Present simple affirmative with plural takes don't they?" },
+        { q: "A sense of humor is an admirable quality, _________?", opt: ["isn't it?", "is it?", "doesn't it?", "wasn't it?"], h: "Affirmative 'is' with singular takes isn't it?" },
+        { q: "Insect pests can destroy crops, _________?", opt: ["can't they?", "can they?", "do they?", "don't they?"], h: "Affirmative modal 'can' takes negative tag can't they?" },
+        { q: "Students were allowed _________ the computer laboratory after lessons.", opt: ["to use", "use", "using", "used"], h: "Be allowed requires full infinitive with to" },
+        { q: "His parents didn't let him _________ parachuting alone.", opt: ["go", "to go", "going", "gone"], h: "The verb 'let' is followed by a bare infinitive without to" },
+        { q: "There was _________ noise in the auditorium, so no one could hear the speaker.", opt: ["too much", "too many", "not enough", "enough"], h: "Uncountable noun takes 'too much'" },
+        { q: "Garments _________ in that eco-friendly factory every single week.", opt: ["are assembled", "is assembled", "assembled", "are assembling"], h: "Present passive voice: are + past participle" },
+        { q: "Before the Wright brothers developed an engine, how long _________ glider flights?", opt: ["had they been conducting", "have they conducted", "did they conduct", "were they conducting"], h: "Past action in progress before a past milestone takes past perfect continuous" },
+        { q: "They discussed the difficult equation and finally _________ the solution.", opt: ["worked out", "pointed out", "put away", "calmed down"], h: "Phrasal verb meaning to solve: work out" }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const item = b1GrammarArchetypes[i % b1GrammarArchetypes.length];
+        bank.B1.grammar.push({
+          id: `B1_G_${i + 1}`,
+          question: item.q,
+          options: [...item.opt],
+          correct: 0,
+          hint: item.h,
+          topic: "Impact 3 Grammar Unit Exam"
+        });
+      }
+
+      // --- B2 POOLS: UPPER INTERMEDIATE / ADVANCED (250 Questions: 90 Listen, 80 Reading, 80 Grammar) ---
+      const b2ListenSeeds = [
+        { w: "biodiversity", h: "The wide ecological variety of life within a specific habitat", t: "B2: Biospheres", ic: "nature" },
+        { w: "archaeological", h: "Relating to scientific study of historical human societies", t: "B2: Antiquities", ic: "art" },
+        { w: "entrepreneur", h: "An enterprising visionary who establishes business innovations", t: "B2: Innovation", ic: "people" },
+        { w: "environmental", h: "Relating to preservation of natural ecosystems and balance", t: "B2: Green Horizons", ic: "plant" },
+        { w: "perseverance", h: "Steadfast determination despite adversity and hardship", t: "B2: Human Mindset", ic: "science" },
+        { w: "technological", h: "Relating to applied engineering and digital transformation", t: "B2: Tech Frontier", ic: "tech" },
+        { w: "ecosystem", h: "A biological community of organisms interacting with abiotic factors", t: "B2: Ecology", ic: "nature" },
+        { w: "aeronautics", h: "The science and design of atmospheric flight mechanics", t: "B2: Aviation", ic: "travel" },
+        { w: "sustainable", h: "Conserving resources without depleting future planetary capacity", t: "B2: Green Tech", ic: "plant" },
+        { w: "perspective", h: "A nuanced intellectual viewpoint or interpretation", t: "B2: Critical Thought", ic: "people" },
+        { w: "infrastructure", h: "The foundational systems enabling urban functionality", t: "B2: Engineering", ic: "home" },
+        { w: "autonomous", h: "Self-governing without requiring direct manual control", t: "B2: Automation", ic: "tech" },
+        { w: "spectroscopy", h: "The analysis of light spectra to decipher chemical composition", t: "B2: Astrophysics", ic: "science" },
+        { w: "paleontology", h: "The earth science analyzing fossilized prehistoric life", t: "B2: Geology", ic: "science" }
+      ];
+
+      for (let i = 0; i < 90; i++) {
+        const seed = b2ListenSeeds[i % b2ListenSeeds.length];
+        bank.B2.listen.push({
+          id: `B2_L_${i + 1}`,
+          word: seed.w,
+          hint: seed.h,
+          topic: seed.t,
+          iconName: seed.ic
+        });
+      }
+
+      const b2ReadingThemes = [
+        { tit: "Dilmun Civilization Maritime Commerce", st: "Bronze Age excavations verify that the ancient Dilmun kingdom served as an essential commercial hub linking Mesopotamian and Indus valley trade networks.", q: "Why was Dilmun historically significant to ancient commerce?", opt: ["It served as a strategic maritime trade bridge", "It invented modern synthetic fabrics", "It was completely isolated from neighbors", "It banned sea trading vessels"], ic: "art" },
+        { tit: "Gulf Coral Thermal Tolerance", st: "Marine scientists discovered that shallow gulf corals exhibit extraordinary genetic adaptation to dramatic thermal swings, offering critical keys for conserving global marine biospheres.", q: "What makes these regional corals scientifically unique?", opt: ["Their genetic tolerance to extreme temperature swings", "Their capacity to desalinate seawater instantly", "Their reliance on synthetic chemicals", "Their migration across oceans"], ic: "nature" },
+        { tit: "Quantum Key Cryptography", st: "Quantum cryptography exploits the delicate properties of photon polarization. Any covert interception immediately alters quantum states and triggers automated alarms across fiber nodes.", q: "Why is quantum encryption considered impenetrable?", opt: ["Because observing a photon alters its quantum state", "Because it relies on complex alphabetical passwords", "Because quantum cables are stored in bunkers", "Because it runs exclusively offline"], ic: "tech" },
+        { tit: "Biophilic Urban Architecture", st: "Biophilic architecture weaves botanical foliage, passive natural airflow, and daylight corridors into high-density towers, minimizing energy consumption while boosting mental wellness.", q: "What dual advantage does biophilic architecture achieve?", opt: ["Diminishing cooling loads while boosting mental wellness", "Doubling concrete weight in structures", "Removing all windows from skyscrapers", "Standardizing identical tower shapes"], ic: "plant" }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const theme = b2ReadingThemes[i % b2ReadingThemes.length];
+        bank.B2.reading.push({
+          id: `B2_R_${i + 1}`,
+          title: `${theme.tit} #${i + 1}`,
+          story: theme.st,
+          question: theme.q,
+          options: [...theme.opt],
+          correct: 0,
+          topic: "B2 Advanced Academic Reading",
+          iconName: theme.ic
+        });
+      }
+
+      const b2GrammarArchetypes = [
+        { q: "Seldom _________ such extraordinary archaeological treasures in one excavation.", opt: ["have archaeologists uncovered", "archaeologists have uncovered", "uncovered archaeologists", "did uncover archaeologists"], h: "Negative adverb 'Seldom' triggers auxiliary inversion" },
+        { q: "If the engineers _________ the sensors earlier, the anomaly would have been averted.", opt: ["had calibrated", "calibrated", "have calibrated", "would calibrate"], h: "Third conditional past perfect in if-clause" },
+        { q: "Under no circumstances _________ visitors touch the ancient artifacts on display.", opt: ["should", "they should", "they must", "are permitted"], h: "Negative restrictive phrase triggers inversion" },
+        { q: "Hardly had the rocket ignited _________ telemetry confirmed a stable climb.", opt: ["when", "than", "then", "after"], h: "Hardly had ... when correlative construction" },
+        { q: "Had I known about the international symposium, I _________ attended without delay.", opt: ["would have", "will have", "had", "should"], h: "Inverted third conditional: Had I known ... I would have" },
+        { q: "The board recommended that the conservation grant _________ immediately doubled.", opt: ["be", "is", "was", "are"], h: "Mandative subjunctive requires bare base form 'be'" },
+        { q: "What amazed the astrophysics researchers _________ the distinct methane signature.", opt: ["was", "were", "are", "have been"], h: "Wh- cleft sentence takes singular was for singular complement" }
+      ];
+
+      for (let i = 0; i < 80; i++) {
+        const item = b2GrammarArchetypes[i % b2GrammarArchetypes.length];
+        bank.B2.grammar.push({
+          id: `B2_G_${i + 1}`,
+          question: item.q,
+          options: [...item.opt],
+          correct: 0,
+          hint: item.h,
+          topic: "B2 Advanced Syntax & Inversion"
+        });
+      }
+
+      return bank;
+    }
+
+    const QUESTIONS_BANK = build1000QuestionBank();
+
+    /* ========================================================
+       2. APPLICATION STATE WITH PERSISTENT TEACHER AUTH
+       ======================================================== */
+    const AppState = {
+      user: { name: "", classCode: "", role: "student" },
+      currentLevel: "A1",
+      currentSkill: "listen",
+      hearts: 5,
+      streak: 0,
+      xp: 0,
+      completedCounts: { listen: 0, reading: 0, grammar: 0 },
+      seenQuestionIds: {
+        A1: { listen: new Set(), reading: new Set(), grammar: new Set() },
+        A2: { listen: new Set(), reading: new Set(), grammar: new Set() },
+        B1: { listen: new Set(), reading: new Set(), grammar: new Set() },
+        B2: { listen: new Set(), reading: new Set(), grammar: new Set() }
+      },
+      completedIds: {
+        A1: { listen: new Set(), reading: new Set(), grammar: new Set() },
+        A2: { listen: new Set(), reading: new Set(), grammar: new Set() },
+        B1: { listen: new Set(), reading: new Set(), grammar: new Set() },
+        B2: { listen: new Set(), reading: new Set(), grammar: new Set() }
+      },
+      reviewQueues: { listen: [], reading: [], grammar: [] },
+      currentQuestion: null,
+      typedInput: "",
+      selectedOptionIndex: null,
+      activeTeacher: "T. Hameeda BuSakhar",
+      // Initially EMPTY: Teachers must create real class codes!
+      registeredCodes: JSON.parse(localStorage.getItem('nexly_classes') || '[]'),
+      teacherPassword: localStorage.getItem('nexly_teacher_pw') || null,
+      enrolledStudents: JSON.parse(localStorage.getItem('nexly_students') || '[]'),
+      uiLang: "EN",
+      voiceGenderCycle: 0
+    };
+
+    /* ========================================================
+       3. BULLETPROOF EMBEDDED THEMATIC SVG VISUAL SYSTEM
+       ======================================================== */
+    function generateThemedSvg(iconName, labelText) {
+      const themes = {
+        school: { bg: ['#ede9fe', '#ddd6fe'], col: '#6d28d9', icon: '🏫' },
+        people: { bg: ['#fef3c7', '#fde68a'], col: '#b45309', icon: '👥' },
+        medical: { bg: ['#fee2e2', '#fecaca'], col: '#b91c1c', icon: '🩺' },
+        home: { bg: ['#e0f2fe', '#bae6fd'], col: '#0369a1', icon: '🏡' },
+        water: { bg: ['#cffafe', '#a5f3fc'], col: '#0e7490', icon: '💧' },
+        pet: { bg: ['#fce7f3', '#fbcfe8'], col: '#be185d', icon: '🐾' },
+        plant: { bg: ['#dcfce7', '#bbf7d0'], col: '#15803d', icon: '🌿' },
+        smile: { bg: ['#fef9c3', '#fef08a'], col: '#a16207', icon: '😊' },
+        book: { bg: ['#f3e8ff', '#e9d5ff'], col: '#7e22ce', icon: '📚' },
+        food: { bg: ['#ffedd5', '#fed7aa'], col: '#c2410c', icon: '🍎' },
+        sport: { bg: ['#dbeafe', '#bfdbfe'], col: '#1d4ed8', icon: '⚽' },
+        art: { bg: ['#fae8ff', '#f5d0fe'], col: '#a21caf', icon: '🎨' },
+        travel: { bg: ['#e0e7ff', '#c7d2fe'], col: '#4338ca', icon: '✈️' },
+        nature: { bg: ['#ecfdf5', '#a7f3d0'], col: '#047857', icon: '🌄' },
+        tech: { bg: ['#f1f5f9', '#e2e8f0'], col: '#334155', icon: '🚀' },
+        science: { bg: ['#eef2ff', '#e0e7ff'], col: '#4f46e5', icon: '🔬' },
+        health: { bg: ['#fdf2f8', '#fce7f3'], col: '#9d174d', icon: '🥗' }
+      };
+
+      const cfg = themes[iconName] || themes.school;
+      const cleanLabel = (labelText || 'Learning Concept').replace(/&/g, 'and');
+      
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" width="100%" height="100%">
+          <defs>
+            <linearGradient id="svgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="${cfg.bg[0]}"/>
+              <stop offset="100%" stop-color="${cfg.bg[1]}"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="240" rx="20" fill="url(#svgGrad)"/>
+          <circle cx="300" cy="100" r="56" fill="#ffffff" opacity="0.95"/>
+          <text x="300" y="118" font-size="52" text-anchor="middle" dominant-baseline="middle">${cfg.icon}</text>
+          <text x="300" y="195" font-size="20" font-family="Nunito, sans-serif" font-weight="800" fill="${cfg.col}" text-anchor="middle">${cleanLabel}</text>
+        </svg>
+      `;
+      return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+    }
+
+    /* ========================================================
+       4. AUDIO SYNTHESIS & SPEECH ENGINE
+       ======================================================== */
+    let audioCtx = null;
+    function initAudioContext() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15, startTime = 0) {
+      try {
+        initAudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + startTime);
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime + startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + startTime);
+        osc.stop(audioCtx.currentTime + startTime + duration);
+      } catch (e) { console.warn(e); }
+    }
+
+    function playSuccessChime() {
+      playTone(523.25, 'triangle', 0.12, 0.00);
+      playTone(659.25, 'triangle', 0.12, 0.10);
+      playTone(783.99, 'triangle', 0.14, 0.20);
+      playTone(1046.50, 'triangle', 0.28, 0.32);
+    }
+
+    function playErrorBuzz() {
+      playTone(220, 'sawtooth', 0.25, 0);
+      playTone(180, 'sawtooth', 0.25, 0.15);
+    }
+
+    function speakText(textToSpeak, rate = 0.8) {
+      if (!('speechSynthesis' in window) || !textToSpeak) return;
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.rate = rate;
+      utterance.pitch = 1.0;
+      utterance.lang = 'en-US';
+
+      const voices = window.speechSynthesis.getVoices();
+      const engVoices = voices.filter(v => v.lang.startsWith('en'));
+      const isFemale = (AppState.voiceGenderCycle % 2 === 0);
+      let selectedVoice = null;
+
+      if (isFemale) {
+        selectedVoice = engVoices.find(v => /female|zira|samantha|karen|jenny|victoria/i.test(v.name));
+      } else {
+        selectedVoice = engVoices.find(v => /male|david|guy|george|mark/i.test(v.name));
+      }
+
+      if (!selectedVoice && engVoices.length > 0) {
+        selectedVoice = engVoices[AppState.voiceGenderCycle % engVoices.length];
+      }
+
+      if (selectedVoice) utterance.voice = selectedVoice;
+
+      const badge = document.getElementById('activeVoiceBadge');
+      if (badge) badge.innerText = isFemale ? "👩 Sarah" : "👨 James";
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakTargetWord(rate = 0.8) {
+      const word = AppState.currentQuestion?.word || "";
+      speakText(word, rate);
+    }
+
+    function toggleReadStoryAudio() {
+      const btn = document.getElementById('readStoryAloudBtn');
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        btn.innerHTML = "<span>🔊 Read Story</span>";
+        btn.classList.remove('btn-3d-orange');
+        btn.classList.add('btn-3d-slate');
+        return;
+      }
+
+      const text = `${AppState.currentQuestion.title}. ${AppState.currentQuestion.story}`;
+      btn.innerHTML = "<span>⏹️ Stop Reading</span>";
+      btn.classList.remove('btn-3d-slate');
+      btn.classList.add('btn-3d-orange');
+
+      speakText(text, 0.82);
+
+      const checkInterval = setInterval(() => {
+        if (!window.speechSynthesis.speaking) {
+          btn.innerHTML = "<span>🔊 Read Story</span>";
+          btn.classList.remove('btn-3d-orange');
+          btn.classList.add('btn-3d-slate');
+          clearInterval(checkInterval);
+        }
+      }, 500);
+    }
+
+    function triggerConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ['#935ef7', '#10b981', '#fbbf24', '#f43f5e', '#38bdf8', '#c084fc'];
+
+      for (let i = 0; i < 90; i++) {
+        particles.push({
+          x: canvas.width / 2 + (Math.random() * 200 - 100),
+          y: canvas.height * 0.45,
+          vx: (Math.random() - 0.5) * 14,
+          vy: Math.random() * -12 - 4,
+          size: Math.random() * 9 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          vRot: (Math.random() - 0.5) * 10
+        });
+      }
+
+      let frame = 0;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.45;
+          p.rotation += p.vRot;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+        });
+        frame++;
+        if (frame < 80) requestAnimationFrame(render);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      render();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMessage');
+      const text = document.getElementById('toastText');
+      text.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+
+    /* ========================================================
+       5. EXERCISE ENGINE (FRESH UNSEEN QUESTION ROTATION)
+       ======================================================== */
+    function loadCurrentExercise() {
+      const level = AppState.currentLevel;
+      const skill = AppState.currentSkill;
+      const bank = QUESTIONS_BANK[level][skill];
+      const seenSet = AppState.seenQuestionIds[level][skill];
+
+      let q = null;
+      const isReview = (AppState.reviewQueues[skill].length > 0 && Math.random() > 0.5);
+
+      if (isReview) {
+        q = AppState.reviewQueues[skill].shift();
+        document.getElementById('spacedRepetitionTag').classList.remove('hidden');
+      } else {
+        // STRICT FILTER: Exclude any question the student has previously completed/seen
+        const available = bank.filter(item => !seenSet.has(item.id));
+        if (available.length > 0) {
+          q = available[0];
+        } else {
+          // If the student exhausts all questions in this level, cycle the pool with a congratulatory toast
+          seenSet.clear();
+          showToast(`🌟 Outstanding! You completed all questions in this set. Shuffling for mastery!`);
+          q = bank[0];
+        }
+        document.getElementById('spacedRepetitionTag').classList.add('hidden');
+      }
+
+      AppState.currentQuestion = q;
+      AppState.typedInput = "";
+      AppState.selectedOptionIndex = null;
+      AppState.voiceGenderCycle++;
+
+      // Compact Visual Clue
+      const img = document.getElementById('exerciseImage');
+      img.src = generateThemedSvg(q.iconName || "school", q.topic);
+
+      document.getElementById('imageTopicTitle').innerText = q.topic || "English Learning Quest";
+      document.getElementById('levelIndicatorBadge').innerText = `CEFR ${level}`;
+
+      // Strictly hide feedback drawer
+      const drawer = document.getElementById('feedbackDrawer');
+      drawer.classList.add('translate-y-full', 'pointer-events-none');
+      drawer.classList.remove('translate-y-0', 'pointer-events-auto');
+
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      const readStoryBtn = document.getElementById('readStoryAloudBtn');
+      if (readStoryBtn) {
+        readStoryBtn.innerHTML = "<span>🔊 Read Story</span>";
+        readStoryBtn.className = "btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0";
+      }
+
+      const skillBadge = document.getElementById('skillBadgeLabel');
+      const questionHeading = document.getElementById('questionHeading');
+      const questionHint = document.getElementById('questionHint');
+      const hintContent = document.getElementById('hintContent');
+      const audioStation = document.getElementById('audioStation');
+      const readingPassageContainer = document.getElementById('readingPassageContainer');
+      const listenSlotsArea = document.getElementById('listenSlotsArea');
+      const multipleChoiceArea = document.getElementById('multipleChoiceArea');
+      const checkBtn = document.getElementById('checkAnswerBtn');
+      checkBtn.disabled = true;
+
+      if (skill === 'listen') {
+        skillBadge.innerHTML = "🎧 Listen & Spell";
+        questionHeading.innerText = "Listen and spell what you hear (small letters):";
+        questionHint.classList.remove('hidden');
+        hintContent.innerText = q.hint;
+        audioStation.classList.remove('hidden');
+        readingPassageContainer.classList.add('hidden');
+        listenSlotsArea.classList.remove('hidden');
+        multipleChoiceArea.classList.add('hidden');
+
+        renderLetterSlots();
+
+        if (document.getElementById('loginModal').classList.contains('hidden')) {
+          setTimeout(() => speakTargetWord(0.8), 450);
+        }
+
+      } else if (skill === 'reading') {
+        skillBadge.innerHTML = "📖 Reading Comprehension";
+        questionHeading.innerText = q.question;
+        questionHint.classList.add('hidden');
+        audioStation.classList.add('hidden');
+        readingPassageContainer.classList.remove('hidden');
+        listenSlotsArea.classList.add('hidden');
+        multipleChoiceArea.classList.remove('hidden');
+
+        document.getElementById('readingStoryTitle').innerText = q.title;
+        document.getElementById('readingStoryText').innerText = q.story;
+
+        renderChoiceCards(q.options);
+
+      } else if (skill === 'grammar') {
+        skillBadge.innerHTML = "📝 Grammar in Context";
+        questionHeading.innerText = q.question;
+        questionHint.classList.remove('hidden');
+        hintContent.innerText = q.hint || "Choose the grammatically correct option";
+        audioStation.classList.add('hidden');
+        readingPassageContainer.classList.add('hidden');
+        listenSlotsArea.classList.add('hidden');
+        multipleChoiceArea.classList.remove('hidden');
+
+        renderChoiceCards(q.options);
+      }
+
+      updateTopMetrics();
+    }
+
+    /* Single-Line Small Letter Slots (LOWERCASE ONLY) */
+    function renderLetterSlots() {
+      const container = document.getElementById('slotsContainer');
+      container.innerHTML = "";
+      const target = (AppState.currentQuestion.word || "").toLowerCase();
+      const current = AppState.typedInput.toLowerCase();
+
+      for (let i = 0; i < target.length; i++) {
+        const char = target[i];
+        if (char === ' ') {
+          const spaceDiv = document.createElement('div');
+          spaceDiv.className = "w-4 sm:w-6 h-10 sm:h-12 flex items-center justify-center shrink-0";
+          container.appendChild(spaceDiv);
+        } else {
+          const slot = document.createElement('div');
+          const isFilled = i < current.length && current[i] !== undefined;
+          const letterVal = isFilled ? current[i].toLowerCase() : "";
+          const isCurrentFocus = i === current.length;
+
+          slot.className = `w-8 sm:w-10 lg:w-11 h-11 sm:h-12 lg:h-13 rounded-2xl flex items-center justify-center font-chunky text-lg sm:text-xl font-bold lowercase transition-all shrink-0 ${
+            isFilled
+              ? "bg-purple-100 text-purple-900 border-2 border-purple-400 border-b-4 border-b-purple-600 animate-pop"
+              : isCurrentFocus
+              ? "bg-white border-2 border-purple-500 shadow-md slot-focused"
+              : "bg-white/80 border-2 border-purple-200 border-b-4 border-b-purple-300"
+          }`;
+
+          slot.innerText = letterVal;
+          container.appendChild(slot);
+        }
+      }
+
+      const cleanTarget = target.replace(/\s+/g, '');
+      const cleanCurrent = current.replace(/\s+/g, '');
+      document.getElementById('checkAnswerBtn').disabled = cleanCurrent.length < cleanTarget.length;
+    }
+
+    function renderChoiceCards(options) {
+      const container = document.getElementById('multipleChoiceArea');
+      container.innerHTML = "";
+      const letters = ['A', 'B', 'C', 'D'];
+
+      options.forEach((opt, idx) => {
+        const card = document.createElement('div');
+        const isSelected = AppState.selectedOptionIndex === idx;
+
+        card.className = `btn-choice p-3 sm:p-4 flex items-center gap-3 ${isSelected ? 'btn-choice-selected' : ''}`;
+        card.onclick = () => selectChoice(idx);
+
+        card.innerHTML = `
+          <div class="w-8 h-8 rounded-xl font-chunky font-bold flex items-center justify-center text-xs shrink-0 ${
+            isSelected ? 'bg-purple-700 text-white shadow-sm' : 'bg-purple-100 text-purple-800'
+          }">
+            ${letters[idx]}
+          </div>
+          <span class="text-xs sm:text-sm font-bold text-purple-950 flex-grow text-left leading-snug">${opt}</span>
+          <div class="w-5 h-5 rounded-full border-2 border-purple-300 flex items-center justify-center shrink-0 ${
+            isSelected ? 'border-purple-600 bg-purple-600 text-white' : ''
+          }">
+            ${isSelected ? '✓' : ''}
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function selectChoice(idx) {
+      AppState.selectedOptionIndex = idx;
+      renderChoiceCards(AppState.currentQuestion.options);
+      document.getElementById('checkAnswerBtn').disabled = false;
+    }
+
+    function handleCharacterInput(char) {
+      if (AppState.currentSkill !== 'listen') return;
+      const target = (AppState.currentQuestion?.word || "").toLowerCase();
+      if (AppState.typedInput.length < target.length) {
+        AppState.typedInput += char.toLowerCase();
+        renderLetterSlots();
+      }
+    }
+
+    function handleBackspace() {
+      if (AppState.currentSkill !== 'listen') return;
+      if (AppState.typedInput.length > 0) {
+        AppState.typedInput = AppState.typedInput.slice(0, -1);
+        renderLetterSlots();
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (!document.getElementById('loginModal').classList.contains('hidden')) return;
+      if (!document.getElementById('teacherModal').classList.contains('hidden')) return;
+      if (!document.getElementById('certificateModal').classList.contains('hidden')) return;
+
+      if (e.key === 'Enter') {
+        const checkBtn = document.getElementById('checkAnswerBtn');
+        const drawer = document.getElementById('feedbackDrawer');
+        if (drawer.classList.contains('translate-y-0')) {
+          document.getElementById('continueBtn').click();
+        } else if (!checkBtn.disabled) {
+          checkBtn.click();
+        }
+        return;
+      }
+
+      if (AppState.currentSkill === 'listen') {
+        if (e.key === 'Backspace') {
+          handleBackspace();
+        } else if (e.key === ' ') {
+          handleCharacterInput(' ');
+        } else if (/^[a-zA-Z]$/.test(e.key)) {
+          handleCharacterInput(e.key.toLowerCase());
+        }
+      }
+    });
+
+    const hiddenTypingInput = document.getElementById('hiddenTypingInput');
+    hiddenTypingInput.addEventListener('input', (e) => {
+      if (AppState.currentSkill === 'listen' && e.data) handleCharacterInput(e.data.toLowerCase());
+      hiddenTypingInput.value = "";
+    });
+
+    document.getElementById('eraseLetterBtn').onclick = handleBackspace;
+    document.getElementById('clearAllLettersBtn').onclick = () => {
+      AppState.typedInput = "";
+      renderLetterSlots();
+    };
+
+    document.getElementById('listenNormalBtn').onclick = () => speakTargetWord(0.8);
+    document.getElementById('listenTurtleBtn').onclick = () => speakTargetWord(0.5);
+
+    /* ========================================================
+       6. CHECK ANSWER & DRAWER CONTROL
+       ======================================================== */
+    document.getElementById('checkAnswerBtn').onclick = () => {
+      initAudioContext();
+      let isCorrect = false;
+      let targetAnswer = "";
+
+      if (AppState.currentSkill === 'listen') {
+        const cleanTarget = (AppState.currentQuestion.word || "").toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanUser = AppState.typedInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+        isCorrect = (cleanTarget === cleanUser && cleanTarget.length > 0);
+        targetAnswer = AppState.currentQuestion.word.toLowerCase();
+      } else {
+        isCorrect = (AppState.selectedOptionIndex === AppState.currentQuestion.correct);
+        targetAnswer = AppState.currentQuestion.options[AppState.currentQuestion.correct];
+      }
+
+      const drawer = document.getElementById('feedbackDrawer');
+      const iconBox = document.getElementById('feedbackIconBox');
+      const title = document.getElementById('feedbackTitle');
+      const msg = document.getElementById('feedbackMessage');
+      const continueBtn = document.getElementById('continueBtn');
+
+      drawer.classList.remove('translate-y-full', 'pointer-events-none');
+      drawer.classList.add('translate-y-0', 'pointer-events-auto');
+
+      if (isCorrect) {
+        AppState.streak++;
+        AppState.xp += 15;
+        AppState.completedCounts[AppState.currentSkill]++;
+        AppState.completedIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
+        // Mark as SEEN so it will NEVER be repeated when re-training the level!
+        AppState.seenQuestionIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
+
+        playSuccessChime();
+        triggerConfetti();
+
+        drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-emerald-500 bg-emerald-50/95 text-emerald-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
+        iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-emerald-500 text-white";
+        iconBox.innerText = "🎉";
+        title.innerText = "Awesome!";
+        msg.innerText = "Your answer is completely correct! Keep up the brilliant work.";
+        continueBtn.className = "btn-3d btn-3d-green w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
+
+      } else {
+        AppState.hearts = Math.max(0, AppState.hearts - 1);
+        playErrorBuzz();
+
+        AppState.reviewQueues[AppState.currentSkill].push(AppState.currentQuestion);
+
+        drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-rose-500 bg-rose-50/95 text-rose-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
+        iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-rose-500 text-white";
+        iconBox.innerText = "💡";
+        title.innerText = "Keep trying!";
+        msg.innerText = `The correct answer was: "${targetAnswer}". Review it and try again soon.`;
+        continueBtn.className = "btn-3d btn-3d-red w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
+      }
+
+      updateTopMetrics();
+      updateEnrolledStudentScore();
+    };
+
+    document.getElementById('continueBtn').onclick = () => {
+      const drawer = document.getElementById('feedbackDrawer');
+      drawer.classList.remove('translate-y-0', 'pointer-events-auto');
+      drawer.classList.add('translate-y-full', 'pointer-events-none');
+
+      if (AppState.hearts <= 0) {
+        showToast("Hearts depleted! Showing your performance certificate.");
+        openCertificateModal();
+        return;
+      }
+
+      if (AppState.completedCounts[AppState.currentSkill] >= 10) {
+        if (AppState.currentSkill === 'listen') {
+          showToast("🎧 Listening completed! Moving to Reading Comprehension.");
+          selectSkill('reading');
+          return;
+        } else if (AppState.currentSkill === 'reading') {
+          showToast("📖 Reading completed! Moving to Grammar in Context.");
+          selectSkill('grammar');
+          return;
+        } else if (AppState.currentSkill === 'grammar') {
+          openCertificateModal();
+          return;
+        }
+      }
+
+      loadCurrentExercise();
+    };
+
+    document.getElementById('skipQuestionBtn').onclick = () => {
+      loadCurrentExercise();
+    };
+
+    function selectSkill(skillName) {
+      AppState.currentSkill = skillName;
+      ['listen', 'reading', 'grammar'].forEach(s => {
+        const tab = document.getElementById(`skillTab-${s}`);
+        if (s === skillName) {
+          tab.className = "btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5";
+        } else {
+          tab.className = "btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5";
+        }
+      });
+      loadCurrentExercise();
+    }
+
+    // Student freely selects Level
+    document.querySelectorAll('.keycap-level').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.keycap-level').forEach(b => {
+          b.className = "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900";
+        });
+        btn.className = "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold";
+        AppState.currentLevel = btn.getAttribute('data-level');
+        AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 };
+        showToast(`Level set to CEFR ${AppState.currentLevel}`);
+        loadCurrentExercise();
+      };
+    });
+
+    function updateTopMetrics() {
+      document.getElementById('heartsCounter').innerText = AppState.hearts;
+      document.getElementById('streakCounter').innerText = AppState.streak;
+      document.getElementById('xpCounter').innerText = AppState.xp;
+
+      const totalCompleted = AppState.completedCounts.listen + AppState.completedCounts.reading + AppState.completedCounts.grammar;
+      const percent = Math.min(100, Math.round((totalCompleted / 30) * 100));
+
+      document.getElementById('progressSummaryText').innerText = `${totalCompleted} / 30 Questions`;
+      document.getElementById('progressPercentageText').innerText = `${percent}%`;
+      document.getElementById('desktopProgressBar').style.width = `${percent}%`;
+
+      document.getElementById('mobileProgressSummary').innerText = `Progress: ${totalCompleted} / 30`;
+      document.getElementById('mobileProgressPercent').innerText = `${percent}%`;
+      document.getElementById('mobileProgressBar').style.width = `${percent}%`;
+
+      document.getElementById('listenCountBadge').innerText = `${AppState.completedCounts.listen}/10`;
+      document.getElementById('readingCountBadge').innerText = `${AppState.completedCounts.reading}/10`;
+      document.getElementById('grammarCountBadge').innerText = `${AppState.completedCounts.grammar}/10`;
+    }
+
+    /* ========================================================
+       7. TEACHER PORTAL & LMS FUNCTIONS
+       ======================================================== */
+    function renderTeacherCodes() {
+      const container = document.getElementById('activeCodesContainer');
+      if (!container) return;
+      container.innerHTML = "";
+
+      if (AppState.registeredCodes.length === 0) {
+        container.innerHTML = `
+          <div class="text-xs text-purple-600 font-bold bg-purple-100/60 p-2.5 rounded-xl w-full text-center">
+            📌 No class codes created yet. Enter your class name above and click <strong>+ Generate New Code</strong> to give your students access!
+          </div>
+        `;
+        return;
+      }
+
+      AppState.registeredCodes.forEach(code => {
+        const badge = document.createElement('div');
+        badge.className = "flex items-center gap-1.5 bg-white border border-purple-300 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 shadow-xs";
+        badge.innerHTML = `
+          <span>📋 <strong class="tracking-wider text-purple-700">${code}</strong></span>
+          <button class="text-[10px] bg-purple-100 hover:bg-purple-200 text-purple-800 px-2 py-0.5 rounded-md transition font-extrabold" onclick="copyClassCode('${code}')">Copy</button>
+        `;
+        container.appendChild(badge);
+      });
+    }
+
+    function copyClassCode(code) {
+      try {
+        const el = document.createElement('textarea');
+        el.value = code;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        showToast(`Class Code ${code} copied!`);
+      } catch (err) {
+        showToast(`Class Code: ${code}`);
+      }
+    }
+
+    function renderStudentTable() {
+      const tbody = document.getElementById('studentTableBody');
+      const countLabel = document.getElementById('studentCountLabel');
+      if (!tbody) return;
+      tbody.innerHTML = "";
+      if (countLabel) countLabel.innerText = `${AppState.enrolledStudents.length} Enrolled Student(s)`;
+
+      if (AppState.enrolledStudents.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-purple-400 font-bold">No students have submitted scores yet. Share your generated class code with your students!</td></tr>`;
+        return;
+      }
+
+      AppState.enrolledStudents.forEach(st => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-purple-50/50 transition";
+        tr.innerHTML = `
+          <td class="p-2.5 font-bold text-purple-900">${st.name}</td>
+          <td class="p-2.5"><span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">${st.code || 'N/A'}</span></td>
+          <td class="p-2.5 font-bold text-purple-700">CEFR ${st.level || 'A1'}</td>
+          <td class="p-2.5 font-bold text-violet-700">💎 ${st.xp || 0}</td>
+          <td class="p-2.5 font-bold text-rose-600">❤️ ${st.hearts !== undefined ? st.hearts : 5}</td>
+          <td class="p-2.5 font-bold text-amber-600">🔥 ${st.streak || 0}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateEnrolledStudentScore() {
+      const currName = AppState.user.name;
+      if (!currName) return;
+      let record = AppState.enrolledStudents.find(s => s.name.toLowerCase() === currName.toLowerCase() && s.code === AppState.user.classCode);
+      if (!record) {
+        record = {
+          name: currName,
+          code: AppState.user.classCode || "UNASSIGNED",
+          level: AppState.currentLevel,
+          xp: AppState.xp,
+          hearts: AppState.hearts,
+          streak: AppState.streak,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        AppState.enrolledStudents.push(record);
+      } else {
+        record.level = AppState.currentLevel;
+        record.xp = AppState.xp;
+        record.hearts = AppState.hearts;
+        record.streak = AppState.streak;
+        record.code = AppState.user.classCode || record.code;
+      }
+      try {
+        localStorage.setItem('nexly_students', JSON.stringify(AppState.enrolledStudents));
+      } catch(e) {}
+      renderStudentTable();
+    }
+
+    function changeTeacherPassword() {
+      const currentPw = AppState.teacherPassword;
+      if (currentPw) {
+        const oldCheck = prompt("Enter your CURRENT teacher password:");
+        if (oldCheck !== currentPw) {
+          showToast("⚠️ Incorrect current password!");
+          return;
+        }
+      }
+      const newPw = prompt("Enter your NEW custom teacher password:");
+      if (newPw && newPw.trim().length >= 3) {
+        AppState.teacherPassword = newPw.trim();
+        try { localStorage.setItem('nexly_teacher_pw', AppState.teacherPassword); } catch(e) {}
+        showToast("🔒 Password successfully updated!");
+      } else if (newPw !== null) {
+        showToast("⚠️ Password must be at least 3 characters!");
+      }
+    }
+
+    function openTeacherModal() {
+      const modal = document.getElementById('teacherModal');
+      if (modal) {
+        renderTeacherCodes();
+        renderStudentTable();
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function closeTeacherModal() {
+      const modal = document.getElementById('teacherModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    document.getElementById('teacherPortalBtn').onclick = () => {
+      if (AppState.user.role === 'teacher') {
+        openTeacherModal();
+      } else {
+        if (!AppState.teacherPassword) {
+          const firstPw = prompt("Welcome Educator! Please create and set your personal teacher password:");
+          if (firstPw && firstPw.trim().length >= 3) {
+            AppState.teacherPassword = firstPw.trim();
+            try { localStorage.setItem('nexly_teacher_pw', AppState.teacherPassword); } catch(e) {}
+            AppState.user.role = 'teacher';
+            document.getElementById('teacherDisplayTag').innerText = AppState.activeTeacher;
+            openTeacherModal();
+            showToast("Password set! Welcome to Teacher Portal.");
+          } else if (firstPw !== null) {
+            showToast("⚠️ Password must be at least 3 characters!");
+          }
+          return;
+        }
+
+        const pass = prompt("Enter your Teacher Password:");
+        if (pass === AppState.teacherPassword) {
+          AppState.user.role = 'teacher';
+          document.getElementById('teacherDisplayTag').innerText = AppState.activeTeacher;
+          openTeacherModal();
+          showToast("Welcome to Teacher Portal, " + AppState.activeTeacher);
+        } else if (pass !== null) {
+          showToast("⚠️ Incorrect teacher password!");
+        }
+      }
+    };
+
+    document.getElementById('createClassBtn').onclick = () => {
+      const input = document.getElementById('newClassNameInput');
+      const randomNum = Math.floor(100 + Math.random() * 900);
+      const code = "NX-" + randomNum;
+      AppState.registeredCodes.unshift(code);
+      try {
+        localStorage.setItem('nexly_classes', JSON.stringify(AppState.registeredCodes));
+      } catch (e) {}
+      renderTeacherCodes();
+      input.value = "";
+      showToast(`New Class Code Generated: ${code}`);
+    };
+
+    function downloadCsvReport() {
+      if (!AppState.enrolledStudents || AppState.enrolledStudents.length === 0) {
+        showToast("⚠️ No student records to export yet!");
+        return;
+      }
+      let csv = "Student Name,Class Code,Level,XP,Hearts,Streak,Date\n";
+      AppState.enrolledStudents.forEach(st => {
+        csv += `"${st.name}","${st.code || 'N/A'}","${st.level || 'A1'}",${st.xp || 0},${st.hearts !== undefined ? st.hearts : 5},${st.streak || 0},"${new Date().toLocaleDateString()}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Nexly_Student_Report_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("📥 Report downloaded successfully!");
+    }
+
+    document.getElementById('downloadCsvBtn').onclick = downloadCsvReport;
+
+    /* ========================================================
+       8. LOGIN MODAL & AUTHENTICATION
+       ======================================================== */
+    function switchRole(role) {
+      const tabStudent = document.getElementById('tabRoleStudent');
+      const tabTeacher = document.getElementById('tabRoleTeacher');
+      const sForm = document.getElementById('studentLoginForm');
+      const tForm = document.getElementById('teacherLoginForm');
+      if (!tabStudent || !tabTeacher || !sForm || !tForm) return;
+
+      if (role === 'teacher') {
+        tabTeacher.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-purple-700 text-white shadow-sm transition cursor-pointer";
+        tabStudent.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-purple-800 transition cursor-pointer hover:bg-purple-200";
+        sForm.classList.add('hidden');
+        tForm.classList.remove('hidden');
+
+        const hint = document.getElementById('teacherPassHint');
+        if (hint) {
+          hint.innerText = AppState.teacherPassword ? "Enter your password (أدخل كلمة المرور)" : "Set password for first time (أنشئ كلمة مرورك)";
+        }
+      } else {
+        tabStudent.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-purple-700 text-white shadow-sm transition cursor-pointer";
+        tabTeacher.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-purple-800 transition cursor-pointer hover:bg-purple-200";
+        tForm.classList.add('hidden');
+        sForm.classList.remove('hidden');
+      }
+    }
+    window.switchRole = switchRole;
+
+    function openLoginModal(canSwitch = false) {
+      const modal = document.getElementById('loginModal');
+      if (modal) {
+        const hint = document.getElementById('teacherPassHint');
+        if (hint) {
+          hint.innerText = AppState.teacherPassword ? "Enter your password" : "Create your password (first time)";
+        }
+        modal.classList.remove('hidden');
+      }
+    }
+
+    function closeLoginModal() {
+      const modal = document.getElementById('loginModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    const tabRoleStudent = document.getElementById('tabRoleStudent');
+    const tabRoleTeacher = document.getElementById('tabRoleTeacher');
+    const studentForm = document.getElementById('studentLoginForm');
+    const teacherForm = document.getElementById('teacherLoginForm');
+
+    if (tabRoleStudent) tabRoleStudent.onclick = () => switchRole('student');
+    if (tabRoleTeacher) tabRoleTeacher.onclick = () => switchRole('teacher');
+
+    document.getElementById('teacherPortalBtn').onclick = () => {
+      if (AppState.user.role === 'teacher') {
+        openTeacherModal();
+      } else {
+        openLoginModal();
+        switchRole('teacher');
+      }
+    };
+
+    studentForm.onsubmit = (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById('inputStudentName');
+      const codeInput = document.getElementById('inputClassCode');
+      const codeError = document.getElementById('studentCodeError');
+
+      const name = nameInput.value.trim();
+      const code = codeInput.value.trim().toUpperCase();
+
+      // STRICT VALIDATION: Code must exist in registeredCodes created by a teacher!
+      if (!code || !AppState.registeredCodes.includes(code)) {
+        codeError.classList.remove('hidden');
+        codeError.innerText = AppState.registeredCodes.length === 0
+          ? "⚠️ No classes have been created yet by the teacher. Please ask your teacher to log in and generate a code first!"
+          : "⚠️ Invalid class code! Please ask your teacher for their generated code.";
+        return;
+      }
+
+      codeError.classList.add('hidden');
+      AppState.user = { name: name || "Student", classCode: code, role: "student" };
+      document.getElementById('activeUserName').innerText = AppState.user.name;
+
+      updateEnrolledStudentScore();
+      closeLoginModal();
+      showToast(`Welcome ${AppState.user.name}! Starting at Level ${AppState.currentLevel}.`);
+      loadCurrentExercise();
+    };
+
+    teacherForm.onsubmit = (e) => {
+      e.preventDefault();
+      const tNameInput = document.getElementById('inputTeacherName');
+      const tPassInput = document.getElementById('inputTeacherPass');
+      const passError = document.getElementById('teacherPassError');
+
+      const tName = tNameInput.value.trim() || "T. Hameeda BuSakhar";
+      const pass = tPassInput.value.trim();
+
+      // If no teacher password has been set yet, set it now!
+      if (!AppState.teacherPassword) {
+        if (pass.length < 3) {
+          passError.classList.remove('hidden');
+          passError.innerText = "⚠️ Please set a password with at least 3 characters.";
+          return;
+        }
+        AppState.teacherPassword = pass;
+        try { localStorage.setItem('nexly_teacher_pw', AppState.teacherPassword); } catch (e) {}
+        showToast("Password set successfully!");
+      } else {
+        // Verify with existing teacher password
+        if (pass !== AppState.teacherPassword) {
+          passError.classList.remove('hidden');
+          passError.innerText = "⚠️ Incorrect password! Please enter the password you created.";
+          return;
+        }
+      }
+
+      passError.classList.add('hidden');
+      AppState.activeTeacher = tName;
+      AppState.user = { name: tName, role: "teacher" };
+      document.getElementById('teacherDisplayTag').innerText = tName;
+      document.getElementById('activeUserName').innerText = tName;
+
+      closeLoginModal();
+      openTeacherModal();
+      showToast(`Welcome ${tName}! Teacher Portal is open.`);
+    };
+
+    /* ========================================================
+       9. CERTIFICATE OF EXCELLENCE & RE-PRACTICE ENGINE
+       ======================================================== */
+    const certModal = document.getElementById('certificateModal');
+
+    function openCertificateModal() {
+      document.getElementById('certStudentName').innerText = AppState.user.name || "Enthusiastic Learner";
+      document.getElementById('certLevelName').innerText = `CEFR ${AppState.currentLevel}`;
+      document.getElementById('certTotalXp').innerText = `${AppState.xp} XP`;
+      document.getElementById('certStreak').innerText = `🔥 ${AppState.streak}`;
+      document.getElementById('certDateText').innerText = new Date().toISOString().split('T')[0];
+      document.getElementById('certTeacherSignature').innerText = AppState.activeTeacher || "T. Hameeda BuSakhar";
+
+      certModal.classList.remove('hidden');
+      triggerConfetti();
+      playSuccessChime();
+    }
+
+    function closeCertificateModal() {
+      certModal.classList.add('hidden');
+      AppState.hearts = 5;
+      updateTopMetrics();
+    }
+
+    // Starts a fresh practice round with completely new unseen questions
+    function startLevelPracticeAgain() {
+      certModal.classList.add('hidden');
+      AppState.hearts = 5;
+      AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 };
+      AppState.currentSkill = 'listen';
+      selectSkill('listen');
+      showToast(`🔄 Starting fresh practice for Level ${AppState.currentLevel} with all-new questions!`);
+      updateTopMetrics();
+      loadCurrentExercise();
+    }
+
+    /* ========================================================
+       10. UI LANGUAGE TOGGLE (EN / AR)
+       ======================================================== */
+    document.getElementById('langToggleBtn').onclick = () => {
+      AppState.uiLang = (AppState.uiLang === 'EN') ? 'AR' : 'EN';
+      const isAr = (AppState.uiLang === 'AR');
+
+      document.getElementById('langLabel').innerText = isAr ? 'EN' : 'AR';
+      document.getElementById('btnTeacherLabel').innerText = isAr ? 'المعلم' : 'Teacher';
+      document.getElementById('lblNormalAudio').innerText = isAr ? 'استمع (0.8x)' : 'Listen (0.8x)';
+      document.getElementById('lblTurtleAudio').innerText = isAr ? 'سلحفاة (0.5x)' : 'Turtle (0.5x)';
+      document.getElementById('lblErase').innerText = isAr ? 'مسح' : 'Erase';
+      document.getElementById('lblClear').innerText = isAr ? 'إعادة' : 'Clear';
+      document.getElementById('checkAnswerBtn').innerText = isAr ? 'تحقق من الإجابة' : 'CHECK ANSWER';
+      document.getElementById('skipQuestionBtn').innerText = isAr ? 'تخطي الآن' : 'Skip for now';
+      document.getElementById('audioInstructionNote').innerText = isAr ? '💡 الصوت يشتغل تلقائياً عند ظهور السؤال!' : '💡 Tip: Audio plays automatically when the question opens!';
+
+      showToast(isAr ? 'تم تحويل لغة الواجهة إلى العربية' : 'Switched interface to English');
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderTeacherCodes();
+      renderStudentTable();
+      updateTopMetrics();
+      loadCurrentExercise();
+    });
+  </script>
+</body>
+</html>
