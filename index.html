@@ -36,6 +36,10 @@
       transform: translateY(4px) !important;
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
     }
+    .btn-3d:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
 
     /* Royal Purple Key */
     .btn-3d-purple {
@@ -186,167 +190,98 @@
 </head>
 <body class="text-purple-950 min-h-screen flex flex-col justify-between overflow-x-hidden relative">
 
-  <!-- Fullscreen Celebration Canvas -->
+  <!-- Reusable SVG Defs for the 3D 'N' Mascot Logo -->
+  <svg class="hidden" aria-hidden="true">
+    <symbol id="nexly-mascot-logo" viewBox="0 0 240 240">
+      <defs>
+        <linearGradient id="bgSquare" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f3e8ff"/>
+          <stop offset="100%" stop-color="#e9d5ff"/>
+        </linearGradient>
+        <linearGradient id="nBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#a78bfa"/>
+          <stop offset="50%" stop-color="#8b5cf6"/>
+          <stop offset="100%" stop-color="#6d28d9"/>
+        </linearGradient>
+        <linearGradient id="headphoneBand" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#8b5cf6"/>
+          <stop offset="100%" stop-color="#5b21b6"/>
+        </linearGradient>
+        <linearGradient id="goldStar" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fde047"/>
+          <stop offset="100%" stop-color="#f59e0b"/>
+        </linearGradient>
+        <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0.85"/>
+          <stop offset="50%" stop-color="#ddd6fe" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.8"/>
+        </linearGradient>
+      </defs>
+      <rect x="8" y="8" width="224" height="224" rx="52" fill="url(#bgSquare)" stroke="#ffffff" stroke-width="6"/>
+      <line x1="40" y1="74" x2="26" y2="68" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
+      <line x1="38" y1="88" x2="22" y2="89" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
+      <line x1="43" y1="101" x2="31" y2="109" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
+      <path d="M55,82 A28,28 0 0,1 102,65" fill="none" stroke="url(#headphoneBand)" stroke-width="9" stroke-linecap="round"/>
+      <ellipse cx="57" cy="88" rx="10" ry="15" transform="rotate(-15 57 88)" fill="#ddd6fe" stroke="#6d28d9" stroke-width="3"/>
+      <ellipse cx="98" cy="70" rx="8" ry="12" transform="rotate(-20 98 70)" fill="#ddd6fe" stroke="#6d28d9" stroke-width="3"/>
+      <path d="M75,165 L75,92 C75,76 96,74 106,88 L142,135 L142,80 C142,66 168,66 168,80 L168,165 C168,178 148,180 138,166 L102,122 L102,165 Z" fill="url(#nBodyGrad)" stroke="#5b21b6" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse cx="95" cy="112" rx="4.5" ry="6.5" fill="#1e1b4b"/>
+      <path d="M119,109 L112,113 L119,116" fill="none" stroke="#1e1b4b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="89" cy="121" rx="6" ry="3.5" fill="#f9a8d4"/>
+      <ellipse cx="122" cy="121" rx="6" ry="3.5" fill="#f9a8d4"/>
+      <path d="M102,118 Q106,124 111,118" fill="none" stroke="#1e1b4b" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M58,136 C45,112 185,78 196,101 C204,118 118,150 64,142" fill="none" stroke="url(#orbitGrad)" stroke-width="7" stroke-linecap="round"/>
+      <path d="M167,48 L173,63 L188,68 L173,74 L167,89 L161,74 L146,68 L161,63 Z" fill="url(#goldStar)" stroke="#d97706" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M48,142 L51,149 L58,152 L51,155 L48,162 L45,155 L38,152 L45,149 Z" fill="#fde047"/>
+      <rect x="176" y="114" width="40" height="28" rx="13" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="2"/>
+      <circle cx="188" cy="128" r="2.8" fill="#7c3aed"/>
+      <circle cx="196" cy="128" r="2.8" fill="#7c3aed"/>
+      <circle cx="204" cy="128" r="2.8" fill="#7c3aed"/>
+      <path d="M62,166 Q92,162 121,182 Q150,162 180,166 L186,184 Q150,180 121,198 Q92,180 56,184 Z" fill="#fefce8" stroke="#ddd6fe" stroke-width="2"/>
+      <path d="M54,182 Q90,178 121,196 Q152,178 188,182 L191,192 Q152,188 121,206 Q90,188 51,192 Z" fill="#7c3aed"/>
+    </symbol>
+  </svg>
+
+  <!-- Celebration Canvas -->
   <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
   <!-- Notification Toast -->
-  <div id="toastMessage" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#2e1065] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full shadow-2xl transition-all duration-300 border border-purple-400">
+  <div id="toastMessage" class="hidden fixed top-4 left-1/2 -translate-x-1/2 z-[110] bg-[#2e1065] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full shadow-2xl transition-all duration-300 border border-purple-400">
     <span id="toastText">Welcome to Nexly!</span>
+  </div>
+
+  <!-- Unmissable Top-of-Screen Incoming Email Popup Banner -->
+  <div id="emailSimulatedAlert" class="hidden fixed top-3 left-1/2 -translate-x-1/2 z-[100] w-11/12 max-w-lg bg-white border-4 border-emerald-500 p-4 rounded-3xl shadow-2xl animate-pop">
+    <div class="flex items-start justify-between gap-3">
+      <div class="flex items-start gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-emerald-100 border-2 border-emerald-400 flex items-center justify-center text-2xl shrink-0">
+          📬
+        </div>
+        <div>
+          <span class="inline-block bg-emerald-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
+            رسالة بريد فورية داخل المنصة • Instant Inbox
+          </span>
+          <h5 class="text-xs sm:text-sm font-black text-emerald-950" id="emailAlertHeader">Teacher Verification Code</h5>
+          <p class="text-xs text-purple-900 font-bold mt-0.5 leading-relaxed" id="emailAlertBody">Verification code dispatched.</p>
+        </div>
+      </div>
+      <button onclick="document.getElementById('emailSimulatedAlert').classList.add('hidden')" class="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 font-bold hover:bg-purple-200 flex items-center justify-center shrink-0">✕</button>
+    </div>
   </div>
 
   <!-- MAIN WRAPPER -->
   <div class="w-full flex-grow flex flex-col items-center">
 
-    <!-- TOP RESPONSIVE APP BAR -->
+    <!-- TOP APP BAR (Permanent Creator Attribution: T. Hameeda BuSakhar) -->
     <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-purple-100 shadow-sm sticky top-0 z-40 transition-all">
       <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3">
         
         <div class="flex items-center justify-between gap-3 sm:gap-6">
           
-          <!-- Brand Logo, Character & Teacher Attribution -->
+          <!-- Brand Logo & Permanent Creator Attribution -->
           <div class="flex items-center gap-2.5 cursor-pointer shrink-0" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
             <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-[#f5edff] p-0.5 shadow-md flex items-center justify-center overflow-hidden relative border-2 border-purple-200">
-              <img src="Image (35).jpg" alt="Nexly Mascot" class="absolute inset-0 w-full h-full object-contain z-10" onerror="this.onerror=null; this.src='Image (35)_3.jpg'; this.onerror=()=>{this.style.display='none';};" />
-              <!-- High-Fidelity 3D Vector Mascot of Character N -->
-              <svg viewBox="0 0 500 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#faf5ff"/>
-                    <stop offset="100%" stop-color="#ede4fb"/>
-                  </linearGradient>
-                  <linearGradient id="nBodyGrad" x1="15%" y1="0%" x2="85%" y2="100%">
-                    <stop offset="0%" stop-color="#bba2fc"/>
-                    <stop offset="35%" stop-color="#9368f8"/>
-                    <stop offset="70%" stop-color="#7c3aed"/>
-                    <stop offset="100%" stop-color="#5b21b6"/>
-                  </linearGradient>
-                  <linearGradient id="orbitRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#e9d5ff" stop-opacity="0.95"/>
-                    <stop offset="45%" stop-color="#fdf4ff"/>
-                    <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0.95"/>
-                  </linearGradient>
-                  <linearGradient id="bookCoverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#7c3aed"/>
-                    <stop offset="100%" stop-color="#4c1d95"/>
-                  </linearGradient>
-                  <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#fef08a"/>
-                    <stop offset="50%" stop-color="#facc15"/>
-                    <stop offset="100%" stop-color="#eab308"/>
-                  </linearGradient>
-                  <linearGradient id="hpHeadband" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#a78bfa"/>
-                    <stop offset="50%" stop-color="#8b5cf6"/>
-                    <stop offset="100%" stop-color="#6d28d9"/>
-                  </linearGradient>
-                  <linearGradient id="hpEarcup" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#ede9fe"/>
-                    <stop offset="60%" stop-color="#ddd6fe"/>
-                    <stop offset="100%" stop-color="#8b5cf6"/>
-                  </linearGradient>
-                  <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#7c3aed" flood-opacity="0.25"/>
-                  </filter>
-                </defs>
-
-                <!-- Squircle Background Card -->
-                <rect x="15" y="15" width="470" height="470" rx="90" fill="url(#cardBg)" stroke="#ffffff" stroke-width="12"/>
-
-                <!-- Small Floating Star (Lower Left) -->
-                <path d="M 105 272 Q 105 295 85 295 Q 105 295 105 318 Q 105 295 125 295 Q 105 295 105 272 Z" fill="url(#starGrad)"/>
-                <circle cx="105" cy="295" r="3" fill="#ffffff" opacity="0.9"/>
-
-                <!-- Orbit Ring (Back Layer) -->
-                <path d="M 125 250 C 90 220 115 175 185 160 C 265 142 375 160 415 185 C 445 205 435 240 375 265" fill="none" stroke="url(#orbitRingGrad)" stroke-width="20" stroke-linecap="round" opacity="0.85"/>
-
-                <!-- 3D Mascot Character N Body -->
-                <g filter="url(#softGlow)">
-                  <!-- Left Leg -->
-                  <rect x="160" y="145" width="76" height="175" rx="38" fill="url(#nBodyGrad)"/>
-                  <!-- Right Leg -->
-                  <rect x="290" y="130" width="76" height="190" rx="38" fill="url(#nBodyGrad)"/>
-                  <!-- Diagonal Bridge -->
-                  <path d="M 162 165 C 162 145 220 145 236 172 L 340 300 C 356 322 300 345 282 322 L 178 194 C 165 178 162 165 162 165 Z" fill="url(#nBodyGrad)"/>
-                  <!-- Seamless Fill for Inner Join -->
-                  <path d="M 170 170 L 320 310 L 335 290 L 190 150 Z" fill="url(#nBodyGrad)"/>
-                  <!-- Plump Rounded Highlights -->
-                  <ellipse cx="198" cy="165" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
-                  <ellipse cx="328" cy="150" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
-                </g>
-
-                <!-- Open Book Pedestal Base -->
-                <g>
-                  <!-- Outer Deep Purple Book Cover -->
-                  <path d="M 130 380 Q 250 420 250 420 Q 250 420 370 380 L 368 392 Q 250 432 132 392 Z" fill="url(#bookCoverGrad)"/>
-                  <!-- Mid Lavender Trim -->
-                  <path d="M 135 365 Q 250 405 365 365 L 368 376 Q 250 416 132 376 Z" fill="#c4b5fd"/>
-                  <!-- Open White Book Pages Layer 1 -->
-                  <path d="M 250 385 C 235 352 185 342 140 318 C 132 338 136 358 145 368 C 185 378 230 378 250 385 Z" fill="#ede9fe"/>
-                  <path d="M 250 385 C 265 352 315 342 360 318 C 368 338 364 358 355 368 C 315 378 270 378 250 385 Z" fill="#ede9fe"/>
-                  <!-- Open Crisp White Pages Layer 2 -->
-                  <path d="M 250 380 C 232 344 182 334 145 310 C 138 328 142 348 150 358 C 188 368 230 370 250 380 Z" fill="#ffffff"/>
-                  <path d="M 250 380 C 268 344 318 334 355 310 C 362 328 358 348 350 358 C 312 368 270 370 250 380 Z" fill="#ffffff"/>
-                  <!-- Center Book Crease Shadow -->
-                  <path d="M 250 335 L 250 385" stroke="#c4b5fd" stroke-width="4" stroke-linecap="round"/>
-                </g>
-
-                <!-- Adorable Kawaii Face on Left Pillar of N -->
-                <g>
-                  <!-- Left Eye (Large, Round, Shiny) -->
-                  <ellipse cx="195" cy="222" rx="7.5" ry="10" fill="#1e1035"/>
-                  <circle cx="192.5" cy="218" r="3.2" fill="#ffffff"/>
-                  <circle cx="197" cy="224" r="1.5" fill="#ffffff"/>
-
-                  <!-- Right Eye (Playful Wink Arc) -->
-                  <path d="M 235 222 C 242 212 254 212 261 222" fill="none" stroke="#1e1035" stroke-width="5" stroke-linecap="round"/>
-                  <path d="M 260 217 L 267 213" stroke="#1e1035" stroke-width="3.5" stroke-linecap="round"/>
-
-                  <!-- Cute Curved Smile -->
-                  <path d="M 213 234 Q 222 244 231 234" fill="none" stroke="#1e1035" stroke-width="4.5" stroke-linecap="round"/>
-
-                  <!-- Rosy Blush Cheeks -->
-                  <ellipse cx="182" cy="235" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
-                  <ellipse cx="266" cy="232" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
-                </g>
-
-                <!-- Headphones on Upper Left -->
-                <g>
-                  <!-- Arched Headband -->
-                  <path d="M 152 185 C 136 100 196 75 228 108" fill="none" stroke="url(#hpHeadband)" stroke-width="20" stroke-linecap="round"/>
-                  <path d="M 156 182 C 142 108 194 84 224 112" fill="none" stroke="#e9d5ff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
-                  
-                  <!-- Padded Earcup (Angled) -->
-                  <g transform="rotate(-18 136 178)">
-                    <rect x="122" y="152" width="28" height="52" rx="14" fill="#5b21b6"/>
-                    <rect x="125" y="155" width="22" height="46" rx="11" fill="url(#hpEarcup)"/>
-                    <rect x="129" y="161" width="14" height="34" rx="7" fill="#ede9fe"/>
-                  </g>
-
-                  <!-- Radiating Sound Waves -->
-                  <path d="M 80 144 L 100 152" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
-                  <path d="M 74 174 L 96 175" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
-                  <path d="M 88 202 L 105 194" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
-                </g>
-
-                <!-- Orbit Ring (Front Layer Sweeping Across the Diagonal) -->
-                <path d="M 115 268 C 145 292 235 295 320 255 C 378 225 415 180 395 158" fill="none" stroke="url(#orbitRingGrad)" stroke-width="20" stroke-linecap="round"/>
-                <path d="M 125 270 C 152 292 235 295 315 258 C 370 230 405 188 390 165" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
-
-                <!-- Golden 4-Point Star on Right Peak of N -->
-                <g>
-                  <path d="M 345 88 Q 345 128 308 128 Q 345 128 345 168 Q 345 128 382 128 Q 345 128 345 88 Z" fill="url(#starGrad)" filter="url(#softGlow)"/>
-                  <circle cx="345" cy="128" r="4" fill="#ffffff" opacity="0.95"/>
-                </g>
-
-                <!-- Speech Bubble on Right with Three Dots (...) -->
-                <g>
-                  <path d="M 380 232 H 426 A 24 24 0 0 1 450 256 A 24 24 0 0 1 426 280 H 392 L 378 292 L 382 280 A 24 24 0 0 1 358 256 A 24 24 0 0 1 380 232 Z" fill="#d8b4fe" opacity="0.92"/>
-                  <!-- Three Dots -->
-                  <circle cx="392" cy="256" r="4.5" fill="#7c3aed"/>
-                  <circle cx="405" cy="256" r="4.5" fill="#7c3aed"/>
-                  <circle cx="418" cy="256" r="4.5" fill="#7c3aed"/>
-                </g>
-              </svg>
+              <svg class="w-full h-full"><use href="#nexly-mascot-logo"></use></svg>
             </div>
             <div>
               <div class="flex items-center gap-1.5">
@@ -362,25 +297,21 @@
 
           <!-- Central Stats -->
           <div class="flex items-center gap-2 sm:gap-4 flex-grow max-w-2xl justify-center">
-            <!-- Hearts -->
             <div class="flex items-center gap-1.5 bg-rose-50 border border-rose-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
               <span class="text-base sm:text-lg animate-pulse">❤️</span>
               <span id="heartsCounter" class="font-chunky font-bold text-xs sm:text-sm text-rose-700">5</span>
             </div>
 
-            <!-- Streak -->
             <div class="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
               <span class="text-base sm:text-lg">🔥</span>
               <span id="streakCounter" class="font-chunky font-bold text-xs sm:text-sm text-amber-700">0</span>
             </div>
 
-            <!-- XP -->
             <div class="flex items-center gap-1.5 bg-violet-50 border border-violet-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
               <span class="text-base sm:text-lg">💎</span>
               <span id="xpCounter" class="font-chunky font-bold text-xs sm:text-sm text-violet-700">0</span>
             </div>
 
-            <!-- Progress Bar -->
             <div class="hidden lg:flex flex-col flex-grow ml-2">
               <div class="flex justify-between text-[11px] font-bold text-purple-700 mb-1">
                 <span>Level Progress: <span id="progressSummaryText">0 / 30 Questions</span></span>
@@ -394,25 +325,21 @@
 
           <!-- Controls -->
           <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            <!-- Voice Indicator -->
             <span id="activeVoiceBadge" class="hidden md:inline-flex items-center gap-1 text-[11px] font-bold bg-purple-50 border border-purple-200 text-purple-700 px-2 py-1 rounded-lg">
               👩 Sarah
             </span>
 
-            <!-- Language Toggle -->
             <button id="langToggleBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-2.5 sm:px-3 py-2 rounded-xl" title="Switch English / Arabic UI">
               🌐 <span id="langLabel">AR</span>
             </button>
 
-            <!-- User Profile Badge -->
-            <div id="userBadge" class="hidden sm:flex items-center gap-1.5 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 cursor-pointer" onclick="openLoginModal(true)" title="Switch Profile">
+            <div id="userBadge" class="hidden sm:flex items-center gap-1.5 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 cursor-pointer" onclick="openLoginModal()" title="Switch Profile">
               <span>👤</span>
               <span id="activeUserName" class="truncate max-w-[90px]">Student</span>
             </div>
 
-            <!-- Teacher Gateway -->
             <button id="teacherPortalBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-3 sm:px-4 py-2 rounded-xl gap-1.5">
-              <span>👨‍🏫</span>
+              <span>👩‍🏫</span>
               <span class="hidden md:inline" id="btnTeacherLabel">Teacher</span>
             </button>
           </div>
@@ -436,19 +363,16 @@
     <!-- MAIN CONTENT AREA -->
     <main class="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-5 flex-grow flex flex-col justify-start">
       
-      <!-- Level & Skill Switchers - Student Controlled -->
+      <!-- Level & Skill Switchers - Student Controlled (Starts at A1) -->
       <section class="w-full flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 sm:mb-5">
-        
-        <!-- CEFR Levels: Student can click and choose freely -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
           <span class="text-xs font-extrabold uppercase tracking-wider text-purple-500 mr-1 hidden sm:inline">Level:</span>
           <button class="keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" data-level="A1">A1 (Beginner)</button>
           <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="A2">A2 (Elementary)</button>
-          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B1">B1 (Intermediate)</button>
+          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B1">B1 (Impact 3)</button>
           <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B2">B2 (Advanced)</button>
         </div>
 
-        <!-- Skills Tabs -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
           <button id="skillTab-listen" class="btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="selectSkill('listen')">
             🎧 <span>Listen & Spell</span> <span class="bg-purple-900/40 text-[10px] px-1.5 py-0.5 rounded-full" id="listenCountBadge">0/10</span>
@@ -460,14 +384,13 @@
             📝 <span>Grammar</span> <span class="bg-purple-200 text-purple-900 text-[10px] px-1.5 py-0.5 rounded-full" id="grammarCountBadge">0/10</span>
           </button>
         </div>
-
       </section>
 
       <!-- EXERCISE ARENA -->
       <div id="exerciseContainer" class="w-full bg-white rounded-3xl border-2 border-purple-100 shadow-xl overflow-hidden p-4 sm:p-7 transition-all duration-300">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          <!-- LEFT COLUMN: Compact Image, Large Reading Passage, Audio -->
+          <!-- LEFT COLUMN: Compact Illustration, Extra-Large Reading Story, Audio -->
           <div class="lg:col-span-5 flex flex-col justify-start">
             
             <div class="flex items-center justify-between mb-2">
@@ -479,7 +402,7 @@
               </span>
             </div>
 
-            <!-- Compact & Crisp Illustration Clue -->
+            <!-- Compact & Crisp Illustration (h-28 sm:h-36) -->
             <div class="relative w-full h-28 sm:h-36 rounded-2xl overflow-hidden border-2 border-purple-100 shadow-sm bg-purple-50 mb-3 flex items-center justify-center">
               <img id="exerciseImage" src="" alt="Visual Clue" class="w-full h-full object-contain p-1 transition-opacity duration-300">
               <div class="absolute inset-0 bg-gradient-to-t from-purple-950/30 via-transparent to-transparent pointer-events-none"></div>
@@ -504,18 +427,16 @@
               </p>
             </div>
 
-            <!-- Extra-Large, Highly Legible Reading Passage Box -->
+            <!-- Extra-Large, Highly Legible Reading Box with Read Aloud -->
             <div id="readingPassageContainer" class="hidden mt-1 p-5 sm:p-6 bg-purple-50/90 border-2 border-purple-300 rounded-3xl text-purple-950 flex flex-col justify-between shadow-inner">
               <div>
                 <div class="flex items-center justify-between mb-3 border-b border-purple-200 pb-2">
                   <h4 id="readingStoryTitle" class="font-chunky font-bold text-purple-900 text-base sm:text-lg lg:text-xl">Story Title</h4>
-                  <!-- Dedicated Read-Aloud Button for Reading Comprehension -->
                   <button id="readStoryAloudBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0" onclick="toggleReadStoryAudio()">
                     <span>🔊 Read Story</span>
                   </button>
                 </div>
-                <!-- Extra-Large Reading Text for Optimal Legibility -->
-                <p id="readingStoryText" class="text-purple-950 text-base sm:text-lg lg:text-xl leading-relaxed font-bold tracking-wide">
+                <p id="readingStoryText" class="text-purple-950 text-lg sm:text-xl leading-relaxed font-bold tracking-wide">
                   Passage content goes here...
                 </p>
               </div>
@@ -523,9 +444,8 @@
 
           </div>
 
-          <!-- RIGHT COLUMN: Question, Small Letter Slots, Multiple Choice Grid -->
+          <!-- RIGHT COLUMN: Small Letter Slots, Randomized A/B/C/D Choices Grid -->
           <div class="lg:col-span-7 flex flex-col justify-between pt-1">
-            
             <div>
               <h3 id="questionHeading" class="text-base sm:text-lg lg:text-xl font-chunky font-bold text-purple-950 mb-1 leading-snug">
                 Listen and spell what you hear
@@ -540,14 +460,10 @@
                   👇 Type using your keyboard (small letters):
                 </span>
 
-                <!-- Single Line Letter Slots - Styled explicitly for SMALL LOWERCASE LETTERS -->
-                <div id="slotsContainer" class="flex flex-nowrap items-center justify-center gap-1.5 sm:gap-2 px-2 max-w-full overflow-x-auto no-scrollbar py-2">
-                  <!-- Generated dynamically in lowercase -->
-                </div>
+                <div id="slotsContainer" class="flex flex-nowrap items-center justify-center gap-1.5 sm:gap-2 px-2 max-w-full overflow-x-auto no-scrollbar py-2"></div>
 
                 <input id="hiddenTypingInput" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10" />
 
-                <!-- Action helper buttons -->
                 <div class="flex items-center gap-3 mt-4 z-20">
                   <button id="eraseLetterBtn" class="btn-3d btn-3d-slate text-xs font-bold px-4 py-2 rounded-xl gap-1">
                     ⌫ <span id="lblErase">Erase</span>
@@ -558,10 +474,8 @@
                 </div>
               </div>
 
-              <!-- Multiple Choice Grid (Reading & Grammar) -->
-              <div id="multipleChoiceArea" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                <!-- Choice cards generated dynamically -->
-              </div>
+              <!-- Multiple Choice Grid (Reading & Grammar - Shuffled A, B, C, D) -->
+              <div id="multipleChoiceArea" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"></div>
             </div>
 
             <!-- Action Strip -->
@@ -582,17 +496,16 @@
 
     </main>
 
-    <!-- FOOTER WITH TEACHER ATTRIBUTION -->
+    <!-- FOOTER WITH PERMANENT CREATOR ATTRIBUTION -->
     <footer class="w-full bg-white border-t border-purple-100 py-3 text-center text-[11px] sm:text-xs font-bold text-purple-600">
-      Nexly Educational Platform • Created by <span class="font-black text-purple-950">T. Hameeda BuSakhar</span>
+      Nexly Educational Platform • Created by <span class="font-black text-purple-950">T. Hameeda BuSakhar</span> • Your Next Level Starts Here
     </footer>
 
   </div>
 
-  <!-- SLIDE-UP FEEDBACK DRAWER -->
+  <!-- SLIDE-UP FEEDBACK DRAWER (Shows ONLY on Check Answer, hides on Continue) -->
   <div id="feedbackDrawer" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full pointer-events-none transition-transform duration-300 ease-out border-t-4 shadow-2xl p-4 sm:p-6 backdrop-blur-md">
     <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      
       <div class="flex items-center gap-3.5 w-full sm:w-auto">
         <div id="feedbackIconBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md shrink-0">
           🎉
@@ -606,358 +519,438 @@
       <button id="continueBtn" class="btn-3d w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold min-w-[160px]">
         CONTINUE
       </button>
-
     </div>
   </div>
 
-  <!-- MODAL 1: STUDENT / TEACHER LOGIN GATEWAY -->
-  <div id="loginModal" class="fixed inset-0 z-50 bg-[#230948]/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-md p-6 sm:p-8 animate-pop relative overflow-hidden">
+  <!-- WELCOME & AUTHENTICATION MODAL -->
+  <div id="loginModal" class="fixed inset-0 z-50 bg-[#230948]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-md p-5 sm:p-7 animate-pop relative overflow-hidden my-auto">
       
-      <!-- Top Mascot Icon -->
-      <div class="flex justify-center -mt-2 mb-2">
-        <div class="w-24 h-24 rounded-3xl bg-[#f5edff] p-1 shadow-xl flex items-center justify-center overflow-hidden relative border-2 border-purple-200">
-          <img src="Image (35).jpg" alt="Nexly Mascot" class="absolute inset-0 w-full h-full object-contain z-10" onerror="this.onerror=null; this.src='Image (35)_3.jpg'; this.onerror=()=>{this.style.display='none';};" />
-          <!-- High-Fidelity 3D Vector Mascot of Character N -->
-          <svg viewBox="0 0 500 500" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="mCardBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#faf5ff"/>
-                <stop offset="100%" stop-color="#ede4fb"/>
-              </linearGradient>
-              <linearGradient id="mNBodyGrad" x1="15%" y1="0%" x2="85%" y2="100%">
-                <stop offset="0%" stop-color="#bba2fc"/>
-                <stop offset="35%" stop-color="#9368f8"/>
-                <stop offset="70%" stop-color="#7c3aed"/>
-                <stop offset="100%" stop-color="#5b21b6"/>
-              </linearGradient>
-              <linearGradient id="mOrbitRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#e9d5ff" stop-opacity="0.95"/>
-                <stop offset="45%" stop-color="#fdf4ff"/>
-                <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0.95"/>
-              </linearGradient>
-              <linearGradient id="mBookCoverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#7c3aed"/>
-                <stop offset="100%" stop-color="#4c1d95"/>
-              </linearGradient>
-              <linearGradient id="mStarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fef08a"/>
-                <stop offset="50%" stop-color="#facc15"/>
-                <stop offset="100%" stop-color="#eab308"/>
-              </linearGradient>
-              <linearGradient id="mHpHeadband" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#a78bfa"/>
-                <stop offset="50%" stop-color="#8b5cf6"/>
-                <stop offset="100%" stop-color="#6d28d9"/>
-              </linearGradient>
-              <linearGradient id="mHpEarcup" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ede9fe"/>
-                <stop offset="60%" stop-color="#ddd6fe"/>
-                <stop offset="100%" stop-color="#8b5cf6"/>
-              </linearGradient>
-              <filter id="mSoftGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#7c3aed" flood-opacity="0.25"/>
-              </filter>
-            </defs>
-
-            <!-- Squircle Background Card -->
-            <rect x="15" y="15" width="470" height="470" rx="90" fill="url(#mCardBg)" stroke="#ffffff" stroke-width="12"/>
-
-            <!-- Small Floating Star (Lower Left) -->
-            <path d="M 105 272 Q 105 295 85 295 Q 105 295 105 318 Q 105 295 125 295 Q 105 295 105 272 Z" fill="url(#mStarGrad)"/>
-            <circle cx="105" cy="295" r="3" fill="#ffffff" opacity="0.9"/>
-
-            <!-- Orbit Ring (Back Layer) -->
-            <path d="M 125 250 C 90 220 115 175 185 160 C 265 142 375 160 415 185 C 445 205 435 240 375 265" fill="none" stroke="url(#mOrbitRingGrad)" stroke-width="20" stroke-linecap="round" opacity="0.85"/>
-
-            <!-- 3D Mascot Character N Body -->
-            <g filter="url(#mSoftGlow)">
-              <!-- Left Leg -->
-              <rect x="160" y="145" width="76" height="175" rx="38" fill="url(#mNBodyGrad)"/>
-              <!-- Right Leg -->
-              <rect x="290" y="130" width="76" height="190" rx="38" fill="url(#mNBodyGrad)"/>
-              <!-- Diagonal Bridge -->
-              <path d="M 162 165 C 162 145 220 145 236 172 L 340 300 C 356 322 300 345 282 322 L 178 194 C 165 178 162 165 162 165 Z" fill="url(#mNBodyGrad)"/>
-              <!-- Seamless Fill for Inner Join -->
-              <path d="M 170 170 L 320 310 L 335 290 L 190 150 Z" fill="url(#mNBodyGrad)"/>
-              <!-- Plump Rounded Highlights -->
-              <ellipse cx="198" cy="165" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
-              <ellipse cx="328" cy="150" rx="26" ry="14" fill="#ffffff" opacity="0.25"/>
-            </g>
-
-            <!-- Open Book Pedestal Base -->
-            <g>
-              <!-- Outer Deep Purple Book Cover -->
-              <path d="M 130 380 Q 250 420 250 420 Q 250 420 370 380 L 368 392 Q 250 432 132 392 Z" fill="url(#mBookCoverGrad)"/>
-              <!-- Mid Lavender Trim -->
-              <path d="M 135 365 Q 250 405 365 365 L 368 376 Q 250 416 132 376 Z" fill="#c4b5fd"/>
-              <!-- Open White Book Pages Layer 1 -->
-              <path d="M 250 385 C 235 352 185 342 140 318 C 132 338 136 358 145 368 C 185 378 230 378 250 385 Z" fill="#ede9fe"/>
-              <path d="M 250 385 C 265 352 315 342 360 318 C 368 338 364 358 355 368 C 315 378 270 378 250 385 Z" fill="#ede9fe"/>
-              <!-- Open Crisp White Pages Layer 2 -->
-              <path d="M 250 380 C 232 344 182 334 145 310 C 138 328 142 348 150 358 C 188 368 230 370 250 380 Z" fill="#ffffff"/>
-              <path d="M 250 380 C 268 344 318 334 355 310 C 362 328 358 348 350 358 C 312 368 270 370 250 380 Z" fill="#ffffff"/>
-              <!-- Center Book Crease Shadow -->
-              <path d="M 250 335 L 250 385" stroke="#c4b5fd" stroke-width="4" stroke-linecap="round"/>
-            </g>
-
-            <!-- Adorable Kawaii Face on Left Pillar of N -->
-            <g>
-              <!-- Left Eye (Large, Round, Shiny) -->
-              <ellipse cx="195" cy="222" rx="7.5" ry="10" fill="#1e1035"/>
-              <circle cx="192.5" cy="218" r="3.2" fill="#ffffff"/>
-              <circle cx="197" cy="224" r="1.5" fill="#ffffff"/>
-
-              <!-- Right Eye (Playful Wink Arc) -->
-              <path d="M 235 222 C 242 212 254 212 261 222" fill="none" stroke="#1e1035" stroke-width="5" stroke-linecap="round"/>
-              <path d="M 260 217 L 267 213" stroke="#1e1035" stroke-width="3.5" stroke-linecap="round"/>
-
-              <!-- Cute Curved Smile -->
-              <path d="M 213 234 Q 222 244 231 234" fill="none" stroke="#1e1035" stroke-width="4.5" stroke-linecap="round"/>
-
-              <!-- Rosy Blush Cheeks -->
-              <ellipse cx="182" cy="235" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
-              <ellipse cx="266" cy="232" rx="10" ry="6.5" fill="#f472b6" opacity="0.9"/>
-            </g>
-
-            <!-- Headphones on Upper Left -->
-            <g>
-              <!-- Arched Headband -->
-              <path d="M 152 185 C 136 100 196 75 228 108" fill="none" stroke="url(#mHpHeadband)" stroke-width="20" stroke-linecap="round"/>
-              <path d="M 156 182 C 142 108 194 84 224 112" fill="none" stroke="#e9d5ff" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
-              
-              <!-- Padded Earcup (Angled) -->
-              <g transform="rotate(-18 136 178)">
-                <rect x="122" y="152" width="28" height="52" rx="14" fill="#5b21b6"/>
-                <rect x="125" y="155" width="22" height="46" rx="11" fill="url(#mHpEarcup)"/>
-                <rect x="129" y="161" width="14" height="34" rx="7" fill="#ede9fe"/>
-              </g>
-
-              <!-- Radiating Sound Waves -->
-              <path d="M 80 144 L 100 152" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
-              <path d="M 74 174 L 96 175" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
-              <path d="M 88 202 L 105 194" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
-            </g>
-
-            <!-- Orbit Ring (Front Layer Sweeping Across the Diagonal) -->
-            <path d="M 115 268 C 145 292 235 295 320 255 C 378 225 415 180 395 158" fill="none" stroke="url(#mOrbitRingGrad)" stroke-width="20" stroke-linecap="round"/>
-            <path d="M 125 270 C 152 292 235 295 315 258 C 370 230 405 188 390 165" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
-
-            <!-- Golden 4-Point Star on Right Peak of N -->
-            <g>
-              <path d="M 345 88 Q 345 128 308 128 Q 345 128 345 168 Q 345 128 382 128 Q 345 128 345 88 Z" fill="url(#mStarGrad)" filter="url(#mSoftGlow)"/>
-              <circle cx="345" cy="128" r="4" fill="#ffffff" opacity="0.95"/>
-            </g>
-
-            <!-- Speech Bubble on Right with Three Dots (...) -->
-            <g>
-              <path d="M 380 232 H 426 A 24 24 0 0 1 450 256 A 24 24 0 0 1 426 280 H 392 L 378 292 L 382 280 A 24 24 0 0 1 358 256 A 24 24 0 0 1 380 232 Z" fill="#d8b4fe" opacity="0.92"/>
-              <!-- Three Dots -->
-              <circle cx="392" cy="256" r="4.5" fill="#7c3aed"/>
-              <circle cx="405" cy="256" r="4.5" fill="#7c3aed"/>
-              <circle cx="418" cy="256" r="4.5" fill="#7c3aed"/>
-            </g>
-          </svg>
+      <!-- Top Mascot Icon ('N' Character with Headphones & Book) -->
+      <div class="flex justify-center -mt-1 mb-2">
+        <div class="w-24 h-24 rounded-3xl bg-[#f5edff] p-1 shadow-lg flex items-center justify-center overflow-hidden relative border-2 border-purple-200">
+          <svg class="w-full h-full"><use href="#nexly-mascot-logo"></use></svg>
         </div>
       </div>
 
-      <h2 class="font-chunky text-2xl font-bold text-center text-purple-950 mb-0.5">Welcome to Nexly!</h2>
+      <h2 class="font-chunky text-2xl font-bold text-center text-purple-950 mb-1">Welcome to Nexly!</h2>
       
-      <!-- Creator Badge -->
+      <!-- PERMANENT CREATOR BADGE: NEVER OVERWRITTEN BY OTHER TEACHERS -->
       <div class="text-center mb-3">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-[11px] font-black border border-purple-200">
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-black border border-purple-200">
           👩‍🏫 By T. Hameeda BuSakhar
         </span>
         <p class="text-[11px] font-bold text-purple-500 mt-1">Your Next Level Starts Here</p>
       </div>
 
-      <!-- Role Selection Tabs -->
-      <div class="flex bg-purple-100 p-1 rounded-2xl mb-4 border border-purple-200">
-        <button type="button" id="tabRoleStudent" onclick="switchRole('student')" class="flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-purple-700 text-white shadow-sm transition cursor-pointer">
-          🎒 Student (طالب)
+      <!-- Main Role Tabs: Student vs Teacher -->
+      <div class="grid grid-cols-2 bg-purple-100 p-1 rounded-2xl mb-4 border border-purple-200 text-xs font-extrabold text-purple-800">
+        <button type="button" id="tabRoleStudent" onclick="switchMainRole('student')" class="py-2.5 rounded-xl bg-purple-700 text-white shadow-xs">
+          🎒 Student (طالبة)
         </button>
-        <button type="button" id="tabRoleTeacher" onclick="switchRole('teacher')" class="flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-purple-800 transition cursor-pointer hover:bg-purple-200">
-          👨‍🏫 Teacher (معلم)
+        <button type="button" id="tabRoleTeacher" onclick="switchMainRole('teacher')" class="py-2.5 rounded-xl hover:bg-purple-200">
+          👩‍🏫 Teacher (معلمة)
         </button>
       </div>
 
-      <!-- Student Form -->
-      <form id="studentLoginForm" class="space-y-3.5">
-        <div>
-          <label class="block text-xs font-extrabold text-purple-900 mb-1">Student Full Name (اسم الطالب الكامل):</label>
-          <input id="inputStudentName" type="text" required placeholder="e.g. Fatima Ali" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
-        </div>
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="block text-xs font-extrabold text-purple-900">Class Code (كود الصف من المعلم):</label>
-            <span class="text-[10px] text-purple-500 font-bold">Required</span>
+      <!-- ================= 1. STUDENT FORM (3 SIMPLE FIELDS ONLY - NO EMAIL / NO OTP) ================= -->
+      <div id="studentSectionContainer">
+        <form id="studentSimpleLoginForm" class="space-y-3.5">
+          <div>
+            <label class="block text-xs font-extrabold text-purple-900 mb-1">Student Full Name (اسم الطالبة الكامل):</label>
+            <input id="stuNameInput" type="text" required placeholder="e.g. Fatima Ali" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
           </div>
-          <input id="inputClassCode" type="text" required placeholder="e.g. CLASS-CODE" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 uppercase tracking-widest focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
-        </div>
-        <p id="studentCodeError" class="text-rose-600 text-[11px] font-bold hidden">⚠️ This class code does not exist. Please ask your teacher for their generated code!</p>
 
-        <button type="submit" class="btn-3d btn-3d-purple w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-2">
-          🚀 START QUEST (ابدأ من المستوى A1)
-        </button>
-      </form>
-
-      <!-- Teacher Form -->
-      <form id="teacherLoginForm" class="space-y-3.5 hidden">
-        <div>
-          <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Full Name (اسم المعلم):</label>
-          <input id="inputTeacherName" type="text" required placeholder="e.g. T. Hameeda BuSakhar" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
-        </div>
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="block text-xs font-extrabold text-purple-900">Teacher Password (كلمة مرور المعلم):</label>
-            <span id="teacherPassHint" class="text-[10px] text-purple-500 font-bold">Set or enter your password</span>
+          <div>
+            <label class="block text-xs font-extrabold text-purple-900 mb-1">Class / Section (الصف / الشعبة):</label>
+            <input id="stuClassInput" type="text" required placeholder="e.g. Grade 8 - Section 2" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
           </div>
-          <input id="inputTeacherPass" type="password" required placeholder="Create or enter your password" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
-        </div>
-        <p id="teacherPassError" class="text-rose-600 text-[11px] font-bold hidden">⚠️ Incorrect teacher password!</p>
 
-        <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-2">
-          🔑 OPEN TEACHER PORTAL
-        </button>
-      </form>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="block text-xs font-extrabold text-purple-900">Class Code (كود الصف من المعلمة):</label>
+              <span class="text-[10px] font-bold text-purple-500">Required</span>
+            </div>
+            <input id="stuCodeInput" type="text" required placeholder="e.g. CLASS-CODE" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 uppercase tracking-widest focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+          </div>
+
+          <p id="stuLoginError" class="text-rose-600 text-xs font-bold text-center hidden">
+            ⚠️ يرجى كتابة كود الصف الحقيقي الذي أعطتكِ إياه المعلمة (مثال: NX-209)
+          </p>
+
+          <button type="submit" class="btn-3d btn-3d-purple w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-2">
+            🚀 START QUEST (ابدأي من المستوى A1)
+          </button>
+        </form>
+      </div>
+
+      <!-- ================= 2. TEACHER SECTION (STRICT REGISTRATION & ISOLATED ACCOUNTS) ================= -->
+      <div id="teacherSectionContainer" class="hidden">
+        
+        <!-- Teacher Sub-Navigation: Login vs First Time Sign Up -->
+        <div class="grid grid-cols-2 gap-1.5 bg-purple-50 p-1 rounded-xl border border-purple-200 mb-3">
+          <button type="button" id="subTabTeacherLogin" onclick="setTeacherAuthView('login')" class="py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200">
+            🔑 Teacher Login (دخول)
+          </button>
+          <button type="button" id="subTabTeacherRegister" onclick="setTeacherAuthView('register')" class="py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900">
+            ✨ First Time Sign Up (تسجيل جديد)
+          </button>
+        </div>
+
+        <!-- A) TEACHER LOGIN (ONLY FOR ALREADY REGISTERED TEACHERS - NO '123' BYPASS) -->
+        <form id="teacherDirectLoginForm" class="space-y-3">
+          <div>
+            <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Name or Email (الاسم أو الإيميل المسجل):</label>
+            <input id="tLoginName" type="text" required placeholder="e.g. T. Hameeda BuSakhar or email" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-extrabold text-purple-900 mb-1">Password (كلمة المرور الخاصة بكِ):</label>
+            <input id="tLoginPass" type="password" required placeholder="Enter your registered password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+          </div>
+
+          <div class="flex justify-end -mt-1">
+            <button type="button" onclick="setTeacherAuthView('forgot')" class="text-[11px] font-extrabold text-purple-700 hover:text-purple-950 underline flex items-center gap-1">
+              🔑 Forgot Password? (نسيتِ كلمة المرور؟ اضغطي هنا لاستعادتها)
+            </button>
+          </div>
+
+          <div id="tLoginError" class="bg-rose-50 border-2 border-rose-300 text-rose-700 p-2.5 rounded-xl text-xs font-bold text-center hidden">
+            ⚠️ هذا الحساب غير مسجل! يرجى التسجيل أولاً من تبويب (تسجيل جديد / First Time Sign Up).
+          </div>
+
+          <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-1">
+            🔑 OPEN TEACHER PORTAL
+          </button>
+
+          <p class="text-center text-[11px] text-purple-600 font-bold pt-1">
+            معلمة جديدة؟ اضغطي على <button type="button" onclick="setTeacherAuthView('register')" class="text-purple-900 underline font-black">✨ تسجيل جديد (First Time Sign Up)</button>
+          </p>
+        </form>
+
+        <!-- B) TEACHER FIRST-TIME SIGN UP WITH INSTANT AUTO-FILLED VERIFICATION -->
+        <div id="teacherRegisterFlow" class="hidden space-y-3">
+          
+          <!-- Step 1: Teacher Name + Email -->
+          <form id="teacherStep1_Form" class="space-y-3">
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Full Name (اسم المعلمة الثلاثي):</label>
+              <input id="tRegName" type="text" required placeholder="e.g. T. Hameeda BuSakhar" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Email (البريد الإلكتروني - أي نوع إيميل):</label>
+              <input id="tRegEmail" type="email" required placeholder="e.g. name@moe.bh, outlook.com, gmail.com..." class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+              <p class="text-[11px] font-bold text-emerald-700 mt-1 flex items-center gap-1">
+                ✅ يقبل جميع أنواع الإيميلات (إيميل الوزارة، Outlook، Hotmail، iCloud، Gmail وغيرها)
+              </p>
+            </div>
+
+            <p id="tRegStep1Error" class="text-rose-600 text-xs font-bold text-center hidden"></p>
+
+            <button type="submit" class="btn-3d btn-3d-purple w-full py-3 rounded-2xl font-chunky text-sm font-bold">
+              📩 Send Verification Code (إرسال كود التحقق)
+            </button>
+          </form>
+
+          <!-- Step 2: Instant On-Screen Verification Card + Auto-Filled Code -->
+          <form id="teacherStep2_Form" class="space-y-3 hidden">
+            <div class="bg-emerald-50 border-2 border-emerald-500 p-3.5 rounded-2xl text-center shadow-md">
+              <div class="inline-flex items-center gap-1 bg-emerald-600 text-white text-[10px] font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                📬 رسالة التحقق الفورية (وصلت الآن على الشاشة)
+              </div>
+              <p class="text-xs font-bold text-purple-900 mb-1">
+                إلى إيميل المعلمة: <span id="tDisplayEmail" class="underline font-black text-purple-950"></span>
+              </p>
+              <div class="flex items-center justify-center gap-2 my-2 bg-white py-2 px-4 rounded-xl border-2 border-emerald-400 shadow-xs">
+                <span class="text-xs font-extrabold text-emerald-900">كود التحقق الخاص بكِ:</span>
+                <span id="tActiveOtp" class="text-emerald-700 font-chunky text-2xl tracking-widest font-black">----</span>
+              </div>
+              <p class="text-[11px] font-bold text-emerald-800 leading-snug">
+                💡 لأن الموقع يعمل مباشرة من المتصفح، يظهر لكِ الكود هنا فوراً وتمت تعبئته تلقائياً في الخانة بالأسفل!
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1 text-center">كود التحقق المكون من 4 أرقام (تمت تعبئته تلقائياً):</label>
+              <input id="tInputOtp" type="text" maxlength="4" required placeholder="• • • •" class="w-full px-4 py-2.5 rounded-xl border-2 border-emerald-500 font-chunky text-2xl text-center tracking-widest font-bold text-emerald-900 focus:border-purple-600 focus:outline-none bg-emerald-50/40">
+            </div>
+
+            <p id="tOtpError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كود التحقق غير صحيح!</p>
+
+            <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-sm sm:text-base font-bold">
+              ⚡ تأكيد الكود والمتابعة لإنشاء كلمة المرور (Verify Now)
+            </button>
+          </form>
+
+          <!-- Step 3: Set Custom Password -->
+          <form id="teacherStep3_Form" class="space-y-3 hidden">
+            <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 text-center text-xs font-bold text-purple-800">
+              ✅ تم تأكيد البريد الإلكتروني بنجاح! الآن أنشئي كلمة المرور الخاصة بكِ:
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Create Password (إنشاء كلمة المرور):</label>
+              <input id="tNewPass" type="password" required placeholder="Choose your password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Confirm Password (تأكيد كلمة المرور):</label>
+              <input id="tConfirmPass" type="password" required placeholder="Re-type password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            </div>
+
+            <p id="tPassMatchError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كلمتا المرور غير متطابقتين!</p>
+
+            <button type="submit" class="btn-3d btn-3d-purple w-full py-3 rounded-2xl font-chunky text-sm font-bold">
+              🎉 Complete Registration (إتمام التسجيل وحفظ البيانات)
+            </button>
+          </form>
+
+        </div>
+
+        <!-- C) TEACHER FORGOT PASSWORD RECOVERY FLOW (استعادة كلمة المرور دون فقدان الصفوف) -->
+        <div id="teacherForgotFlow" class="hidden space-y-3">
+          <div class="bg-amber-50 border-2 border-amber-300 p-2.5 rounded-xl text-center">
+            <h4 class="text-xs font-black text-amber-900">🔑 استعادة وتعيين كلمة مرور جديدة (Password Recovery)</h4>
+            <p class="text-[11px] font-bold text-amber-800 mt-0.5">ستحتفظين بجميع أكواد صفوفكِ ودرجات طالباتكِ كاملة</p>
+          </div>
+
+          <!-- Recovery Step 1: Enter Registered Name or Email -->
+          <form id="teacherForgotStep1_Form" class="space-y-3">
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Registered Teacher Name or Email (الاسم أو الإيميل المسجل):</label>
+              <input id="tForgotIdentifier" type="text" required placeholder="e.g. T. Hameeda BuSakhar or your email" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            </div>
+
+            <p id="tForgotStep1Error" class="bg-rose-50 border border-rose-300 text-rose-700 p-2 rounded-xl text-xs font-bold text-center hidden"></p>
+
+            <button type="submit" class="btn-3d btn-3d-orange w-full py-3 rounded-2xl font-chunky text-sm font-bold">
+              📩 Send Recovery Code (إرسال كود الاستعادة)
+            </button>
+          </form>
+
+          <!-- Recovery Step 2: Instant Recovery OTP Verification -->
+          <form id="teacherForgotStep2_Form" class="space-y-3 hidden">
+            <div class="bg-emerald-50 border-2 border-emerald-500 p-3.5 rounded-2xl text-center shadow-md">
+              <div class="inline-flex items-center gap-1 bg-emerald-600 text-white text-[10px] font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                📬 رسالة كود الاستعادة الفورية (وصلت الآن على الشاشة)
+              </div>
+              <p class="text-xs font-bold text-purple-900 mb-1">
+                حساب المعلمة: <span id="tForgotDisplayAccount" class="underline font-black text-purple-950"></span>
+              </p>
+              <div class="flex items-center justify-center gap-2 my-2 bg-white py-2 px-4 rounded-xl border-2 border-emerald-400 shadow-xs">
+                <span class="text-xs font-extrabold text-emerald-900">كود الاستعادة:</span>
+                <span id="tForgotActiveOtp" class="text-emerald-700 font-chunky text-2xl tracking-widest font-black">----</span>
+              </div>
+              <p class="text-[11px] font-bold text-emerald-800 leading-snug">
+                💡 تمت تعبئة كود الاستعادة تلقائياً في الخانة بالأسفل، اضغطي فقط على الزر الأخضر للمتابعة!
+              </p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1 text-center">كود الاستعادة المكون من 4 أرقام (معبأ تلقائياً):</label>
+              <input id="tForgotInputOtp" type="text" maxlength="4" required placeholder="• • • •" class="w-full px-4 py-2.5 rounded-xl border-2 border-emerald-500 font-chunky text-2xl text-center tracking-widest font-bold text-emerald-900 focus:border-purple-600 focus:outline-none bg-emerald-50/40">
+            </div>
+
+            <p id="tForgotOtpError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كود الاستعادة غير صحيح!</p>
+
+            <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-sm sm:text-base font-bold">
+              ⚡ تأكيد الكود وتعيين كلمة المرور الجديدة (Verify Now)
+            </button>
+          </form>
+
+          <!-- Recovery Step 3: Set New Password -->
+          <form id="teacherForgotStep3_Form" class="space-y-3 hidden">
+            <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 text-center text-xs font-bold text-purple-800">
+              ✅ تم التحقق بنجاح! أدخلي كلمة المرور الجديدة لحسابكِ:
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">New Password (كلمة المرور الجديدة):</label>
+              <input id="tForgotNewPass" type="password" required placeholder="Enter new password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Confirm New Password (تأكيد كلمة المرور الجديدة):</label>
+              <input id="tForgotConfirmPass" type="password" required placeholder="Re-type new password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            </div>
+
+            <p id="tForgotPassMatchError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كلمتا المرور غير متطابقتين!</p>
+
+            <button type="submit" class="btn-3d btn-3d-purple w-full py-3 rounded-2xl font-chunky text-sm font-bold">
+              🔒 Save New Password & Login (حفظ كلمة المرور والدخول)
+            </button>
+          </form>
+
+          <div class="text-center pt-1">
+            <button type="button" onclick="setTeacherAuthView('login')" class="text-xs font-extrabold text-purple-700 hover:text-purple-950 underline">
+              ← Back to Teacher Login (العودة لتسجيل الدخول)
+            </button>
+          </div>
+        </div>
+
+      </div>
 
     </div>
   </div>
 
-  <!-- MODAL 2: TEACHER DASHBOARD -->
+  <!-- TEACHER DASHBOARD MODAL (Strictly Isolated Per-Teacher Workspace) -->
   <div id="teacherModal" class="fixed inset-0 z-50 bg-[#230948]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-4xl p-5 sm:p-8 max-h-[90vh] flex flex-col justify-between overflow-y-auto">
+    <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-4xl p-5 sm:p-8 max-h-[92vh] flex flex-col justify-between overflow-y-auto">
       <div>
-        <div class="flex items-center justify-between border-b-2 border-purple-100 pb-4 mb-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-purple-100 pb-4 mb-4">
           <div class="flex items-center gap-3">
-            <span class="text-3xl">👨‍🏫</span>
+            <span class="text-3xl">👩‍🏫</span>
             <div>
               <h3 class="font-chunky text-xl sm:text-2xl font-bold text-purple-950">Teacher Management Portal</h3>
-              <p class="text-xs font-bold text-purple-600">Lead Educator: <span id="teacherDisplayTag" class="text-purple-900 font-black">T. Hameeda BuSakhar</span></p>
+              <p class="text-xs font-bold text-purple-600">
+                Active Educator: <span id="teacherDisplayTag" class="text-purple-950 font-black bg-purple-100 px-2 py-0.5 rounded-md">T. Hameeda BuSakhar</span>
+                <span id="teacherEmailTag" class="text-[11px] text-purple-500 ml-1"></span>
+              </p>
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="changeTeacherPassword()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800" title="Change your teacher password">
+            <button onclick="downloadTeacherCredentialsCard()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800" title="حفظ بطاقة معلومات الحساب">
+              🪪 بطاقة حسابي
+            </button>
+            <button onclick="changeTeacherPassword()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">
               🔒 Change Password
             </button>
-            <button onclick="closeTeacherModal()" class="w-9 h-9 rounded-xl bg-purple-100 text-purple-800 font-bold flex items-center justify-center hover:bg-purple-200">
-              ✕
+            <button onclick="logoutTeacher()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-rose-700">
+              🚪 Logout
             </button>
+            <button onclick="closeTeacherModal()" class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-bold hover:bg-purple-200 flex items-center justify-center">✕</button>
           </div>
         </div>
 
-        <div class="bg-purple-50/80 border-2 border-purple-200 rounded-2xl p-4 mb-5">
-          <h4 class="font-chunky font-bold text-sm sm:text-base text-purple-900 mb-2">Create & Share Class Code:</h4>
-          <div class="flex flex-col sm:flex-row gap-2.5">
-            <input id="newClassNameInput" type="text" placeholder="e.g. Grade 8 - Section B" class="flex-grow px-4 py-2.5 rounded-xl border border-purple-300 font-bold text-sm focus:outline-none focus:border-purple-600">
-            <button id="createClassBtn" class="btn-3d btn-3d-purple px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold shrink-0">
+        <!-- Create & Share Class Codes -->
+        <div class="bg-purple-50/70 border-2 border-purple-100 rounded-2xl p-4 mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs sm:text-sm font-black text-purple-950">Manage & Share Class Codes:</span>
+            <span class="text-[11px] font-bold text-purple-600">✨ Works instantly on all student devices</span>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2 mb-3">
+            <input id="newClassNameInput" type="text" placeholder="e.g. Grade 8 - Section B (or type existing code: NX-209)" class="flex-grow px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 text-xs sm:text-sm focus:border-purple-600 focus:outline-none bg-white">
+            <button id="createClassBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-xl shrink-0">
               + Generate New Code
             </button>
+            <button id="addExistingCodeBtn" onclick="addExistingClassCode()" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl shrink-0">
+              + Add Existing Code
+            </button>
           </div>
-          <div class="mt-3 flex flex-wrap gap-2 items-center" id="activeCodesContainer"></div>
+          <div id="activeCodesContainer" class="flex flex-wrap gap-2"></div>
         </div>
 
-        <div class="border-2 border-purple-100 rounded-2xl overflow-hidden mb-4">
-          <div class="p-3 bg-purple-100/60 flex justify-between items-center">
-            <span class="font-chunky text-xs sm:text-sm font-bold text-purple-950">Live Student Score Tracker:</span>
-            <span class="text-[11px] font-bold text-purple-600" id="studentCountLabel">0 Enrolled Students</span>
+        <!-- Student Live Score Table -->
+        <div class="border-2 border-purple-100 rounded-2xl p-4 mb-5 bg-white">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-xs sm:text-sm font-black text-purple-950">Active Students Session Tracker:</h4>
+            <span id="studentCountLabel" class="text-xs font-extrabold text-purple-600">0 Active Student(s)</span>
           </div>
-          <div class="max-h-56 overflow-y-auto overflow-x-auto">
+          <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
-              <thead class="bg-purple-50 text-purple-900 border-b border-purple-200 sticky top-0">
-                <tr>
-                  <th class="p-2.5">Student Name</th>
-                  <th class="p-2.5">Class Code</th>
-                  <th class="p-2.5">Level</th>
+              <thead>
+                <tr class="border-b-2 border-purple-100 text-purple-700 font-extrabold">
+                  <th class="p-2.5">Student Name (اسم الطالبة)</th>
+                  <th class="p-2.5">Class / Section (الصف)</th>
+                  <th class="p-2.5">Teacher Code (الكود)</th>
+                  <th class="p-2.5">Level (المستوى)</th>
                   <th class="p-2.5">XP</th>
                   <th class="p-2.5">Hearts</th>
                   <th class="p-2.5">Streak</th>
                 </tr>
               </thead>
-              <tbody id="studentTableBody" class="divide-y divide-purple-100 font-semibold text-purple-950"></tbody>
+              <tbody id="studentTableBody" class="divide-y divide-purple-50"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row gap-3 pt-3 border-t border-purple-100">
-        <button id="downloadCsvBtn" class="btn-3d btn-3d-green flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold gap-2">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-purple-100">
+        <button id="downloadCsvBtn" class="btn-3d btn-3d-green w-full sm:flex-1 py-3 px-5 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">
           📥 Download Student Report (.csv)
         </button>
-        <button onclick="closeTeacherModal()" class="btn-3d btn-3d-slate px-6 py-3 rounded-xl text-xs sm:text-sm font-bold">
+        <button onclick="copyMasterDirectLink()" class="btn-3d btn-3d-purple w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">
+          🔗 Copy Direct Student Link
+        </button>
+        <button onclick="closeTeacherModal()" class="btn-3d btn-3d-slate w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold">
           Close & Return to Practice
         </button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 3: CERTIFICATE OF EXCELLENCE -->
-  <div id="certificateModal" class="fixed inset-0 z-50 bg-[#1e0740]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 sm:p-10 certificate-border relative text-center" id="printableCertificate">
-      <div class="flex justify-center mb-3">
-        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 border-4 border-amber-500 shadow-md flex items-center justify-center text-3xl">
-          🏆
+  <!-- CERTIFICATE OF EXCELLENCE MODAL -->
+  <div id="certificateModal" class="fixed inset-0 z-50 bg-[#230948]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-4 sm:p-6 my-auto">
+      <div id="printableCertificate" class="certificate-border rounded-2xl p-6 sm:p-10 text-center relative">
+        <div class="text-4xl mb-2">🏆</div>
+        <h2 class="font-cert text-2xl sm:text-4xl font-bold text-purple-950 mb-1">Certificate of Excellence</h2>
+        <p class="text-xs sm:text-sm font-extrabold text-purple-600 uppercase tracking-widest mb-4">Nexly English Mastery Platform</p>
+        <p class="text-xs sm:text-sm text-purple-800 font-bold mb-2">This certificate is proudly presented to:</p>
+        <h3 id="certStudentName" class="font-chunky text-2xl sm:text-3xl font-bold text-purple-900 underline decoration-purple-400 mb-1">Student Name</h3>
+        <p id="certStudentClass" class="text-xs sm:text-sm font-extrabold text-purple-600 mb-4">Class: Grade 8</p>
+        <p class="text-xs sm:text-sm text-purple-800 font-bold max-w-md mx-auto leading-relaxed mb-5">
+          For successfully mastering the English Listening, Reading Comprehension, and Grammar in Context challenges.
+        </p>
+        <div class="grid grid-cols-3 gap-2 max-w-sm mx-auto bg-purple-50 border border-purple-200 rounded-2xl p-3 mb-6">
+          <div>
+            <span class="block text-[10px] font-bold text-purple-500 uppercase">Level</span>
+            <span id="certLevelName" class="font-chunky text-sm sm:text-base font-bold text-purple-900">CEFR A1</span>
+          </div>
+          <div>
+            <span class="block text-[10px] font-bold text-purple-500 uppercase">Score XP</span>
+            <span id="certTotalXp" class="font-chunky text-sm sm:text-base font-bold text-violet-700">450 XP</span>
+          </div>
+          <div>
+            <span class="block text-[10px] font-bold text-purple-500 uppercase">Streak</span>
+            <span id="certStreak" class="font-chunky text-sm sm:text-base font-bold text-amber-600">🔥 15</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-between text-xs font-bold text-purple-800 border-t border-purple-200 pt-4">
+          <div class="text-left">
+            <span class="block text-[10px] text-purple-400">Date Issued</span>
+            <span id="certDateText">2026-10-31</span>
+          </div>
+          <div class="text-right">
+            <span class="block text-[10px] text-purple-400">Supervising Educator</span>
+            <span id="certTeacherSignature" class="font-chunky text-sm text-purple-950 font-bold">T. Hameeda BuSakhar</span>
+          </div>
         </div>
       </div>
 
-      <p class="uppercase tracking-widest text-[11px] font-extrabold text-purple-600 mb-1">Official Mastery Credential • Nexly Platform</p>
-      <h2 class="font-cert text-2xl sm:text-4xl text-purple-950 font-bold italic mb-2">Certificate of Excellence</h2>
-      <p class="text-xs sm:text-sm text-purple-700 font-semibold mb-6">This is proudly presented to:</p>
-
-      <div class="border-b-2 border-purple-300 pb-2 mb-6 max-w-md mx-auto">
-        <h3 id="certStudentName" class="font-chunky text-2xl sm:text-3xl font-bold text-purple-900">Student Name</h3>
-      </div>
-
-      <p class="text-xs sm:text-sm text-purple-800 leading-relaxed max-w-lg mx-auto mb-6">
-        For successfully achieving mastery in the <span id="certLevelName" class="font-bold text-purple-950">CEFR A1</span> English Quest, completing challenges across Listening, Reading Comprehension, and Grammar in Context.
-      </p>
-
-      <div class="grid grid-cols-3 gap-2 max-w-md mx-auto mb-8 bg-purple-50 p-3 rounded-2xl border border-purple-200">
-        <div>
-          <span class="block text-[10px] font-bold text-purple-500">Total XP</span>
-          <span id="certTotalXp" class="font-chunky text-base sm:text-lg font-bold text-purple-950">210 XP</span>
-        </div>
-        <div>
-          <span class="block text-[10px] font-bold text-purple-500">Highest Streak</span>
-          <span id="certStreak" class="font-chunky text-base sm:text-lg font-bold text-amber-600">🔥 14</span>
-        </div>
-        <div>
-          <span class="block text-[10px] font-bold text-purple-500">Accuracy</span>
-          <span class="font-chunky text-base sm:text-lg font-bold text-emerald-600">100% Master</span>
-        </div>
-      </div>
-
-      <div class="flex justify-between items-end border-t border-purple-200 pt-6 px-4">
-        <div class="text-left">
-          <div class="w-32 border-b border-purple-400 mb-1"></div>
-          <span class="text-[10px] text-purple-500 font-bold block">Issue Date</span>
-          <span id="certDateText" class="text-xs font-bold text-purple-900">2026-10-24</span>
-        </div>
-        <div class="text-right">
-          <div class="font-cert text-sm font-bold text-purple-950 italic" id="certTeacherSignature">T. Hameeda BuSakhar</div>
-          <div class="w-36 border-b border-purple-400 mb-1 ml-auto"></div>
-          <span class="text-[10px] text-purple-500 font-bold block">Class Lead Educator</span>
-        </div>
-      </div>
-
-      <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <button onclick="window.print()" class="btn-3d btn-3d-purple px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold gap-2">
+      <div class="flex flex-wrap items-center justify-between gap-2.5 mt-5">
+        <button onclick="window.print()" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">
           🖨️ Print / Save PDF
         </button>
-        <button onclick="startLevelPracticeAgain()" class="btn-3d btn-3d-green px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold gap-2">
+        <button onclick="startLevelPracticeAgain()" class="btn-3d btn-3d-green flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">
           🔄 Practice Again (Fresh Questions)
         </button>
-        <button onclick="closeCertificateModal()" class="btn-3d btn-3d-slate px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold">
+        <button onclick="closeCertificateModal()" class="btn-3d btn-3d-slate py-3 px-5 rounded-2xl text-xs sm:text-sm font-bold">
           Close
         </button>
       </div>
     </div>
   </div>
 
-  <!-- JAVASCRIPT APPLICATION ENGINE -->
+  <!-- APPLICATION SCRIPT -->
   <script>
     /* ========================================================
-       1. 1,000+ QUESTION BANK GENERATOR (A1, A2, B1, B2)
+       1. HELPER: FISHER-YATES CHOICE SHUFFLER (VARIES A, B, C, D)
+       ======================================================== */
+    function shuffleChoicesWithAnswer(optionsArray, correctIndex) {
+      const pairs = optionsArray.map((optText, idx) => ({
+        text: optText,
+        isCorrect: idx === correctIndex
+      }));
+      for (let i = pairs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = pairs[i];
+        pairs[i] = pairs[j];
+        pairs[j] = temp;
+      }
+      return {
+        options: pairs.map(p => p.text),
+        correct: pairs.findIndex(p => p.isCorrect)
+      };
+    }
+
+    /* ========================================================
+       2. 1,000+ QUESTION BANK GENERATOR (A1, A2, B1, B2)
        ======================================================== */
     function build1000QuestionBank() {
       const bank = {
@@ -967,7 +960,7 @@
         B2: { listen: [], reading: [], grammar: [] }
       };
 
-      // --- A1 POOLS (250 Questions total: 90 Listen, 80 Reading, 80 Grammar) ---
+      // --- A1 POOLS (250 Questions: 90 Listen, 80 Reading, 80 Grammar) ---
       const a1ListenSeeds = [
         { w: "school", h: "A place where children learn", t: "A1: School Life", ic: "school" },
         { w: "friend", h: "A person you like and spend time with", t: "A1: Relationships", ic: "people" },
@@ -1007,29 +1000,31 @@
         bank.A1.listen.push({
           id: `A1_L_${i + 1}`,
           word: seed.w,
-          hint: num > 0 ? `${seed.h} (Variation ${num + 1})` : seed.h,
+          hint: num > 0 ? `${seed.h} (Practice ${num + 1})` : seed.h,
           topic: seed.t,
           iconName: seed.ic
         });
       }
 
       const a1ReadingThemes = [
-        { tit: "My School Routine", st: "Adam wakes up early at seven o'clock. He packs his schoolbag and walks to school with his brother. He loves learning English.", q: "How does Adam get to school?", opt: ["He walks with his brother", "He takes the big train", "He rides a motorcycle", "He stays at home"], ic: "school" },
+        { tit: "My School Routine", st: "Adam wakes up early at seven o'clock. He packs his schoolbag and walks to school with his brother. He loves learning English.", q: "How does Adam travel to school?", opt: ["He walks with his brother", "He takes the big train", "He rides a motorcycle", "He stays at home"], ic: "school" },
         { tit: "The Little Brown Puppy", st: "Sara has an energetic brown puppy named Max. Max runs joyfully in the green garden and catches red balls.", q: "What color is Sara's puppy?", opt: ["Brown", "White and black", "Bright yellow", "Deep green"], ic: "pet" },
         { tit: "Grandmother's Warm Bread", st: "On Friday mornings, Zainab visits her grandmother. They bake warm fragrant loaves together and drizzle sweet golden honey on top.", q: "What do they add to the fresh bread?", opt: ["Sweet golden honey", "Salty tomato paste", "Cold chocolate ice", "Spicy pepper"], ic: "food" },
         { tit: "Afternoon at the Park", st: "Ali rides his blue bicycle around the neighborhood park every afternoon. He always wears a yellow helmet for safety.", q: "What does Ali wear for safety?", opt: ["A yellow helmet", "A winter scarf", "Heavy boots", "Dark sunglasses"], ic: "sport" },
-        { tit: "Tall Giraffes at the Zoo", st: "The wildlife sanctuary has many tall giraffes. Mona loves observing them stretch their long necks to eat green leaves.", q: "What do the giraffes eat?", opt: ["Green tree leaves", "Fresh bread", "Fish from rivers", "Sweet apples"], ic: "pet" }
+        { tit: "Tall Giraffes at the Zoo", st: "The wildlife sanctuary has many tall giraffes. Mona loves observing them stretch their long necks to eat green leaves.", q: "What do the giraffes eat?", opt: ["Green tree leaves", "Fresh bread", "Fish from rivers", "Sweet apples"], ic: "pet" },
+        { tit: "Helping in the Kitchen", st: "Every evening, Noor helps her mother wash fresh tomatoes and cucumbers to prepare a healthy green salad for dinner.", q: "What does Noor help prepare?", opt: ["A healthy green salad", "A chocolate birthday cake", "Fried fish and rice", "Hot strawberry tea"], ic: "food" }
       ];
 
       for (let i = 0; i < 80; i++) {
         const theme = a1ReadingThemes[i % a1ReadingThemes.length];
+        const shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
         bank.A1.reading.push({
           id: `A1_R_${i + 1}`,
-          title: `${theme.tit} #${i + 1}`,
+          title: theme.tit,
           story: theme.st,
           question: theme.q,
-          options: [...theme.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           topic: "A1 Reading Comprehension",
           iconName: theme.ic
         });
@@ -1048,11 +1043,12 @@
 
       for (let i = 0; i < 80; i++) {
         const item = a1GrammarArchetypes[i % a1GrammarArchetypes.length];
+        const shuffled = shuffleChoicesWithAnswer(item.opt, 0);
         bank.A1.grammar.push({
           id: `A1_G_${i + 1}`,
           question: item.q,
-          options: [...item.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           hint: item.h,
           topic: "A1 Grammar in Context"
         });
@@ -1069,12 +1065,7 @@
         { w: "protect", h: "To shield from environmental damage or danger", t: "A2: Ecology", ic: "plant" },
         { w: "dinosaur", h: "A prehistoric reptile that roamed the Earth", t: "A2: Prehistory", ic: "science" },
         { w: "computer", h: "An electronic machine for processing digital data", t: "A2: Tech", ic: "tech" },
-        { w: "festival", h: "A festive occasion celebrated by the public", t: "A2: Heritage", ic: "people" },
-        { w: "luggage", h: "Suitcases packed for long airplane travel", t: "A2: Voyages", ic: "travel" },
-        { w: "desert", h: "A vast arid land of rolling golden sand", t: "A2: Landscape", ic: "nature" },
-        { w: "dolphin", h: "An intelligent marine mammal known for agility", t: "A2: Sea Life", ic: "water" },
-        { w: "recycle", h: "To repurpose plastic and paper for sustainability", t: "A2: Green Life", ic: "plant" },
-        { w: "stadium", h: "A large sports arena with tiered seating", t: "A2: Sports", ic: "sport" }
+        { w: "festival", h: "A festive occasion celebrated by the public", t: "A2: Heritage", ic: "people" }
       ];
 
       for (let i = 0; i < 90; i++) {
@@ -1091,20 +1082,19 @@
       const a2ReadingThemes = [
         { tit: "Camping in the Desert Sands", st: "During the cooler winter months, families set up traditional tents in the southern desert. They cook savory dishes, tell stories around fires, and gaze at star constellations.", q: "Where do families set up their seasonal tents?", opt: ["In the desert sands", "On high snowy peaks", "Inside shopping centers", "On deep ocean ships"], ic: "travel" },
         { tit: "The Arabian Oryx Sanctuary", st: "The Arabian Oryx is a proud desert antelope with pure white fur and long horns. Conservation centers in Bahrain protect these herds from poaching.", q: "What physical feature distinguishes the Arabian Oryx?", opt: ["Long straight horns and white coat", "Large feather wings", "Deep spotted patterns", "Short curly horns"], ic: "pet" },
-        { tit: "Harnessing Solar Energy", st: "Solar photovoltaic panels capture sunrays and generate clean electrical currents for schools. This minimizes environmental carbon emissions across cities.", q: "What is the primary benefit of solar energy panels?", opt: ["Generating clean sustainable power", "Cooling the outdoor air", "Blocking all winter rain", "Replacing school notebooks"], ic: "tech" },
-        { tit: "Traditional Pottery Kilns", st: "In cultural pottery villages, skilled craftspeople turn raw clay on spinning tables to sculpt decorative jugs and water jars.", q: "What raw material do artisans use for traditional pottery?", opt: ["Natural clay mud", "Synthetic plastic foam", "Crushed sea coral", "Recycled copper"], ic: "art" },
-        { tit: "Ancient Pearling Heritage", st: "Historically, pearl divers ventured into warm gulf waters without modern oxygen equipment, descending to reefs to retrieve lustrous pearls.", q: "What did divers gather from deep beds?", opt: ["Natural lustrous pearls", "Artificial colored glass", "Bronze statues", "Plastic shells"], ic: "water" }
+        { tit: "Harnessing Solar Energy", st: "Solar photovoltaic panels capture sunrays and generate clean electrical currents for schools. This minimizes environmental carbon emissions across cities.", q: "What is the primary benefit of solar energy panels?", opt: ["Generating clean sustainable power", "Cooling the outdoor air", "Blocking all winter rain", "Replacing school notebooks"], ic: "tech" }
       ];
 
       for (let i = 0; i < 80; i++) {
         const theme = a2ReadingThemes[i % a2ReadingThemes.length];
+        const shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
         bank.A2.reading.push({
           id: `A2_R_${i + 1}`,
-          title: `${theme.tit} #${i + 1}`,
+          title: theme.tit,
           story: theme.st,
           question: theme.q,
-          options: [...theme.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           topic: "A2 Reading Comprehension",
           iconName: theme.ic
         });
@@ -1114,26 +1104,24 @@
         { q: "Yesterday, the students _________ to the Bahrain National Museum.", opt: ["went", "go", "gone", "going"], h: "Past simple of irregular verb go" },
         { q: "An airplane is much _________ than a high-speed passenger train.", opt: ["faster", "fastest", "more fast", "fast"], h: "Comparative adjective with than" },
         { q: "Have you got _________ extra notebooks in your schoolbag?", opt: ["any", "some", "a", "an"], h: "Quantifier for interrogative sentences" },
-        { q: "She was doing her project while her brother _________ documentary videos.", opt: ["was watching", "watched", "watches", "is watching"], h: "Past continuous simultaneous action" },
-        { q: "Students _________ wear safety seatbelts on the bus; it is mandatory.", opt: ["must", "might", "could", "may"], h: "Modal expressing mandatory rule" },
-        { q: "Our school morning assembly begins _________ 7:15 AM sharp.", opt: ["at", "on", "in", "by"], h: "Preposition used for clock times" },
-        { q: "They didn't _________ the championship game last Friday.", opt: ["win", "won", "winning", "wins"], h: "Negative past simple auxiliary requires base verb" },
-        { q: "This is the _________ architectural building in the whole kingdom.", opt: ["tallest", "taller", "most tall", "tall"], h: "Superlative with the" }
+        { q: "While Rashid _________ his bicycle, it started to rain.", opt: ["was riding", "rides", "is riding", "ridden"], h: "Past continuous for an action in progress" },
+        { q: "You _________ wear a seatbelt when travelling in a car.", opt: ["must", "mustn't", "don't have", "couldn't"], h: "Modal verb of obligation and safety" }
       ];
 
       for (let i = 0; i < 80; i++) {
         const item = a2GrammarArchetypes[i % a2GrammarArchetypes.length];
+        const shuffled = shuffleChoicesWithAnswer(item.opt, 0);
         bank.A2.grammar.push({
           id: `A2_G_${i + 1}`,
           question: item.q,
-          options: [...item.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           hint: item.h,
           topic: "A2 Grammar in Context"
         });
       }
 
-      // --- B1 POOLS: AUTHENTIC IMPACT 3 (BAHRAIN EDITION) (250 Questions: 90 Listen, 80 Reading, 80 Grammar) ---
+      // --- B1 POOLS: AUTHENTIC IMPACT 3 (BAHRAIN EDITION) ---
       const b1ListenSeeds = [
         { w: "cooperative", h: "Working willingly together to accomplish a shared goal", t: "Impact Unit 1: Personality Traits", ic: "people" },
         { w: "competitive", h: "Striving energetically to win against rivals", t: "Impact Unit 1: Sports & Drive", ic: "sport" },
@@ -1144,18 +1132,7 @@
         { w: "explorer", h: "A researcher who travels to distant frontiers for discovery", t: "Impact Unit 8: Why We Explore", ic: "travel" },
         { w: "wingspan", h: "The straight distance from one wingtip of a bird to another", t: "Impact Unit 5: Flying High", ic: "nature" },
         { w: "synthetic", h: "Manufactured man-made fabric created through chemicals", t: "Impact Unit 4: Fashion Footprints", ic: "tech" },
-        { w: "atmosphere", h: "The enveloping gaseous layer shielding planetary bodies", t: "Impact Unit 6: Space Frontiers", ic: "science" },
-        { w: "curiosity", h: "An innate thirst to investigate and acquire knowledge", t: "Impact Unit 8: Explorers' Mindset", ic: "science" },
-        { w: "pioneer", h: "An early innovator who develops groundbreaking techniques", t: "Impact Unit 7: Discovery & Art", ic: "science" },
-        { w: "expedition", h: "A rigorous mission undertaken for scientific exploration", t: "Impact Unit 8: Expeditions", ic: "travel" },
-        { w: "supernova", h: "The brilliant explosion marking the collapse of a star", t: "Impact Unit 6: Deep Space", ic: "science" },
-        { w: "mechanics", h: "The physical principles governing the motion of objects", t: "Impact Unit 5: Aviation Mechanics", ic: "tech" },
-        { w: "evolution", h: "The adaptive historical development of biological species", t: "Impact Unit 5: Flight Evolution", ic: "nature" },
-        // Impact 3 Phrasal Verbs
-        { w: "workout", h: "Phrasal verb: to calculate or resolve a complex challenge", t: "Impact Unit 3: Phrasal Verbs", ic: "science" },
-        { w: "pointout", h: "Phrasal verb: to direct attention clearly toward a fact", t: "Impact Unit 3: Phrasal Verbs", ic: "people" },
-        { w: "calmdown", h: "Phrasal verb: to relax and regain composure after anxiety", t: "Impact Unit 3: Phrasal Verbs", ic: "smile" },
-        { w: "cheerup", h: "Phrasal verb: to make someone feel happier and comforted", t: "Impact Unit 3: Phrasal Verbs", ic: "smile" }
+        { w: "atmosphere", h: "The enveloping gaseous layer shielding planetary bodies", t: "Impact Unit 6: Space Frontiers", ic: "science" }
       ];
 
       for (let i = 0; i < 90; i++) {
@@ -1172,103 +1149,87 @@
       const b1ReadingThemes = [
         {
           tit: "Light-1: A Milestone in Space",
-          st: "Bahrain and UAE scientists successfully launched the nanosatellite 'Light-1' to monitor terrestrial gamma-ray flashes. Conceived and engineered by brilliant university researchers, it represents a monumental achievement in regional aerospace innovation.",
-          q: "What is the primary scientific purpose of the Light-1 nanosatellite?",
-          opt: ["To monitor terrestrial gamma-ray flashes", "To capture tourist photography of Mars", "To measure ocean salinity", "To manufacture synthetic textiles"],
+          st: "In 2022, a joint Bahraini-Emirati satellite called Light-1 was launched into orbit to collect scientific data during lightning storms. Light-1 sends data to ground stations to help scientists understand radiation exposure on aviation and the atmosphere.",
+          q: "What is the primary scientific mission of the Light-1 satellite?",
+          opt: ["To collect data during lightning storms and study radiation", "To capture tourist photography of Mars", "To measure deep ocean salinity", "To manufacture synthetic textiles"],
           ic: "science"
         },
         {
           tit: "Texas Horned Lizard Survival Tactics",
-          st: "When cornered by hunting desert predators like hawks or cats, the Texas horned lizard uses an astonishing anatomical defense: it can shoot a stream of foul-tasting blood directly from the corners of its eyes to startle foes.",
-          q: "If a Texas horned lizard is hunted by a predator, what defense does it deploy?",
+          st: "When cornered by hunting desert predators like hawks or cats, the Texas horned lizard uses an astonishing defense: it can shoot a stream of foul-tasting blood directly from the corners of its eyes to startle foes.",
+          q: "If a Texas horned lizard is hunted by a hawk, what defense does it deploy?",
           opt: ["It shoots foul-tasting blood from its eye", "It hides beneath deep river sand", "It spreads wings and flies away", "It turns completely invisible"],
           ic: "nature"
         },
         {
-          tit: "Corey Jaskolski's High-Tech Conservation",
-          st: "National Geographic explorer and engineer Corey Jaskolski invents specialized 360-degree cameras and 3D sensors. His devices document vulnerable species in harsh environments without human interference.",
-          q: "How do Corey Jaskolski's inventions protect endangered wildlife?",
-          opt: ["They record species in extreme habitats without disturbing them", "They trap dangerous animals safely", "They warm cold arctic sea ice", "They synthesize artificial food"],
+          tit: "Corey Jaskolski's High-Tech Exploration",
+          st: "National Geographic Explorer Corey Jaskolski is an engineer and inventor whose underwater robotic cameras capture high-resolution 3D images of remote parts of the ocean, including the Titanic shipwreck, without disturbing habitats.",
+          q: "How do Corey Jaskolski's inventions assist modern exploration?",
+          opt: ["His underwater robotic cameras film remote ocean depths in high resolution", "He builds commercial passenger aeroplanes", "He designs synthetic winter clothing", "He trains desert antelopes"],
           ic: "tech"
         },
         {
-          tit: "The Environmental Footprint of Denim",
-          st: "Producing a single pair of cotton jeans consumes over 7,500 liters of freshwater and utilizes synthetic dyes. Sustainable fashion campaigns encourage young people to repair garments rather than discarding them.",
-          q: "Why do environmental campaigns urge repairing old jeans?",
-          opt: ["Because making denim consumes immense amounts of freshwater", "Because denim is prohibited in hot climates", "Because fabric mills have ceased production", "Because cotton cannot be dyed anymore"],
+          tit: "Sustainable Fashion & Eco-Friendly Choices",
+          st: "Natural materials are often more eco-friendly than synthetic fabrics. Young entrepreneurs like Santana Draper and designers like Asher Jay encourage consumers to donate clothes that no longer fit and reduce water footprints in denim factories.",
+          q: "What responsible fashion habit is encouraged in Unit 4?",
+          opt: ["Donating clothes that don't fit and choosing eco-friendly materials", "Throwing away clothes after wearing them once", "Using only chemical synthetic fibers", "Wasting water in textile factories"],
           ic: "plant"
         },
         {
-          tit: "Mary Anning: Pioneer of Paleontology",
-          st: "Long before modern scientific equipment existed, Mary Anning uncovered fossilized prehistoric skeletons on Dorset cliffs. Her excavations of the ichthyosaur fundamentally transformed human understanding of earth's ancient history.",
-          q: "What historic scientific contribution did Mary Anning accomplish?",
-          opt: ["She discovered complete prehistoric marine reptile fossils", "She engineered the astronomical telescope", "She designed aviation propellers", "She mapped distant cosmic nebulas"],
-          ic: "science"
-        },
-        {
-          tit: "Zoetrope and Early Animation",
-          st: "Before digital animation existed, Victorian audiences were mesmerized by optical toys like the zoetrope. Rapidly spinning illustrations inside a slotted drum created the smooth optical illusion of living motion.",
-          q: "How did a zoetrope create the illusion of animation?",
-          opt: ["By spinning drawings inside a slotted drum", "By projecting laser light onto canvas", "By recording digital audio signals", "By reflecting starlight through lenses"],
+          tit: "Ami Vitale: Telling Visual Stories",
+          st: "National Geographic Photographer Ami Vitale is known for capturing international news and culture in her photos. She creates visual stories that help audiences build a deeper understanding of one another's cultures and protect wildlife.",
+          q: "Why does Ami Vitale create visual stories through photography?",
+          opt: ["To help people build a better understanding of different cultures", "To sell computer hardware", "To replace written school textbooks", "To advertise fast cars"],
           ic: "art"
         }
       ];
 
       for (let i = 0; i < 80; i++) {
         const theme = b1ReadingThemes[i % b1ReadingThemes.length];
+        const shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
         bank.B1.reading.push({
           id: `B1_R_${i + 1}`,
-          title: `${theme.tit} #${i + 1}`,
+          title: theme.tit,
           story: theme.st,
           question: theme.q,
-          options: [...theme.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           topic: "Impact 3 Reading in Context",
           iconName: theme.ic
         });
       }
 
       const b1GrammarArchetypes = [
+        { q: "Alicia is friendly, _________?", opt: ["isn't she?", "is she?", "doesn't she?", "wasn't she?"], h: "Affirmative statement with 'is' takes negative question tag 'isn't she?'" },
         { q: "Lizards aren't harmful to humans, _________?", opt: ["are they?", "aren't they?", "do they?", "is it?"], h: "Negative statement takes positive question tag" },
-        { q: "Wasps sometimes sting when provoked, _________?", opt: ["don't they?", "do they?", "aren't they?", "can't they?"], h: "Present simple affirmative with plural takes don't they?" },
-        { q: "A sense of humor is an admirable quality, _________?", opt: ["isn't it?", "is it?", "doesn't it?", "wasn't it?"], h: "Affirmative 'is' with singular takes isn't it?" },
-        { q: "Insect pests can destroy crops, _________?", opt: ["can't they?", "can they?", "do they?", "don't they?"], h: "Affirmative modal 'can' takes negative tag can't they?" },
-        { q: "Students were allowed _________ the computer laboratory after lessons.", opt: ["to use", "use", "using", "used"], h: "Be allowed requires full infinitive with to" },
-        { q: "His parents didn't let him _________ parachuting alone.", opt: ["go", "to go", "going", "gone"], h: "The verb 'let' is followed by a bare infinitive without to" },
-        { q: "There was _________ noise in the auditorium, so no one could hear the speaker.", opt: ["too much", "too many", "not enough", "enough"], h: "Uncountable noun takes 'too much'" },
-        { q: "Garments _________ in that eco-friendly factory every single week.", opt: ["are assembled", "is assembled", "assembled", "are assembling"], h: "Present passive voice: are + past participle" },
-        { q: "Before the Wright brothers developed an engine, how long _________ glider flights?", opt: ["had they been conducting", "have they conducted", "did they conduct", "were they conducting"], h: "Past action in progress before a past milestone takes past perfect continuous" },
-        { q: "They discussed the difficult equation and finally _________ the solution.", opt: ["worked out", "pointed out", "put away", "calmed down"], h: "Phrasal verb meaning to solve: work out" }
+        { q: "She bought her friend some flowers to _________.", opt: ["cheer her up", "knock over", "hold back", "cut out"], h: "Phrasal verb meaning to make someone feel happier" },
+        { q: "Could you help me _________ these books?", opt: ["put away", "turn out", "break into", "get over"], h: "Phrasal verb meaning to tidy and store items in their place" },
+        { q: "Many of Goya's masterpieces _________ at night by candlelight.", opt: ["were created", "created", "are creating", "have created"], h: "Past passive voice (were + past participle)" },
+        { q: "The Wright brothers _________ on powered flight for years before 1903.", opt: ["had been working", "have worked", "are working", "work"], h: "Past perfect continuous for an action continuing up to a past moment" },
+        { q: "There is _________ traffic on the highway this morning.", opt: ["too much", "too many", "enough not", "many"], h: "'Traffic' is an uncountable noun, so it takes 'too much'" },
+        { q: "Students were allowed _________ the science laboratory after class.", opt: ["to use", "use", "using", "used"], h: "'Be allowed' requires a full infinitive with 'to'" }
       ];
 
       for (let i = 0; i < 80; i++) {
         const item = b1GrammarArchetypes[i % b1GrammarArchetypes.length];
+        const shuffled = shuffleChoicesWithAnswer(item.opt, 0);
         bank.B1.grammar.push({
           id: `B1_G_${i + 1}`,
           question: item.q,
-          options: [...item.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           hint: item.h,
           topic: "Impact 3 Grammar Unit Exam"
         });
       }
 
-      // --- B2 POOLS: UPPER INTERMEDIATE / ADVANCED (250 Questions: 90 Listen, 80 Reading, 80 Grammar) ---
+      // --- B2 POOLS: UPPER INTERMEDIATE / ADVANCED ---
       const b2ListenSeeds = [
         { w: "biodiversity", h: "The wide ecological variety of life within a specific habitat", t: "B2: Biospheres", ic: "nature" },
         { w: "archaeological", h: "Relating to scientific study of historical human societies", t: "B2: Antiquities", ic: "art" },
         { w: "entrepreneur", h: "An enterprising visionary who establishes business innovations", t: "B2: Innovation", ic: "people" },
-        { w: "environmental", h: "Relating to preservation of natural ecosystems and balance", t: "B2: Green Horizons", ic: "plant" },
-        { w: "perseverance", h: "Steadfast determination despite adversity and hardship", t: "B2: Human Mindset", ic: "science" },
-        { w: "technological", h: "Relating to applied engineering and digital transformation", t: "B2: Tech Frontier", ic: "tech" },
-        { w: "ecosystem", h: "A biological community of organisms interacting with abiotic factors", t: "B2: Ecology", ic: "nature" },
-        { w: "aeronautics", h: "The science and design of atmospheric flight mechanics", t: "B2: Aviation", ic: "travel" },
-        { w: "sustainable", h: "Conserving resources without depleting future planetary capacity", t: "B2: Green Tech", ic: "plant" },
-        { w: "perspective", h: "A nuanced intellectual viewpoint or interpretation", t: "B2: Critical Thought", ic: "people" },
-        { w: "infrastructure", h: "The foundational systems enabling urban functionality", t: "B2: Engineering", ic: "home" },
-        { w: "autonomous", h: "Self-governing without requiring direct manual control", t: "B2: Automation", ic: "tech" },
-        { w: "spectroscopy", h: "The analysis of light spectra to decipher chemical composition", t: "B2: Astrophysics", ic: "science" },
-        { w: "paleontology", h: "The earth science analyzing fossilized prehistoric life", t: "B2: Geology", ic: "science" }
+        { w: "perseverance", h: "Steadfast persistence in doing something despite difficulty", t: "B2: Character", ic: "science" },
+        { w: "sophisticated", h: "Highly developed, complex, and refined technology", t: "B2: High Tech", ic: "tech" }
       ];
 
       for (let i = 0; i < 90; i++) {
@@ -1284,20 +1245,19 @@
 
       const b2ReadingThemes = [
         { tit: "Dilmun Civilization Maritime Commerce", st: "Bronze Age excavations verify that the ancient Dilmun kingdom served as an essential commercial hub linking Mesopotamian and Indus valley trade networks.", q: "Why was Dilmun historically significant to ancient commerce?", opt: ["It served as a strategic maritime trade bridge", "It invented modern synthetic fabrics", "It was completely isolated from neighbors", "It banned sea trading vessels"], ic: "art" },
-        { tit: "Gulf Coral Thermal Tolerance", st: "Marine scientists discovered that shallow gulf corals exhibit extraordinary genetic adaptation to dramatic thermal swings, offering critical keys for conserving global marine biospheres.", q: "What makes these regional corals scientifically unique?", opt: ["Their genetic tolerance to extreme temperature swings", "Their capacity to desalinate seawater instantly", "Their reliance on synthetic chemicals", "Their migration across oceans"], ic: "nature" },
-        { tit: "Quantum Key Cryptography", st: "Quantum cryptography exploits the delicate properties of photon polarization. Any covert interception immediately alters quantum states and triggers automated alarms across fiber nodes.", q: "Why is quantum encryption considered impenetrable?", opt: ["Because observing a photon alters its quantum state", "Because it relies on complex alphabetical passwords", "Because quantum cables are stored in bunkers", "Because it runs exclusively offline"], ic: "tech" },
-        { tit: "Biophilic Urban Architecture", st: "Biophilic architecture weaves botanical foliage, passive natural airflow, and daylight corridors into high-density towers, minimizing energy consumption while boosting mental wellness.", q: "What dual advantage does biophilic architecture achieve?", opt: ["Diminishing cooling loads while boosting mental wellness", "Doubling concrete weight in structures", "Removing all windows from skyscrapers", "Standardizing identical tower shapes"], ic: "plant" }
+        { tit: "Europa: Jupiter's Ocean World", st: "Planetary geologists like Bethany Ehlmann investigate moons such as Europa. Beneath Europa's icy crust lies a vast subsurface saltwater ocean that scientists speculate could harbor extraterrestrial microbial life.", q: "Why does Jupiter's moon Europa fascinate planetary geologists?", opt: ["It conceals a subsurface ocean that might support life", "It has hot tropical rainforests on its surface", "It is the closest planet to the Sun", "It has no gravity or ice"], ic: "science" }
       ];
 
       for (let i = 0; i < 80; i++) {
         const theme = b2ReadingThemes[i % b2ReadingThemes.length];
+        const shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
         bank.B2.reading.push({
           id: `B2_R_${i + 1}`,
-          title: `${theme.tit} #${i + 1}`,
+          title: theme.tit,
           story: theme.st,
           question: theme.q,
-          options: [...theme.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           topic: "B2 Advanced Academic Reading",
           iconName: theme.ic
         });
@@ -1306,20 +1266,17 @@
       const b2GrammarArchetypes = [
         { q: "Seldom _________ such extraordinary archaeological treasures in one excavation.", opt: ["have archaeologists uncovered", "archaeologists have uncovered", "uncovered archaeologists", "did uncover archaeologists"], h: "Negative adverb 'Seldom' triggers auxiliary inversion" },
         { q: "If the engineers _________ the sensors earlier, the anomaly would have been averted.", opt: ["had calibrated", "calibrated", "have calibrated", "would calibrate"], h: "Third conditional past perfect in if-clause" },
-        { q: "Under no circumstances _________ visitors touch the ancient artifacts on display.", opt: ["should", "they should", "they must", "are permitted"], h: "Negative restrictive phrase triggers inversion" },
-        { q: "Hardly had the rocket ignited _________ telemetry confirmed a stable climb.", opt: ["when", "than", "then", "after"], h: "Hardly had ... when correlative construction" },
-        { q: "Had I known about the international symposium, I _________ attended without delay.", opt: ["would have", "will have", "had", "should"], h: "Inverted third conditional: Had I known ... I would have" },
-        { q: "The board recommended that the conservation grant _________ immediately doubled.", opt: ["be", "is", "was", "are"], h: "Mandative subjunctive requires bare base form 'be'" },
-        { q: "What amazed the astrophysics researchers _________ the distinct methane signature.", opt: ["was", "were", "are", "have been"], h: "Wh- cleft sentence takes singular was for singular complement" }
+        { q: "Pterosaurs _________ by the time modern humans evolved on Earth.", opt: ["had already disappeared", "have disappeared", "are disappearing", "disappear"], h: "Past perfect for the earlier of two past events" }
       ];
 
       for (let i = 0; i < 80; i++) {
         const item = b2GrammarArchetypes[i % b2GrammarArchetypes.length];
+        const shuffled = shuffleChoicesWithAnswer(item.opt, 0);
         bank.B2.grammar.push({
           id: `B2_G_${i + 1}`,
           question: item.q,
-          options: [...item.opt],
-          correct: 0,
+          options: shuffled.options,
+          correct: shuffled.correct,
           hint: item.h,
           topic: "B2 Advanced Syntax & Inversion"
         });
@@ -1331,10 +1288,25 @@
     const QUESTIONS_BANK = build1000QuestionBank();
 
     /* ========================================================
-       2. APPLICATION STATE WITH PERSISTENT TEACHER AUTH
+       3. APPLICATION STATE & STRICT PER-TEACHER ISOLATION
        ======================================================== */
+    const urlParams = new URLSearchParams(window.location.search);
+    const directCode = (urlParams.get('code') || urlParams.get('c') || "").trim().toUpperCase();
+    const directTeacher = (urlParams.get('teacher') || urlParams.get('t') || "").trim();
+
+    function normalizeKey(str) {
+      return (str || "").trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    let savedWorkspaces = {};
+    try {
+      savedWorkspaces = JSON.parse(localStorage.getItem('nexly_isolated_teachers_v3') || '{}');
+    } catch (e) {
+      savedWorkspaces = {};
+    }
+
     const AppState = {
-      user: { name: "", classCode: "", role: "student" },
+      user: { name: "", gradeClass: "", classCode: directCode, role: "student" },
       currentLevel: "A1",
       currentSkill: "listen",
       hearts: 5,
@@ -1355,19 +1327,60 @@
       },
       reviewQueues: { listen: [], reading: [], grammar: [] },
       currentQuestion: null,
+      activeOptions: [],
+      activeCorrectIndex: 0,
       typedInput: "",
       selectedOptionIndex: null,
-      activeTeacher: "T. Hameeda BuSakhar",
-      // Initially EMPTY: Teachers must create real class codes!
-      registeredCodes: JSON.parse(localStorage.getItem('nexly_classes') || '[]'),
-      teacherPassword: localStorage.getItem('nexly_teacher_pw') || null,
-      enrolledStudents: JSON.parse(localStorage.getItem('nexly_students') || '[]'),
+
+      // Isolated Multi-Teacher Workspaces
+      teachersWorkspaces: savedWorkspaces,
+      loggedInTeacherKey: null,
+      tempTeacherSignUp: { name: "", email: "", otp: "" },
+      tempTeacherRecovery: { key: "", name: "", email: "", otp: "" },
+
       uiLang: "EN",
       voiceGenderCycle: 0
     };
 
+    function saveWorkspacesToStorage() {
+      try {
+        localStorage.setItem('nexly_isolated_teachers_v3', JSON.stringify(AppState.teachersWorkspaces));
+      } catch (e) {}
+    }
+
+    function findTeacherWorkspace(nameOrEmail) {
+      const q = normalizeKey(nameOrEmail);
+      if (!q) return null;
+      if (AppState.teachersWorkspaces[q]) {
+        return { key: q, data: AppState.teachersWorkspaces[q] };
+      }
+      for (const k in AppState.teachersWorkspaces) {
+        const ws = AppState.teachersWorkspaces[k];
+        if (normalizeKey(ws.email) === q || normalizeKey(ws.displayName) === q) {
+          return { key: k, data: ws };
+        }
+      }
+      return null;
+    }
+
+    function findTeacherKeyByClassCode(classCode) {
+      const cleanCode = (classCode || "").trim().toUpperCase();
+      for (const k in AppState.teachersWorkspaces) {
+        const ws = AppState.teachersWorkspaces[k];
+        if (Array.isArray(ws.codes) && ws.codes.includes(cleanCode)) {
+          return k;
+        }
+      }
+      return null;
+    }
+
+    function getActiveTeacherWorkspace() {
+      if (!AppState.loggedInTeacherKey) return null;
+      return AppState.teachersWorkspaces[AppState.loggedInTeacherKey] || null;
+    }
+
     /* ========================================================
-       3. BULLETPROOF EMBEDDED THEMATIC SVG VISUAL SYSTEM
+       4. THEMED SVG ILLUSTRATIONS
        ======================================================== */
     function generateThemedSvg(iconName, labelText) {
       const themes = {
@@ -1411,16 +1424,19 @@
     }
 
     /* ========================================================
-       4. AUDIO SYNTHESIS & SPEECH ENGINE
+       5. AUDIO & SPEECH SYNTHESIS
        ======================================================== */
     let audioCtx = null;
     function initAudioContext() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
     }
 
     function playTone(freq, type = 'sine', duration = 0.15, startTime = 0) {
       try {
         initAudioContext();
+        if (!audioCtx) return;
         if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
@@ -1432,7 +1448,7 @@
         gain.connect(audioCtx.destination);
         osc.start(audioCtx.currentTime + startTime);
         osc.stop(audioCtx.currentTime + startTime + duration);
-      } catch (e) { console.warn(e); }
+      } catch (e) {}
     }
 
     function playSuccessChime() {
@@ -1448,35 +1464,37 @@
     }
 
     function speakText(textToSpeak, rate = 0.8) {
-      if (!('speechSynthesis' in window) || !textToSpeak) return;
-      window.speechSynthesis.cancel();
+      if (!('speechSynthesis' in window) || !window.speechSynthesis || !textToSpeak) return;
+      try {
+        window.speechSynthesis.cancel();
 
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.rate = rate;
-      utterance.pitch = 1.0;
-      utterance.lang = 'en-US';
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.rate = rate;
+        utterance.pitch = 1.0;
+        utterance.lang = 'en-US';
 
-      const voices = window.speechSynthesis.getVoices();
-      const engVoices = voices.filter(v => v.lang.startsWith('en'));
-      const isFemale = (AppState.voiceGenderCycle % 2 === 0);
-      let selectedVoice = null;
+        const voices = window.speechSynthesis.getVoices() || [];
+        const engVoices = voices.filter(v => v.lang && v.lang.startsWith('en'));
+        const isFemale = (AppState.voiceGenderCycle % 2 === 0);
+        let selectedVoice = null;
 
-      if (isFemale) {
-        selectedVoice = engVoices.find(v => /female|zira|samantha|karen|jenny|victoria/i.test(v.name));
-      } else {
-        selectedVoice = engVoices.find(v => /male|david|guy|george|mark/i.test(v.name));
-      }
+        if (isFemale) {
+          selectedVoice = engVoices.find(v => /female|zira|samantha|karen|jenny|victoria/i.test(v.name));
+        } else {
+          selectedVoice = engVoices.find(v => /male|david|guy|george|mark/i.test(v.name));
+        }
 
-      if (!selectedVoice && engVoices.length > 0) {
-        selectedVoice = engVoices[AppState.voiceGenderCycle % engVoices.length];
-      }
+        if (!selectedVoice && engVoices.length > 0) {
+          selectedVoice = engVoices[AppState.voiceGenderCycle % engVoices.length];
+        }
 
-      if (selectedVoice) utterance.voice = selectedVoice;
+        if (selectedVoice) utterance.voice = selectedVoice;
 
-      const badge = document.getElementById('activeVoiceBadge');
-      if (badge) badge.innerText = isFemale ? "👩 Sarah" : "👨 James";
+        const badge = document.getElementById('activeVoiceBadge');
+        if (badge) badge.innerText = isFemale ? "👩 Sarah" : "👨 James";
 
-      window.speechSynthesis.speak(utterance);
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {}
     }
 
     function speakTargetWord(rate = 0.8) {
@@ -1486,33 +1504,43 @@
 
     function toggleReadStoryAudio() {
       const btn = document.getElementById('readStoryAloudBtn');
+      if (!('speechSynthesis' in window) || !window.speechSynthesis) return;
+
       if (window.speechSynthesis.speaking) {
         window.speechSynthesis.cancel();
-        btn.innerHTML = "<span>🔊 Read Story</span>";
-        btn.classList.remove('btn-3d-orange');
-        btn.classList.add('btn-3d-slate');
+        if (btn) {
+          btn.innerHTML = "<span>🔊 Read Story</span>";
+          btn.classList.remove('btn-3d-orange');
+          btn.classList.add('btn-3d-slate');
+        }
         return;
       }
 
       const text = `${AppState.currentQuestion.title}. ${AppState.currentQuestion.story}`;
-      btn.innerHTML = "<span>⏹️ Stop Reading</span>";
-      btn.classList.remove('btn-3d-slate');
-      btn.classList.add('btn-3d-orange');
+      if (btn) {
+        btn.innerHTML = "<span>⏹️ Stop Reading</span>";
+        btn.classList.remove('btn-3d-slate');
+        btn.classList.add('btn-3d-orange');
+      }
 
       speakText(text, 0.82);
 
       const checkInterval = setInterval(() => {
-        if (!window.speechSynthesis.speaking) {
-          btn.innerHTML = "<span>🔊 Read Story</span>";
-          btn.classList.remove('btn-3d-orange');
-          btn.classList.add('btn-3d-slate');
+        if (!window.speechSynthesis || !window.speechSynthesis.speaking) {
+          if (btn) {
+            btn.innerHTML = "<span>🔊 Read Story</span>";
+            btn.classList.remove('btn-3d-orange');
+            btn.classList.add('btn-3d-slate');
+          }
           clearInterval(checkInterval);
         }
       }, 500);
     }
+    window.toggleReadStoryAudio = toggleReadStoryAudio;
 
     function triggerConfetti() {
       const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -1558,13 +1586,23 @@
     function showToast(msg) {
       const toast = document.getElementById('toastMessage');
       const text = document.getElementById('toastText');
+      if (!toast || !text) return;
       text.innerText = msg;
       toast.classList.remove('hidden');
-      setTimeout(() => toast.classList.add('hidden'), 3000);
+      setTimeout(() => toast.classList.add('hidden'), 3800);
+    }
+
+    function showEmailAlert(header, body) {
+      const banner = document.getElementById('emailSimulatedAlert');
+      if (!banner) return;
+      document.getElementById('emailAlertHeader').innerText = header;
+      document.getElementById('emailAlertBody').innerText = body;
+      banner.classList.remove('hidden');
+      setTimeout(() => banner.classList.add('hidden'), 12000);
     }
 
     /* ========================================================
-       5. EXERCISE ENGINE (FRESH UNSEEN QUESTION ROTATION)
+       6. EXERCISE ENGINE (WITH DYNAMIC OPTION SHUFFLING A/B/C/D)
        ======================================================== */
     function loadCurrentExercise() {
       const level = AppState.currentLevel;
@@ -1579,15 +1617,14 @@
         q = AppState.reviewQueues[skill].shift();
         document.getElementById('spacedRepetitionTag').classList.remove('hidden');
       } else {
-        // STRICT FILTER: Exclude any question the student has previously completed/seen
         const available = bank.filter(item => !seenSet.has(item.id));
         if (available.length > 0) {
-          q = available[0];
+          const randIndex = Math.floor(Math.random() * Math.min(available.length, 15));
+          q = available[randIndex];
         } else {
-          // If the student exhausts all questions in this level, cycle the pool with a congratulatory toast
           seenSet.clear();
-          showToast(`🌟 Outstanding! You completed all questions in this set. Shuffling for mastery!`);
-          q = bank[0];
+          showToast(`🌟 Outstanding! Loading a fresh set of questions.`);
+          q = bank[Math.floor(Math.random() * bank.length)];
         }
         document.getElementById('spacedRepetitionTag').classList.add('hidden');
       }
@@ -1597,19 +1634,19 @@
       AppState.selectedOptionIndex = null;
       AppState.voiceGenderCycle++;
 
-      // Compact Visual Clue
       const img = document.getElementById('exerciseImage');
-      img.src = generateThemedSvg(q.iconName || "school", q.topic);
+      if (img) img.src = generateThemedSvg(q.iconName || "school", q.topic);
 
       document.getElementById('imageTopicTitle').innerText = q.topic || "English Learning Quest";
       document.getElementById('levelIndicatorBadge').innerText = `CEFR ${level}`;
 
-      // Strictly hide feedback drawer
       const drawer = document.getElementById('feedbackDrawer');
       drawer.classList.add('translate-y-full', 'pointer-events-none');
       drawer.classList.remove('translate-y-0', 'pointer-events-auto');
 
-      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      if ('speechSynthesis' in window && window.speechSynthesis) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
       const readStoryBtn = document.getElementById('readStoryAloudBtn');
       if (readStoryBtn) {
         readStoryBtn.innerHTML = "<span>🔊 Read Story</span>";
@@ -1655,7 +1692,10 @@
         document.getElementById('readingStoryTitle').innerText = q.title;
         document.getElementById('readingStoryText').innerText = q.story;
 
-        renderChoiceCards(q.options);
+        const shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
+        AppState.activeOptions = shuffled.options;
+        AppState.activeCorrectIndex = shuffled.correct;
+        renderChoiceCards(AppState.activeOptions);
 
       } else if (skill === 'grammar') {
         skillBadge.innerHTML = "📝 Grammar in Context";
@@ -1667,13 +1707,15 @@
         listenSlotsArea.classList.add('hidden');
         multipleChoiceArea.classList.remove('hidden');
 
-        renderChoiceCards(q.options);
+        const shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
+        AppState.activeOptions = shuffled.options;
+        AppState.activeCorrectIndex = shuffled.correct;
+        renderChoiceCards(AppState.activeOptions);
       }
 
       updateTopMetrics();
     }
 
-    /* Single-Line Small Letter Slots (LOWERCASE ONLY) */
     function renderLetterSlots() {
       const container = document.getElementById('slotsContainer');
       container.innerHTML = "";
@@ -1742,7 +1784,7 @@
 
     function selectChoice(idx) {
       AppState.selectedOptionIndex = idx;
-      renderChoiceCards(AppState.currentQuestion.options);
+      renderChoiceCards(AppState.activeOptions);
       document.getElementById('checkAnswerBtn').disabled = false;
     }
 
@@ -1806,12 +1848,13 @@
     document.getElementById('listenTurtleBtn').onclick = () => speakTargetWord(0.5);
 
     /* ========================================================
-       6. CHECK ANSWER & DRAWER CONTROL
+       7. CHECK ANSWER & FEEDBACK DRAWER
        ======================================================== */
     document.getElementById('checkAnswerBtn').onclick = () => {
       initAudioContext();
       let isCorrect = false;
       let targetAnswer = "";
+      const letters = ['A', 'B', 'C', 'D'];
 
       if (AppState.currentSkill === 'listen') {
         const cleanTarget = (AppState.currentQuestion.word || "").toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -1819,8 +1862,9 @@
         isCorrect = (cleanTarget === cleanUser && cleanTarget.length > 0);
         targetAnswer = AppState.currentQuestion.word.toLowerCase();
       } else {
-        isCorrect = (AppState.selectedOptionIndex === AppState.currentQuestion.correct);
-        targetAnswer = AppState.currentQuestion.options[AppState.currentQuestion.correct];
+        isCorrect = (AppState.selectedOptionIndex === AppState.activeCorrectIndex);
+        const correctLetter = letters[AppState.activeCorrectIndex];
+        targetAnswer = `${correctLetter}) ${AppState.activeOptions[AppState.activeCorrectIndex]}`;
       }
 
       const drawer = document.getElementById('feedbackDrawer');
@@ -1837,7 +1881,6 @@
         AppState.xp += 15;
         AppState.completedCounts[AppState.currentSkill]++;
         AppState.completedIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
-        // Mark as SEEN so it will NEVER be repeated when re-training the level!
         AppState.seenQuestionIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
 
         playSuccessChime();
@@ -1847,7 +1890,7 @@
         iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-emerald-500 text-white";
         iconBox.innerText = "🎉";
         title.innerText = "Awesome!";
-        msg.innerText = "Your answer is completely correct! Keep up the brilliant work.";
+        msg.innerText = `Correct Answer: "${targetAnswer}". Keep up the brilliant work!`;
         continueBtn.className = "btn-3d btn-3d-green w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
 
       } else {
@@ -1913,8 +1956,8 @@
       });
       loadCurrentExercise();
     }
+    window.selectSkill = selectSkill;
 
-    // Student freely selects Level
     document.querySelectorAll('.keycap-level').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.keycap-level').forEach(b => {
@@ -1950,28 +1993,32 @@
     }
 
     /* ========================================================
-       7. TEACHER PORTAL & LMS FUNCTIONS
+       8. STRICTLY ISOLATED TEACHER PORTAL & CLASS MANAGEMENT
        ======================================================== */
     function renderTeacherCodes() {
       const container = document.getElementById('activeCodesContainer');
       if (!container) return;
       container.innerHTML = "";
 
-      if (AppState.registeredCodes.length === 0) {
+      const ws = getActiveTeacherWorkspace();
+      const codes = ws ? ws.codes : [];
+
+      if (!codes || codes.length === 0) {
         container.innerHTML = `
-          <div class="text-xs text-purple-600 font-bold bg-purple-100/60 p-2.5 rounded-xl w-full text-center">
-            📌 No class codes created yet. Enter your class name above and click <strong>+ Generate New Code</strong> to give your students access!
+          <div class="text-xs text-purple-600 font-bold bg-purple-100/60 p-3 rounded-xl w-full text-center">
+            📌 لا توجد أكواد صفوف في حسابكِ بعد. اضغطي على <strong>+ Generate New Code</strong> لإنشاء كود صف خاص بكِ!
           </div>
         `;
         return;
       }
 
-      AppState.registeredCodes.forEach(code => {
+      codes.forEach(code => {
         const badge = document.createElement('div');
-        badge.className = "flex items-center gap-1.5 bg-white border border-purple-300 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 shadow-xs";
+        badge.className = "flex items-center gap-1.5 bg-white border-2 border-purple-300 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 shadow-xs";
         badge.innerHTML = `
           <span>📋 <strong class="tracking-wider text-purple-700">${code}</strong></span>
           <button class="text-[10px] bg-purple-100 hover:bg-purple-200 text-purple-800 px-2 py-0.5 rounded-md transition font-extrabold" onclick="copyClassCode('${code}')">Copy</button>
+          <button class="text-[10px] bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-md transition font-extrabold" onclick="copyStudentLink('${code}')">Direct Link</button>
         `;
         container.appendChild(badge);
       });
@@ -1979,35 +2026,99 @@
 
     function copyClassCode(code) {
       try {
-        const el = document.createElement('textarea');
-        el.value = code;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        showToast(`Class Code ${code} copied!`);
+        navigator.clipboard.writeText(code);
+        showToast(`Class Code "${code}" copied to clipboard!`);
       } catch (err) {
-        showToast(`Class Code: ${code}`);
+        showToast(`Code: ${code}`);
       }
     }
+    window.copyClassCode = copyClassCode;
+
+    function copyStudentLink(code) {
+      const ws = getActiveTeacherWorkspace();
+      const tName = ws ? ws.displayName : "T. Hameeda BuSakhar";
+      const baseUrl = window.location.origin + window.location.pathname;
+      const directUrl = `${baseUrl}?code=${encodeURIComponent(code)}&teacher=${encodeURIComponent(tName)}`;
+      try {
+        navigator.clipboard.writeText(directUrl);
+        showToast(`🔗 Direct student link for code (${code}) copied!`);
+      } catch (e) {
+        prompt("Copy this direct student link:", directUrl);
+      }
+    }
+    window.copyStudentLink = copyStudentLink;
+
+    function copyMasterDirectLink() {
+      const ws = getActiveTeacherWorkspace();
+      if (!ws || !ws.codes || ws.codes.length === 0) {
+        showToast("⚠️ يرجى إنشاء كود صف أولاً بالضغط على (+ Generate New Code)");
+        return;
+      }
+      copyStudentLink(ws.codes[0]);
+    }
+    window.copyMasterDirectLink = copyMasterDirectLink;
+
+    function addExistingClassCode() {
+      const ws = getActiveTeacherWorkspace();
+      if (!ws) return;
+      const input = document.getElementById('newClassNameInput');
+      let customCode = (input.value || "").trim().toUpperCase();
+      if (!customCode) {
+        customCode = (prompt("أدخلي كود الصف السابق (مثال: NX-209):") || "").trim().toUpperCase();
+      }
+      if (!customCode) return;
+      if (!ws.codes.includes(customCode)) {
+        ws.codes.unshift(customCode);
+        saveWorkspacesToStorage();
+      }
+      input.value = "";
+      renderTeacherCodes();
+      renderStudentTable();
+      showToast(`✅ تمت إضافة كود الصف (${customCode}) إلى لوحتكِ!`);
+    }
+    window.addExistingClassCode = addExistingClassCode;
+
+    document.getElementById('createClassBtn').onclick = () => {
+      const ws = getActiveTeacherWorkspace();
+      if (!ws) return;
+
+      const input = document.getElementById('newClassNameInput');
+      const randomNum = Math.floor(100 + Math.random() * 900);
+      const code = "NX-" + randomNum;
+
+      if (!ws.codes.includes(code)) {
+        ws.codes.unshift(code);
+        saveWorkspacesToStorage();
+      }
+      input.value = "";
+      renderTeacherCodes();
+      renderStudentTable();
+      showToast(`✅ تم إنشاء كود الصف الخاص بكِ: ${code}`);
+    };
 
     function renderStudentTable() {
       const tbody = document.getElementById('studentTableBody');
       const countLabel = document.getElementById('studentCountLabel');
       if (!tbody) return;
       tbody.innerHTML = "";
-      if (countLabel) countLabel.innerText = `${AppState.enrolledStudents.length} Enrolled Student(s)`;
 
-      if (AppState.enrolledStudents.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-purple-400 font-bold">No students have submitted scores yet. Share your generated class code with your students!</td></tr>`;
+      const ws = getActiveTeacherWorkspace();
+      const students = ws ? (ws.students || []) : [];
+
+      if (countLabel) countLabel.innerText = `${students.length} Active Student(s)`;
+
+      if (students.length === 0) {
+        const sampleCode = (ws && ws.codes && ws.codes[0]) ? ws.codes[0] : "Generate a code above";
+        tbody.innerHTML = `<tr><td colspan="7" class="p-5 text-center text-purple-400 font-bold">لا توجد طالبات مسجلات في صفوفكِ حتى الآن. شاركي كود صفكِ (${sampleCode}) مع طالباتكِ!</td></tr>`;
         return;
       }
 
-      AppState.enrolledStudents.forEach(st => {
+      students.forEach(st => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-purple-50/50 transition";
         tr.innerHTML = `
           <td class="p-2.5 font-bold text-purple-900">${st.name}</td>
+          <td class="p-2.5 font-bold text-purple-700 bg-purple-50/60 rounded">${st.gradeClass || 'N/A'}</td>
           <td class="p-2.5"><span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">${st.code || 'N/A'}</span></td>
           <td class="p-2.5 font-bold text-purple-700">CEFR ${st.level || 'A1'}</td>
           <td class="p-2.5 font-bold text-violet-700">💎 ${st.xp || 0}</td>
@@ -2020,286 +2131,544 @@
 
     function updateEnrolledStudentScore() {
       const currName = AppState.user.name;
-      if (!currName) return;
-      let record = AppState.enrolledStudents.find(s => s.name.toLowerCase() === currName.toLowerCase() && s.code === AppState.user.classCode);
+      const currCode = AppState.user.classCode;
+      if (!currName || !currCode) return;
+
+      let ownerKey = findTeacherKeyByClassCode(currCode);
+      if (!ownerKey && AppState.loggedInTeacherKey) {
+        ownerKey = AppState.loggedInTeacherKey;
+      }
+      if (!ownerKey) return;
+
+      const ws = AppState.teachersWorkspaces[ownerKey];
+      if (!ws) return;
+      if (!Array.isArray(ws.students)) ws.students = [];
+
+      let record = ws.students.find(s => s.name.toLowerCase() === currName.toLowerCase() && s.code === currCode);
       if (!record) {
         record = {
           name: currName,
-          code: AppState.user.classCode || "UNASSIGNED",
+          gradeClass: AppState.user.gradeClass || "Grade 8",
+          code: currCode,
           level: AppState.currentLevel,
           xp: AppState.xp,
           hearts: AppState.hearts,
           streak: AppState.streak,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
-        AppState.enrolledStudents.push(record);
+        ws.students.push(record);
       } else {
         record.level = AppState.currentLevel;
         record.xp = AppState.xp;
         record.hearts = AppState.hearts;
         record.streak = AppState.streak;
-        record.code = AppState.user.classCode || record.code;
+        record.gradeClass = AppState.user.gradeClass || record.gradeClass;
       }
-      try {
-        localStorage.setItem('nexly_students', JSON.stringify(AppState.enrolledStudents));
-      } catch(e) {}
-      renderStudentTable();
+
+      saveWorkspacesToStorage();
+      if (AppState.loggedInTeacherKey === ownerKey) {
+        renderStudentTable();
+      }
     }
 
     function changeTeacherPassword() {
-      const currentPw = AppState.teacherPassword;
-      if (currentPw) {
-        const oldCheck = prompt("Enter your CURRENT teacher password:");
-        if (oldCheck !== currentPw) {
-          showToast("⚠️ Incorrect current password!");
-          return;
-        }
-      }
-      const newPw = prompt("Enter your NEW custom teacher password:");
-      if (newPw && newPw.trim().length >= 3) {
-        AppState.teacherPassword = newPw.trim();
-        try { localStorage.setItem('nexly_teacher_pw', AppState.teacherPassword); } catch(e) {}
-        showToast("🔒 Password successfully updated!");
-      } else if (newPw !== null) {
-        showToast("⚠️ Password must be at least 3 characters!");
+      const ws = getActiveTeacherWorkspace();
+      if (!ws) return;
+      const newPw = prompt(`أدخلي كلمة المرور الجديدة لحساب (${ws.displayName}):`);
+      if (newPw && newPw.trim().length >= 2) {
+        ws.password = newPw.trim();
+        saveWorkspacesToStorage();
+        showToast("🔒 تم تحديث كلمة المرور الخاصة بكِ بنجاح!");
       }
     }
+    window.changeTeacherPassword = changeTeacherPassword;
+
+    function downloadTeacherCredentialsCard() {
+      const ws = getActiveTeacherWorkspace();
+      if (!ws) return;
+      const content = `=========================================\n` +
+                      `   NEXLY TEACHER ACCOUNT CREDENTIALS     \n` +
+                      `   Created by T. Hameeda BuSakhar        \n` +
+                      `=========================================\n\n` +
+                      `Teacher Name : ${ws.displayName}\n` +
+                      `Email Address: ${ws.email}\n` +
+                      `Password     : ${ws.password}\n` +
+                      `Class Codes  : ${(ws.codes && ws.codes.length) ? ws.codes.join(', ') : 'None yet'}\n` +
+                      `Date Saved   : ${new Date().toLocaleString()}\n\n` +
+                      `Keep this card safe for fast Teacher Login.\n`;
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Nexly_Teacher_${ws.displayName.replace(/\s+/g, '_')}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("🪪 تم تنزيل بطاقة بيانات حسابكِ بنجاح!");
+    }
+    window.downloadTeacherCredentialsCard = downloadTeacherCredentialsCard;
 
     function openTeacherModal() {
-      const modal = document.getElementById('teacherModal');
-      if (modal) {
-        renderTeacherCodes();
-        renderStudentTable();
-        modal.classList.remove('hidden');
-      }
-    }
-
-    function closeTeacherModal() {
-      const modal = document.getElementById('teacherModal');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    document.getElementById('teacherPortalBtn').onclick = () => {
-      if (AppState.user.role === 'teacher') {
-        openTeacherModal();
-      } else {
-        if (!AppState.teacherPassword) {
-          const firstPw = prompt("Welcome Educator! Please create and set your personal teacher password:");
-          if (firstPw && firstPw.trim().length >= 3) {
-            AppState.teacherPassword = firstPw.trim();
-            try { localStorage.setItem('nexly_teacher_pw', AppState.teacherPassword); } catch(e) {}
-            AppState.user.role = 'teacher';
-            document.getElementById('teacherDisplayTag').innerText = AppState.activeTeacher;
-            openTeacherModal();
-            showToast("Password set! Welcome to Teacher Portal.");
-          } else if (firstPw !== null) {
-            showToast("⚠️ Password must be at least 3 characters!");
-          }
-          return;
-        }
-
-        const pass = prompt("Enter your Teacher Password:");
-        if (pass === AppState.teacherPassword) {
-          AppState.user.role = 'teacher';
-          document.getElementById('teacherDisplayTag').innerText = AppState.activeTeacher;
-          openTeacherModal();
-          showToast("Welcome to Teacher Portal, " + AppState.activeTeacher);
-        } else if (pass !== null) {
-          showToast("⚠️ Incorrect teacher password!");
-        }
-      }
-    };
-
-    document.getElementById('createClassBtn').onclick = () => {
-      const input = document.getElementById('newClassNameInput');
-      const randomNum = Math.floor(100 + Math.random() * 900);
-      const code = "NX-" + randomNum;
-      AppState.registeredCodes.unshift(code);
-      try {
-        localStorage.setItem('nexly_classes', JSON.stringify(AppState.registeredCodes));
-      } catch (e) {}
-      renderTeacherCodes();
-      input.value = "";
-      showToast(`New Class Code Generated: ${code}`);
-    };
-
-    function downloadCsvReport() {
-      if (!AppState.enrolledStudents || AppState.enrolledStudents.length === 0) {
-        showToast("⚠️ No student records to export yet!");
+      const ws = getActiveTeacherWorkspace();
+      if (!ws) {
+        openLoginModal();
+        switchMainRole('teacher');
         return;
       }
-      let csv = "Student Name,Class Code,Level,XP,Hearts,Streak,Date\n";
-      AppState.enrolledStudents.forEach(st => {
-        csv += `"${st.name}","${st.code || 'N/A'}","${st.level || 'A1'}",${st.xp || 0},${st.hearts !== undefined ? st.hearts : 5},${st.streak || 0},"${new Date().toLocaleDateString()}"\n`;
+      document.getElementById('teacherDisplayTag').innerText = ws.displayName;
+      document.getElementById('teacherEmailTag').innerText = ws.email ? `(${ws.email})` : "";
+      renderTeacherCodes();
+      renderStudentTable();
+      document.getElementById('teacherModal').classList.remove('hidden');
+    }
+    window.openTeacherModal = openTeacherModal;
+
+    function closeTeacherModal() {
+      document.getElementById('teacherModal').classList.add('hidden');
+    }
+    window.closeTeacherModal = closeTeacherModal;
+
+    function logoutTeacher() {
+      AppState.loggedInTeacherKey = null;
+      AppState.user = { name: "", gradeClass: "", classCode: "", role: "student" };
+      document.getElementById('activeUserName').innerText = "Student";
+      closeTeacherModal();
+      openLoginModal();
+      switchMainRole('teacher');
+      showToast("🚪 تم تسجيل الخروج من بوابة المعلمة.");
+    }
+    window.logoutTeacher = logoutTeacher;
+
+    function downloadCsvReport() {
+      const ws = getActiveTeacherWorkspace();
+      const students = ws ? (ws.students || []) : [];
+      if (students.length === 0) {
+        showToast("⚠️ لا توجد بيانات طالبات في صفوفكِ لتصديرها بعد!");
+        return;
+      }
+      let csv = "Student Name,Class / Section,Class Code,Level,XP,Hearts,Streak,Teacher,Date\n";
+      students.forEach(st => {
+        csv += `"${st.name}","${st.gradeClass || 'N/A'}","${st.code || 'N/A'}","${st.level || 'A1'}",${st.xp || 0},${st.hearts !== undefined ? st.hearts : 5},${st.streak || 0},"${ws.displayName}","${new Date().toLocaleDateString()}"\n`;
       });
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `Nexly_Student_Report_${new Date().toISOString().split('T')[0]}.csv`;
+      a.download = `Nexly_Report_${ws.displayName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("📥 Report downloaded successfully!");
+      showToast("📥 تم تحميل تقرير طالباتكِ بنجاح!");
     }
 
     document.getElementById('downloadCsvBtn').onclick = downloadCsvReport;
 
     /* ========================================================
-       8. LOGIN MODAL & AUTHENTICATION
+       9. STRICT AUTHENTICATION ENGINE (WITH AUTO-FILLED OTP)
        ======================================================== */
-    function switchRole(role) {
+    function switchMainRole(role) {
       const tabStudent = document.getElementById('tabRoleStudent');
       const tabTeacher = document.getElementById('tabRoleTeacher');
-      const sForm = document.getElementById('studentLoginForm');
-      const tForm = document.getElementById('teacherLoginForm');
-      if (!tabStudent || !tabTeacher || !sForm || !tForm) return;
+      const studentContainer = document.getElementById('studentSectionContainer');
+      const teacherContainer = document.getElementById('teacherSectionContainer');
 
-      if (role === 'teacher') {
-        tabTeacher.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-purple-700 text-white shadow-sm transition cursor-pointer";
-        tabStudent.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-purple-800 transition cursor-pointer hover:bg-purple-200";
-        sForm.classList.add('hidden');
-        tForm.classList.remove('hidden');
-
-        const hint = document.getElementById('teacherPassHint');
-        if (hint) {
-          hint.innerText = AppState.teacherPassword ? "Enter your password (أدخل كلمة المرور)" : "Set password for first time (أنشئ كلمة مرورك)";
-        }
+      if (role === 'student') {
+        tabStudent.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold";
+        tabTeacher.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800";
+        studentContainer.classList.remove('hidden');
+        teacherContainer.classList.add('hidden');
       } else {
-        tabStudent.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-purple-700 text-white shadow-sm transition cursor-pointer";
-        tabTeacher.className = "flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold text-purple-800 transition cursor-pointer hover:bg-purple-200";
-        tForm.classList.add('hidden');
-        sForm.classList.remove('hidden');
+        tabTeacher.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold";
+        tabStudent.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800";
+        studentContainer.classList.add('hidden');
+        teacherContainer.classList.remove('hidden');
       }
     }
-    window.switchRole = switchRole;
+    window.switchMainRole = switchMainRole;
 
-    function openLoginModal(canSwitch = false) {
+    function setTeacherAuthView(view) {
+      const loginForm = document.getElementById('teacherDirectLoginForm');
+      const regFlow = document.getElementById('teacherRegisterFlow');
+      const forgotFlow = document.getElementById('teacherForgotFlow');
+      const tabLogin = document.getElementById('subTabTeacherLogin');
+      const tabReg = document.getElementById('subTabTeacherRegister');
+
+      document.getElementById('tLoginError').classList.add('hidden');
+      if (forgotFlow) forgotFlow.classList.add('hidden');
+
+      if (view === 'login') {
+        loginForm.classList.remove('hidden');
+        regFlow.classList.add('hidden');
+        tabLogin.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
+        tabReg.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
+      } else if (view === 'register') {
+        loginForm.classList.add('hidden');
+        regFlow.classList.remove('hidden');
+        tabReg.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
+        tabLogin.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
+        resetTeacherStep1();
+      } else if (view === 'forgot') {
+        loginForm.classList.add('hidden');
+        regFlow.classList.add('hidden');
+        if (forgotFlow) forgotFlow.classList.remove('hidden');
+        tabLogin.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
+        tabReg.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
+        resetTeacherForgotStep1();
+      }
+    }
+    window.setTeacherAuthView = setTeacherAuthView;
+
+    function resetTeacherForgotStep1() {
+      document.getElementById('teacherForgotStep1_Form').classList.remove('hidden');
+      document.getElementById('teacherForgotStep2_Form').classList.add('hidden');
+      document.getElementById('teacherForgotStep3_Form').classList.add('hidden');
+      document.getElementById('tForgotStep1Error').classList.add('hidden');
+      document.getElementById('tForgotOtpError').classList.add('hidden');
+      document.getElementById('tForgotPassMatchError').classList.add('hidden');
+      const loginNameVal = document.getElementById('tLoginName').value.trim();
+      if (loginNameVal) {
+        document.getElementById('tForgotIdentifier').value = loginNameVal;
+      }
+    }
+
+    function resetTeacherStep1() {
+      document.getElementById('teacherStep1_Form').classList.remove('hidden');
+      document.getElementById('teacherStep2_Form').classList.add('hidden');
+      document.getElementById('teacherStep3_Form').classList.add('hidden');
+      document.getElementById('tOtpError').classList.add('hidden');
+      document.getElementById('tPassMatchError').classList.add('hidden');
+      document.getElementById('tRegStep1Error').classList.add('hidden');
+    }
+
+    function openLoginModal() {
       const modal = document.getElementById('loginModal');
       if (modal) {
-        const hint = document.getElementById('teacherPassHint');
-        if (hint) {
-          hint.innerText = AppState.teacherPassword ? "Enter your password" : "Create your password (first time)";
+        if (directCode && document.getElementById('stuCodeInput')) {
+          document.getElementById('stuCodeInput').value = directCode;
         }
         modal.classList.remove('hidden');
       }
     }
+    window.openLoginModal = openLoginModal;
 
     function closeLoginModal() {
       const modal = document.getElementById('loginModal');
       if (modal) modal.classList.add('hidden');
     }
-
-    const tabRoleStudent = document.getElementById('tabRoleStudent');
-    const tabRoleTeacher = document.getElementById('tabRoleTeacher');
-    const studentForm = document.getElementById('studentLoginForm');
-    const teacherForm = document.getElementById('teacherLoginForm');
-
-    if (tabRoleStudent) tabRoleStudent.onclick = () => switchRole('student');
-    if (tabRoleTeacher) tabRoleTeacher.onclick = () => switchRole('teacher');
+    window.closeLoginModal = closeLoginModal;
 
     document.getElementById('teacherPortalBtn').onclick = () => {
-      if (AppState.user.role === 'teacher') {
+      if (AppState.loggedInTeacherKey && getActiveTeacherWorkspace()) {
         openTeacherModal();
       } else {
         openLoginModal();
-        switchRole('teacher');
+        switchMainRole('teacher');
       }
     };
 
-    studentForm.onsubmit = (e) => {
+    /* --- 1. STUDENT LOGIN (3 SIMPLE FIELDS ONLY - NO EMAIL / NO OTP) --- */
+    document.getElementById('studentSimpleLoginForm').onsubmit = (e) => {
       e.preventDefault();
-      const nameInput = document.getElementById('inputStudentName');
-      const codeInput = document.getElementById('inputClassCode');
-      const codeError = document.getElementById('studentCodeError');
+      const sName = document.getElementById('stuNameInput').value.trim();
+      const sClass = document.getElementById('stuClassInput').value.trim();
+      const sCode = document.getElementById('stuCodeInput').value.trim().toUpperCase();
+      const errEl = document.getElementById('stuLoginError');
 
-      const name = nameInput.value.trim();
-      const code = codeInput.value.trim().toUpperCase();
-
-      // STRICT VALIDATION: Code must exist in registeredCodes created by a teacher!
-      if (!code || !AppState.registeredCodes.includes(code)) {
-        codeError.classList.remove('hidden');
-        codeError.innerText = AppState.registeredCodes.length === 0
-          ? "⚠️ No classes have been created yet by the teacher. Please ask your teacher to log in and generate a code first!"
-          : "⚠️ Invalid class code! Please ask your teacher for their generated code.";
+      if (!sCode || sCode === "CLASS-CODE" || sCode === "E.G. CLASS-CODE" || sCode.length < 2) {
+        errEl.classList.remove('hidden');
+        playErrorBuzz();
         return;
       }
 
-      codeError.classList.add('hidden');
-      AppState.user = { name: name || "Student", classCode: code, role: "student" };
-      document.getElementById('activeUserName').innerText = AppState.user.name;
+      errEl.classList.add('hidden');
 
+      AppState.user = {
+        name: sName,
+        gradeClass: sClass,
+        classCode: sCode,
+        role: "student"
+      };
+
+      AppState.currentLevel = "A1";
+      document.querySelectorAll('.keycap-level').forEach(b => {
+        b.className = (b.getAttribute('data-level') === 'A1')
+          ? "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold"
+          : "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900";
+      });
+
+      document.getElementById('activeUserName').innerText = sName;
       updateEnrolledStudentScore();
+
+      triggerConfetti();
+      playSuccessChime();
       closeLoginModal();
-      showToast(`Welcome ${AppState.user.name}! Starting at Level ${AppState.currentLevel}.`);
+      showToast(`Welcome, ${sName}! Starting at Level A1.`);
       loadCurrentExercise();
     };
 
-    teacherForm.onsubmit = (e) => {
+    /* --- 2. STRICT TEACHER LOGIN (ONLY REGISTERED ACCOUNTS ALLOWED - NO '123' BYPASS!) --- */
+    document.getElementById('teacherDirectLoginForm').onsubmit = (e) => {
       e.preventDefault();
-      const tNameInput = document.getElementById('inputTeacherName');
-      const tPassInput = document.getElementById('inputTeacherPass');
-      const passError = document.getElementById('teacherPassError');
+      const identifier = document.getElementById('tLoginName').value.trim();
+      const pass = document.getElementById('tLoginPass').value.trim();
+      const errBox = document.getElementById('tLoginError');
 
-      const tName = tNameInput.value.trim() || "T. Hameeda BuSakhar";
-      const pass = tPassInput.value.trim();
+      const found = findTeacherWorkspace(identifier);
 
-      // If no teacher password has been set yet, set it now!
-      if (!AppState.teacherPassword) {
-        if (pass.length < 3) {
-          passError.classList.remove('hidden');
-          passError.innerText = "⚠️ Please set a password with at least 3 characters.";
-          return;
-        }
-        AppState.teacherPassword = pass;
-        try { localStorage.setItem('nexly_teacher_pw', AppState.teacherPassword); } catch (e) {}
-        showToast("Password set successfully!");
-      } else {
-        // Verify with existing teacher password
-        if (pass !== AppState.teacherPassword) {
-          passError.classList.remove('hidden');
-          passError.innerText = "⚠️ Incorrect password! Please enter the password you created.";
-          return;
-        }
+      if (!found) {
+        errBox.innerHTML = `⚠️ هذا الحساب (<strong>${identifier}</strong>) غير مسجل! يرجى الضغط على تبويب <strong>✨ تسجيل جديد (First Time Sign Up)</strong> لإنشاء حسابكِ أولاً.`;
+        errBox.classList.remove('hidden');
+        playErrorBuzz();
+        return;
       }
 
-      passError.classList.add('hidden');
-      AppState.activeTeacher = tName;
-      AppState.user = { name: tName, role: "teacher" };
-      document.getElementById('teacherDisplayTag').innerText = tName;
-      document.getElementById('activeUserName').innerText = tName;
+      if (found.data.password !== pass) {
+        errBox.innerHTML = `⚠️ كلمة المرور غير صحيحة! يرجى التأكد من كلمة المرور أو الضغط على (نسيتِ كلمة المرور؟).`;
+        errBox.classList.remove('hidden');
+        playErrorBuzz();
+        return;
+      }
+
+      errBox.classList.add('hidden');
+      AppState.loggedInTeacherKey = found.key;
+      AppState.user = { name: found.data.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+
+      document.getElementById('activeUserName').innerText = found.data.displayName;
+      document.getElementById('tLoginPass').value = "";
 
       closeLoginModal();
       openTeacherModal();
-      showToast(`Welcome ${tName}! Teacher Portal is open.`);
+      showToast(`مرحباً بكِ ${found.data.displayName}! تم فتح لوحة صفوفكِ الخاصة.`);
+    };
+
+    /* --- 3. TEACHER FIRST-TIME SIGN UP (STEP 1: NAME + EMAIL -> AUTO-FILL OTP) --- */
+    document.getElementById('teacherStep1_Form').onsubmit = (e) => {
+      e.preventDefault();
+      const tName = document.getElementById('tRegName').value.trim();
+      const tEmail = document.getElementById('tRegEmail').value.trim();
+      const step1Err = document.getElementById('tRegStep1Error');
+
+      const existing = findTeacherWorkspace(tName) || findTeacherWorkspace(tEmail);
+      if (existing) {
+        step1Err.innerText = "⚠️ هذا الاسم أو البريد مسجل مسبقاً! انتقلي لتبويب (Teacher Login) للدخول، أو اضغطي (نسيتِ كلمة المرور؟).";
+        step1Err.classList.remove('hidden');
+        playErrorBuzz();
+        return;
+      }
+      step1Err.classList.add('hidden');
+
+      const generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
+      AppState.tempTeacherSignUp = {
+        name: tName,
+        email: tEmail,
+        otp: generatedOtp
+      };
+
+      document.getElementById('teacherStep1_Form').classList.add('hidden');
+      document.getElementById('teacherStep2_Form').classList.remove('hidden');
+      document.getElementById('tDisplayEmail').innerText = tEmail;
+      document.getElementById('tActiveOtp').innerText = generatedOtp;
+      document.getElementById('tInputOtp').value = generatedOtp;
+
+      showEmailAlert(
+        `📬 رسالة تحقق فورية إلى: ${tEmail}`,
+        `مرحباً ${tName}، كود التفعيل الخاص بكِ هو [ ${generatedOtp} ] وقد تمت تعبئته تلقائياً! اضغطي فقط على الزر الأخضر بالأسفل لاختيار كلمة المرور.`
+      );
+      playSuccessChime();
+    };
+
+    /* --- TEACHER REGISTER STEP 2: VERIFY CODE --- */
+    document.getElementById('teacherStep2_Form').onsubmit = (e) => {
+      e.preventDefault();
+      const enteredOtp = document.getElementById('tInputOtp').value.trim();
+      const errBox = document.getElementById('tOtpError');
+
+      if (enteredOtp !== AppState.tempTeacherSignUp.otp) {
+        document.getElementById('tInputOtp').value = AppState.tempTeacherSignUp.otp;
+        errBox.classList.remove('hidden');
+        playErrorBuzz();
+        return;
+      }
+
+      errBox.classList.add('hidden');
+      playSuccessChime();
+      document.getElementById('teacherStep2_Form').classList.add('hidden');
+      document.getElementById('teacherStep3_Form').classList.remove('hidden');
+      showToast("✅ تم التحقق بنجاح! الآن اختاري كلمة المرور الخاصة بكِ.");
+    };
+
+    /* --- TEACHER REGISTER STEP 3: CREATE PASSWORD & ISOLATED WORKSPACE --- */
+    document.getElementById('teacherStep3_Form').onsubmit = (e) => {
+      e.preventDefault();
+      const pw1 = document.getElementById('tNewPass').value.trim();
+      const pw2 = document.getElementById('tConfirmPass').value.trim();
+      const errBox = document.getElementById('tPassMatchError');
+
+      if (!pw1 || pw1 !== pw2) {
+        errBox.classList.remove('hidden');
+        playErrorBuzz();
+        return;
+      }
+
+      errBox.classList.add('hidden');
+      const tName = AppState.tempTeacherSignUp.name;
+      const tEmail = AppState.tempTeacherSignUp.email;
+      const tKey = normalizeKey(tName);
+
+      AppState.teachersWorkspaces[tKey] = {
+        displayName: tName,
+        email: tEmail,
+        password: pw1,
+        codes: [],
+        students: []
+      };
+      saveWorkspacesToStorage();
+
+      AppState.loggedInTeacherKey = tKey;
+      AppState.user = { name: tName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+      document.getElementById('activeUserName').innerText = tName;
+
+      showEmailAlert(
+        "🎉 تم تسجيل حساب المعلمة بنجاح!",
+        `الأستاذة ${tName} (${tEmail}) — تم حفظ حسابكِ المستقل بنجاح. يمكنكِ الضغط على زر (🪪 بطاقة حسابي) في لوحتكِ لحفظ نسخة من معلومات دخولكِ.`
+      );
+
+      triggerConfetti();
+      playSuccessChime();
+      closeLoginModal();
+      openTeacherModal();
+    };
+
+    /* --- 4. TEACHER FORGOT PASSWORD RECOVERY ENGINE --- */
+    document.getElementById('teacherForgotStep1_Form').onsubmit = (e) => {
+      e.preventDefault();
+      const identifier = document.getElementById('tForgotIdentifier').value.trim();
+      const errBox = document.getElementById('tForgotStep1Error');
+
+      const found = findTeacherWorkspace(identifier);
+      if (!found) {
+        errBox.innerHTML = `⚠️ لم يتم العثور على حساب مسجل بهذا الاسم أو الإيميل (<strong>${identifier}</strong>). إذا كنتِ تسجلين لأول مرة، اضغطي على تبويب (تسجيل جديد / First Time Sign Up).`;
+        errBox.classList.remove('hidden');
+        playErrorBuzz();
+        return;
+      }
+
+      errBox.classList.add('hidden');
+      const recoveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
+      AppState.tempTeacherRecovery = {
+        key: found.key,
+        name: found.data.displayName,
+        email: found.data.email,
+        otp: recoveryOtp
+      };
+
+      document.getElementById('teacherForgotStep1_Form').classList.add('hidden');
+      document.getElementById('teacherForgotStep2_Form').classList.remove('hidden');
+      document.getElementById('tForgotDisplayAccount').innerText = `${found.data.displayName} (${found.data.email})`;
+      document.getElementById('tForgotActiveOtp').innerText = recoveryOtp;
+      document.getElementById('tForgotInputOtp').value = recoveryOtp;
+
+      showEmailAlert(
+        `🔑 كود استعادة كلمة المرور إلى: ${found.data.email}`,
+        `مرحباً ${found.data.displayName}، كود الاستعادة هو [ ${recoveryOtp} ] وتمت تعبئته تلقائياً في الخانة! اضغطي على الزر الأخضر لتعيين كلمة مروركِ الجديدة.`
+      );
+      playSuccessChime();
+    };
+
+    document.getElementById('teacherForgotStep2_Form').onsubmit = (e) => {
+      e.preventDefault();
+      const entered = document.getElementById('tForgotInputOtp').value.trim();
+      const errBox = document.getElementById('tForgotOtpError');
+
+      if (entered !== AppState.tempTeacherRecovery.otp) {
+        document.getElementById('tForgotInputOtp').value = AppState.tempTeacherRecovery.otp;
+        errBox.classList.remove('hidden');
+        playErrorBuzz();
+        return;
+      }
+
+      errBox.classList.add('hidden');
+      playSuccessChime();
+      document.getElementById('teacherForgotStep2_Form').classList.add('hidden');
+      document.getElementById('teacherForgotStep3_Form').classList.remove('hidden');
+      document.getElementById('tForgotNewPass').value = "";
+      document.getElementById('tForgotConfirmPass').value = "";
+      showToast("✅ تم تأكيد الهوية! الآن اكتبي كلمة المرور الجديدة.");
+    };
+
+    document.getElementById('teacherForgotStep3_Form').onsubmit = (e) => {
+      e.preventDefault();
+      const pw1 = document.getElementById('tForgotNewPass').value.trim();
+      const pw2 = document.getElementById('tForgotConfirmPass').value.trim();
+      const errBox = document.getElementById('tForgotPassMatchError');
+
+      if (!pw1 || pw1 !== pw2) {
+        errBox.classList.remove('hidden');
+        playErrorBuzz();
+        return;
+      }
+
+      errBox.classList.add('hidden');
+      const targetKey = AppState.tempTeacherRecovery.key;
+      const ws = AppState.teachersWorkspaces[targetKey];
+
+      if (ws) {
+        ws.password = pw1;
+        saveWorkspacesToStorage();
+
+        AppState.loggedInTeacherKey = targetKey;
+        AppState.user = { name: ws.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+        document.getElementById('activeUserName').innerText = ws.displayName;
+
+        showEmailAlert(
+          "🔒 تم تحديث كلمة المرور بنجاح!",
+          `الأستاذة ${ws.displayName} — تم حفظ كلمة المرور الجديدة مع الاحتفاظ بجميع أكواد صفوفكِ ودرجات طالباتكِ.`
+        );
+
+        triggerConfetti();
+        playSuccessChime();
+        closeLoginModal();
+        openTeacherModal();
+      }
     };
 
     /* ========================================================
-       9. CERTIFICATE OF EXCELLENCE & RE-PRACTICE ENGINE
+       10. CERTIFICATE OF EXCELLENCE
        ======================================================== */
     const certModal = document.getElementById('certificateModal');
 
     function openCertificateModal() {
       document.getElementById('certStudentName').innerText = AppState.user.name || "Enthusiastic Learner";
+      document.getElementById('certStudentClass').innerText = `Class: ${AppState.user.gradeClass || 'General'}`;
       document.getElementById('certLevelName').innerText = `CEFR ${AppState.currentLevel}`;
       document.getElementById('certTotalXp').innerText = `${AppState.xp} XP`;
       document.getElementById('certStreak').innerText = `🔥 ${AppState.streak}`;
       document.getElementById('certDateText').innerText = new Date().toISOString().split('T')[0];
-      document.getElementById('certTeacherSignature').innerText = AppState.activeTeacher || "T. Hameeda BuSakhar";
+
+      let certTeacher = directTeacher || "T. Hameeda BuSakhar";
+      const ownerKey = findTeacherKeyByClassCode(AppState.user.classCode);
+      if (ownerKey && AppState.teachersWorkspaces[ownerKey]) {
+        certTeacher = AppState.teachersWorkspaces[ownerKey].displayName;
+      }
+      document.getElementById('certTeacherSignature').innerText = certTeacher;
 
       certModal.classList.remove('hidden');
       triggerConfetti();
       playSuccessChime();
     }
+    window.openCertificateModal = openCertificateModal;
 
     function closeCertificateModal() {
       certModal.classList.add('hidden');
       AppState.hearts = 5;
       updateTopMetrics();
     }
+    window.closeCertificateModal = closeCertificateModal;
 
-    // Starts a fresh practice round with completely new unseen questions
     function startLevelPracticeAgain() {
       certModal.classList.add('hidden');
       AppState.hearts = 5;
@@ -2310,16 +2679,17 @@
       updateTopMetrics();
       loadCurrentExercise();
     }
+    window.startLevelPracticeAgain = startLevelPracticeAgain;
 
     /* ========================================================
-       10. UI LANGUAGE TOGGLE (EN / AR)
+       11. UI LANGUAGE TOGGLE
        ======================================================== */
     document.getElementById('langToggleBtn').onclick = () => {
       AppState.uiLang = (AppState.uiLang === 'EN') ? 'AR' : 'EN';
       const isAr = (AppState.uiLang === 'AR');
 
       document.getElementById('langLabel').innerText = isAr ? 'EN' : 'AR';
-      document.getElementById('btnTeacherLabel').innerText = isAr ? 'المعلم' : 'Teacher';
+      document.getElementById('btnTeacherLabel').innerText = isAr ? 'المعلمة' : 'Teacher';
       document.getElementById('lblNormalAudio').innerText = isAr ? 'استمع (0.8x)' : 'Listen (0.8x)';
       document.getElementById('lblTurtleAudio').innerText = isAr ? 'سلحفاة (0.5x)' : 'Turtle (0.5x)';
       document.getElementById('lblErase').innerText = isAr ? 'مسح' : 'Erase';
@@ -2332,8 +2702,10 @@
     };
 
     window.addEventListener('DOMContentLoaded', () => {
-      renderTeacherCodes();
-      renderStudentTable();
+      if (directCode) {
+        const codeInp = document.getElementById('stuCodeInput');
+        if (codeInp) codeInp.value = directCode;
+      }
       updateTopMetrics();
       loadCurrentExercise();
     });
