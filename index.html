@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Nexly - Your Next Level Starts Here | By T. Hameeda BuSakhar</title>
+  <link id="dynamicFavicon" rel="icon" type="image/png" href="">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
@@ -159,6 +160,12 @@
     }
     .animate-pop { animation: letterBounce 0.16s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+    .logo-float { animation: gentleFloat 3.5s ease-in-out infinite; }
+
     .slot-focused {
       border-color: #7c3aed !important;
       box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.25) !important;
@@ -190,58 +197,6 @@
 </head>
 <body class="text-purple-950 min-h-screen flex flex-col justify-between overflow-x-hidden relative">
 
-  <!-- Reusable SVG Defs for the 3D 'N' Mascot Logo -->
-  <svg class="hidden" aria-hidden="true">
-    <symbol id="nexly-mascot-logo" viewBox="0 0 240 240">
-      <defs>
-        <linearGradient id="bgSquare" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#f3e8ff"/>
-          <stop offset="100%" stop-color="#e9d5ff"/>
-        </linearGradient>
-        <linearGradient id="nBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#a78bfa"/>
-          <stop offset="50%" stop-color="#8b5cf6"/>
-          <stop offset="100%" stop-color="#6d28d9"/>
-        </linearGradient>
-        <linearGradient id="headphoneBand" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#8b5cf6"/>
-          <stop offset="100%" stop-color="#5b21b6"/>
-        </linearGradient>
-        <linearGradient id="goldStar" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#fde047"/>
-          <stop offset="100%" stop-color="#f59e0b"/>
-        </linearGradient>
-        <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#c4b5fd" stop-opacity="0.85"/>
-          <stop offset="50%" stop-color="#ddd6fe" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.8"/>
-        </linearGradient>
-      </defs>
-      <rect x="8" y="8" width="224" height="224" rx="52" fill="url(#bgSquare)" stroke="#ffffff" stroke-width="6"/>
-      <line x1="40" y1="74" x2="26" y2="68" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
-      <line x1="38" y1="88" x2="22" y2="89" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
-      <line x1="43" y1="101" x2="31" y2="109" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
-      <path d="M55,82 A28,28 0 0,1 102,65" fill="none" stroke="url(#headphoneBand)" stroke-width="9" stroke-linecap="round"/>
-      <ellipse cx="57" cy="88" rx="10" ry="15" transform="rotate(-15 57 88)" fill="#ddd6fe" stroke="#6d28d9" stroke-width="3"/>
-      <ellipse cx="98" cy="70" rx="8" ry="12" transform="rotate(-20 98 70)" fill="#ddd6fe" stroke="#6d28d9" stroke-width="3"/>
-      <path d="M75,165 L75,92 C75,76 96,74 106,88 L142,135 L142,80 C142,66 168,66 168,80 L168,165 C168,178 148,180 138,166 L102,122 L102,165 Z" fill="url(#nBodyGrad)" stroke="#5b21b6" stroke-width="3" stroke-linejoin="round"/>
-      <ellipse cx="95" cy="112" rx="4.5" ry="6.5" fill="#1e1b4b"/>
-      <path d="M119,109 L112,113 L119,116" fill="none" stroke="#1e1b4b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <ellipse cx="89" cy="121" rx="6" ry="3.5" fill="#f9a8d4"/>
-      <ellipse cx="122" cy="121" rx="6" ry="3.5" fill="#f9a8d4"/>
-      <path d="M102,118 Q106,124 111,118" fill="none" stroke="#1e1b4b" stroke-width="3.2" stroke-linecap="round"/>
-      <path d="M58,136 C45,112 185,78 196,101 C204,118 118,150 64,142" fill="none" stroke="url(#orbitGrad)" stroke-width="7" stroke-linecap="round"/>
-      <path d="M167,48 L173,63 L188,68 L173,74 L167,89 L161,74 L146,68 L161,63 Z" fill="url(#goldStar)" stroke="#d97706" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M48,142 L51,149 L58,152 L51,155 L48,162 L45,155 L38,152 L45,149 Z" fill="#fde047"/>
-      <rect x="176" y="114" width="40" height="28" rx="13" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="2"/>
-      <circle cx="188" cy="128" r="2.8" fill="#7c3aed"/>
-      <circle cx="196" cy="128" r="2.8" fill="#7c3aed"/>
-      <circle cx="204" cy="128" r="2.8" fill="#7c3aed"/>
-      <path d="M62,166 Q92,162 121,182 Q150,162 180,166 L186,184 Q150,180 121,198 Q92,180 56,184 Z" fill="#fefce8" stroke="#ddd6fe" stroke-width="2"/>
-      <path d="M54,182 Q90,178 121,196 Q152,178 188,182 L191,192 Q152,188 121,206 Q90,188 51,192 Z" fill="#7c3aed"/>
-    </symbol>
-  </svg>
-
   <!-- Celebration Canvas -->
   <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
@@ -272,20 +227,23 @@
   <!-- MAIN WRAPPER -->
   <div class="w-full flex-grow flex flex-col items-center">
 
-    <!-- TOP APP BAR (Permanent Creator Attribution: T. Hameeda BuSakhar) -->
+    <!-- TOP APP BAR (Permanent Creator Attribution & Contact Email: Hameeda.ahmed@hotmail.com) -->
     <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-purple-100 shadow-sm sticky top-0 z-40 transition-all">
       <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3">
         
         <div class="flex items-center justify-between gap-3 sm:gap-6">
           
           <!-- Brand Logo & Permanent Creator Attribution -->
-          <div class="flex items-center gap-2.5 cursor-pointer shrink-0" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-            <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-[#f5edff] p-0.5 shadow-md flex items-center justify-center overflow-hidden relative border-2 border-purple-200">
-              <svg class="w-full h-full"><use href="#nexly-mascot-logo"></use></svg>
+          <div class="flex items-center gap-2.5 shrink-0">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-md flex items-center justify-center overflow-hidden relative cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+              <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
             </div>
             <div>
-              <div class="flex items-center gap-1.5">
-                <span class="font-chunky text-xl sm:text-2xl font-bold tracking-tight text-purple-900">Nexly</span>
+              <div class="flex items-center gap-2">
+                <span class="font-chunky text-xl sm:text-2xl font-bold tracking-tight text-purple-900 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Nexly</span>
+                <a href="mailto:Hameeda.ahmed@hotmail.com" class="hidden md:inline-flex items-center gap-1 text-[10px] font-extrabold bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 px-2 py-0.5 rounded-full transition" title="Contact T. Hameeda BuSakhar">
+                  ✉️ Hameeda.ahmed@hotmail.com
+                </a>
               </div>
               <p class="text-[10px] sm:text-xs font-black text-purple-700 flex items-center gap-1">
                 <span class="text-purple-900 font-extrabold">By T. Hameeda BuSakhar</span>
@@ -496,9 +454,13 @@
 
     </main>
 
-    <!-- FOOTER WITH PERMANENT CREATOR ATTRIBUTION -->
-    <footer class="w-full bg-white border-t border-purple-100 py-3 text-center text-[11px] sm:text-xs font-bold text-purple-600">
-      Nexly Educational Platform • Created by <span class="font-black text-purple-950">T. Hameeda BuSakhar</span> • Your Next Level Starts Here
+    <!-- FOOTER WITH PERMANENT CREATOR ATTRIBUTION & CONTACT EMAIL -->
+    <footer class="w-full bg-white border-t border-purple-100 py-3.5 px-4 text-center text-[11px] sm:text-xs font-bold text-purple-600 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3">
+      <span>Nexly Educational Platform • Created by <span class="font-black text-purple-950">T. Hameeda BuSakhar</span></span>
+      <span class="hidden sm:inline text-purple-300">|</span>
+      <a href="mailto:Hameeda.ahmed@hotmail.com" class="inline-flex items-center gap-1 text-purple-800 hover:text-purple-950 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-3 py-1 rounded-full font-extrabold transition">
+        ✉️ Contact: Hameeda.ahmed@hotmail.com
+      </a>
     </footer>
 
   </div>
@@ -526,21 +488,24 @@
   <div id="loginModal" class="fixed inset-0 z-50 bg-[#230948]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-md p-5 sm:p-7 animate-pop relative overflow-hidden my-auto">
       
-      <!-- Top Mascot Icon ('N' Character with Headphones & Book) -->
-      <div class="flex justify-center -mt-1 mb-2">
-        <div class="w-24 h-24 rounded-3xl bg-[#f5edff] p-1 shadow-lg flex items-center justify-center overflow-hidden relative border-2 border-purple-200">
-          <svg class="w-full h-full"><use href="#nexly-mascot-logo"></use></svg>
+      <!-- Top Mascot Icon (3D High-Res Canvas Replica of Image 35) -->
+      <div class="flex justify-center -mt-1 mb-2.5">
+        <div class="w-28 h-28 rounded-[28px] shadow-xl flex items-center justify-center overflow-hidden relative logo-float border-2 border-purple-100">
+          <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
         </div>
       </div>
 
       <h2 class="font-chunky text-2xl font-bold text-center text-purple-950 mb-1">Welcome to Nexly!</h2>
       
-      <!-- PERMANENT CREATOR BADGE: NEVER OVERWRITTEN BY OTHER TEACHERS -->
-      <div class="text-center mb-3">
+      <!-- PERMANENT CREATOR BADGE & CONTACT EMAIL -->
+      <div class="text-center mb-3.5 flex flex-col items-center gap-1">
         <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-black border border-purple-200">
           👩‍🏫 By T. Hameeda BuSakhar
         </span>
-        <p class="text-[11px] font-bold text-purple-500 mt-1">Your Next Level Starts Here</p>
+        <a href="mailto:Hameeda.ahmed@hotmail.com" class="inline-flex items-center gap-1 text-[11px] font-extrabold text-purple-700 hover:text-purple-950 underline transition">
+          ✉️ Hameeda.ahmed@hotmail.com
+        </a>
+        <p class="text-[11px] font-bold text-purple-500">Your Next Level Starts Here</p>
       </div>
 
       <!-- Main Role Tabs: Student vs Teacher -->
@@ -601,7 +566,7 @@
         <form id="teacherDirectLoginForm" class="space-y-3">
           <div>
             <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Name or Email (الاسم أو الإيميل المسجل):</label>
-            <input id="tLoginName" type="text" required placeholder="e.g. T. Hameeda BuSakhar or email" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            <input id="tLoginName" type="text" required placeholder="e.g. T. Hameeda BuSakhar or Hameeda.ahmed@hotmail.com" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
           </div>
           <div>
             <label class="block text-xs font-extrabold text-purple-900 mb-1">Password (كلمة المرور الخاصة بكِ):</label>
@@ -638,9 +603,9 @@
             </div>
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Email (البريد الإلكتروني - أي نوع إيميل):</label>
-              <input id="tRegEmail" type="email" required placeholder="e.g. name@moe.bh, outlook.com, gmail.com..." class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+              <input id="tRegEmail" type="email" required placeholder="e.g. Hameeda.ahmed@hotmail.com" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
               <p class="text-[11px] font-bold text-emerald-700 mt-1 flex items-center gap-1">
-                ✅ يقبل جميع أنواع الإيميلات (إيميل الوزارة، Outlook، Hotmail، iCloud، Gmail وغيرها)
+                ✅ يقبل جميع أنواع الإيميلات (Hotmail، Outlook، إيميل الوزارة، iCloud، Gmail وغيرها)
               </p>
             </div>
 
@@ -704,18 +669,17 @@
 
         </div>
 
-        <!-- C) TEACHER FORGOT PASSWORD RECOVERY FLOW (استعادة كلمة المرور دون فقدان الصفوف) -->
+        <!-- C) TEACHER FORGOT PASSWORD RECOVERY FLOW -->
         <div id="teacherForgotFlow" class="hidden space-y-3">
           <div class="bg-amber-50 border-2 border-amber-300 p-2.5 rounded-xl text-center">
             <h4 class="text-xs font-black text-amber-900">🔑 استعادة وتعيين كلمة مرور جديدة (Password Recovery)</h4>
             <p class="text-[11px] font-bold text-amber-800 mt-0.5">ستحتفظين بجميع أكواد صفوفكِ ودرجات طالباتكِ كاملة</p>
           </div>
 
-          <!-- Recovery Step 1: Enter Registered Name or Email -->
           <form id="teacherForgotStep1_Form" class="space-y-3">
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1">Registered Teacher Name or Email (الاسم أو الإيميل المسجل):</label>
-              <input id="tForgotIdentifier" type="text" required placeholder="e.g. T. Hameeda BuSakhar or your email" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+              <input id="tForgotIdentifier" type="text" required placeholder="e.g. T. Hameeda BuSakhar or Hameeda.ahmed@hotmail.com" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
             </div>
 
             <p id="tForgotStep1Error" class="bg-rose-50 border border-rose-300 text-rose-700 p-2 rounded-xl text-xs font-bold text-center hidden"></p>
@@ -725,7 +689,6 @@
             </button>
           </form>
 
-          <!-- Recovery Step 2: Instant Recovery OTP Verification -->
           <form id="teacherForgotStep2_Form" class="space-y-3 hidden">
             <div class="bg-emerald-50 border-2 border-emerald-500 p-3.5 rounded-2xl text-center shadow-md">
               <div class="inline-flex items-center gap-1 bg-emerald-600 text-white text-[10px] font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-1">
@@ -755,7 +718,6 @@
             </button>
           </form>
 
-          <!-- Recovery Step 3: Set New Password -->
           <form id="teacherForgotStep3_Form" class="space-y-3 hidden">
             <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 text-center text-xs font-bold text-purple-800">
               ✅ تم التحقق بنجاح! أدخلي كلمة المرور الجديدة لحسابكِ:
@@ -794,12 +756,14 @@
       <div>
         <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-purple-100 pb-4 mb-4">
           <div class="flex items-center gap-3">
-            <span class="text-3xl">👩‍🏫</span>
+            <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-sm shrink-0">
+              <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
+            </div>
             <div>
               <h3 class="font-chunky text-xl sm:text-2xl font-bold text-purple-950">Teacher Management Portal</h3>
               <p class="text-xs font-bold text-purple-600">
                 Active Educator: <span id="teacherDisplayTag" class="text-purple-950 font-black bg-purple-100 px-2 py-0.5 rounded-md">T. Hameeda BuSakhar</span>
-                <span id="teacherEmailTag" class="text-[11px] text-purple-500 ml-1"></span>
+                <span id="teacherEmailTag" class="text-[11px] text-purple-500 ml-1">(Hameeda.ahmed@hotmail.com)</span>
               </p>
             </div>
           </div>
@@ -878,7 +842,11 @@
   <div id="certificateModal" class="fixed inset-0 z-50 bg-[#230948]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-4 sm:p-6 my-auto">
       <div id="printableCertificate" class="certificate-border rounded-2xl p-6 sm:p-10 text-center relative">
-        <div class="text-4xl mb-2">🏆</div>
+        <div class="flex justify-center mb-2">
+          <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-md">
+            <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
+          </div>
+        </div>
         <h2 class="font-cert text-2xl sm:text-4xl font-bold text-purple-950 mb-1">Certificate of Excellence</h2>
         <p class="text-xs sm:text-sm font-extrabold text-purple-600 uppercase tracking-widest mb-4">Nexly English Mastery Platform</p>
         <p class="text-xs sm:text-sm text-purple-800 font-bold mb-2">This certificate is proudly presented to:</p>
@@ -904,11 +872,12 @@
         <div class="flex items-center justify-between text-xs font-bold text-purple-800 border-t border-purple-200 pt-4">
           <div class="text-left">
             <span class="block text-[10px] text-purple-400">Date Issued</span>
-            <span id="certDateText">2026-10-31</span>
+            <span id="certDateText">2026-11-02</span>
           </div>
           <div class="text-right">
             <span class="block text-[10px] text-purple-400">Supervising Educator</span>
-            <span id="certTeacherSignature" class="font-chunky text-sm text-purple-950 font-bold">T. Hameeda BuSakhar</span>
+            <span id="certTeacherSignature" class="font-chunky text-sm text-purple-950 font-bold block">T. Hameeda BuSakhar</span>
+            <span class="text-[10px] text-purple-500 font-bold">Hameeda.ahmed@hotmail.com</span>
           </div>
         </div>
       </div>
@@ -929,6 +898,398 @@
 
   <!-- APPLICATION SCRIPT -->
   <script>
+    /* =========================================================================
+       0. HIGH-RESOLUTION 3D CLAY CANVAS RENDERER FOR NEXLY MASCOT LOGO
+          (Eliminates all browser SVG display:none gradient bugs & renders 100%
+           of the 3D purple 'N', headphones, book layers, orbit, star & bubble)
+       ========================================================================= */
+    function renderNexly3DLogoDataURL() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 600;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+
+      function drawRoundedRect(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      }
+
+      // 1. Soft Lavender Outer Background
+      const bgGrad = ctx.createLinearGradient(0, 0, 600, 600);
+      bgGrad.addColorStop(0, '#efe3ff');
+      bgGrad.addColorStop(1, '#e4d2fe');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, 600, 600);
+
+      // 2. White-Bordered Rounded Squircle Frame
+      ctx.save();
+      ctx.shadowColor = 'rgba(109, 40, 217, 0.14)';
+      ctx.shadowBlur = 24;
+      ctx.shadowOffsetY = 10;
+      drawRoundedRect(42, 42, 516, 516, 138);
+      const sqGrad = ctx.createRadialGradient(300, 265, 30, 300, 300, 290);
+      sqGrad.addColorStop(0, '#fcf9ff');
+      sqGrad.addColorStop(0.68, '#f2e6ff');
+      sqGrad.addColorStop(1, '#e7d5fd');
+      ctx.fillStyle = sqGrad;
+      ctx.fill();
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = '#ffffff';
+      ctx.stroke();
+      ctx.restore();
+
+      // 3. Back Portion of the 3D Orbit Ring (Behind 'N')
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 22;
+      ctx.strokeStyle = 'rgba(181, 152, 252, 0.72)';
+      ctx.beginPath();
+      ctx.moveTo(205, 255);
+      ctx.bezierCurveTo(148, 285, 140, 326, 182, 338);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(405, 194);
+      ctx.bezierCurveTo(462, 188, 490, 202, 474, 232);
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. Sound Waves Radiating from Left Headphone
+      ctx.save();
+      ctx.strokeStyle = '#7c51ec';
+      ctx.lineWidth = 13;
+      ctx.lineCap = 'round';
+      // Top ray
+      ctx.beginPath(); ctx.moveTo(116, 178); ctx.lineTo(95, 169); ctx.stroke();
+      // Middle ray
+      ctx.beginPath(); ctx.moveTo(112, 204); ctx.lineTo(91, 209); ctx.stroke();
+      // Bottom ray
+      ctx.beginPath(); ctx.moveTo(120, 228); ctx.lineTo(105, 240); ctx.stroke();
+      ctx.restore();
+
+      // 5. 3D Headphones on Top-Left of 'N'
+      ctx.save();
+      ctx.shadowColor = 'rgba(76, 29, 149, 0.16)';
+      ctx.shadowBlur = 12;
+      ctx.shadowOffsetY = 5;
+
+      // Right Earcup (tucked on top of 'N')
+      ctx.save();
+      ctx.translate(230, 162);
+      ctx.rotate(-0.42);
+      ctx.fillStyle = '#7448e5';
+      ctx.beginPath(); ctx.ellipse(0, 0, 20, 31, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#e5d8ff';
+      ctx.beginPath(); ctx.ellipse(5, -2, 15, 26, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Headband Arch
+      const hbGrad = ctx.createLinearGradient(130, 110, 235, 165);
+      hbGrad.addColorStop(0, '#a685ff');
+      hbGrad.addColorStop(0.55, '#8258f2');
+      hbGrad.addColorStop(1, '#6a3fd9');
+      ctx.strokeStyle = hbGrad;
+      ctx.lineWidth = 25;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(142, 188);
+      ctx.bezierCurveTo(122, 124, 200, 98, 230, 152);
+      ctx.stroke();
+
+      // Headband Specular Highlight
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(142, 182);
+      ctx.bezierCurveTo(126, 128, 196, 106, 224, 150);
+      ctx.stroke();
+
+      // Left Earcup Outer Shell & Plush Cushion
+      ctx.save();
+      ctx.translate(154, 202);
+      ctx.rotate(-0.42);
+      ctx.fillStyle = '#6c3fd9';
+      ctx.beginPath(); ctx.ellipse(6, -1, 21, 34, 0, 0, Math.PI * 2); ctx.fill();
+      const cushGrad = ctx.createLinearGradient(-15, -30, 15, 30);
+      cushGrad.addColorStop(0, '#f7f3ff');
+      cushGrad.addColorStop(1, '#d6c4ff');
+      ctx.fillStyle = cushGrad;
+      ctx.beginPath(); ctx.ellipse(-4, 2, 18, 31, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#8558f2';
+      ctx.beginPath(); ctx.ellipse(2, 0, 13, 25, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      ctx.restore();
+
+      // 6. 3D Sculpted Letter 'N' (Plump Clay Body + 3D Extrusion)
+      function traceNPath(offsetX, offsetY) {
+        ctx.beginPath();
+        // Start bottom-left of left pillar
+        ctx.moveTo(198 + offsetX, 386 + offsetY);
+        ctx.lineTo(198 + offsetX, 224 + offsetY);
+        // Rounded top-left dome & upper diagonal transition
+        ctx.bezierCurveTo(198 + offsetX, 178 + offsetY, 260 + offsetX, 170 + offsetY, 290 + offsetX, 208 + offsetY);
+        // Diagonal down to right pillar
+        ctx.lineTo(342 + offsetX, 276 + offsetY);
+        // Up right pillar
+        ctx.lineTo(342 + offsetX, 198 + offsetY);
+        // Rounded top-right dome
+        ctx.bezierCurveTo(342 + offsetX, 156 + offsetY, 414 + offsetX, 156 + offsetY, 414 + offsetX, 198 + offsetY);
+        // Down right outer edge
+        ctx.lineTo(414 + offsetX, 382 + offsetY);
+        // Rounded bottom-right curve
+        ctx.bezierCurveTo(414 + offsetX, 408 + offsetY, 368 + offsetX, 408 + offsetY, 344 + offsetX, 378 + offsetY);
+        // Up underside of diagonal
+        ctx.lineTo(278 + offsetX, 302 + offsetY);
+        // Down inner wall of left pillar
+        ctx.lineTo(278 + offsetX, 386 + offsetY);
+        ctx.closePath();
+      }
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(88, 28, 135, 0.22)';
+      ctx.shadowBlur = 22;
+      ctx.shadowOffsetY = 10;
+
+      // 6A: Darker Violet 3D Side Extrusion (+13px right, +5px down)
+      traceNPath(13, 5);
+      const nSideGrad = ctx.createLinearGradient(210, 170, 430, 400);
+      nSideGrad.addColorStop(0, '#7c52e8');
+      nSideGrad.addColorStop(1, '#5d34c2');
+      ctx.fillStyle = nSideGrad;
+      ctx.fill();
+      ctx.restore();
+
+      // 6B: Main Front 3D 'N' Clay Body
+      ctx.save();
+      traceNPath(0, 0);
+      const nFrontGrad = ctx.createLinearGradient(198, 165, 414, 395);
+      nFrontGrad.addColorStop(0, '#bc9fff');
+      nFrontGrad.addColorStop(0.45, '#9b77ff');
+      nFrontGrad.addColorStop(0.85, '#835cf6');
+      nFrontGrad.addColorStop(1, '#7347eb');
+      ctx.fillStyle = nFrontGrad;
+      ctx.fill();
+
+      // Soft 3D Specular Highlights on 'N' Upper Curves
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.52)';
+      ctx.lineWidth = 6.5;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(212, 218);
+      ctx.bezierCurveTo(216, 188, 256, 184, 282, 212);
+      ctx.lineTo(334, 280);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(355, 195);
+      ctx.bezierCurveTo(358, 172, 392, 168, 402, 185);
+      ctx.stroke();
+      ctx.restore();
+
+      // 7. Cute Character Face on the Left Pillar of 'N'
+      ctx.save();
+      // Left Vertical Oval Eye
+      ctx.fillStyle = '#271754';
+      ctx.beginPath();
+      ctx.ellipse(245, 260, 9, 15, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Cute Curved Smile
+      ctx.strokeStyle = '#271754';
+      ctx.lineWidth = 6.8;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(261, 273);
+      ctx.quadraticCurveTo(271, 284, 281, 273);
+      ctx.stroke();
+
+      // Right Winking Eye (< Chevron)
+      ctx.lineJoin = 'round';
+      ctx.lineWidth = 7.2;
+      ctx.beginPath();
+      ctx.moveTo(310, 250);
+      ctx.lineTo(292, 260);
+      ctx.lineTo(311, 265);
+      ctx.stroke();
+
+      // Soft Pink Blush Cheeks
+      ctx.fillStyle = 'rgba(251, 162, 184, 0.9)';
+      ctx.beginPath(); ctx.ellipse(234, 281, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(314, 279, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // 8. Front Sweeping 3D Orbit Ribbon
+      ctx.save();
+      const orbitGrad = ctx.createLinearGradient(165, 340, 470, 210);
+      orbitGrad.addColorStop(0, 'rgba(181, 152, 252, 0.84)');
+      orbitGrad.addColorStop(0.5, 'rgba(232, 222, 255, 0.94)');
+      orbitGrad.addColorStop(1, 'rgba(195, 171, 255, 0.86)');
+      ctx.strokeStyle = orbitGrad;
+      ctx.lineWidth = 19;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(168, 334);
+      ctx.bezierCurveTo(198, 358, 342, 322, 442, 256);
+      ctx.bezierCurveTo(470, 238, 482, 220, 472, 208);
+      ctx.stroke();
+
+      // Orbit White Top Highlight
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(280, 328);
+      ctx.bezierCurveTo(348, 310, 426, 268, 466, 232);
+      ctx.stroke();
+      ctx.restore();
+
+      // 9. Helper for 4-Pointed 3D Gold Stars
+      function drawFourPointStar(cx, cy, rOuter, rInner, fillStyle) {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - rOuter);
+        ctx.quadraticCurveTo(cx + rInner, cy - rInner, cx + rOuter, cy);
+        ctx.quadraticCurveTo(cx + rInner, cy + rInner, cx, cy + rOuter);
+        ctx.quadraticCurveTo(cx - rInner, cy + rInner, cx - rOuter, cy);
+        ctx.quadraticCurveTo(cx - rInner, cy - rInner, cx, cy - rOuter);
+        ctx.closePath();
+        ctx.fillStyle = fillStyle;
+        ctx.fill();
+      }
+
+      // 9A: Large 3D Gold Star on Top-Right Peak of 'N'
+      ctx.save();
+      ctx.shadowColor = 'rgba(180, 83, 9, 0.22)';
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetY = 5;
+      // Under-bevel
+      drawFourPointStar(413, 162, 40, 11, '#d98a19');
+      // Bright Gold Front
+      const starGrad = ctx.createLinearGradient(385, 120, 445, 195);
+      starGrad.addColorStop(0, '#fff282');
+      starGrad.addColorStop(0.5, '#fadc46');
+      starGrad.addColorStop(1, '#f4b62b');
+      drawFourPointStar(417, 158, 40, 11, starGrad);
+      ctx.restore();
+
+      // 9B: Small 3D Gold Star at Bottom-Left
+      ctx.save();
+      ctx.shadowColor = 'rgba(180, 83, 9, 0.16)';
+      ctx.shadowBlur = 8;
+      ctx.shadowOffsetY = 3;
+      drawFourPointStar(130, 350, 22, 6, '#fad643');
+      ctx.restore();
+
+      // 10. 3D Lavender Speech Bubble on the Right
+      ctx.save();
+      ctx.shadowColor = 'rgba(91, 33, 182, 0.14)';
+      ctx.shadowBlur = 10;
+      ctx.shadowOffsetY = 5;
+      const bx = 438, by = 268, bw = 88, bh = 60, br = 30;
+      ctx.beginPath();
+      ctx.moveTo(bx + br, by);
+      ctx.lineTo(bx + bw - br, by);
+      ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
+      ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - br, by + bh);
+      ctx.lineTo(bx + 26, by + bh);
+      ctx.lineTo(bx + 10, by + bh + 13);
+      ctx.lineTo(bx + 14, by + bh - 3);
+      ctx.quadraticCurveTo(bx, by + bh - 8, bx, by + br);
+      ctx.quadraticCurveTo(bx, by, bx + br, by);
+      ctx.closePath();
+      const bubGrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
+      bubGrad.addColorStop(0, '#e6daff');
+      bubGrad.addColorStop(1, '#cbb4fc');
+      ctx.fillStyle = bubGrad;
+      ctx.fill();
+
+      // Three Purple Dots Inside Bubble
+      ctx.fillStyle = '#7c51ec';
+      [463, 482, 501].forEach(dx => {
+        ctx.beginPath();
+        ctx.arc(dx, 298, 6, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.restore();
+
+      // 11. Multi-Layered 3D Open Book at the Bottom Base
+      ctx.save();
+      ctx.shadowColor = 'rgba(76, 29, 149, 0.18)';
+      ctx.shadowBlur = 16;
+      ctx.shadowOffsetY = 8;
+
+      // Layer 3 (Bottom Rich Purple Cover)
+      ctx.beginPath();
+      ctx.moveTo(154, 422);
+      ctx.bezierCurveTo(210, 416, 268, 434, 307, 458);
+      ctx.bezierCurveTo(346, 434, 404, 416, 460, 422);
+      ctx.bezierCurveTo(465, 431, 461, 440, 451, 441);
+      ctx.bezierCurveTo(398, 435, 346, 450, 315, 471);
+      ctx.quadraticCurveTo(307, 476, 299, 471);
+      ctx.bezierCurveTo(268, 450, 216, 435, 163, 441);
+      ctx.bezierCurveTo(153, 440, 149, 431, 154, 422);
+      ctx.closePath();
+      const covGrad = ctx.createLinearGradient(150, 420, 460, 475);
+      covGrad.addColorStop(0, '#754ae0');
+      covGrad.addColorStop(0.5, '#9672f7');
+      covGrad.addColorStop(1, '#754ae0');
+      ctx.fillStyle = covGrad;
+      ctx.fill();
+
+      // Layer 2 (Middle Soft Lavender Pages)
+      ctx.beginPath();
+      ctx.moveTo(162, 398);
+      ctx.bezierCurveTo(216, 391, 271, 410, 307, 448);
+      ctx.bezierCurveTo(343, 410, 398, 391, 452, 398);
+      ctx.bezierCurveTo(458, 408, 456, 420, 448, 426);
+      ctx.bezierCurveTo(396, 418, 343, 434, 307, 462);
+      ctx.bezierCurveTo(271, 434, 218, 418, 166, 426);
+      ctx.bezierCurveTo(158, 420, 156, 408, 162, 398);
+      ctx.closePath();
+      const midGrad = ctx.createLinearGradient(160, 395, 455, 460);
+      midGrad.addColorStop(0, '#e8dffe');
+      midGrad.addColorStop(1, '#cbb8fb');
+      ctx.fillStyle = midGrad;
+      ctx.fill();
+
+      // Layer 1 (Top Creamy White Open Pages)
+      ctx.beginPath();
+      ctx.moveTo(170, 362);
+      ctx.bezierCurveTo(218, 357, 273, 376, 307, 422);
+      ctx.bezierCurveTo(341, 376, 396, 357, 444, 362);
+      ctx.lineTo(436, 400);
+      ctx.bezierCurveTo(390, 395, 341, 414, 307, 450);
+      ctx.bezierCurveTo(273, 414, 224, 395, 178, 400);
+      ctx.closePath();
+      const creamGrad = ctx.createLinearGradient(170, 360, 444, 450);
+      creamGrad.addColorStop(0, '#fffef7');
+      creamGrad.addColorStop(1, '#f6f0dc');
+      ctx.fillStyle = creamGrad;
+      ctx.fill();
+      ctx.restore();
+
+      return canvas.toDataURL('image/png');
+    }
+
+    function applyNexlyLogoEverywhere() {
+      const dataUrl = renderNexly3DLogoDataURL();
+      document.querySelectorAll('.nexly-brand-logo').forEach(img => {
+        img.src = dataUrl;
+      });
+      const fav = document.getElementById('dynamicFavicon');
+      if (fav) fav.href = dataUrl;
+    }
+
+    // Render logo immediately so there is zero flicker
+    applyNexlyLogoEverywhere();
+
     /* ========================================================
        1. HELPER: FISHER-YATES CHOICE SHUFFLER (VARIES A, B, C, D)
        ======================================================== */
@@ -1332,7 +1693,6 @@
       typedInput: "",
       selectedOptionIndex: null,
 
-      // Isolated Multi-Teacher Workspaces
       teachersWorkspaces: savedWorkspaces,
       loggedInTeacherKey: null,
       tempTeacherSignUp: { name: "", email: "", otp: "" },
@@ -2189,6 +2549,7 @@
       const content = `=========================================\n` +
                       `   NEXLY TEACHER ACCOUNT CREDENTIALS     \n` +
                       `   Created by T. Hameeda BuSakhar        \n` +
+                      `   Contact: Hameeda.ahmed@hotmail.com    \n` +
                       `=========================================\n\n` +
                       `Teacher Name : ${ws.displayName}\n` +
                       `Email Address: ${ws.email}\n` +
@@ -2702,6 +3063,7 @@
     };
 
     window.addEventListener('DOMContentLoaded', () => {
+      applyNexlyLogoEverywhere();
       if (directCode) {
         const codeInp = document.getElementById('stuCodeInput');
         if (codeInp) codeInp.value = directCode;
