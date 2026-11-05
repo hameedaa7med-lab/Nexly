@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Nexly - Your Next Level Starts Here | By T. Hameeda BuSakhar</title>
-  <link id="dynamicFavicon" rel="icon" type="image/png" href="">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
@@ -195,82 +194,84 @@
     }
   </style>
 
-  <!-- CRITICAL UI SCRIPT: LOADED INSTANTLY IN HEAD TO PREVENT FREEZING -->
+  <!-- INSTANT GLOBAL UI FUNCTIONS (NEVER BLOCKED) -->
   <script>
-    // هذه الدوال تعمل فوراً وبشكل مستقل عن أي رسومات أو جافاسكربت معقدة أخرى
-    window.switchMainRole = function(role) {
-      try {
-        const tabStudent = document.getElementById('tabRoleStudent');
-        const tabTeacher = document.getElementById('tabRoleTeacher');
-        const studentContainer = document.getElementById('studentSectionContainer');
-        const teacherContainer = document.getElementById('teacherSectionContainer');
+    function switchMainRole(role) {
+      var tabStudent = document.getElementById('tabRoleStudent');
+      var tabTeacher = document.getElementById('tabRoleTeacher');
+      var studentContainer = document.getElementById('studentSectionContainer');
+      var teacherContainer = document.getElementById('teacherSectionContainer');
 
-        if (!tabStudent || !tabTeacher || !studentContainer || !teacherContainer) return;
+      if (!tabStudent || !tabTeacher || !studentContainer || !teacherContainer) return false;
 
-        if (role === 'student') {
-          tabStudent.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold";
-          tabTeacher.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800";
-          studentContainer.classList.remove('hidden');
-          teacherContainer.classList.add('hidden');
-        } else {
-          tabTeacher.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold";
-          tabStudent.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800";
-          studentContainer.classList.add('hidden');
-          teacherContainer.classList.remove('hidden');
-        }
-      } catch (err) {
-        console.error("Error switching roles:", err);
+      if (role === 'teacher') {
+        tabTeacher.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition";
+        tabStudent.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer";
+        studentContainer.style.display = "none";
+        studentContainer.classList.add('hidden');
+        teacherContainer.style.display = "block";
+        teacherContainer.classList.remove('hidden');
+      } else {
+        tabStudent.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition";
+        tabTeacher.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer";
+        teacherContainer.style.display = "none";
+        teacherContainer.classList.add('hidden');
+        studentContainer.style.display = "block";
+        studentContainer.classList.remove('hidden');
       }
-    };
+      return false;
+    }
+    window.switchMainRole = switchMainRole;
 
-    window.setTeacherAuthView = function(view) {
-      try {
-        const loginForm = document.getElementById('teacherDirectLoginForm');
-        const regFlow = document.getElementById('teacherRegisterFlow');
-        const forgotFlow = document.getElementById('teacherForgotFlow');
-        const tabLogin = document.getElementById('subTabTeacherLogin');
-        const tabReg = document.getElementById('subTabTeacherRegister');
+    function setTeacherAuthView(view) {
+      var loginForm = document.getElementById('teacherDirectLoginForm');
+      var regFlow = document.getElementById('teacherRegisterFlow');
+      var forgotFlow = document.getElementById('teacherForgotFlow');
+      var tabLogin = document.getElementById('subTabTeacherLogin');
+      var tabReg = document.getElementById('subTabTeacherRegister');
 
-        if (document.getElementById('tLoginError')) document.getElementById('tLoginError').classList.add('hidden');
-        if (forgotFlow) forgotFlow.classList.add('hidden');
+      if (document.getElementById('tLoginError')) document.getElementById('tLoginError').classList.add('hidden');
+      if (forgotFlow) { forgotFlow.classList.add('hidden'); forgotFlow.style.display = 'none'; }
 
-        if (view === 'login') {
-          loginForm.classList.remove('hidden');
-          regFlow.classList.add('hidden');
-          tabLogin.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
-          tabReg.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
-        } else if (view === 'register') {
-          loginForm.classList.add('hidden');
-          regFlow.classList.remove('hidden');
-          tabReg.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
-          tabLogin.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
-          if (window.resetTeacherStep1) window.resetTeacherStep1();
-        } else if (view === 'forgot') {
-          loginForm.classList.add('hidden');
-          regFlow.classList.add('hidden');
-          if (forgotFlow) forgotFlow.classList.remove('hidden');
-          tabLogin.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
-          tabReg.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
-          if (window.resetTeacherForgotStep1) window.resetTeacherForgotStep1();
-        }
-      } catch (err) {
-        console.error("Error setting teacher auth view:", err);
+      if (view === 'login') {
+        if (loginForm) { loginForm.classList.remove('hidden'); loginForm.style.display = 'block'; }
+        if (regFlow) { regFlow.classList.add('hidden'); regFlow.style.display = 'none'; }
+        if (tabLogin) tabLogin.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200 cursor-pointer";
+        if (tabReg) tabReg.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900 cursor-pointer";
+      } else if (view === 'register') {
+        if (loginForm) { loginForm.classList.add('hidden'); loginForm.style.display = 'none'; }
+        if (regFlow) { regFlow.classList.remove('hidden'); regFlow.style.display = 'block'; }
+        if (tabReg) tabReg.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200 cursor-pointer";
+        if (tabLogin) tabLogin.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900 cursor-pointer";
+        if (window.resetTeacherStep1) window.resetTeacherStep1();
+      } else if (view === 'forgot') {
+        if (loginForm) { loginForm.classList.add('hidden'); loginForm.style.display = 'none'; }
+        if (regFlow) { regFlow.classList.add('hidden'); regFlow.style.display = 'none'; }
+        if (forgotFlow) { forgotFlow.classList.remove('hidden'); forgotFlow.style.display = 'block'; }
+        if (window.resetTeacherForgotStep1) window.resetTeacherForgotStep1();
       }
-    };
+      return false;
+    }
+    window.setTeacherAuthView = setTeacherAuthView;
 
-    window.openLoginModal = function() {
-      try {
-        const modal = document.getElementById('loginModal');
-        if (modal) modal.classList.remove('hidden');
-      } catch (err) {}
-    };
+    function openLoginModal(defaultRole) {
+      var modal = document.getElementById('loginModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+      }
+      if (defaultRole) switchMainRole(defaultRole);
+    }
+    window.openLoginModal = openLoginModal;
 
-    window.closeLoginModal = function() {
-      try {
-        const modal = document.getElementById('loginModal');
-        if (modal) modal.classList.add('hidden');
-      } catch (err) {}
-    };
+    function closeLoginModal() {
+      var modal = document.getElementById('loginModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    }
+    window.closeLoginModal = closeLoginModal;
   </script>
 </head>
 <body class="text-purple-950 min-h-screen flex flex-col justify-between overflow-x-hidden relative">
@@ -298,7 +299,7 @@
           <p class="text-xs text-purple-900 font-bold mt-0.5 leading-relaxed" id="emailAlertBody">Verification code dispatched.</p>
         </div>
       </div>
-      <button onclick="document.getElementById('emailSimulatedAlert').classList.add('hidden')" class="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 font-bold hover:bg-purple-200 flex items-center justify-center shrink-0">✕</button>
+      <button type="button" onclick="document.getElementById('emailSimulatedAlert').classList.add('hidden')" class="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 font-bold hover:bg-purple-200 flex items-center justify-center shrink-0">✕</button>
     </div>
   </div>
 
@@ -310,10 +311,10 @@
       <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3">
         
         <div class="flex items-center justify-between gap-3 sm:gap-6">
-          <!-- Brand Logo with robust inline SVG fallback (Fully URL Encoded to prevent breaking) -->
+          <!-- Brand Logo using Direct Canvas (Never breaks or shows broken image icon) -->
           <div class="flex items-center gap-2.5 shrink-0">
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-md flex items-center justify-center overflow-hidden relative cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-              <img class="nexly-brand-logo w-full h-full object-cover bg-purple-100" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-md flex items-center justify-center overflow-hidden relative cursor-pointer bg-purple-100" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+              <canvas class="nexly-logo-canvas w-full h-full block" width="600" height="600"></canvas>
             </div>
             <div>
               <div class="flex items-center gap-2">
@@ -348,21 +349,21 @@
 
           <!-- Controls -->
           <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            <button id="activeVoiceBadge" onclick="if(window.toggleVoiceAccent) window.toggleVoiceAccent()" class="inline-flex items-center gap-1 text-[11px] font-extrabold bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl transition cursor-pointer shadow-xs" title="Switch US / UK Human Pronunciation">
+            <button type="button" id="activeVoiceBadge" onclick="if(window.toggleVoiceAccent) window.toggleVoiceAccent()" class="inline-flex items-center gap-1 text-[11px] font-extrabold bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl transition cursor-pointer shadow-xs" title="Switch US / UK Human Pronunciation">
               🇺🇸 US Clear Voice
             </button>
 
-            <button id="langToggleBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-2.5 sm:px-3 py-2 rounded-xl" title="Switch English / Arabic UI">
+            <button type="button" id="langToggleBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-2.5 sm:px-3 py-2 rounded-xl" title="Switch English / Arabic UI">
               🌐 <span id="langLabel">AR</span>
             </button>
 
-            <div id="userBadge" class="hidden sm:flex items-center gap-1.5 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 cursor-pointer" onclick="window.openLoginModal()" title="Switch Profile">
+            <div id="userBadge" class="hidden sm:flex items-center gap-1.5 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 cursor-pointer" onclick="openLoginModal('student')" title="Switch Profile">
               <span>👤</span>
               <span id="activeUserName" class="truncate max-w-[90px]">Student</span>
             </div>
 
             <!-- TEACHER HEADER BUTTON -->
-            <button id="teacherPortalBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-3 sm:px-4 py-2 rounded-xl gap-1.5">
+            <button type="button" id="teacherPortalBtn" onclick="openLoginModal('teacher')" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-3 sm:px-4 py-2 rounded-xl gap-1.5">
               <span>👩‍🏫</span>
               <span class="hidden md:inline" id="btnTeacherLabel">Teacher</span>
             </button>
@@ -378,20 +379,20 @@
       <section class="w-full flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 sm:mb-5">
         <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
           <span class="text-xs font-extrabold uppercase tracking-wider text-purple-500 mr-1 hidden sm:inline">Level:</span>
-          <button class="keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" data-level="A1">A1 (Beginner)</button>
-          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="A2">A2 (Elementary)</button>
-          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B1">B1 (Impact 3)</button>
-          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B2">B2 (Advanced)</button>
+          <button type="button" class="keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" data-level="A1">A1 (Beginner)</button>
+          <button type="button" class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="A2">A2 (Elementary)</button>
+          <button type="button" class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B1">B1 (Impact 3)</button>
+          <button type="button" class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B2">B2 (Advanced)</button>
         </div>
 
         <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          <button id="skillTab-listen" class="btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('listen')">
+          <button type="button" id="skillTab-listen" class="btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('listen')">
             🎧 <span>Listen & Spell</span> <span class="bg-purple-900/40 text-[10px] px-1.5 py-0.5 rounded-full" id="listenCountBadge">0/10</span>
           </button>
-          <button id="skillTab-reading" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('reading')">
+          <button type="button" id="skillTab-reading" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('reading')">
             📖 <span>Reading</span> <span class="bg-purple-200 text-purple-900 text-[10px] px-1.5 py-0.5 rounded-full" id="readingCountBadge">0/10</span>
           </button>
-          <button id="skillTab-grammar" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('grammar')">
+          <button type="button" id="skillTab-grammar" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('grammar')">
             📝 <span>Grammar</span> <span class="bg-purple-200 text-purple-900 text-[10px] px-1.5 py-0.5 rounded-full" id="grammarCountBadge">0/10</span>
           </button>
         </div>
@@ -425,10 +426,10 @@
             <!-- Audio Station -->
             <div id="audioStation" class="flex flex-col gap-2 mt-1">
               <div class="flex items-center gap-2">
-                <button id="listenNormalBtn" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
+                <button type="button" id="listenNormalBtn" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
                   <span class="text-lg">🔊</span> <span id="lblNormalAudio">Listen (1.0x)</span>
                 </button>
-                <button id="listenTurtleBtn" class="btn-3d btn-3d-orange flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
+                <button type="button" id="listenTurtleBtn" class="btn-3d btn-3d-orange flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
                   <span class="text-lg">🐢</span> <span id="lblTurtleAudio">Slow (0.5x)</span>
                 </button>
               </div>
@@ -442,7 +443,7 @@
               <div>
                 <div class="flex items-center justify-between mb-3 border-b border-purple-200 pb-2">
                   <h4 id="readingStoryTitle" class="font-chunky font-bold text-purple-900 text-base sm:text-lg lg:text-xl">Story Title</h4>
-                  <button id="readStoryAloudBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0" onclick="if(window.toggleReadStoryAudio) window.toggleReadStoryAudio()">
+                  <button type="button" id="readStoryAloudBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0" onclick="if(window.toggleReadStoryAudio) window.toggleReadStoryAudio()">
                     <span>🔊 Read Story</span>
                   </button>
                 </div>
@@ -490,11 +491,11 @@
 
             <!-- Action Strip -->
             <div class="mt-4 pt-3 border-t border-purple-100 flex items-center justify-between gap-3">
-              <button id="skipQuestionBtn" class="text-xs sm:text-sm font-bold text-purple-400 hover:text-purple-700 transition px-3 py-2">
+              <button type="button" id="skipQuestionBtn" class="text-xs sm:text-sm font-bold text-purple-400 hover:text-purple-700 transition px-3 py-2">
                 Skip for now
               </button>
 
-              <button id="checkAnswerBtn" class="btn-3d btn-3d-green text-sm sm:text-base font-chunky font-bold py-3.5 px-8 sm:px-12 rounded-2xl flex-grow sm:flex-grow-0 min-w-[200px]" disabled>
+              <button type="button" id="checkAnswerBtn" class="btn-3d btn-3d-green text-sm sm:text-base font-chunky font-bold py-3.5 px-8 sm:px-12 rounded-2xl flex-grow sm:flex-grow-0 min-w-[200px]" disabled>
                 CHECK ANSWER
               </button>
             </div>
@@ -524,7 +525,7 @@
           <p id="feedbackMessage" class="text-xs sm:text-sm font-bold">Your answer is completely correct.</p>
         </div>
       </div>
-      <button id="continueBtn" class="btn-3d w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold min-w-[160px]">
+      <button type="button" id="continueBtn" class="btn-3d w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold min-w-[160px]">
         CONTINUE
       </button>
     </div>
@@ -534,10 +535,10 @@
   <div id="loginModal" class="fixed inset-0 z-50 bg-[#230948]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-md p-5 sm:p-7 animate-pop relative overflow-hidden my-auto">
       
-      <!-- Top Mascot Icon (Fallback SVG included here as well) -->
+      <!-- Top Mascot Icon (Direct Canvas - Never shows broken image icon) -->
       <div class="flex justify-center -mt-1 mb-2.5">
-        <div class="w-28 h-28 rounded-[28px] shadow-xl flex items-center justify-center overflow-hidden relative logo-float border-2 border-purple-100 bg-purple-50">
-          <img class="nexly-brand-logo w-full h-full object-cover" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
+        <div class="w-28 h-28 rounded-[28px] shadow-xl flex items-center justify-center overflow-hidden relative logo-float border-2 border-purple-100 bg-purple-100">
+          <canvas class="nexly-logo-canvas w-full h-full block" width="600" height="600"></canvas>
         </div>
       </div>
 
@@ -553,12 +554,16 @@
         <p class="text-[11px] font-bold text-purple-500">Your Next Level Starts Here</p>
       </div>
 
-      <!-- Main Role Tabs -->
-      <div class="grid grid-cols-2 bg-purple-100 p-1 rounded-2xl mb-4 border border-purple-200 text-xs font-extrabold text-purple-800">
-        <button type="button" id="tabRoleStudent" onclick="window.switchMainRole('student')" class="py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold">
+      <!-- Main Role Tabs (Triple-bound: inline DOM + switchMainRole + EventListener) -->
+      <div class="grid grid-cols-2 bg-purple-100 p-1 rounded-2xl mb-4 border border-purple-200 text-xs font-extrabold text-purple-800 relative z-20">
+        <button type="button" id="tabRoleStudent"
+          onclick="document.getElementById('studentSectionContainer').classList.remove('hidden'); document.getElementById('studentSectionContainer').style.display='block'; document.getElementById('teacherSectionContainer').classList.add('hidden'); document.getElementById('teacherSectionContainer').style.display='none'; this.className='py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition'; document.getElementById('tabRoleTeacher').className='py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer';"
+          class="py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition">
           🎒 Student (طالبة)
         </button>
-        <button type="button" id="tabRoleTeacher" onclick="window.switchMainRole('teacher')" class="py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800">
+        <button type="button" id="tabRoleTeacher"
+          onclick="document.getElementById('teacherSectionContainer').classList.remove('hidden'); document.getElementById('teacherSectionContainer').style.display='block'; document.getElementById('studentSectionContainer').classList.add('hidden'); document.getElementById('studentSectionContainer').style.display='none'; this.className='py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition'; document.getElementById('tabRoleStudent').className='py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer';"
+          class="py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer">
           👩‍🏫 Teacher (معلمة)
         </button>
       </div>
@@ -581,7 +586,7 @@
               <label class="block text-xs font-extrabold text-purple-900">Class Code (كود الصف من المعلمة):</label>
               <span class="text-[10px] font-bold text-purple-500">Required</span>
             </div>
-            <input id="stuCodeInput" type="text" required placeholder="e.g. CLASS-CODE" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 uppercase tracking-widest focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            <input id="stuCodeInput" type="text" required placeholder="e.g. NX-209" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 uppercase tracking-widest focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
           </div>
 
           <p id="stuLoginError" class="text-rose-600 text-xs font-bold text-center hidden">
@@ -598,10 +603,10 @@
       <div id="teacherSectionContainer" class="hidden">
         
         <div class="grid grid-cols-2 gap-1.5 bg-purple-50 p-1 rounded-xl border border-purple-200 mb-3">
-          <button type="button" id="subTabTeacherLogin" onclick="window.setTeacherAuthView('login')" class="py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200">
+          <button type="button" id="subTabTeacherLogin" onclick="setTeacherAuthView('login')" class="py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200 cursor-pointer">
             🔑 Teacher Login (دخول)
           </button>
-          <button type="button" id="subTabTeacherRegister" onclick="window.setTeacherAuthView('register')" class="py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900">
+          <button type="button" id="subTabTeacherRegister" onclick="setTeacherAuthView('register')" class="py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900 cursor-pointer">
             ✨ First Time Sign Up (تسجيل جديد)
           </button>
         </div>
@@ -617,7 +622,7 @@
             <input id="tLoginPass" type="password" required placeholder="Enter your registered password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
           </div>
           <div class="flex justify-end -mt-1">
-            <button type="button" onclick="window.setTeacherAuthView('forgot')" class="text-[11px] font-extrabold text-purple-700 hover:text-purple-950 underline flex items-center gap-1">
+            <button type="button" onclick="setTeacherAuthView('forgot')" class="text-[11px] font-extrabold text-purple-700 hover:text-purple-950 underline flex items-center gap-1 cursor-pointer">
               🔑 Forgot Password? (نسيتِ كلمة المرور؟ اضغطي هنا لاستعادتها)
             </button>
           </div>
@@ -626,7 +631,7 @@
             🔑 OPEN TEACHER PORTAL
           </button>
           <p class="text-center text-[11px] text-purple-600 font-bold pt-1">
-            معلمة جديدة؟ اضغطي على <button type="button" onclick="window.setTeacherAuthView('register')" class="text-purple-900 underline font-black">✨ تسجيل جديد (First Time Sign Up)</button>
+            معلمة جديدة؟ اضغطي على <button type="button" onclick="setTeacherAuthView('register')" class="text-purple-900 underline font-black cursor-pointer">✨ تسجيل جديد (First Time Sign Up)</button>
           </p>
         </form>
 
@@ -663,7 +668,7 @@
                 <span id="tActiveOtp" class="text-emerald-700 font-chunky text-2xl tracking-widest font-black">----</span>
               </div>
               <p class="text-[11px] font-bold text-emerald-800 leading-snug">
-                💡 لأن الموقع يعمل مباشرة من المتصفح، يظهر لكِ الكود هنا فوراً وتمت تعبئته تلقائياً في الخانة بالأسفل!
+                💡 يظهر لكِ الكود هنا فوراً وتمت تعبئته تلقائياً في الخانة بالأسفل!
               </p>
             </div>
             <div>
@@ -754,7 +759,7 @@
             </button>
           </form>
           <div class="text-center pt-1">
-            <button type="button" onclick="window.setTeacherAuthView('login')" class="text-xs font-extrabold text-purple-700 hover:text-purple-950 underline">
+            <button type="button" onclick="setTeacherAuthView('login')" class="text-xs font-extrabold text-purple-700 hover:text-purple-950 underline cursor-pointer">
               ← Back to Teacher Login (العودة لتسجيل الدخول)
             </button>
           </div>
@@ -772,7 +777,7 @@
         <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-purple-100 pb-4 mb-4">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-sm shrink-0 bg-purple-100">
-              <img class="nexly-brand-logo w-full h-full object-cover" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
+              <canvas class="nexly-logo-canvas w-full h-full block" width="600" height="600"></canvas>
             </div>
             <div>
               <h3 class="font-chunky text-xl sm:text-2xl font-bold text-purple-950">Teacher Management Portal</h3>
@@ -783,10 +788,10 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="if(window.downloadTeacherCredentialsCard) window.downloadTeacherCredentialsCard()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">🪪 بطاقة حسابي</button>
-            <button onclick="if(window.changeTeacherPassword) window.changeTeacherPassword()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">🔒 Change Password</button>
-            <button onclick="if(window.logoutTeacher) window.logoutTeacher()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-rose-700">🚪 Logout</button>
-            <button onclick="if(window.closeTeacherModal) window.closeTeacherModal()" class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-bold hover:bg-purple-200 flex items-center justify-center">✕</button>
+            <button type="button" onclick="if(window.downloadTeacherCredentialsCard) window.downloadTeacherCredentialsCard()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">🪪 بطاقة حسابي</button>
+            <button type="button" onclick="if(window.changeTeacherPassword) window.changeTeacherPassword()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">🔒 Change Password</button>
+            <button type="button" onclick="if(window.logoutTeacher) window.logoutTeacher()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-rose-700">🚪 Logout</button>
+            <button type="button" onclick="if(window.closeTeacherModal) window.closeTeacherModal()" class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-bold hover:bg-purple-200 flex items-center justify-center">✕</button>
           </div>
         </div>
 
@@ -797,8 +802,8 @@
           </div>
           <div class="flex flex-col sm:flex-row gap-2 mb-3">
             <input id="newClassNameInput" type="text" placeholder="e.g. Grade 8 - Section B (or type existing code: NX-209)" class="flex-grow px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 text-xs sm:text-sm focus:border-purple-600 focus:outline-none bg-white">
-            <button id="createClassBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-xl shrink-0">+ Generate New Code</button>
-            <button id="addExistingCodeBtn" onclick="if(window.addExistingClassCode) window.addExistingClassCode()" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl shrink-0">+ Add Existing Code</button>
+            <button type="button" id="createClassBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-xl shrink-0">+ Generate New Code</button>
+            <button type="button" id="addExistingCodeBtn" onclick="if(window.addExistingClassCode) window.addExistingClassCode()" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl shrink-0">+ Add Existing Code</button>
           </div>
           <div id="activeCodesContainer" class="flex flex-wrap gap-2"></div>
         </div>
@@ -827,9 +832,9 @@
         </div>
       </div>
       <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-purple-100">
-        <button id="downloadCsvBtn" class="btn-3d btn-3d-green w-full sm:flex-1 py-3 px-5 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">📥 Download Student Report (.csv)</button>
-        <button onclick="if(window.copyMasterDirectLink) window.copyMasterDirectLink()" class="btn-3d btn-3d-purple w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">🔗 Copy Direct Student Link</button>
-        <button onclick="if(window.closeTeacherModal) window.closeTeacherModal()" class="btn-3d btn-3d-slate w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold">Close & Return to Practice</button>
+        <button type="button" id="downloadCsvBtn" class="btn-3d btn-3d-green w-full sm:flex-1 py-3 px-5 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">📥 Download Student Report (.csv)</button>
+        <button type="button" onclick="if(window.copyMasterDirectLink) window.copyMasterDirectLink()" class="btn-3d btn-3d-purple w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">🔗 Copy Direct Student Link</button>
+        <button type="button" onclick="if(window.closeTeacherModal) window.closeTeacherModal()" class="btn-3d btn-3d-slate w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold">Close & Return to Practice</button>
       </div>
     </div>
   </div>
@@ -840,7 +845,7 @@
       <div id="printableCertificate" class="certificate-border rounded-2xl p-6 sm:p-10 text-center relative">
         <div class="flex justify-center mb-2">
           <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-md bg-purple-100">
-            <img class="nexly-brand-logo w-full h-full object-cover" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
+            <canvas class="nexly-logo-canvas w-full h-full block" width="600" height="600"></canvas>
           </div>
         </div>
         <h2 class="font-cert text-2xl sm:text-4xl font-bold text-purple-950 mb-1">Certificate of Excellence</h2>
@@ -868,7 +873,7 @@
         <div class="flex items-center justify-between text-xs font-bold text-purple-800 border-t border-purple-200 pt-4">
           <div class="text-left">
             <span class="block text-[10px] text-purple-400">Date Issued</span>
-            <span id="certDateText">2026-11-04</span>
+            <span id="certDateText">2026-11-05</span>
           </div>
           <div class="text-right">
             <span class="block text-[10px] text-purple-400">Supervising Educator</span>
@@ -878,900 +883,1068 @@
         </div>
       </div>
       <div class="flex flex-wrap items-center justify-between gap-2.5 mt-5">
-        <button onclick="window.print()" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">🖨️ Print / Save PDF</button>
-        <button onclick="if(window.startLevelPracticeAgain) window.startLevelPracticeAgain()" class="btn-3d btn-3d-green flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">🔄 Practice Again</button>
-        <button onclick="if(window.closeCertificateModal) window.closeCertificateModal()" class="btn-3d btn-3d-slate py-3 px-5 rounded-2xl text-xs sm:text-sm font-bold">Close</button>
+        <button type="button" onclick="window.print()" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">🖨️ Print / Save PDF</button>
+        <button type="button" onclick="if(window.startLevelPracticeAgain) window.startLevelPracticeAgain()" class="btn-3d btn-3d-green flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">🔄 Practice Again</button>
+        <button type="button" onclick="if(window.closeCertificateModal) window.closeCertificateModal()" class="btn-3d btn-3d-slate py-3 px-5 rounded-2xl text-xs sm:text-sm font-bold">Close</button>
       </div>
     </div>
   </div>
 
   <!-- APPLICATION CORE SCRIPT -->
   <script>
-    try {
-      /* =========================================================================
-         0. SAFE 3D CANVAS LOGO RENDERER (Wrapped to prevent crashes)
-         ========================================================================= */
-      function renderNexly3DLogoDataURL() {
-        const canvas = document.createElement('canvas');
-        canvas.width = 600; canvas.height = 600;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) throw new Error("Canvas 2D context not supported");
+    /* =========================================================================
+       0. DIRECT 3D CANVAS LOGO PAINTER (Draws directly on visible <canvas> elements)
+          Zero toDataURL() reliance = Never blocked by browser privacy extensions!
+       ========================================================================= */
+    function paintNexlyLogoOnCanvas(canvas) {
+      if (!canvas || !canvas.getContext) return;
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
-        function drawRoundedRect(x, y, w, h, r) {
-          ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
-          ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r);
-          ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h);
-          ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r);
-          ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath();
-        }
-
-        const bgGrad = ctx.createLinearGradient(0, 0, 600, 600);
-        bgGrad.addColorStop(0, '#efe3ff'); bgGrad.addColorStop(1, '#e4d2fe');
-        ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 600, 600);
-
-        ctx.save(); ctx.shadowColor = 'rgba(109, 40, 217, 0.14)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
-        drawRoundedRect(42, 42, 516, 516, 138);
-        const sqGrad = ctx.createRadialGradient(300, 265, 30, 300, 300, 290);
-        sqGrad.addColorStop(0, '#fcf9ff'); sqGrad.addColorStop(0.68, '#f2e6ff'); sqGrad.addColorStop(1, '#e7d5fd');
-        ctx.fillStyle = sqGrad; ctx.fill(); ctx.lineWidth = 14; ctx.strokeStyle = '#ffffff'; ctx.stroke(); ctx.restore();
-
-        ctx.save(); ctx.lineCap = 'round'; ctx.lineWidth = 22; ctx.strokeStyle = 'rgba(181, 152, 252, 0.72)';
-        ctx.beginPath(); ctx.moveTo(205, 255); ctx.bezierCurveTo(148, 285, 140, 326, 182, 338); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(405, 194); ctx.bezierCurveTo(462, 188, 490, 202, 474, 232); ctx.stroke(); ctx.restore();
-
-        ctx.save(); ctx.strokeStyle = '#7c51ec'; ctx.lineWidth = 13; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(116, 178); ctx.lineTo(95, 169); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(112, 204); ctx.lineTo(91, 209); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(120, 228); ctx.lineTo(105, 240); ctx.stroke(); ctx.restore();
-
-        ctx.save(); ctx.shadowColor = 'rgba(76, 29, 149, 0.16)'; ctx.shadowBlur = 12; ctx.shadowOffsetY = 5;
-        ctx.save(); ctx.translate(230, 162); ctx.rotate(-0.42); ctx.fillStyle = '#7448e5';
-        ctx.beginPath(); ctx.ellipse(0, 0, 20, 31, 0, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#e5d8ff'; ctx.beginPath(); ctx.ellipse(5, -2, 15, 26, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-
-        const hbGrad = ctx.createLinearGradient(130, 110, 235, 165);
-        hbGrad.addColorStop(0, '#a685ff'); hbGrad.addColorStop(0.55, '#8258f2'); hbGrad.addColorStop(1, '#6a3fd9');
-        ctx.strokeStyle = hbGrad; ctx.lineWidth = 25; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(142, 188); ctx.bezierCurveTo(122, 124, 200, 98, 230, 152); ctx.stroke();
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; ctx.lineWidth = 5;
-        ctx.beginPath(); ctx.moveTo(142, 182); ctx.bezierCurveTo(126, 128, 196, 106, 224, 150); ctx.stroke();
-
-        ctx.save(); ctx.translate(154, 202); ctx.rotate(-0.42); ctx.fillStyle = '#6c3fd9';
-        ctx.beginPath(); ctx.ellipse(6, -1, 21, 34, 0, 0, Math.PI * 2); ctx.fill();
-        const cushGrad = ctx.createLinearGradient(-15, -30, 15, 30); cushGrad.addColorStop(0, '#f7f3ff'); cushGrad.addColorStop(1, '#d6c4ff');
-        ctx.fillStyle = cushGrad; ctx.beginPath(); ctx.ellipse(-4, 2, 18, 31, 0, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#8558f2'; ctx.beginPath(); ctx.ellipse(2, 0, 13, 25, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); ctx.restore();
-
-        function traceNPath(offsetX, offsetY) {
-          ctx.beginPath(); ctx.moveTo(198 + offsetX, 386 + offsetY); ctx.lineTo(198 + offsetX, 224 + offsetY);
-          ctx.bezierCurveTo(198 + offsetX, 178 + offsetY, 260 + offsetX, 170 + offsetY, 290 + offsetX, 208 + offsetY);
-          ctx.lineTo(342 + offsetX, 276 + offsetY); ctx.lineTo(342 + offsetX, 198 + offsetY);
-          ctx.bezierCurveTo(342 + offsetX, 156 + offsetY, 414 + offsetX, 156 + offsetY, 414 + offsetX, 198 + offsetY);
-          ctx.lineTo(414 + offsetX, 382 + offsetY); ctx.bezierCurveTo(414 + offsetX, 408 + offsetY, 368 + offsetX, 408 + offsetY, 344 + offsetX, 378 + offsetY);
-          ctx.lineTo(278 + offsetX, 302 + offsetY); ctx.lineTo(278 + offsetX, 386 + offsetY); ctx.closePath();
-        }
-
-        ctx.save(); ctx.shadowColor = 'rgba(88, 28, 135, 0.22)'; ctx.shadowBlur = 22; ctx.shadowOffsetY = 10;
-        traceNPath(13, 5); const nSideGrad = ctx.createLinearGradient(210, 170, 430, 400);
-        nSideGrad.addColorStop(0, '#7c52e8'); nSideGrad.addColorStop(1, '#5d34c2'); ctx.fillStyle = nSideGrad; ctx.fill(); ctx.restore();
-
-        ctx.save(); traceNPath(0, 0); const nFrontGrad = ctx.createLinearGradient(198, 165, 414, 395);
-        nFrontGrad.addColorStop(0, '#bc9fff'); nFrontGrad.addColorStop(0.45, '#9b77ff'); nFrontGrad.addColorStop(0.85, '#835cf6'); nFrontGrad.addColorStop(1, '#7347eb');
-        ctx.fillStyle = nFrontGrad; ctx.fill();
-
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.52)'; ctx.lineWidth = 6.5; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(212, 218); ctx.bezierCurveTo(216, 188, 256, 184, 282, 212); ctx.lineTo(334, 280); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(355, 195); ctx.bezierCurveTo(358, 172, 392, 168, 402, 185); ctx.stroke(); ctx.restore();
-
-        ctx.save(); ctx.fillStyle = '#271754'; ctx.beginPath(); ctx.ellipse(245, 260, 9, 15, 0, 0, Math.PI * 2); ctx.fill();
-        ctx.strokeStyle = '#271754'; ctx.lineWidth = 6.8; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(261, 273); ctx.quadraticCurveTo(271, 284, 281, 273); ctx.stroke();
-        ctx.lineJoin = 'round'; ctx.lineWidth = 7.2; ctx.beginPath(); ctx.moveTo(310, 250); ctx.lineTo(292, 260); ctx.lineTo(311, 265); ctx.stroke();
-        ctx.fillStyle = 'rgba(251, 162, 184, 0.9)'; ctx.beginPath(); ctx.ellipse(234, 281, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.ellipse(314, 279, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-
-        ctx.save(); const orbitGrad = ctx.createLinearGradient(165, 340, 470, 210);
-        orbitGrad.addColorStop(0, 'rgba(181, 152, 252, 0.84)'); orbitGrad.addColorStop(0.5, 'rgba(232, 222, 255, 0.94)'); orbitGrad.addColorStop(1, 'rgba(195, 171, 255, 0.86)');
-        ctx.strokeStyle = orbitGrad; ctx.lineWidth = 19; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(168, 334); ctx.bezierCurveTo(198, 358, 342, 322, 442, 256); ctx.bezierCurveTo(470, 238, 482, 220, 472, 208); ctx.stroke();
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)'; ctx.lineWidth = 4;
-        ctx.beginPath(); ctx.moveTo(280, 328); ctx.bezierCurveTo(348, 310, 426, 268, 466, 232); ctx.stroke(); ctx.restore();
-
-        function drawFourPointStar(cx, cy, rOuter, rInner, fillStyle) {
-          ctx.beginPath(); ctx.moveTo(cx, cy - rOuter); ctx.quadraticCurveTo(cx + rInner, cy - rInner, cx + rOuter, cy);
-          ctx.quadraticCurveTo(cx + rInner, cy + rInner, cx, cy + rOuter); ctx.quadraticCurveTo(cx - rInner, cy + rInner, cx - rOuter, cy);
-          ctx.quadraticCurveTo(cx - rInner, cy - rInner, cx, cy - rOuter); ctx.closePath(); ctx.fillStyle = fillStyle; ctx.fill();
-        }
-        ctx.save(); ctx.shadowColor = 'rgba(180, 83, 9, 0.22)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 5;
-        drawFourPointStar(413, 162, 40, 11, '#d98a19'); const starGrad = ctx.createLinearGradient(385, 120, 445, 195);
-        starGrad.addColorStop(0, '#fff282'); starGrad.addColorStop(0.5, '#fadc46'); starGrad.addColorStop(1, '#f4b62b');
-        drawFourPointStar(417, 158, 40, 11, starGrad); ctx.restore();
-        ctx.save(); ctx.shadowColor = 'rgba(180, 83, 9, 0.16)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 3;
-        drawFourPointStar(130, 350, 22, 6, '#fad643'); ctx.restore();
-
-        ctx.save(); ctx.shadowColor = 'rgba(91, 33, 182, 0.14)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 5;
-        const bx = 438, by = 268, bw = 88, bh = 60, br = 30;
-        ctx.beginPath(); ctx.moveTo(bx + br, by); ctx.lineTo(bx + bw - br, by); ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
-        ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - br, by + bh); ctx.lineTo(bx + 26, by + bh); ctx.lineTo(bx + 10, by + bh + 13);
-        ctx.lineTo(bx + 14, by + bh - 3); ctx.quadraticCurveTo(bx, by + bh - 8, bx, by + br); ctx.quadraticCurveTo(bx, by, bx + br, by); ctx.closePath();
-        const bubGrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh); bubGrad.addColorStop(0, '#e6daff'); bubGrad.addColorStop(1, '#cbb4fc');
-        ctx.fillStyle = bubGrad; ctx.fill();
-        ctx.fillStyle = '#7c51ec'; [463, 482, 501].forEach(dx => { ctx.beginPath(); ctx.arc(dx, 298, 6, 0, Math.PI * 2); ctx.fill(); }); ctx.restore();
-
-        ctx.save(); ctx.shadowColor = 'rgba(76, 29, 149, 0.18)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 8;
-        ctx.beginPath(); ctx.moveTo(154, 422); ctx.bezierCurveTo(210, 416, 268, 434, 307, 458); ctx.bezierCurveTo(346, 434, 404, 416, 460, 422);
-        ctx.bezierCurveTo(465, 431, 461, 440, 451, 441); ctx.bezierCurveTo(398, 435, 346, 450, 315, 471); ctx.quadraticCurveTo(307, 476, 299, 471);
-        ctx.bezierCurveTo(268, 450, 216, 435, 163, 441); ctx.bezierCurveTo(153, 440, 149, 431, 154, 422); ctx.closePath();
-        const covGrad = ctx.createLinearGradient(150, 420, 460, 475); covGrad.addColorStop(0, '#754ae0'); covGrad.addColorStop(0.5, '#9672f7'); covGrad.addColorStop(1, '#754ae0');
-        ctx.fillStyle = covGrad; ctx.fill();
-
-        ctx.beginPath(); ctx.moveTo(162, 398); ctx.bezierCurveTo(216, 391, 271, 410, 307, 448); ctx.bezierCurveTo(343, 410, 398, 391, 452, 398);
-        ctx.bezierCurveTo(458, 408, 456, 420, 448, 426); ctx.bezierCurveTo(396, 418, 343, 434, 307, 462); ctx.bezierCurveTo(271, 434, 218, 418, 166, 426);
-        ctx.bezierCurveTo(158, 420, 156, 408, 162, 398); ctx.closePath();
-        const midGrad = ctx.createLinearGradient(160, 395, 455, 460); midGrad.addColorStop(0, '#e8dffe'); midGrad.addColorStop(1, '#cbb8fb');
-        ctx.fillStyle = midGrad; ctx.fill();
-
-        ctx.beginPath(); ctx.moveTo(170, 362); ctx.bezierCurveTo(218, 357, 273, 376, 307, 422); ctx.bezierCurveTo(341, 376, 396, 357, 444, 362);
-        ctx.lineTo(436, 400); ctx.bezierCurveTo(390, 395, 341, 414, 307, 450); ctx.bezierCurveTo(273, 414, 224, 395, 178, 400); ctx.closePath();
-        const creamGrad = ctx.createLinearGradient(170, 360, 444, 450); creamGrad.addColorStop(0, '#fffef7'); creamGrad.addColorStop(1, '#f6f0dc');
-        ctx.fillStyle = creamGrad; ctx.fill(); ctx.restore();
-
-        return canvas.toDataURL('image/png');
+      function drawRoundedRect(x, y, w, h, r) {
+        ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath();
       }
 
-      function applyNexlyLogoEverywhere() {
-        try {
-          const dataUrl = renderNexly3DLogoDataURL();
-          document.querySelectorAll('.nexly-brand-logo').forEach(img => img.src = dataUrl);
-          const fav = document.getElementById('dynamicFavicon');
-          if (fav) fav.href = dataUrl;
-        } catch (e) {
-          console.warn("Canvas blocked or failed. Using SVG Fallback.", e);
-        }
+      ctx.clearRect(0, 0, 600, 600);
+      var bgGrad = ctx.createLinearGradient(0, 0, 600, 600);
+      bgGrad.addColorStop(0, '#efe3ff'); bgGrad.addColorStop(1, '#e4d2fe');
+      ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 600, 600);
+
+      ctx.save(); ctx.shadowColor = 'rgba(109, 40, 217, 0.14)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
+      drawRoundedRect(42, 42, 516, 516, 138);
+      var sqGrad = ctx.createRadialGradient(300, 265, 30, 300, 300, 290);
+      sqGrad.addColorStop(0, '#fcf9ff'); sqGrad.addColorStop(0.68, '#f2e6ff'); sqGrad.addColorStop(1, '#e7d5fd');
+      ctx.fillStyle = sqGrad; ctx.fill(); ctx.lineWidth = 14; ctx.strokeStyle = '#ffffff'; ctx.stroke(); ctx.restore();
+
+      ctx.save(); ctx.lineCap = 'round'; ctx.lineWidth = 22; ctx.strokeStyle = 'rgba(181, 152, 252, 0.72)';
+      ctx.beginPath(); ctx.moveTo(205, 255); ctx.bezierCurveTo(148, 285, 140, 326, 182, 338); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(405, 194); ctx.bezierCurveTo(462, 188, 490, 202, 474, 232); ctx.stroke(); ctx.restore();
+
+      ctx.save(); ctx.strokeStyle = '#7c51ec'; ctx.lineWidth = 13; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(116, 178); ctx.lineTo(95, 169); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(112, 204); ctx.lineTo(91, 209); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(120, 228); ctx.lineTo(105, 240); ctx.stroke(); ctx.restore();
+
+      ctx.save(); ctx.shadowColor = 'rgba(76, 29, 149, 0.16)'; ctx.shadowBlur = 12; ctx.shadowOffsetY = 5;
+      ctx.save(); ctx.translate(230, 162); ctx.rotate(-0.42); ctx.fillStyle = '#7448e5';
+      ctx.beginPath(); ctx.ellipse(0, 0, 20, 31, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#e5d8ff'; ctx.beginPath(); ctx.ellipse(5, -2, 15, 26, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+
+      var hbGrad = ctx.createLinearGradient(130, 110, 235, 165);
+      hbGrad.addColorStop(0, '#a685ff'); hbGrad.addColorStop(0.55, '#8258f2'); hbGrad.addColorStop(1, '#6a3fd9');
+      ctx.strokeStyle = hbGrad; ctx.lineWidth = 25; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(142, 188); ctx.bezierCurveTo(122, 124, 200, 98, 230, 152); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(142, 182); ctx.bezierCurveTo(126, 128, 196, 106, 224, 150); ctx.stroke();
+
+      ctx.save(); ctx.translate(154, 202); ctx.rotate(-0.42); ctx.fillStyle = '#6c3fd9';
+      ctx.beginPath(); ctx.ellipse(6, -1, 21, 34, 0, 0, Math.PI * 2); ctx.fill();
+      var cushGrad = ctx.createLinearGradient(-15, -30, 15, 30); cushGrad.addColorStop(0, '#f7f3ff'); cushGrad.addColorStop(1, '#d6c4ff');
+      ctx.fillStyle = cushGrad; ctx.beginPath(); ctx.ellipse(-4, 2, 18, 31, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#8558f2'; ctx.beginPath(); ctx.ellipse(2, 0, 13, 25, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); ctx.restore();
+
+      function traceNPath(offsetX, offsetY) {
+        ctx.beginPath(); ctx.moveTo(198 + offsetX, 386 + offsetY); ctx.lineTo(198 + offsetX, 224 + offsetY);
+        ctx.bezierCurveTo(198 + offsetX, 178 + offsetY, 260 + offsetX, 170 + offsetY, 290 + offsetX, 208 + offsetY);
+        ctx.lineTo(342 + offsetX, 276 + offsetY); ctx.lineTo(342 + offsetX, 198 + offsetY);
+        ctx.bezierCurveTo(342 + offsetX, 156 + offsetY, 414 + offsetX, 156 + offsetY, 414 + offsetX, 198 + offsetY);
+        ctx.lineTo(414 + offsetX, 382 + offsetY); ctx.bezierCurveTo(414 + offsetX, 408 + offsetY, 368 + offsetX, 408 + offsetY, 344 + offsetX, 378 + offsetY);
+        ctx.lineTo(278 + offsetX, 302 + offsetY); ctx.lineTo(278 + offsetX, 386 + offsetY); ctx.closePath();
       }
 
-      // 💡 قمنا بتشغيل أمر استبدال الشعار *بعد* اكتمال تحميل عناصر الصفحة تماماً
-      window.addEventListener('DOMContentLoaded', () => {
-        applyNexlyLogoEverywhere();
-      });
+      ctx.save(); ctx.shadowColor = 'rgba(88, 28, 135, 0.22)'; ctx.shadowBlur = 22; ctx.shadowOffsetY = 10;
+      traceNPath(13, 5); var nSideGrad = ctx.createLinearGradient(210, 170, 430, 400);
+      nSideGrad.addColorStop(0, '#7c52e8'); nSideGrad.addColorStop(1, '#5d34c2'); ctx.fillStyle = nSideGrad; ctx.fill(); ctx.restore();
 
-      /* ========================================================
-         1. HELPER: FISHER-YATES CHOICE SHUFFLER
-         ======================================================== */
-      function shuffleChoicesWithAnswer(optionsArray, correctIndex) {
-        const pairs = optionsArray.map((optText, idx) => ({ text: optText, isCorrect: idx === correctIndex }));
-        for (let i = pairs.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          const temp = pairs[i]; pairs[i] = pairs[j]; pairs[j] = temp;
-        }
-        return { options: pairs.map(p => p.text), correct: pairs.findIndex(p => p.isCorrect) };
+      ctx.save(); traceNPath(0, 0); var nFrontGrad = ctx.createLinearGradient(198, 165, 414, 395);
+      nFrontGrad.addColorStop(0, '#bc9fff'); nFrontGrad.addColorStop(0.45, '#9b77ff'); nFrontGrad.addColorStop(0.85, '#835cf6'); nFrontGrad.addColorStop(1, '#7347eb');
+      ctx.fillStyle = nFrontGrad; ctx.fill();
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.52)'; ctx.lineWidth = 6.5; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(212, 218); ctx.bezierCurveTo(216, 188, 256, 184, 282, 212); ctx.lineTo(334, 280); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(355, 195); ctx.bezierCurveTo(358, 172, 392, 168, 402, 185); ctx.stroke(); ctx.restore();
+
+      ctx.save(); ctx.fillStyle = '#271754'; ctx.beginPath(); ctx.ellipse(245, 260, 9, 15, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#271754'; ctx.lineWidth = 6.8; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(261, 273); ctx.quadraticCurveTo(271, 284, 281, 273); ctx.stroke();
+      ctx.lineJoin = 'round'; ctx.lineWidth = 7.2; ctx.beginPath(); ctx.moveTo(310, 250); ctx.lineTo(292, 260); ctx.lineTo(311, 265); ctx.stroke();
+      ctx.fillStyle = 'rgba(251, 162, 184, 0.9)'; ctx.beginPath(); ctx.ellipse(234, 281, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(314, 279, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+
+      ctx.save(); var orbitGrad = ctx.createLinearGradient(165, 340, 470, 210);
+      orbitGrad.addColorStop(0, 'rgba(181, 152, 252, 0.84)'); orbitGrad.addColorStop(0.5, 'rgba(232, 222, 255, 0.94)'); orbitGrad.addColorStop(1, 'rgba(195, 171, 255, 0.86)');
+      ctx.strokeStyle = orbitGrad; ctx.lineWidth = 19; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(168, 334); ctx.bezierCurveTo(198, 358, 342, 322, 442, 256); ctx.bezierCurveTo(470, 238, 482, 220, 472, 208); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(280, 328); ctx.bezierCurveTo(348, 310, 426, 268, 466, 232); ctx.stroke(); ctx.restore();
+
+      function drawFourPointStar(cx, cy, rOuter, rInner, fillStyle) {
+        ctx.beginPath(); ctx.moveTo(cx, cy - rOuter); ctx.quadraticCurveTo(cx + rInner, cy - rInner, cx + rOuter, cy);
+        ctx.quadraticCurveTo(cx + rInner, cy + rInner, cx, cy + rOuter); ctx.quadraticCurveTo(cx - rInner, cy + rInner, cx - rOuter, cy);
+        ctx.quadraticCurveTo(cx - rInner, cy - rInner, cx, cy - rOuter); ctx.closePath(); ctx.fillStyle = fillStyle; ctx.fill();
       }
+      ctx.save(); ctx.shadowColor = 'rgba(180, 83, 9, 0.22)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 5;
+      drawFourPointStar(413, 162, 40, 11, '#d98a19'); var starGrad = ctx.createLinearGradient(385, 120, 445, 195);
+      starGrad.addColorStop(0, '#fff282'); starGrad.addColorStop(0.5, '#fadc46'); starGrad.addColorStop(1, '#f4b62b');
+      drawFourPointStar(417, 158, 40, 11, starGrad); ctx.restore();
+      ctx.save(); ctx.shadowColor = 'rgba(180, 83, 9, 0.16)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 3;
+      drawFourPointStar(130, 350, 22, 6, '#fad643'); ctx.restore();
 
-      /* ========================================================
-         2. QUESTION BANK GENERATOR
-         ======================================================== */
-      function build1000QuestionBank() {
-        const bank = { A1: { listen: [], reading: [], grammar: [] }, A2: { listen: [], reading: [], grammar: [] }, B1: { listen: [], reading: [], grammar: [] }, B2: { listen: [], reading: [], grammar: [] } };
-        
-        // A1 Mocks
-        const a1ListenSeeds = [
-          { w: "school", h: "A place where children learn", t: "A1: School Life", ic: "school" },
-          { w: "friend", h: "A person you like and spend time with", t: "A1: Relationships", ic: "people" }
-        ];
-        for (let i = 0; i < 90; i++) {
-          const seed = a1ListenSeeds[i % a1ListenSeeds.length];
-          bank.A1.listen.push({ id: `A1_L_${i + 1}`, word: seed.w, hint: seed.h, topic: seed.t, iconName: seed.ic });
-        }
-        const a1ReadingThemes = [
-          { tit: "My School Routine", st: "Adam wakes up early at seven o'clock. He packs his schoolbag and walks to school with his brother. He loves learning English.", q: "How does Adam travel to school?", opt: ["He walks with his brother", "He takes the big train", "He rides a motorcycle", "He stays at home"], ic: "school" }
-        ];
-        for (let i = 0; i < 80; i++) {
-          const theme = a1ReadingThemes[i % a1ReadingThemes.length];
-          const shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
-          bank.A1.reading.push({ id: `A1_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "A1 Reading Comprehension", iconName: theme.ic });
-        }
-        const a1GrammarArchetypes = [
-          { q: "Huda _________ a diligent student in Grade 7.", opt: ["is", "are", "am", "be"], h: "Third person singular takes 'is'" }
-        ];
-        for (let i = 0; i < 80; i++) {
-          const item = a1GrammarArchetypes[i % a1GrammarArchetypes.length];
-          const shuffled = shuffleChoicesWithAnswer(item.opt, 0);
-          bank.A1.grammar.push({ id: `A1_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "A1 Grammar in Context" });
-        }
+      ctx.save(); ctx.shadowColor = 'rgba(91, 33, 182, 0.14)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 5;
+      var bx = 438, by = 268, bw = 88, bh = 60, br = 30;
+      ctx.beginPath(); ctx.moveTo(bx + br, by); ctx.lineTo(bx + bw - br, by); ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
+      ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - br, by + bh); ctx.lineTo(bx + 26, by + bh); ctx.lineTo(bx + 10, by + bh + 13);
+      ctx.lineTo(bx + 14, by + bh - 3); ctx.quadraticCurveTo(bx, by + bh - 8, bx, by + br); ctx.quadraticCurveTo(bx, by, bx + br, by); ctx.closePath();
+      var bubGrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh); bubGrad.addColorStop(0, '#e6daff'); bubGrad.addColorStop(1, '#cbb4fc');
+      ctx.fillStyle = bubGrad; ctx.fill();
+      ctx.fillStyle = '#7c51ec'; [463, 482, 501].forEach(function(dx) { ctx.beginPath(); ctx.arc(dx, 298, 6, 0, Math.PI * 2); ctx.fill(); }); ctx.restore();
 
-        // A2 Mocks
-        const a2ListenSeeds = [{ w: "travel", h: "To take a journey across different cities", t: "A2: Voyages", ic: "travel" }];
-        for (let i = 0; i < 90; i++) { bank.A2.listen.push({ id: `A2_L_${i + 1}`, word: a2ListenSeeds[0].w, hint: a2ListenSeeds[0].h, topic: a2ListenSeeds[0].t, iconName: a2ListenSeeds[0].ic }); }
-        const a2ReadingThemes = [{ tit: "Camping in the Desert Sands", st: "Families set up traditional tents...", q: "Where do families set up tents?", opt: ["In the desert sands", "On high snowy peaks", "Inside shopping centers", "On deep ocean ships"], ic: "travel" }];
-        for (let i = 0; i < 80; i++) { const theme = a2ReadingThemes[0]; const shuffled = shuffleChoicesWithAnswer(theme.opt, 0); bank.A2.reading.push({ id: `A2_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "A2 Reading", iconName: theme.ic }); }
-        const a2GrammarArchetypes = [{ q: "Yesterday, the students _________ to the museum.", opt: ["went", "go", "gone", "going"], h: "Past simple of go" }];
-        for (let i = 0; i < 80; i++) { const item = a2GrammarArchetypes[0]; const shuffled = shuffleChoicesWithAnswer(item.opt, 0); bank.A2.grammar.push({ id: `A2_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "A2 Grammar" }); }
+      ctx.save(); ctx.shadowColor = 'rgba(76, 29, 149, 0.18)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 8;
+      ctx.beginPath(); ctx.moveTo(154, 422); ctx.bezierCurveTo(210, 416, 268, 434, 307, 458); ctx.bezierCurveTo(346, 434, 404, 416, 460, 422);
+      ctx.bezierCurveTo(465, 431, 461, 440, 451, 441); ctx.bezierCurveTo(398, 435, 346, 450, 315, 471); ctx.quadraticCurveTo(307, 476, 299, 471);
+      ctx.bezierCurveTo(268, 450, 216, 435, 163, 441); ctx.bezierCurveTo(153, 440, 149, 431, 154, 422); ctx.closePath();
+      var covGrad = ctx.createLinearGradient(150, 420, 460, 475); covGrad.addColorStop(0, '#754ae0'); covGrad.addColorStop(0.5, '#9672f7'); covGrad.addColorStop(1, '#754ae0');
+      ctx.fillStyle = covGrad; ctx.fill();
 
-        // B1 Mocks
-        const b1ListenSeeds = [{ w: "cooperative", h: "Working willingly together", t: "B1: Impact Unit 1", ic: "people" }];
-        for (let i = 0; i < 90; i++) { bank.B1.listen.push({ id: `B1_L_${i + 1}`, word: b1ListenSeeds[0].w, hint: b1ListenSeeds[0].h, topic: b1ListenSeeds[0].t, iconName: b1ListenSeeds[0].ic }); }
-        const b1ReadingThemes = [{ tit: "Light-1 Satellite", st: "Launched in 2022 to collect data...", q: "What is its mission?", opt: ["Collect lightning data", "Take tourist photos", "Measure ocean salt", "Make fabrics"], ic: "science" }];
-        for (let i = 0; i < 80; i++) { const theme = b1ReadingThemes[0]; const shuffled = shuffleChoicesWithAnswer(theme.opt, 0); bank.B1.reading.push({ id: `B1_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "B1 Reading", iconName: theme.ic }); }
-        const b1GrammarArchetypes = [{ q: "Alicia is friendly, _________?", opt: ["isn't she?", "is she?", "doesn't she?", "wasn't she?"], h: "Question tag" }];
-        for (let i = 0; i < 80; i++) { const item = b1GrammarArchetypes[0]; const shuffled = shuffleChoicesWithAnswer(item.opt, 0); bank.B1.grammar.push({ id: `B1_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "B1 Grammar" }); }
+      ctx.beginPath(); ctx.moveTo(162, 398); ctx.bezierCurveTo(216, 391, 271, 410, 307, 448); ctx.bezierCurveTo(343, 410, 398, 391, 452, 398);
+      ctx.bezierCurveTo(458, 408, 456, 420, 448, 426); ctx.bezierCurveTo(396, 418, 343, 434, 307, 462); ctx.bezierCurveTo(271, 434, 218, 418, 166, 426);
+      ctx.bezierCurveTo(158, 420, 156, 408, 162, 398); ctx.closePath();
+      var midGrad = ctx.createLinearGradient(160, 395, 455, 460); midGrad.addColorStop(0, '#e8dffe'); midGrad.addColorStop(1, '#cbb8fb');
+      ctx.fillStyle = midGrad; ctx.fill();
 
-        // B2 Mocks
-        const b2ListenSeeds = [{ w: "biodiversity", h: "Variety of ecological life", t: "B2: Biospheres", ic: "nature" }];
-        for (let i = 0; i < 90; i++) { bank.B2.listen.push({ id: `B2_L_${i + 1}`, word: b2ListenSeeds[0].w, hint: b2ListenSeeds[0].h, topic: b2ListenSeeds[0].t, iconName: b2ListenSeeds[0].ic }); }
-        const b2ReadingThemes = [{ tit: "Dilmun Civilization", st: "Bronze Age excavations...", q: "Why was Dilmun significant?", opt: ["Maritime trade bridge", "Invented synthetic fabrics", "Isolated kingdom", "Banned vessels"], ic: "art" }];
-        for (let i = 0; i < 80; i++) { const theme = b2ReadingThemes[0]; const shuffled = shuffleChoicesWithAnswer(theme.opt, 0); bank.B2.reading.push({ id: `B2_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "B2 Reading", iconName: theme.ic }); }
-        const b2GrammarArchetypes = [{ q: "Seldom _________ such treasures in one excavation.", opt: ["have archaeologists uncovered", "archaeologists have uncovered", "uncovered archaeologists", "did uncover archaeologists"], h: "Inversion" }];
-        for (let i = 0; i < 80; i++) { const item = b2GrammarArchetypes[0]; const shuffled = shuffleChoicesWithAnswer(item.opt, 0); bank.B2.grammar.push({ id: `B2_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "B2 Grammar" }); }
+      ctx.beginPath(); ctx.moveTo(170, 362); ctx.bezierCurveTo(218, 357, 273, 376, 307, 422); ctx.bezierCurveTo(341, 376, 396, 357, 444, 362);
+      ctx.lineTo(436, 400); ctx.bezierCurveTo(390, 395, 341, 414, 307, 450); ctx.bezierCurveTo(273, 414, 224, 395, 178, 400); ctx.closePath();
+      var creamGrad = ctx.createLinearGradient(170, 360, 444, 450); creamGrad.addColorStop(0, '#fffef7'); creamGrad.addColorStop(1, '#f6f0dc');
+      ctx.fillStyle = creamGrad; ctx.fill(); ctx.restore();
+    }
 
-        return bank;
+    function paintAllLogosNow() {
+      var canvases = document.querySelectorAll('.nexly-logo-canvas');
+      for (var i = 0; i < canvases.length; i++) {
+        try { paintNexlyLogoOnCanvas(canvases[i]); } catch (e) {}
       }
+    }
+    paintAllLogosNow();
+    window.addEventListener('DOMContentLoaded', paintAllLogosNow);
 
-      let QUESTIONS_BANK = { A1: { listen: [], reading: [], grammar: [] }, A2: { listen: [], reading: [], grammar: [] }, B1: { listen: [], reading: [], grammar: [] }, B2: { listen: [], reading: [], grammar: [] } };
-      try { QUESTIONS_BANK = build1000QuestionBank(); } catch (e) { console.error("Bank error", e); }
-
-      /* ========================================================
-         3. APPLICATION STATE
-         ======================================================== */
-      const urlParams = new URLSearchParams(window.location.search);
-      const directCode = (urlParams.get('code') || urlParams.get('c') || "").trim().toUpperCase();
-      const directTeacher = (urlParams.get('teacher') || urlParams.get('t') || "").trim();
-
-      function normalizeKey(str) { return (str || "").trim().toLowerCase().replace(/\s+/g, ' '); }
-
-      let savedWorkspaces = {};
-      try { savedWorkspaces = JSON.parse(localStorage.getItem('nexly_isolated_teachers_v3') || '{}'); } catch (e) { savedWorkspaces = {}; }
-
-      const AppState = {
-        user: { name: "", gradeClass: "", classCode: directCode, role: "student" },
-        currentLevel: "A1", currentSkill: "listen", hearts: 5, streak: 0, xp: 0,
-        completedCounts: { listen: 0, reading: 0, grammar: 0 },
-        seenQuestionIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
-        completedIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
-        reviewQueues: { listen: [], reading: [], grammar: [] },
-        currentQuestion: null, activeOptions: [], activeCorrectIndex: 0, typedInput: "", selectedOptionIndex: null,
-        teachersWorkspaces: savedWorkspaces, loggedInTeacherKey: null,
-        tempTeacherSignUp: { name: "", email: "", otp: "" }, tempTeacherRecovery: { key: "", name: "", email: "", otp: "" },
-        uiLang: "EN", voiceAccent: "US"
-      };
-
-      function saveWorkspacesToStorage() { try { localStorage.setItem('nexly_isolated_teachers_v3', JSON.stringify(AppState.teachersWorkspaces)); } catch (e) {} }
-
-      function findTeacherWorkspace(nameOrEmail) {
-        const q = normalizeKey(nameOrEmail);
-        if (!q) return null;
-        if (AppState.teachersWorkspaces[q]) return { key: q, data: AppState.teachersWorkspaces[q] };
-        for (const k in AppState.teachersWorkspaces) {
-          const ws = AppState.teachersWorkspaces[k];
-          if (normalizeKey(ws.email) === q || normalizeKey(ws.displayName) === q) return { key: k, data: ws };
-        }
-        return null;
+    /* ========================================================
+       1. HELPER: FISHER-YATES CHOICE SHUFFLER
+       ======================================================== */
+    function shuffleChoicesWithAnswer(optionsArray, correctIndex) {
+      var pairs = optionsArray.map(function(optText, idx) { return { text: optText, isCorrect: idx === correctIndex }; });
+      for (var i = pairs.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = pairs[i]; pairs[i] = pairs[j]; pairs[j] = temp;
       }
+      return { options: pairs.map(function(p) { return p.text; }), correct: pairs.findIndex(function(p) { return p.isCorrect; }) };
+    }
 
-      function findTeacherKeyByClassCode(classCode) {
-        const cleanCode = (classCode || "").trim().toUpperCase();
-        for (const k in AppState.teachersWorkspaces) {
-          const ws = AppState.teachersWorkspaces[k];
-          if (Array.isArray(ws.codes) && ws.codes.includes(cleanCode)) return k;
-        }
-        return null;
-      }
-
-      function getActiveTeacherWorkspace() {
-        if (!AppState.loggedInTeacherKey) return null;
-        return AppState.teachersWorkspaces[AppState.loggedInTeacherKey] || null;
-      }
-
-      /* ========================================================
-         4. SVG SCENE ENGINE
-         ======================================================== */
-      function generateQuestionSceneSvg(q) {
-        if (!q) return "";
-        const pal = { bg1: '#e0f2fe', bg2: '#bae6fd', accent: '#0284c7', badge: '#0369a1' };
-        const svg = `
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="100%" height="100%">
-            <rect width="600" height="220" rx="22" fill="#c4b5fd"/>
-            <circle cx="300" cy="110" r="60" fill="#ffffff" opacity="0.9"/>
-            <text x="300" y="130" font-size="50" text-anchor="middle">🌟</text>
-          </svg>
-        `;
-        return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
-      }
-
-      /* ========================================================
-         5. DUAL-LAYER CRYSTAL-CLEAR HUMAN PRONUNCIATION ENGINE
-         ======================================================== */
-      let audioCtx = null;
-      let activeAudioElement = null;
-      let slowRepeatTimer = null;
-
-      function initAudioContext() {
-        if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-      }
-
-      function stopAllActiveSpeech() {
-        if (slowRepeatTimer) { clearTimeout(slowRepeatTimer); slowRepeatTimer = null; }
-        if (activeAudioElement) { try { activeAudioElement.pause(); activeAudioElement.src = ""; } catch (e) {} activeAudioElement = null; }
-        if ('speechSynthesis' in window && window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
-      }
-
-      window.toggleVoiceAccent = function() {
-        AppState.voiceAccent = (AppState.voiceAccent === 'US') ? 'UK' : 'US';
-        const badge = document.getElementById('activeVoiceBadge');
-        if (badge) badge.innerHTML = (AppState.voiceAccent === 'US') ? '🇺🇸 US Clear Voice' : '🇬🇧 UK Clear Voice';
-        showToast(AppState.voiceAccent === 'US' ? '🇺🇸 Switched to American English Human Pronunciation' : '🇬🇧 Switched to British English Human Pronunciation');
-        if (AppState.currentSkill === 'listen' && AppState.currentQuestion) speakTargetWord(1.0);
-      };
-
-      function playTone(freq, type = 'sine', duration = 0.15, startTime = 0) {
-        try {
-          initAudioContext(); if (!audioCtx) return;
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-          const osc = new OscillatorNode(audioCtx, { type, frequency: freq });
-          const gain = audioCtx.createGain();
-          gain.gain.setValueAtTime(0.25, audioCtx.currentTime + startTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
-          osc.connect(gain); gain.connect(audioCtx.destination);
-          osc.start(audioCtx.currentTime + startTime); osc.stop(audioCtx.currentTime + startTime + duration);
-        } catch (e) {}
-      }
-
-      function playSuccessChime() { playTone(523.25, 'triangle', 0.12, 0.00); playTone(659.25, 'triangle', 0.12, 0.10); playTone(783.99, 'triangle', 0.14, 0.20); playTone(1046.50, 'triangle', 0.28, 0.32); }
-      function playErrorBuzz() { playTone(220, 'sawtooth', 0.25, 0); playTone(180, 'sawtooth', 0.25, 0.15); }
-
-      function speakWithSafeTTSFallback(textToSpeak, isSlowMode = false, onEndCallback = null) {
-        if (!('speechSynthesis' in window) || !window.speechSynthesis || !textToSpeak) { if (onEndCallback) onEndCallback(); return; }
-        try {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(textToSpeak);
-          utterance.lang = (AppState.voiceAccent === 'UK') ? 'en-GB' : 'en-US';
-          utterance.rate = isSlowMode ? 0.42 : 0.95;
-          if (onEndCallback) { utterance.onend = onEndCallback; utterance.onerror = onEndCallback; }
-          window.speechSynthesis.speak(utterance);
-        } catch (e) { if (onEndCallback) onEndCallback(); }
-      }
-
-      function playHumanAudioStream(textToSpeak, speedMode = 'normal', onFinish = null) {
-        if (!textToSpeak) return;
-        stopAllActiveSpeech();
-        const cleanText = textToSpeak.trim();
-        const isSlow = (speedMode === 'slow');
-        const youdaoType = (AppState.voiceAccent === 'UK') ? 1 : 2;
-        const url = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(cleanText)}&type=${youdaoType}`;
-
-        const audio = new Audio();
-        activeAudioElement = audio;
-        audio.src = url;
-        if ('preservesPitch' in audio) audio.preservesPitch = true;
-        
-        audio.oncanplaythrough = () => { audio.playbackRate = isSlow ? 0.5 : 1.0; audio.play().catch(() => speakWithSafeTTSFallback(cleanText, isSlow, onFinish)); };
-        audio.onended = () => { if (onFinish) onFinish(); };
-        audio.onerror = () => speakWithSafeTTSFallback(cleanText, isSlow, onFinish);
-        audio.load();
-      }
-
-      function speakTargetWord(rate = 1.0) {
-        const word = AppState.currentQuestion?.word || "";
-        if (!word) return;
-        playHumanAudioStream(word, (rate <= 0.65) ? 'slow' : 'normal');
-      }
-
-      window.toggleReadStoryAudio = function() {
-        const btn = document.getElementById('readStoryAloudBtn');
-        const isPlaying = (activeAudioElement && !activeAudioElement.paused) || ('speechSynthesis' in window && window.speechSynthesis && window.speechSynthesis.speaking);
-        if (isPlaying) { stopAllActiveSpeech(); if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; } return; }
-        const text = `${AppState.currentQuestion.title}. ${AppState.currentQuestion.story}`;
-        if (btn) { btn.innerHTML = "<span>⏹️ Stop Reading</span>"; btn.className = 'btn-3d btn-3d-orange text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
-        playHumanAudioStream(text, 'normal', () => { if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; } });
-      };
-
-      function triggerConfetti() {
-        const canvas = document.getElementById('confettiCanvas');
-        if (!canvas) return; const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const particles = []; const colors = ['#935ef7', '#10b981', '#fbbf24', '#f43f5e', '#38bdf8'];
-        for (let i = 0; i < 90; i++) particles.push({ x: canvas.width / 2 + (Math.random() * 200 - 100), y: canvas.height * 0.45, vx: (Math.random() - 0.5) * 14, vy: Math.random() * -12 - 4, size: Math.random() * 9 + 4, color: colors[Math.floor(Math.random() * colors.length)], rotation: Math.random() * 360, vRot: (Math.random() - 0.5) * 10 });
-        let frame = 0;
-        function render() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.45; p.rotation += p.vRot; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate((p.rotation * Math.PI) / 180); ctx.fillStyle = p.color; ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size); ctx.restore(); });
-          frame++; if (frame < 80) requestAnimationFrame(render); else ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-        render();
-      }
-
-      function showToast(msg) {
-        const toast = document.getElementById('toastMessage');
-        const text = document.getElementById('toastText');
-        if (!toast || !text) return; text.innerText = msg;
-        toast.classList.remove('hidden'); setTimeout(() => toast.classList.add('hidden'), 3800);
-      }
-
-      function showEmailAlert(header, body) {
-        const banner = document.getElementById('emailSimulatedAlert');
-        if (!banner) return;
-        const hdr = document.getElementById('emailAlertHeader');
-        const bdy = document.getElementById('emailAlertBody');
-        if (hdr) hdr.innerText = header;
-        if (bdy) bdy.innerText = body;
-        banner.classList.remove('hidden'); setTimeout(() => banner.classList.add('hidden'), 12000);
-      }
-
-      /* ========================================================
-         6. EXERCISE ENGINE
-         ======================================================== */
-      const hiddenTypingInput = document.getElementById('hiddenTypingInput');
-
-      function syncHiddenInputWithTypedState() {
-        if (!hiddenTypingInput) return;
-        if (hiddenTypingInput.value !== AppState.typedInput) hiddenTypingInput.value = AppState.typedInput;
-        try { const len = hiddenTypingInput.value.length; hiddenTypingInput.setSelectionRange(len, len); } catch (e) {}
-      }
-
-      window.focusSpellingInput = function() {
-        if (AppState.currentSkill === 'listen' && hiddenTypingInput) { hiddenTypingInput.focus(); syncHiddenInputWithTypedState(); }
-      };
-
-      function loadCurrentExercise() {
-        const level = AppState.currentLevel; const skill = AppState.currentSkill;
-        const bank = QUESTIONS_BANK[level][skill]; const seenSet = AppState.seenQuestionIds[level][skill];
-        let q = null; const isReview = (AppState.reviewQueues[skill].length > 0 && Math.random() > 0.5);
-
-        if (isReview) { q = AppState.reviewQueues[skill].shift(); document.getElementById('spacedRepetitionTag').classList.remove('hidden'); } 
-        else {
-          const available = bank.filter(item => !seenSet.has(item.id));
-          if (available.length > 0) { q = available[Math.floor(Math.random() * Math.min(available.length, 15))]; } 
-          else { seenSet.clear(); showToast(`🌟 Outstanding! Fresh questions loaded.`); q = bank[Math.floor(Math.random() * bank.length)]; }
-          document.getElementById('spacedRepetitionTag').classList.add('hidden');
-        }
-
-        AppState.currentQuestion = q; AppState.typedInput = ""; AppState.selectedOptionIndex = null;
-        syncHiddenInputWithTypedState();
-
-        const img = document.getElementById('exerciseImage');
-        if (img) { img.classList.remove('animate-pop'); void img.offsetWidth; img.src = generateQuestionSceneSvg(q); img.classList.add('animate-pop'); }
-
-        document.getElementById('imageTopicTitle').innerText = q.topic || "English Learning Quest";
-        document.getElementById('levelIndicatorBadge').innerText = `CEFR ${level}`;
-
-        const drawer = document.getElementById('feedbackDrawer');
-        drawer.classList.add('translate-y-full', 'pointer-events-none'); drawer.classList.remove('translate-y-0', 'pointer-events-auto');
-
-        stopAllActiveSpeech();
-        const readStoryBtn = document.getElementById('readStoryAloudBtn');
-        if (readStoryBtn) { readStoryBtn.innerHTML = "<span>🔊 Read Story</span>"; readStoryBtn.className = "btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0"; }
-
-        const skillBadge = document.getElementById('skillBadgeLabel');
-        const questionHeading = document.getElementById('questionHeading');
-        const questionHint = document.getElementById('questionHint');
-        const hintContent = document.getElementById('hintContent');
-        const audioStation = document.getElementById('audioStation');
-        const readingPassageContainer = document.getElementById('readingPassageContainer');
-        const listenSlotsArea = document.getElementById('listenSlotsArea');
-        const multipleChoiceArea = document.getElementById('multipleChoiceArea');
-        const checkBtn = document.getElementById('checkAnswerBtn');
-        if(checkBtn) checkBtn.disabled = true;
-
-        if (skill === 'listen') {
-          skillBadge.innerHTML = "🎧 Listen & Spell"; questionHeading.innerText = "Listen and spell what you hear (small letters):";
-          questionHint.classList.remove('hidden'); hintContent.innerText = q.hint;
-          audioStation.classList.remove('hidden'); readingPassageContainer.classList.add('hidden');
-          listenSlotsArea.classList.remove('hidden'); multipleChoiceArea.classList.add('hidden');
-          renderLetterSlots();
-          if (document.getElementById('loginModal').classList.contains('hidden')) setTimeout(() => speakTargetWord(1.0), 380);
-        } else if (skill === 'reading') {
-          skillBadge.innerHTML = "📖 Reading Comprehension"; questionHeading.innerText = q.question;
-          questionHint.classList.add('hidden'); audioStation.classList.add('hidden');
-          readingPassageContainer.classList.remove('hidden'); listenSlotsArea.classList.add('hidden');
-          multipleChoiceArea.classList.remove('hidden');
-          document.getElementById('readingStoryTitle').innerText = q.title;
-          document.getElementById('readingStoryText').innerText = q.story;
-          const shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
-          AppState.activeOptions = shuffled.options; AppState.activeCorrectIndex = shuffled.correct;
-          renderChoiceCards(AppState.activeOptions);
-        } else if (skill === 'grammar') {
-          skillBadge.innerHTML = "📝 Grammar in Context"; questionHeading.innerText = q.question;
-          questionHint.classList.remove('hidden'); hintContent.innerText = q.hint || "Choose the grammatically correct option";
-          audioStation.classList.add('hidden'); readingPassageContainer.classList.add('hidden');
-          listenSlotsArea.classList.add('hidden'); multipleChoiceArea.classList.remove('hidden');
-          const shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
-          AppState.activeOptions = shuffled.options; AppState.activeCorrectIndex = shuffled.correct;
-          renderChoiceCards(AppState.activeOptions);
-        }
-        updateTopMetrics();
-      }
-
-      function renderLetterSlots() {
-        const container = document.getElementById('slotsContainer');
-        if(!container) return;
-        container.innerHTML = "";
-        const target = (AppState.currentQuestion.word || "").toLowerCase();
-        const current = AppState.typedInput.toLowerCase();
-        for (let i = 0; i < target.length; i++) {
-          if (target[i] === ' ') {
-            const spaceDiv = document.createElement('div'); spaceDiv.className = "w-4 sm:w-6 h-10 sm:h-12 shrink-0"; container.appendChild(spaceDiv);
-          } else {
-            const slot = document.createElement('div');
-            const isFilled = i < current.length && current[i] !== undefined;
-            const letterVal = isFilled ? current[i].toLowerCase() : "";
-            const isCurrentFocus = i === current.length;
-            slot.className = `w-8 sm:w-10 lg:w-11 h-11 sm:h-12 lg:h-13 rounded-2xl flex items-center justify-center font-chunky text-lg sm:text-xl font-bold lowercase transition-all shrink-0 ${isFilled ? "bg-purple-100 text-purple-900 border-2 border-purple-400 border-b-4 border-b-purple-600 animate-pop" : isCurrentFocus ? "bg-white border-2 border-purple-500 shadow-md slot-focused" : "bg-white/80 border-2 border-purple-200 border-b-4 border-b-purple-300"}`;
-            slot.innerText = letterVal; container.appendChild(slot);
-          }
-        }
-        const checkBtn = document.getElementById('checkAnswerBtn');
-        if(checkBtn) checkBtn.disabled = current.replace(/\s+/g, '').length < target.replace(/\s+/g, '').length;
-      }
-
-      function renderChoiceCards(options) {
-        const container = document.getElementById('multipleChoiceArea');
-        if(!container) return;
-        container.innerHTML = ""; const letters = ['A', 'B', 'C', 'D'];
-        options.forEach((opt, idx) => {
-          const card = document.createElement('div'); const isSelected = AppState.selectedOptionIndex === idx;
-          card.className = `btn-choice p-3 sm:p-4 flex items-center gap-3 ${isSelected ? 'btn-choice-selected' : ''}`;
-          card.onclick = () => { AppState.selectedOptionIndex = idx; renderChoiceCards(AppState.activeOptions); const btn = document.getElementById('checkAnswerBtn'); if(btn) btn.disabled = false; };
-          card.innerHTML = `
-            <div class="w-8 h-8 rounded-xl font-chunky font-bold flex items-center justify-center text-xs shrink-0 ${isSelected ? 'bg-purple-700 text-white shadow-sm' : 'bg-purple-100 text-purple-800'}">${letters[idx]}</div>
-            <span class="text-xs sm:text-sm font-bold text-purple-950 flex-grow text-left leading-snug">${opt}</span>
-            <div class="w-5 h-5 rounded-full border-2 border-purple-300 flex items-center justify-center shrink-0 ${isSelected ? 'border-purple-600 bg-purple-600 text-white' : ''}">${isSelected ? '✓' : ''}</div>`;
-          container.appendChild(card);
-        });
-      }
-
-      if (hiddenTypingInput) {
-        hiddenTypingInput.addEventListener('input', () => {
-          if (AppState.currentSkill !== 'listen' || !AppState.currentQuestion) return;
-          const targetLen = (AppState.currentQuestion.word || "").length;
-          AppState.typedInput = (hiddenTypingInput.value || "").toLowerCase().replace(/[^a-z ]/g, '').slice(0, targetLen);
-          syncHiddenInputWithTypedState(); renderLetterSlots();
-        });
-        hiddenTypingInput.addEventListener('click', syncHiddenInputWithTypedState);
-        hiddenTypingInput.addEventListener('keyup', syncHiddenInputWithTypedState);
-      }
-
-      window.addEventListener('keydown', (e) => {
-        const loginModal = document.getElementById('loginModal');
-        if (loginModal && !loginModal.classList.contains('hidden')) return;
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const checkBtn = document.getElementById('checkAnswerBtn');
-          const drawer = document.getElementById('feedbackDrawer');
-          if (drawer && drawer.classList.contains('translate-y-0')) document.getElementById('continueBtn').click();
-          else if (checkBtn && !checkBtn.disabled) checkBtn.click();
-          return;
-        }
-        if (e.target === hiddenTypingInput || document.activeElement === hiddenTypingInput) return;
-        if (AppState.currentSkill === 'listen') {
-          if (e.key === 'Backspace') { e.preventDefault(); if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); } }
-          else if (e.key === ' ' || (/^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey)) { e.preventDefault(); const target = (AppState.currentQuestion?.word || "").toLowerCase(); if (AppState.typedInput.length < target.length) { AppState.typedInput += e.key.toLowerCase(); syncHiddenInputWithTypedState(); renderLetterSlots(); } }
-        }
-      });
-
-      const eraseBtn = document.getElementById('eraseLetterBtn');
-      if (eraseBtn) eraseBtn.onclick = (e) => { e.stopPropagation(); if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); } };
+    /* ========================================================
+       2. RICH QUESTION BANK GENERATOR (A1, A2, B1 Impact 3, B2)
+       ======================================================== */
+    function build1000QuestionBank() {
+      var bank = { A1: { listen: [], reading: [], grammar: [] }, A2: { listen: [], reading: [], grammar: [] }, B1: { listen: [], reading: [], grammar: [] }, B2: { listen: [], reading: [], grammar: [] } };
       
-      const clearBtn = document.getElementById('clearAllLettersBtn');
-      if (clearBtn) clearBtn.onclick = (e) => { e.stopPropagation(); AppState.typedInput = ""; syncHiddenInputWithTypedState(); renderLetterSlots(); };
-
-      const normBtn = document.getElementById('listenNormalBtn'); if (normBtn) normBtn.onclick = () => speakTargetWord(1.0);
-      const slowBtn = document.getElementById('listenTurtleBtn'); if (slowBtn) slowBtn.onclick = () => speakTargetWord(0.5);
-
-      const checkAnsBtn = document.getElementById('checkAnswerBtn');
-      if (checkAnsBtn) {
-        checkAnsBtn.onclick = () => {
-          initAudioContext();
-          let isCorrect = false; let targetAnswer = ""; const letters = ['A', 'B', 'C', 'D'];
-          if (AppState.currentSkill === 'listen') {
-            const cleanTarget = (AppState.currentQuestion.word || "").toLowerCase().replace(/[^a-z0-9]/g, '');
-            const cleanUser = AppState.typedInput.toLowerCase().replace(/[^a-z0-9]/g, '');
-            isCorrect = (cleanTarget === cleanUser && cleanTarget.length > 0); targetAnswer = AppState.currentQuestion.word.toLowerCase();
-          } else {
-            isCorrect = (AppState.selectedOptionIndex === AppState.activeCorrectIndex);
-            targetAnswer = `${letters[AppState.activeCorrectIndex]}) ${AppState.activeOptions[AppState.activeCorrectIndex]}`;
-          }
-
-          const drawer = document.getElementById('feedbackDrawer'); const iconBox = document.getElementById('feedbackIconBox');
-          const title = document.getElementById('feedbackTitle'); const msg = document.getElementById('feedbackMessage');
-          const continueBtn = document.getElementById('continueBtn');
-
-          drawer.classList.remove('translate-y-full', 'pointer-events-none'); drawer.classList.add('translate-y-0', 'pointer-events-auto');
-
-          if (isCorrect) {
-            AppState.streak++; AppState.xp += 15; AppState.completedCounts[AppState.currentSkill]++;
-            AppState.completedIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
-            AppState.seenQuestionIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
-            playSuccessChime(); triggerConfetti();
-            drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-emerald-500 bg-emerald-50/95 text-emerald-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
-            iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-emerald-500 text-white"; iconBox.innerText = "🎉";
-            title.innerText = "Awesome!"; msg.innerText = `Correct Answer: "${targetAnswer}". Keep up the brilliant work!`;
-            continueBtn.className = "btn-3d btn-3d-green w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
-          } else {
-            AppState.hearts = Math.max(0, AppState.hearts - 1); playErrorBuzz();
-            AppState.reviewQueues[AppState.currentSkill].push(AppState.currentQuestion);
-            drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-rose-500 bg-rose-50/95 text-rose-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
-            iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-rose-500 text-white"; iconBox.innerText = "💡";
-            title.innerText = "Keep trying!"; msg.innerText = `The correct answer was: "${targetAnswer}". Review it and try again soon.`;
-            continueBtn.className = "btn-3d btn-3d-red w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
-          }
-          updateTopMetrics(); updateEnrolledStudentScore();
-        };
+      var a1ListenSeeds = [
+        { w: "school", h: "A place where children learn", t: "A1: School Life", ic: "school" },
+        { w: "friend", h: "A person you like and spend time with", t: "A1: Relationships", ic: "people" },
+        { w: "family", h: "Parents, brothers, and sisters living together", t: "A1: Home & Family", ic: "family" },
+        { w: "water", h: "Clear natural liquid necessary for all life", t: "A1: Nature Elements", ic: "water" },
+        { w: "brother", h: "A male sibling with shared parents", t: "A1: Family", ic: "brother" },
+        { w: "animal", h: "A living creature such as a horse or sheep", t: "A1: World Animals", ic: "animal" },
+        { w: "garden", h: "A plot of land where plants and flowers grow", t: "A1: Nature & Plants", ic: "garden" },
+        { w: "pencil", h: "A wooden tool with graphite used for drawing", t: "A1: Classroom Tools", ic: "pencil" },
+        { w: "teacher", h: "An educator who helps students learn at school", t: "A1: School Life", ic: "school" },
+        { w: "morning", h: "The early part of the day when the sun rises", t: "A1: Daily Routine", ic: "garden" }
+      ];
+      for (var i = 0; i < 60; i++) {
+        var seed = a1ListenSeeds[i % a1ListenSeeds.length];
+        bank.A1.listen.push({ id: "A1_L_" + (i + 1), word: seed.w, hint: seed.h, topic: seed.t, iconName: seed.ic });
       }
 
-      const contBtn = document.getElementById('continueBtn');
-      if (contBtn) {
-        contBtn.onclick = () => {
-          const drawer = document.getElementById('feedbackDrawer');
-          drawer.classList.remove('translate-y-0', 'pointer-events-auto'); drawer.classList.add('translate-y-full', 'pointer-events-none');
-          if (AppState.hearts <= 0) { showToast("Hearts depleted! Showing your performance certificate."); if(window.openCertificateModal) window.openCertificateModal(); return; }
-          if (AppState.completedCounts[AppState.currentSkill] >= 10) {
-            if (AppState.currentSkill === 'listen') { showToast("🎧 Moving to Reading."); window.selectSkill('reading'); return; }
-            else if (AppState.currentSkill === 'reading') { showToast("📖 Moving to Grammar."); window.selectSkill('grammar'); return; }
-            else if (AppState.currentSkill === 'grammar') { if(window.openCertificateModal) window.openCertificateModal(); return; }
-          }
-          loadCurrentExercise();
-        };
+      var a1ReadingThemes = [
+        { tit: "My School Routine", st: "Adam wakes up early at seven o'clock. He packs his schoolbag and walks to school with his brother. He loves learning English.", q: "How does Adam travel to school?", opt: ["He walks with his brother", "He takes the big train", "He rides a motorcycle", "He stays at home"], ic: "school" },
+        { tit: "The Sunny Garden", st: "Sara has a small garden behind her house. Every afternoon, she waters the red roses and yellow sunflowers with her mother.", q: "What does Sara do every afternoon?", opt: ["She waters the flowers", "She paints the fence blue", "She climbs a snowy mountain", "She sells old books"], ic: "garden" },
+        { tit: "A Visit to the Farm", st: "On Friday, Ali visited his grandfather's farm. He fed the white sheep and watched the brown horses run across the green field.", q: "Which animals did Ali see on the farm?", opt: ["Sheep and horses", "Sharks and whales", "Polar bears and penguins", "Lions and tigers"], ic: "animal" }
+      ];
+      for (var i = 0; i < 45; i++) {
+        var theme = a1ReadingThemes[i % a1ReadingThemes.length];
+        var shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
+        bank.A1.reading.push({ id: "A1_R_" + (i + 1), title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "A1 Reading Comprehension", iconName: theme.ic });
       }
 
-      const skipBtn = document.getElementById('skipQuestionBtn');
-      if (skipBtn) skipBtn.onclick = () => loadCurrentExercise();
+      var a1GrammarArchetypes = [
+        { q: "Huda _________ a diligent student in Grade 7.", opt: ["is", "are", "am", "be"], h: "Third person singular takes 'is'" },
+        { q: "My brothers _________ football in the park every Friday.", opt: ["play", "plays", "playing", "is play"], h: "Plural subject takes base verb in Present Simple" },
+        { q: "There _________ five books inside my schoolbag.", opt: ["are", "is", "am", "was"], h: "Use 'are' with plural countable nouns" },
+        { q: "She _________ breakfast at 6:30 every morning.", opt: ["eats", "eat", "eating", "to eat"], h: "Add -s to the verb with she/he/it" }
+      ];
+      for (var i = 0; i < 45; i++) {
+        var item = a1GrammarArchetypes[i % a1GrammarArchetypes.length];
+        var shuffled = shuffleChoicesWithAnswer(item.opt, 0);
+        bank.A1.grammar.push({ id: "A1_G_" + (i + 1), question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "A1 Grammar in Context" });
+      }
 
-      window.selectSkill = function(skillName) {
-        AppState.currentSkill = skillName;
-        ['listen', 'reading', 'grammar'].forEach(s => {
-          const tab = document.getElementById(`skillTab-${s}`);
-          if (tab) tab.className = (s === skillName) ? "btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" : "btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5";
+      var a2ListenSeeds = [
+        { w: "travel", h: "To take a journey across different cities", t: "A2: Voyages", ic: "travel" },
+        { w: "museum", h: "A building where historical objects are exhibited", t: "A2: Culture", ic: "school" },
+        { w: "healthy", h: "In good physical condition and free from illness", t: "A2: Lifestyle", ic: "garden" },
+        { w: "weather", h: "The state of the atmosphere such as rain or sunshine", t: "A2: Nature", ic: "water" }
+      ];
+      for (var i = 0; i < 40; i++) {
+        var s2 = a2ListenSeeds[i % a2ListenSeeds.length];
+        bank.A2.listen.push({ id: "A2_L_" + (i + 1), word: s2.w, hint: s2.h, topic: s2.t, iconName: s2.ic });
+      }
+      var a2ReadingThemes = [
+        { tit: "Camping in the Desert Sands", st: "Last winter, families set up traditional tents in Sakhir. At night, they sat around the warm campfire and looked at the bright stars.", q: "Where did the families set up their tents?", opt: ["In the desert sands of Sakhir", "On high snowy peaks", "Inside shopping centers", "On deep ocean ships"], ic: "travel" },
+        { tit: "Bahrain National Museum", st: "Last Tuesday, Grade 8 visited the Bahrain National Museum in Manama. They saw ancient Dilmun seals and traditional pearl diving boats.", q: "What did the students see at the museum?", opt: ["Ancient Dilmun seals and boats", "Space rockets on Mars", "Modern racing cars", "Tropical rainforest birds"], ic: "school" }
+      ];
+      for (var i = 0; i < 40; i++) {
+        var th2 = a2ReadingThemes[i % a2ReadingThemes.length];
+        var sh2 = shuffleChoicesWithAnswer(th2.opt, 0);
+        bank.A2.reading.push({ id: "A2_R_" + (i + 1), title: th2.tit, story: th2.st, question: th2.q, options: sh2.options, correct: sh2.correct, topic: "A2 Reading", iconName: th2.ic });
+      }
+      var a2GrammarArchetypes = [
+        { q: "Yesterday, the students _________ to the national museum.", opt: ["went", "go", "gone", "going"], h: "Past simple of 'go' is 'went'" },
+        { q: "Look! It _________ heavily outside right now.", opt: ["is raining", "rains", "rained", "rain"], h: "Present continuous for actions happening right now" },
+        { q: "Whales are _________ than dolphins.", opt: ["larger", "largest", "more large", "as large"], h: "Comparative adjective with 'than'" }
+      ];
+      for (var i = 0; i < 40; i++) {
+        var g2 = a2GrammarArchetypes[i % a2GrammarArchetypes.length];
+        var shG2 = shuffleChoicesWithAnswer(g2.opt, 0);
+        bank.A2.grammar.push({ id: "A2_G_" + (i + 1), question: g2.q, options: shG2.options, correct: shG2.correct, hint: g2.h, topic: "A2 Grammar" });
+      }
+
+      var b1ListenSeeds = [
+        { w: "cooperative", h: "Working willingly together towards a common goal", t: "B1: Impact 3 Unit 1", ic: "people" },
+        { w: "innovator", h: "A person who introduces new methods or original ideas", t: "B1: Impact 3 Explorers", ic: "science" },
+        { w: "beneficial", h: "Resulting in good outcomes; helpful and advantageous", t: "B1: Impact 3 Unit 2", ic: "garden" },
+        { w: "satellite", h: "An artificial body placed in orbit around the earth", t: "B1: Space & Light-1", ic: "science" },
+        { w: "parachute", h: "A cloth canopy that allows a person to descend safely from the air", t: "B1: Impact 3 Flight", ic: "travel" }
+      ];
+      for (var i = 0; i < 50; i++) {
+        var sb1 = b1ListenSeeds[i % b1ListenSeeds.length];
+        bank.B1.listen.push({ id: "B1_L_" + (i + 1), word: sb1.w, hint: sb1.h, topic: sb1.t, iconName: sb1.ic });
+      }
+      var b1ReadingThemes = [
+        { tit: "Light-1 Satellite Mission", st: "In 2022, a joint Bahraini-Emirati satellite called Light-1 was launched into orbit to collect scientific data during lightning storms and study radiation exposure.", q: "What is the main mission of the Light-1 satellite?", opt: ["Collect scientific data during lightning storms", "Take tourist photos on the moon", "Measure salt levels in the deep ocean", "Manufacture synthetic fabrics"], ic: "science" },
+        { tit: "Sanga's Clean Energy Solution", st: "National Geographic Explorer Sanga Moses wanted to help his sister attend school instead of walking miles to gather wood. He invented clean fuel made from farm waste.", q: "Why did Sanga Moses become an energy innovator?", opt: ["To help children stay in school instead of gathering wood", "To build luxury sports cars in the city", "To close all rural farms permanently", "To sell imported coal to factories"], ic: "garden" },
+        { tit: "The Texas Horned Lizard", st: "When a Texas horned lizard is hunted by a predator like a desert cat or coyote, it uses an unusual defense mechanism: it can shoot a stream of blood from its eyes to confuse the predator.", q: "How does the Texas horned lizard defend itself from predators?", opt: ["It shoots blood from its eyes to confuse predators", "It flies high into the clouds like an eagle", "It builds a wooden shelter underground", "It changes into a swimming fish"], ic: "animal" }
+      ];
+      for (var i = 0; i < 45; i++) {
+        var thb1 = b1ReadingThemes[i % b1ReadingThemes.length];
+        var shb1 = shuffleChoicesWithAnswer(thb1.opt, 0);
+        bank.B1.reading.push({ id: "B1_R_" + (i + 1), title: thb1.tit, story: thb1.st, question: thb1.q, options: shb1.options, correct: shb1.correct, topic: "B1 Impact 3 Reading", iconName: thb1.ic });
+      }
+      var b1GrammarArchetypes = [
+        { q: "Alicia is very friendly and helpful, _________?", opt: ["isn't she?", "is she?", "doesn't she?", "wasn't she?"], h: "Positive statement takes a negative question tag" },
+        { q: "Gina just screamed! She _________ seen a spider in the cave.", opt: ["must have", "can't to", "shouldn't have", "used to"], h: "Modal + have + past participle for past certainty" },
+        { q: "Organic cotton _________ grown by farmers in many countries.", opt: ["is", "are", "has", "were"], h: "Present passive voice: is/are + past participle" },
+        { q: "Students are allowed _________ the computers at lunchtime.", opt: ["to use", "use", "using", "used"], h: "'be allowed + to-infinitive'" },
+        { q: "She bought her friend some flowers to _________.", opt: ["cheer her up", "knock her over", "lock her out", "break her into"], h: "Phrasal verb meaning 'make someone feel happier'" }
+      ];
+      for (var i = 0; i < 45; i++) {
+        var gb1 = b1GrammarArchetypes[i % b1GrammarArchetypes.length];
+        var shgb1 = shuffleChoicesWithAnswer(gb1.opt, 0);
+        bank.B1.grammar.push({ id: "B1_G_" + (i + 1), question: gb1.q, options: shgb1.options, correct: shgb1.correct, hint: gb1.h, topic: "B1 Impact 3 Grammar" });
+      }
+
+      var b2ListenSeeds = [
+        { w: "biodiversity", h: "Variety of plant and animal life in the world or a habitat", t: "B2: Biospheres", ic: "garden" },
+        { w: "masterpiece", h: "A work of outstanding artistry, skill, or workmanship", t: "B2: Fine Arts", ic: "school" },
+        { w: "sophisticated", h: "Highly developed, complex, and advanced in design", t: "B2: Technology", ic: "science" }
+      ];
+      for (var i = 0; i < 40; i++) {
+        var sb2 = b2ListenSeeds[i % b2ListenSeeds.length];
+        bank.B2.listen.push({ id: "B2_L_" + (i + 1), word: sb2.w, hint: sb2.h, topic: sb2.t, iconName: sb2.ic });
+      }
+      var b2ReadingThemes = [
+        { tit: "The Ancient Dilmun Civilization", st: "Archaeological excavations in Bahrain reveal that Dilmun served as a vital maritime trade bridge connecting Mesopotamia and the Indus Valley during the Bronze Age.", q: "Why was the Dilmun civilization historically significant?", opt: ["It served as a vital maritime trade bridge", "It invented modern synthetic plastics", "It was an isolated mountain kingdom", "It banned all sea vessels"], ic: "travel" }
+      ];
+      for (var i = 0; i < 40; i++) {
+        var thb2 = b2ReadingThemes[i % b2ReadingThemes.length];
+        var shb2 = shuffleChoicesWithAnswer(thb2.opt, 0);
+        bank.B2.reading.push({ id: "B2_R_" + (i + 1), title: thb2.tit, story: thb2.st, question: thb2.q, options: shb2.options, correct: shb2.correct, topic: "B2 Advanced Reading", iconName: thb2.ic });
+      }
+      var b2GrammarArchetypes = [
+        { q: "Seldom _________ such remarkable artifacts in a single excavation.", opt: ["have archaeologists uncovered", "archaeologists have uncovered", "uncovered archaeologists", "did uncover archaeologists"], h: "Negative adverbial at the start requires inversion" },
+        { q: "The art critic said that the painting _________ a wonderful example of self-expression.", opt: ["was", "is being", "will be", "has been"], h: "Reported speech backshifts present simple to past simple" }
+      ];
+      for (var i = 0; i < 40; i++) {
+        var gb2 = b2GrammarArchetypes[i % b2GrammarArchetypes.length];
+        var shgb2 = shuffleChoicesWithAnswer(gb2.opt, 0);
+        bank.B2.grammar.push({ id: "B2_G_" + (i + 1), question: gb2.q, options: shgb2.options, correct: shgb2.correct, hint: gb2.h, topic: "B2 Advanced Grammar" });
+      }
+
+      return bank;
+    }
+
+    var QUESTIONS_BANK = build1000QuestionBank();
+
+    /* ========================================================
+       3. APPLICATION STATE & TEACHER WORKSPACES
+       ======================================================== */
+    var urlParams = new URLSearchParams(window.location.search);
+    var directCode = (urlParams.get('code') || urlParams.get('c') || "").trim().toUpperCase();
+    var directTeacher = (urlParams.get('teacher') || urlParams.get('t') || "").trim();
+
+    function normalizeKey(str) { return (str || "").trim().toLowerCase().replace(/\s+/g, ' '); }
+
+    var savedWorkspaces = {};
+    try { savedWorkspaces = JSON.parse(localStorage.getItem('nexly_isolated_teachers_v3') || '{}'); } catch (e) { savedWorkspaces = {}; }
+
+    var AppState = {
+      user: { name: "", gradeClass: "", classCode: directCode, role: "student" },
+      currentLevel: "A1", currentSkill: "listen", hearts: 5, streak: 0, xp: 0,
+      completedCounts: { listen: 0, reading: 0, grammar: 0 },
+      seenQuestionIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
+      completedIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
+      reviewQueues: { listen: [], reading: [], grammar: [] },
+      currentQuestion: null, activeOptions: [], activeCorrectIndex: 0, typedInput: "", selectedOptionIndex: null,
+      teachersWorkspaces: savedWorkspaces, loggedInTeacherKey: null,
+      tempTeacherSignUp: { name: "", email: "", otp: "" }, tempTeacherRecovery: { key: "", name: "", email: "", otp: "" },
+      uiLang: "EN", voiceAccent: "US"
+    };
+
+    function saveWorkspacesToStorage() { try { localStorage.setItem('nexly_isolated_teachers_v3', JSON.stringify(AppState.teachersWorkspaces)); } catch (e) {} }
+
+    function findTeacherWorkspace(nameOrEmail) {
+      var q = normalizeKey(nameOrEmail);
+      if (!q) return null;
+      if (AppState.teachersWorkspaces[q]) return { key: q, data: AppState.teachersWorkspaces[q] };
+      for (var k in AppState.teachersWorkspaces) {
+        var ws = AppState.teachersWorkspaces[k];
+        if (normalizeKey(ws.email) === q || normalizeKey(ws.displayName) === q) return { key: k, data: ws };
+      }
+      return null;
+    }
+
+    function findTeacherKeyByClassCode(classCode) {
+      var cleanCode = (classCode || "").trim().toUpperCase();
+      for (var k in AppState.teachersWorkspaces) {
+        var ws = AppState.teachersWorkspaces[k];
+        if (Array.isArray(ws.codes) && ws.codes.includes(cleanCode)) return k;
+      }
+      return null;
+    }
+
+    function getActiveTeacherWorkspace() {
+      if (!AppState.loggedInTeacherKey) return null;
+      return AppState.teachersWorkspaces[AppState.loggedInTeacherKey] || null;
+    }
+
+    /* ========================================================
+       4. DYNAMIC SVG SCENE ENGINE FOR EVERY QUESTION
+       ======================================================== */
+    function generateQuestionSceneSvg(q) {
+      if (!q) return "";
+      var wordKey = (q.word || q.iconName || "").toLowerCase();
+      var bg = "#ede9fe", emoji = "🌟", sub = q.topic || "English Quest";
+
+      if (wordKey.indexOf("water") !== -1) { bg = "#e0f2fe"; emoji = "💧🌊"; }
+      else if (wordKey.indexOf("brother") !== -1 || wordKey.indexOf("friend") !== -1 || wordKey.indexOf("people") !== -1) { bg = "#fef3c7"; emoji = "👦🤝👦"; }
+      else if (wordKey.indexOf("animal") !== -1) { bg = "#dcfce7"; emoji = "🐎🐑"; }
+      else if (wordKey.indexOf("garden") !== -1) { bg = "#d1fae5"; emoji = "🌻🌷🦋"; }
+      else if (wordKey.indexOf("family") !== -1) { bg = "#fce7f3"; emoji = "👨‍👩‍👧‍👦🏡"; }
+      else if (wordKey.indexOf("pencil") !== -1) { bg = "#ffedd5"; emoji = "✏️📒"; }
+      else if (wordKey.indexOf("school") !== -1 || wordKey.indexOf("teacher") !== -1) { bg = "#e0e7ff"; emoji = "🏫📚"; }
+      else if (wordKey.indexOf("science") !== -1 || wordKey.indexOf("satellite") !== -1 || wordKey.indexOf("innovator") !== -1) { bg = "#dbeafe"; emoji = "🛰️⚡🔬"; }
+      else if (wordKey.indexOf("travel") !== -1 || wordKey.indexOf("parachute") !== -1) { bg = "#fae8ff"; emoji = "✈️⛺🌍"; }
+
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="100%" height="100%">' +
+        '<rect width="600" height="220" rx="22" fill="' + bg + '"/>' +
+        '<circle cx="300" cy="100" r="68" fill="#ffffff" opacity="0.92"/>' +
+        '<text x="300" y="118" font-size="48" text-anchor="middle">' + emoji + '</text>' +
+        '</svg>';
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    /* ========================================================
+       5. HUMAN PRONUNCIATION ENGINE
+       ======================================================== */
+    var audioCtx = null;
+    var activeAudioElement = null;
+
+    function initAudioContext() {
+      if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function stopAllActiveSpeech() {
+      if (activeAudioElement) { try { activeAudioElement.pause(); activeAudioElement.src = ""; } catch (e) {} activeAudioElement = null; }
+      if ('speechSynthesis' in window && window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+    }
+
+    window.toggleVoiceAccent = function() {
+      AppState.voiceAccent = (AppState.voiceAccent === 'US') ? 'UK' : 'US';
+      var badge = document.getElementById('activeVoiceBadge');
+      if (badge) badge.innerHTML = (AppState.voiceAccent === 'US') ? '🇺🇸 US Clear Voice' : '🇬🇧 UK Clear Voice';
+      showToast(AppState.voiceAccent === 'US' ? '🇺🇸 Switched to American English Human Pronunciation' : '🇬🇧 Switched to British English Human Pronunciation');
+      if (AppState.currentSkill === 'listen' && AppState.currentQuestion) speakTargetWord(1.0);
+    };
+
+    function playTone(freq, type, duration, startTime) {
+      try {
+        initAudioContext(); if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        var osc = audioCtx.createOscillator();
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (startTime || 0));
+        var gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime + (startTime || 0));
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (startTime || 0) + (duration || 0.15));
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + (startTime || 0));
+        osc.stop(audioCtx.currentTime + (startTime || 0) + (duration || 0.15));
+      } catch (e) {}
+    }
+
+    function playSuccessChime() { playTone(523.25, 'triangle', 0.12, 0.00); playTone(659.25, 'triangle', 0.12, 0.10); playTone(783.99, 'triangle', 0.14, 0.20); playTone(1046.50, 'triangle', 0.28, 0.32); }
+    function playErrorBuzz() { playTone(220, 'sawtooth', 0.25, 0); playTone(180, 'sawtooth', 0.25, 0.15); }
+
+    function speakWithSafeTTSFallback(textToSpeak, isSlowMode, onEndCallback) {
+      if (!('speechSynthesis' in window) || !window.speechSynthesis || !textToSpeak) { if (onEndCallback) onEndCallback(); return; }
+      try {
+        window.speechSynthesis.cancel();
+        var utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = (AppState.voiceAccent === 'UK') ? 'en-GB' : 'en-US';
+        utterance.rate = isSlowMode ? 0.45 : 0.92;
+        var voices = window.speechSynthesis.getVoices() || [];
+        var banned = /organ|bubbles|bells|bad news|good news|cellos|boing|hysterical|pipe|trinoids|whisper|zarvox|albert|jester|superstar|wobble/i;
+        for (var i = 0; i < voices.length; i++) {
+          if (voices[i].lang.indexOf('en') === 0 && !banned.test(voices[i].name)) {
+            utterance.voice = voices[i];
+            break;
+          }
+        }
+        if (onEndCallback) { utterance.onend = onEndCallback; utterance.onerror = onEndCallback; }
+        window.speechSynthesis.speak(utterance);
+      } catch (e) { if (onEndCallback) onEndCallback(); }
+    }
+
+    function playHumanAudioStream(textToSpeak, speedMode, onFinish) {
+      if (!textToSpeak) return;
+      stopAllActiveSpeech();
+      var cleanText = textToSpeak.trim();
+      var isSlow = (speedMode === 'slow');
+      var youdaoType = (AppState.voiceAccent === 'UK') ? 1 : 2;
+      var url = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(cleanText) + "&type=" + youdaoType;
+
+      var audio = new Audio();
+      activeAudioElement = audio;
+      audio.src = url;
+      if ('preservesPitch' in audio) audio.preservesPitch = true;
+      
+      audio.oncanplaythrough = function() {
+        audio.playbackRate = isSlow ? 0.5 : 1.0;
+        audio.play().catch(function() { speakWithSafeTTSFallback(cleanText, isSlow, onFinish); });
+      };
+      audio.onended = function() { if (onFinish) onFinish(); };
+      audio.onerror = function() { speakWithSafeTTSFallback(cleanText, isSlow, onFinish); };
+      audio.load();
+    }
+
+    function speakTargetWord(rate) {
+      var word = AppState.currentQuestion && AppState.currentQuestion.word ? AppState.currentQuestion.word : "";
+      if (!word) return;
+      playHumanAudioStream(word, (rate <= 0.65) ? 'slow' : 'normal');
+    }
+
+    window.toggleReadStoryAudio = function() {
+      var btn = document.getElementById('readStoryAloudBtn');
+      var isPlaying = (activeAudioElement && !activeAudioElement.paused) || ('speechSynthesis' in window && window.speechSynthesis && window.speechSynthesis.speaking);
+      if (isPlaying) {
+        stopAllActiveSpeech();
+        if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
+        return;
+      }
+      var text = AppState.currentQuestion.title + ". " + AppState.currentQuestion.story;
+      if (btn) { btn.innerHTML = "<span>⏹️ Stop Reading</span>"; btn.className = 'btn-3d btn-3d-orange text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
+      playHumanAudioStream(text, 'normal', function() {
+        if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
+      });
+    };
+
+    function triggerConfetti() {
+      var canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+      var particles = []; var colors = ['#935ef7', '#10b981', '#fbbf24', '#f43f5e', '#38bdf8'];
+      for (var i = 0; i < 80; i++) {
+        particles.push({ x: canvas.width / 2 + (Math.random() * 200 - 100), y: canvas.height * 0.45, vx: (Math.random() - 0.5) * 14, vy: Math.random() * -12 - 4, size: Math.random() * 9 + 4, color: colors[Math.floor(Math.random() * colors.length)], rotation: Math.random() * 360, vRot: (Math.random() - 0.5) * 10 });
+      }
+      var frame = 0;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(function(p) {
+          p.x += p.vx; p.y += p.vy; p.vy += 0.45; p.rotation += p.vRot;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color; ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size); ctx.restore();
         });
+        frame++; if (frame < 75) requestAnimationFrame(render); else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      render();
+    }
+
+    function showToast(msg) {
+      var toast = document.getElementById('toastMessage');
+      var text = document.getElementById('toastText');
+      if (!toast || !text) return;
+      text.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(function() { toast.classList.add('hidden'); }, 3800);
+    }
+
+    function showEmailAlert(header, body) {
+      var banner = document.getElementById('emailSimulatedAlert');
+      if (!banner) return;
+      var hdr = document.getElementById('emailAlertHeader');
+      var bdy = document.getElementById('emailAlertBody');
+      if (hdr) hdr.innerText = header;
+      if (bdy) bdy.innerText = body;
+      banner.classList.remove('hidden');
+      setTimeout(function() { banner.classList.add('hidden'); }, 12000);
+    }
+
+    /* ========================================================
+       6. EXERCISE ENGINE
+       ======================================================== */
+    var hiddenTypingInput = document.getElementById('hiddenTypingInput');
+
+    function syncHiddenInputWithTypedState() {
+      if (!hiddenTypingInput) return;
+      if (hiddenTypingInput.value !== AppState.typedInput) hiddenTypingInput.value = AppState.typedInput;
+      try { var len = hiddenTypingInput.value.length; hiddenTypingInput.setSelectionRange(len, len); } catch (e) {}
+    }
+
+    window.focusSpellingInput = function() {
+      if (AppState.currentSkill === 'listen' && hiddenTypingInput) { hiddenTypingInput.focus(); syncHiddenInputWithTypedState(); }
+    };
+
+    function loadCurrentExercise() {
+      var level = AppState.currentLevel; var skill = AppState.currentSkill;
+      var bank = QUESTIONS_BANK[level][skill]; var seenSet = AppState.seenQuestionIds[level][skill];
+      var q = null; var isReview = (AppState.reviewQueues[skill].length > 0 && Math.random() > 0.5);
+
+      if (isReview) {
+        q = AppState.reviewQueues[skill].shift();
+        document.getElementById('spacedRepetitionTag').classList.remove('hidden');
+      } else {
+        var available = bank.filter(function(item) { return !seenSet.has(item.id); });
+        if (available.length > 0) {
+          q = available[Math.floor(Math.random() * Math.min(available.length, 15))];
+        } else {
+          seenSet.clear();
+          q = bank[Math.floor(Math.random() * bank.length)];
+        }
+        document.getElementById('spacedRepetitionTag').classList.add('hidden');
+      }
+
+      AppState.currentQuestion = q; AppState.typedInput = ""; AppState.selectedOptionIndex = null;
+      syncHiddenInputWithTypedState();
+
+      var img = document.getElementById('exerciseImage');
+      if (img) { img.classList.remove('animate-pop'); void img.offsetWidth; img.src = generateQuestionSceneSvg(q); img.classList.add('animate-pop'); }
+
+      document.getElementById('imageTopicTitle').innerText = q.topic || "English Learning Quest";
+      document.getElementById('levelIndicatorBadge').innerText = "CEFR " + level;
+
+      var drawer = document.getElementById('feedbackDrawer');
+      drawer.classList.add('translate-y-full', 'pointer-events-none'); drawer.classList.remove('translate-y-0', 'pointer-events-auto');
+
+      stopAllActiveSpeech();
+      var readStoryBtn = document.getElementById('readStoryAloudBtn');
+      if (readStoryBtn) { readStoryBtn.innerHTML = "<span>🔊 Read Story</span>"; readStoryBtn.className = "btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0"; }
+
+      var skillBadge = document.getElementById('skillBadgeLabel');
+      var questionHeading = document.getElementById('questionHeading');
+      var questionHint = document.getElementById('questionHint');
+      var hintContent = document.getElementById('hintContent');
+      var audioStation = document.getElementById('audioStation');
+      var readingPassageContainer = document.getElementById('readingPassageContainer');
+      var listenSlotsArea = document.getElementById('listenSlotsArea');
+      var multipleChoiceArea = document.getElementById('multipleChoiceArea');
+      var checkBtn = document.getElementById('checkAnswerBtn');
+      if (checkBtn) checkBtn.disabled = true;
+
+      if (skill === 'listen') {
+        skillBadge.innerHTML = "🎧 Listen & Spell"; questionHeading.innerText = "Listen and spell what you hear (small letters):";
+        questionHint.classList.remove('hidden'); hintContent.innerText = q.hint;
+        audioStation.classList.remove('hidden'); readingPassageContainer.classList.add('hidden');
+        listenSlotsArea.classList.remove('hidden'); multipleChoiceArea.classList.add('hidden');
+        renderLetterSlots();
+        if (document.getElementById('loginModal').classList.contains('hidden')) setTimeout(function() { speakTargetWord(1.0); }, 380);
+      } else if (skill === 'reading') {
+        skillBadge.innerHTML = "📖 Reading Comprehension"; questionHeading.innerText = q.question;
+        questionHint.classList.add('hidden'); audioStation.classList.add('hidden');
+        readingPassageContainer.classList.remove('hidden'); listenSlotsArea.classList.add('hidden');
+        multipleChoiceArea.classList.remove('hidden');
+        document.getElementById('readingStoryTitle').innerText = q.title;
+        document.getElementById('readingStoryText').innerText = q.story;
+        var shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
+        AppState.activeOptions = shuffled.options; AppState.activeCorrectIndex = shuffled.correct;
+        renderChoiceCards(AppState.activeOptions);
+      } else if (skill === 'grammar') {
+        skillBadge.innerHTML = "📝 Grammar in Context"; questionHeading.innerText = q.question;
+        questionHint.classList.remove('hidden'); hintContent.innerText = q.hint || "Choose the grammatically correct option";
+        audioStation.classList.add('hidden'); readingPassageContainer.classList.add('hidden');
+        listenSlotsArea.classList.add('hidden'); multipleChoiceArea.classList.remove('hidden');
+        var shuffledG = shuffleChoicesWithAnswer(q.options, q.correct);
+        AppState.activeOptions = shuffledG.options; AppState.activeCorrectIndex = shuffledG.correct;
+        renderChoiceCards(AppState.activeOptions);
+      }
+      updateTopMetrics();
+    }
+
+    function renderLetterSlots() {
+      var container = document.getElementById('slotsContainer');
+      if (!container) return;
+      container.innerHTML = "";
+      var target = (AppState.currentQuestion.word || "").toLowerCase();
+      var current = AppState.typedInput.toLowerCase();
+      for (var i = 0; i < target.length; i++) {
+        if (target[i] === ' ') {
+          var spaceDiv = document.createElement('div'); spaceDiv.className = "w-4 sm:w-6 h-10 sm:h-12 shrink-0"; container.appendChild(spaceDiv);
+        } else {
+          var slot = document.createElement('div');
+          var isFilled = i < current.length && current[i] !== undefined;
+          var letterVal = isFilled ? current[i].toLowerCase() : "";
+          var isCurrentFocus = i === current.length;
+          slot.className = "w-8 sm:w-10 lg:w-11 h-11 sm:h-12 lg:h-13 rounded-2xl flex items-center justify-center font-chunky text-lg sm:text-xl font-bold lowercase transition-all shrink-0 " + (isFilled ? "bg-purple-100 text-purple-900 border-2 border-purple-400 border-b-4 border-b-purple-600 animate-pop" : isCurrentFocus ? "bg-white border-2 border-purple-500 shadow-md slot-focused" : "bg-white/80 border-2 border-purple-200 border-b-4 border-b-purple-300");
+          slot.innerText = letterVal; container.appendChild(slot);
+        }
+      }
+      var checkBtn = document.getElementById('checkAnswerBtn');
+      if (checkBtn) checkBtn.disabled = current.replace(/\s+/g, '').length < target.replace(/\s+/g, '').length;
+    }
+
+    function renderChoiceCards(options) {
+      var container = document.getElementById('multipleChoiceArea');
+      if (!container) return;
+      container.innerHTML = ""; var letters = ['A', 'B', 'C', 'D'];
+      options.forEach(function(opt, idx) {
+        var card = document.createElement('div'); var isSelected = AppState.selectedOptionIndex === idx;
+        card.className = "btn-choice p-3 sm:p-4 flex items-center gap-3 " + (isSelected ? 'btn-choice-selected' : '');
+        card.onclick = function() {
+          AppState.selectedOptionIndex = idx;
+          renderChoiceCards(AppState.activeOptions);
+          var btn = document.getElementById('checkAnswerBtn'); if (btn) btn.disabled = false;
+        };
+        card.innerHTML = '<div class="w-8 h-8 rounded-xl font-chunky font-bold flex items-center justify-center text-xs shrink-0 ' + (isSelected ? 'bg-purple-700 text-white shadow-sm' : 'bg-purple-100 text-purple-800') + '">' + letters[idx] + '</div>' +
+          '<span class="text-xs sm:text-sm font-bold text-purple-950 flex-grow text-left leading-snug">' + opt + '</span>' +
+          '<div class="w-5 h-5 rounded-full border-2 border-purple-300 flex items-center justify-center shrink-0 ' + (isSelected ? 'border-purple-600 bg-purple-600 text-white' : '') + '">' + (isSelected ? '✓' : '') + '</div>';
+        container.appendChild(card);
+      });
+    }
+
+    if (hiddenTypingInput) {
+      hiddenTypingInput.addEventListener('input', function() {
+        if (AppState.currentSkill !== 'listen' || !AppState.currentQuestion) return;
+        var targetLen = (AppState.currentQuestion.word || "").length;
+        AppState.typedInput = (hiddenTypingInput.value || "").toLowerCase().replace(/[^a-z ]/g, '').slice(0, targetLen);
+        syncHiddenInputWithTypedState(); renderLetterSlots();
+      });
+      hiddenTypingInput.addEventListener('click', syncHiddenInputWithTypedState);
+      hiddenTypingInput.addEventListener('keyup', syncHiddenInputWithTypedState);
+    }
+
+    window.addEventListener('keydown', function(e) {
+      var loginModal = document.getElementById('loginModal');
+      if (loginModal && !loginModal.classList.contains('hidden')) return;
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        var checkBtn = document.getElementById('checkAnswerBtn');
+        var drawer = document.getElementById('feedbackDrawer');
+        if (drawer && drawer.classList.contains('translate-y-0')) document.getElementById('continueBtn').click();
+        else if (checkBtn && !checkBtn.disabled) checkBtn.click();
+        return;
+      }
+      if (e.target === hiddenTypingInput || document.activeElement === hiddenTypingInput) return;
+      if (AppState.currentSkill === 'listen') {
+        if (e.key === 'Backspace') {
+          e.preventDefault();
+          if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); }
+        } else if (e.key === ' ' || (/^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey)) {
+          e.preventDefault();
+          var target = (AppState.currentQuestion && AppState.currentQuestion.word ? AppState.currentQuestion.word : "").toLowerCase();
+          if (AppState.typedInput.length < target.length) { AppState.typedInput += e.key.toLowerCase(); syncHiddenInputWithTypedState(); renderLetterSlots(); }
+        }
+      }
+    });
+
+    var eraseBtn = document.getElementById('eraseLetterBtn');
+    if (eraseBtn) eraseBtn.onclick = function(e) { e.stopPropagation(); if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); } };
+    
+    var clearBtn = document.getElementById('clearAllLettersBtn');
+    if (clearBtn) clearBtn.onclick = function(e) { e.stopPropagation(); AppState.typedInput = ""; syncHiddenInputWithTypedState(); renderLetterSlots(); };
+
+    var normBtn = document.getElementById('listenNormalBtn'); if (normBtn) normBtn.onclick = function() { speakTargetWord(1.0); };
+    var slowBtn = document.getElementById('listenTurtleBtn'); if (slowBtn) slowBtn.onclick = function() { speakTargetWord(0.5); };
+
+    var checkAnsBtn = document.getElementById('checkAnswerBtn');
+    if (checkAnsBtn) {
+      checkAnsBtn.onclick = function() {
+        initAudioContext();
+        var isCorrect = false; var targetAnswer = ""; var letters = ['A', 'B', 'C', 'D'];
+        if (AppState.currentSkill === 'listen') {
+          var cleanTarget = (AppState.currentQuestion.word || "").toLowerCase().replace(/[^a-z0-9]/g, '');
+          var cleanUser = AppState.typedInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+          isCorrect = (cleanTarget === cleanUser && cleanTarget.length > 0); targetAnswer = AppState.currentQuestion.word.toLowerCase();
+        } else {
+          isCorrect = (AppState.selectedOptionIndex === AppState.activeCorrectIndex);
+          targetAnswer = letters[AppState.activeCorrectIndex] + ") " + AppState.activeOptions[AppState.activeCorrectIndex];
+        }
+
+        var drawer = document.getElementById('feedbackDrawer'); var iconBox = document.getElementById('feedbackIconBox');
+        var title = document.getElementById('feedbackTitle'); var msg = document.getElementById('feedbackMessage');
+        var continueBtn = document.getElementById('continueBtn');
+
+        drawer.classList.remove('translate-y-full', 'pointer-events-none'); drawer.classList.add('translate-y-0', 'pointer-events-auto');
+
+        if (isCorrect) {
+          AppState.streak++; AppState.xp += 15; AppState.completedCounts[AppState.currentSkill]++;
+          AppState.completedIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
+          AppState.seenQuestionIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
+          playSuccessChime(); triggerConfetti();
+          drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-emerald-500 bg-emerald-50/95 text-emerald-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
+          iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-emerald-500 text-white"; iconBox.innerText = "🎉";
+          title.innerText = "Awesome!"; msg.innerText = 'Correct Answer: "' + targetAnswer + '". Keep up the brilliant work!';
+          continueBtn.className = "btn-3d btn-3d-green w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
+        } else {
+          AppState.hearts = Math.max(0, AppState.hearts - 1); playErrorBuzz();
+          AppState.reviewQueues[AppState.currentSkill].push(AppState.currentQuestion);
+          drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-rose-500 bg-rose-50/95 text-rose-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
+          iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-rose-500 text-white"; iconBox.innerText = "💡";
+          title.innerText = "Keep trying!"; msg.innerText = 'The correct answer was: "' + targetAnswer + '". Review it and try again soon.';
+          continueBtn.className = "btn-3d btn-3d-red w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
+        }
+        updateTopMetrics(); updateEnrolledStudentScore();
+      };
+    }
+
+    var contBtn = document.getElementById('continueBtn');
+    if (contBtn) {
+      contBtn.onclick = function() {
+        var drawer = document.getElementById('feedbackDrawer');
+        drawer.classList.remove('translate-y-0', 'pointer-events-auto'); drawer.classList.add('translate-y-full', 'pointer-events-none');
+        if (AppState.hearts <= 0) { showToast("Hearts depleted! Showing your performance certificate."); if (window.openCertificateModal) window.openCertificateModal(); return; }
+        if (AppState.completedCounts[AppState.currentSkill] >= 10) {
+          if (AppState.currentSkill === 'listen') { showToast("🎧 Moving to Reading."); window.selectSkill('reading'); return; }
+          else if (AppState.currentSkill === 'reading') { showToast("📖 Moving to Grammar."); window.selectSkill('grammar'); return; }
+          else if (AppState.currentSkill === 'grammar') { if (window.openCertificateModal) window.openCertificateModal(); return; }
+        }
         loadCurrentExercise();
       };
-
-      document.querySelectorAll('.keycap-level').forEach(btn => {
-        btn.onclick = () => {
-          document.querySelectorAll('.keycap-level').forEach(b => b.className = "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900");
-          btn.className = "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold";
-          AppState.currentLevel = btn.getAttribute('data-level');
-          AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 };
-          showToast(`Level set to CEFR ${AppState.currentLevel}`);
-          loadCurrentExercise();
-        };
-      });
-
-      function updateTopMetrics() {
-        const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-        setVal('heartsCounter', AppState.hearts); setVal('streakCounter', AppState.streak); setVal('xpCounter', AppState.xp);
-        const totalCompleted = AppState.completedCounts.listen + AppState.completedCounts.reading + AppState.completedCounts.grammar;
-        const percent = Math.min(100, Math.round((totalCompleted / 30) * 100));
-        setVal('progressSummaryText', `${totalCompleted} / 30 Questions`); setVal('progressPercentageText', `${percent}%`);
-        const dbar = document.getElementById('desktopProgressBar'); if(dbar) dbar.style.width = `${percent}%`;
-        setVal('mobileProgressSummary', `Progress: ${totalCompleted} / 30`); setVal('mobileProgressPercent', `${percent}%`);
-        const mbar = document.getElementById('mobileProgressBar'); if(mbar) mbar.style.width = `${percent}%`;
-        setVal('listenCountBadge', `${AppState.completedCounts.listen}/10`); setVal('readingCountBadge', `${AppState.completedCounts.reading}/10`); setVal('grammarCountBadge', `${AppState.completedCounts.grammar}/10`);
-      }
-
-      /* ========================================================
-         7. TEACHER PORTAL & LOGIN ACTIONS
-         ======================================================== */
-      function renderTeacherCodes() {
-        const container = document.getElementById('activeCodesContainer'); if (!container) return;
-        container.innerHTML = ""; const ws = getActiveTeacherWorkspace(); const codes = ws ? ws.codes : [];
-        if (!codes || codes.length === 0) { container.innerHTML = `<div class="text-xs text-purple-600 font-bold bg-purple-100/60 p-3 rounded-xl w-full text-center">📌 لا توجد أكواد صفوف. اضغطي Generate New Code</div>`; return; }
-        codes.forEach(code => {
-          const badge = document.createElement('div'); badge.className = "flex items-center gap-1.5 bg-white border-2 border-purple-300 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 shadow-xs";
-          badge.innerHTML = `<span>📋 <strong class="tracking-wider text-purple-700">${code}</strong></span><button class="text-[10px] bg-purple-100 hover:bg-purple-200 px-2 py-0.5 rounded-md font-extrabold" onclick="if(window.copyClassCode) window.copyClassCode('${code}')">Copy</button><button class="text-[10px] bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-md font-extrabold" onclick="if(window.copyStudentLink) window.copyStudentLink('${code}')">Link</button>`;
-          container.appendChild(badge);
-        });
-      }
-
-      window.copyClassCode = function(code) { try { navigator.clipboard.writeText(code); showToast(`Copied ${code}`); } catch (err) { alert(`Code: ${code}`); } };
-      window.copyStudentLink = function(code) {
-        const ws = getActiveTeacherWorkspace(); const tName = ws ? ws.displayName : "Teacher";
-        const directUrl = `${window.location.origin}${window.location.pathname}?code=${encodeURIComponent(code)}&teacher=${encodeURIComponent(tName)}`;
-        try { navigator.clipboard.writeText(directUrl); showToast(`🔗 Link copied!`); } catch (e) { prompt("Copy link:", directUrl); }
-      };
-      window.copyMasterDirectLink = function() { const ws = getActiveTeacherWorkspace(); if (!ws || !ws.codes || ws.codes.length === 0) { showToast("⚠️ يرجى إنشاء كود صف أولاً"); return; } window.copyStudentLink(ws.codes[0]); };
-      window.addExistingClassCode = function() {
-        const ws = getActiveTeacherWorkspace(); if (!ws) return;
-        const input = document.getElementById('newClassNameInput'); let code = (input.value || "").trim().toUpperCase() || (prompt("أدخلي الكود السابق:") || "").trim().toUpperCase();
-        if (!code) return; if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
-        input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast(`✅ أضيف الكود ${code}`);
-      };
-
-      const createBtn = document.getElementById('createClassBtn');
-      if (createBtn) createBtn.onclick = () => {
-        const ws = getActiveTeacherWorkspace(); if (!ws) return;
-        const input = document.getElementById('newClassNameInput'); const code = "NX-" + Math.floor(100 + Math.random() * 900);
-        if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
-        input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast(`✅ تم إنشاء ${code}`);
-      };
-
-      function renderStudentTable() {
-        const tbody = document.getElementById('studentTableBody'); const countLabel = document.getElementById('studentCountLabel');
-        if (!tbody) return; tbody.innerHTML = ""; const ws = getActiveTeacherWorkspace(); const students = ws ? (ws.students || []) : [];
-        if (countLabel) countLabel.innerText = `${students.length} Active Student(s)`;
-        if (students.length === 0) { tbody.innerHTML = `<tr><td colspan="7" class="p-5 text-center text-purple-400 font-bold">لا توجد طالبات بعد</td></tr>`; return; }
-        students.forEach(st => {
-          const tr = document.createElement('tr'); tr.className = "hover:bg-purple-50/50 transition";
-          tr.innerHTML = `<td class="p-2.5 font-bold text-purple-900">${st.name}</td><td class="p-2.5 font-bold text-purple-700 bg-purple-50/60 rounded">${st.gradeClass || 'N/A'}</td><td class="p-2.5"><span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">${st.code || 'N/A'}</span></td><td class="p-2.5 font-bold text-purple-700">CEFR ${st.level || 'A1'}</td><td class="p-2.5 font-bold text-violet-700">💎 ${st.xp || 0}</td><td class="p-2.5 font-bold text-rose-600">❤️ ${st.hearts !== undefined ? st.hearts : 5}</td><td class="p-2.5 font-bold text-amber-600">🔥 ${st.streak || 0}</td>`;
-          tbody.appendChild(tr);
-        });
-      }
-
-      function updateEnrolledStudentScore() {
-        const currName = AppState.user.name; const currCode = AppState.user.classCode;
-        if (!currName || !currCode) return;
-        let ownerKey = findTeacherKeyByClassCode(currCode) || AppState.loggedInTeacherKey; if (!ownerKey) return;
-        const ws = AppState.teachersWorkspaces[ownerKey]; if (!ws) return; if (!Array.isArray(ws.students)) ws.students = [];
-        let record = ws.students.find(s => s.name.toLowerCase() === currName.toLowerCase() && s.code === currCode);
-        if (!record) { record = { name: currName, gradeClass: AppState.user.gradeClass || "Grade 8", code: currCode, level: AppState.currentLevel, xp: AppState.xp, hearts: AppState.hearts, streak: AppState.streak, time: new Date().toLocaleTimeString() }; ws.students.push(record); } 
-        else { record.level = AppState.currentLevel; record.xp = AppState.xp; record.hearts = AppState.hearts; record.streak = AppState.streak; record.gradeClass = AppState.user.gradeClass || record.gradeClass; }
-        saveWorkspacesToStorage(); if (AppState.loggedInTeacherKey === ownerKey) renderStudentTable();
-      }
-
-      window.changeTeacherPassword = function() {
-        const ws = getActiveTeacherWorkspace(); if (!ws) return;
-        const newPw = prompt(`أدخلي كلمة المرور الجديدة لحساب (${ws.displayName}):`);
-        if (newPw && newPw.trim().length >= 2) { ws.password = newPw.trim(); saveWorkspacesToStorage(); showToast("🔒 تم التحديث!"); }
-      };
-
-      window.downloadTeacherCredentialsCard = function() {
-        const ws = getActiveTeacherWorkspace(); if (!ws) return;
-        const content = `NEXLY TEACHER CREDENTIALS\nName: ${ws.displayName}\nEmail: ${ws.email}\nPassword: ${ws.password}\nCodes: ${(ws.codes && ws.codes.length) ? ws.codes.join(', ') : 'None'}`;
-        const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Nexly_Teacher_${ws.displayName.replace(/\s+/g, '_')}.txt`;
-        document.body.appendChild(a); a.click(); document.body.removeChild(a); showToast("🪪 تم تنزيل البطاقة");
-      };
-
-      window.openTeacherModal = function() {
-        const ws = getActiveTeacherWorkspace();
-        if (!ws) { window.openLoginModal(); window.switchMainRole('teacher'); return; }
-        const dTag = document.getElementById('teacherDisplayTag'); if(dTag) dTag.innerText = ws.displayName;
-        const eTag = document.getElementById('teacherEmailTag'); if(eTag) eTag.innerText = ws.email ? `(${ws.email})` : "";
-        renderTeacherCodes(); renderStudentTable();
-        const tm = document.getElementById('teacherModal'); if(tm) tm.classList.remove('hidden');
-      };
-
-      window.closeTeacherModal = function() { const tm = document.getElementById('teacherModal'); if(tm) tm.classList.add('hidden'); };
-      window.logoutTeacher = function() { AppState.loggedInTeacherKey = null; AppState.user = { name: "", gradeClass: "", classCode: "", role: "student" }; const nm = document.getElementById('activeUserName'); if(nm) nm.innerText = "Student"; window.closeTeacherModal(); window.openLoginModal(); window.switchMainRole('teacher'); showToast("🚪 تم تسجيل الخروج"); };
-
-      const csvBtn = document.getElementById('downloadCsvBtn');
-      if (csvBtn) csvBtn.onclick = () => {
-        const ws = getActiveTeacherWorkspace(); const students = ws ? (ws.students || []) : [];
-        if (students.length === 0) { showToast("⚠️ لا توجد طالبات"); return; }
-        let csv = "Student Name,Class / Section,Class Code,Level,XP,Hearts,Streak,Teacher,Date\n";
-        students.forEach(st => csv += `"${st.name}","${st.gradeClass || 'N/A'}","${st.code || 'N/A'}","${st.level || 'A1'}",${st.xp || 0},${st.hearts !== undefined ? st.hearts : 5},${st.streak || 0},"${ws.displayName}","${new Date().toLocaleDateString()}"\n`);
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })); a.download = `Nexly_Report.csv`; document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      };
-
-      const tPortalBtn = document.getElementById('teacherPortalBtn');
-      if (tPortalBtn) tPortalBtn.onclick = () => { if (AppState.loggedInTeacherKey && getActiveTeacherWorkspace()) { window.openTeacherModal(); } else { window.openLoginModal(); window.switchMainRole('teacher'); } };
-
-      /* --- AUTH FORMS --- */
-      const stuForm = document.getElementById('studentSimpleLoginForm');
-      if (stuForm) stuForm.onsubmit = (e) => {
-        e.preventDefault();
-        const sName = document.getElementById('stuNameInput').value.trim(); const sClass = document.getElementById('stuClassInput').value.trim(); const sCode = document.getElementById('stuCodeInput').value.trim().toUpperCase(); const errEl = document.getElementById('stuLoginError');
-        if (!sCode || sCode === "CLASS-CODE" || sCode === "E.G. CLASS-CODE" || sCode.length < 2) { errEl.classList.remove('hidden'); playErrorBuzz(); return; }
-        errEl.classList.add('hidden');
-        AppState.user = { name: sName, gradeClass: sClass, classCode: sCode, role: "student" }; AppState.currentLevel = "A1";
-        document.querySelectorAll('.keycap-level').forEach(b => b.className = (b.getAttribute('data-level') === 'A1') ? "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" : "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900");
-        const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = sName;
-        updateEnrolledStudentScore(); triggerConfetti(); playSuccessChime(); window.closeLoginModal(); showToast(`Welcome, ${sName}!`); loadCurrentExercise();
-      };
-
-      const tLogForm = document.getElementById('teacherDirectLoginForm');
-      if (tLogForm) tLogForm.onsubmit = (e) => {
-        e.preventDefault();
-        const identifier = document.getElementById('tLoginName').value.trim(); const pass = document.getElementById('tLoginPass').value.trim(); const errBox = document.getElementById('tLoginError');
-        const found = findTeacherWorkspace(identifier);
-        if (!found) { errBox.innerHTML = `⚠️ هذا الحساب غير مسجل!`; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-        if (found.data.password !== pass) { errBox.innerHTML = `⚠️ كلمة المرور غير صحيحة!`; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-        errBox.classList.add('hidden'); AppState.loggedInTeacherKey = found.key; AppState.user = { name: found.data.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
-        const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = found.data.displayName;
-        document.getElementById('tLoginPass').value = ""; window.closeLoginModal(); window.openTeacherModal(); showToast(`مرحباً ${found.data.displayName}!`);
-      };
-
-      window.resetTeacherStep1 = function() {
-        document.getElementById('teacherStep1_Form').classList.remove('hidden'); document.getElementById('teacherStep2_Form').classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.add('hidden');
-        document.getElementById('tOtpError').classList.add('hidden'); document.getElementById('tPassMatchError').classList.add('hidden'); document.getElementById('tRegStep1Error').classList.add('hidden');
-      };
-      
-      const tReg1 = document.getElementById('teacherStep1_Form');
-      if (tReg1) tReg1.onsubmit = (e) => {
-        e.preventDefault();
-        const tName = document.getElementById('tRegName').value.trim(); const tEmail = document.getElementById('tRegEmail').value.trim(); const step1Err = document.getElementById('tRegStep1Error');
-        if (findTeacherWorkspace(tName) || findTeacherWorkspace(tEmail)) { step1Err.innerText = "⚠️ مسجل مسبقاً!"; step1Err.classList.remove('hidden'); playErrorBuzz(); return; }
-        step1Err.classList.add('hidden'); const otp = Math.floor(1000 + Math.random() * 9000).toString();
-        AppState.tempTeacherSignUp = { name: tName, email: tEmail, otp: otp };
-        tReg1.classList.add('hidden'); document.getElementById('teacherStep2_Form').classList.remove('hidden');
-        document.getElementById('tDisplayEmail').innerText = tEmail; document.getElementById('tActiveOtp').innerText = otp; document.getElementById('tInputOtp').value = otp;
-        showEmailAlert(`📬 رسالة تحقق`, `مرحباً، الكود هو [ ${otp} ]`); playSuccessChime();
-      };
-
-      const tReg2 = document.getElementById('teacherStep2_Form');
-      if (tReg2) tReg2.onsubmit = (e) => {
-        e.preventDefault();
-        const errBox = document.getElementById('tOtpError');
-        if (document.getElementById('tInputOtp').value.trim() !== AppState.tempTeacherSignUp.otp) { document.getElementById('tInputOtp').value = AppState.tempTeacherSignUp.otp; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-        errBox.classList.add('hidden'); playSuccessChime(); tReg2.classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.remove('hidden'); showToast("✅ تم التحقق!");
-      };
-
-      const tReg3 = document.getElementById('teacherStep3_Form');
-      if (tReg3) tReg3.onsubmit = (e) => {
-        e.preventDefault();
-        const pw1 = document.getElementById('tNewPass').value.trim(); const pw2 = document.getElementById('tConfirmPass').value.trim(); const errBox = document.getElementById('tPassMatchError');
-        if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-        errBox.classList.add('hidden'); const tName = AppState.tempTeacherSignUp.name; const tKey = normalizeKey(tName);
-        AppState.teachersWorkspaces[tKey] = { displayName: tName, email: AppState.tempTeacherSignUp.email, password: pw1, codes: [], students: [] }; saveWorkspacesToStorage();
-        AppState.loggedInTeacherKey = tKey; AppState.user = { name: tName, gradeClass: "Teacher", classCode: "", role: "teacher" };
-        const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = tName;
-        triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal();
-      };
-
-      window.resetTeacherForgotStep1 = function() {
-        document.getElementById('teacherForgotStep1_Form').classList.remove('hidden'); document.getElementById('teacherForgotStep2_Form').classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.add('hidden');
-        document.getElementById('tForgotStep1Error').classList.add('hidden'); document.getElementById('tForgotOtpError').classList.add('hidden'); document.getElementById('tForgotPassMatchError').classList.add('hidden');
-      };
-
-      const tForg1 = document.getElementById('teacherForgotStep1_Form');
-      if (tForg1) tForg1.onsubmit = (e) => {
-        e.preventDefault();
-        const iden = document.getElementById('tForgotIdentifier').value.trim(); const errBox = document.getElementById('tForgotStep1Error'); const found = findTeacherWorkspace(iden);
-        if (!found) { errBox.innerHTML = `⚠️ لم يتم العثور على حساب!`; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-        errBox.classList.add('hidden'); const otp = Math.floor(1000 + Math.random() * 9000).toString();
-        AppState.tempTeacherRecovery = { key: found.key, name: found.data.displayName, email: found.data.email, otp: otp };
-        tForg1.classList.add('hidden'); document.getElementById('teacherForgotStep2_Form').classList.remove('hidden');
-        document.getElementById('tForgotDisplayAccount').innerText = `${found.data.displayName}`; document.getElementById('tForgotActiveOtp').innerText = otp; document.getElementById('tForgotInputOtp').value = otp;
-        showEmailAlert(`🔑 كود استعادة`, `الكود هو [ ${otp} ]`); playSuccessChime();
-      };
-
-      const tForg2 = document.getElementById('teacherForgotStep2_Form');
-      if (tForg2) tForg2.onsubmit = (e) => {
-        e.preventDefault();
-        const errBox = document.getElementById('tForgotOtpError');
-        if (document.getElementById('tForgotInputOtp').value.trim() !== AppState.tempTeacherRecovery.otp) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-        errBox.classList.add('hidden'); playSuccessChime(); tForg2.classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.remove('hidden');
-      };
-
-      const tForg3 = document.getElementById('teacherForgotStep3_Form');
-      if (tForg3) tForg3.onsubmit = (e) => {
-        e.preventDefault();
-        const pw1 = document.getElementById('tForgotNewPass').value.trim(); const pw2 = document.getElementById('tForgotConfirmPass').value.trim(); const errBox = document.getElementById('tForgotPassMatchError');
-        if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-        errBox.classList.add('hidden'); const targetKey = AppState.tempTeacherRecovery.key; const ws = AppState.teachersWorkspaces[targetKey];
-        if (ws) { ws.password = pw1; saveWorkspacesToStorage(); AppState.loggedInTeacherKey = targetKey; AppState.user = { name: ws.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" }; const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = ws.displayName; triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal(); }
-      };
-
-      window.openCertificateModal = function() {
-        const cModal = document.getElementById('certificateModal'); if(!cModal) return;
-        document.getElementById('certStudentName').innerText = AppState.user.name || "Enthusiastic Learner"; document.getElementById('certStudentClass').innerText = `Class: ${AppState.user.gradeClass || 'General'}`;
-        document.getElementById('certLevelName').innerText = `CEFR ${AppState.currentLevel}`; document.getElementById('certTotalXp').innerText = `${AppState.xp} XP`; document.getElementById('certStreak').innerText = `🔥 ${AppState.streak}`; document.getElementById('certDateText').innerText = new Date().toISOString().split('T')[0];
-        let cT = directTeacher || "T. Hameeda BuSakhar"; const oK = findTeacherKeyByClassCode(AppState.user.classCode); if (oK && AppState.teachersWorkspaces[oK]) cT = AppState.teachersWorkspaces[oK].displayName;
-        document.getElementById('certTeacherSignature').innerText = cT;
-        cModal.classList.remove('hidden'); triggerConfetti(); playSuccessChime();
-      };
-
-      window.closeCertificateModal = function() { const cModal = document.getElementById('certificateModal'); if(cModal) cModal.classList.add('hidden'); AppState.hearts = 5; updateTopMetrics(); };
-      window.startLevelPracticeAgain = function() { window.closeCertificateModal(); AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 }; window.selectSkill('listen'); showToast(`🔄 Starting fresh practice!`); };
-
-      document.getElementById('langToggleBtn').onclick = () => {
-        AppState.uiLang = (AppState.uiLang === 'EN') ? 'AR' : 'EN'; const isAr = (AppState.uiLang === 'AR');
-        document.getElementById('langLabel').innerText = isAr ? 'EN' : 'AR'; document.getElementById('btnTeacherLabel').innerText = isAr ? 'المعلمة' : 'Teacher';
-        document.getElementById('lblNormalAudio').innerText = isAr ? 'استمع (1.0x)' : 'Listen (1.0x)'; document.getElementById('lblTurtleAudio').innerText = isAr ? 'بطيء (0.5x)' : 'Slow (0.5x)';
-        document.getElementById('lblErase').innerText = isAr ? 'مسح' : 'Erase'; document.getElementById('lblClear').innerText = isAr ? 'إعادة' : 'Clear';
-        const chk = document.getElementById('checkAnswerBtn'); if(chk) chk.innerText = isAr ? 'تحقق من الإجابة' : 'CHECK ANSWER';
-        const skp = document.getElementById('skipQuestionBtn'); if(skp) skp.innerText = isAr ? 'تخطي الآن' : 'Skip for now';
-        document.getElementById('audioInstructionNote').innerText = isAr ? '💡 نطق بشري حقيقي وواضح • اضغطي 🔊 أو 🐢' : '💡 Real Human Pronunciation • Tap 🔊 Normal or 🐢 Slow';
-      };
-
-      window.addEventListener('DOMContentLoaded', () => {
-        if (directCode) { const codeInp = document.getElementById('stuCodeInput'); if (codeInp) codeInp.value = directCode; }
-        updateTopMetrics(); loadCurrentExercise();
-      });
-
-    } catch (criticalError) {
-      console.error("Fatal initialization error intercepted:", criticalError);
     }
+
+    var skipBtn = document.getElementById('skipQuestionBtn');
+    if (skipBtn) skipBtn.onclick = function() { loadCurrentExercise(); };
+
+    window.selectSkill = function(skillName) {
+      AppState.currentSkill = skillName;
+      ['listen', 'reading', 'grammar'].forEach(function(s) {
+        var tab = document.getElementById("skillTab-" + s);
+        if (tab) tab.className = (s === skillName) ? "btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" : "btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5";
+      });
+      loadCurrentExercise();
+    };
+
+    document.querySelectorAll('.keycap-level').forEach(function(btn) {
+      btn.onclick = function() {
+        document.querySelectorAll('.keycap-level').forEach(function(b) { b.className = "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900"; });
+        btn.className = "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold";
+        AppState.currentLevel = btn.getAttribute('data-level');
+        AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 };
+        showToast("Level set to CEFR " + AppState.currentLevel);
+        loadCurrentExercise();
+      };
+    });
+
+    function updateTopMetrics() {
+      var setVal = function(id, val) { var el = document.getElementById(id); if (el) el.innerText = val; };
+      setVal('heartsCounter', AppState.hearts); setVal('streakCounter', AppState.streak); setVal('xpCounter', AppState.xp);
+      setVal('listenCountBadge', AppState.completedCounts.listen + "/10");
+      setVal('readingCountBadge', AppState.completedCounts.reading + "/10");
+      setVal('grammarCountBadge', AppState.completedCounts.grammar + "/10");
+    }
+
+    /* ========================================================
+       7. TEACHER PORTAL & LOGIN ACTIONS
+       ======================================================== */
+    function renderTeacherCodes() {
+      var container = document.getElementById('activeCodesContainer'); if (!container) return;
+      container.innerHTML = ""; var ws = getActiveTeacherWorkspace(); var codes = ws ? ws.codes : [];
+      if (!codes || codes.length === 0) { container.innerHTML = '<div class="text-xs text-purple-600 font-bold bg-purple-100/60 p-3 rounded-xl w-full text-center">📌 لا توجد أكواد صفوف. اضغطي + Generate New Code</div>'; return; }
+      codes.forEach(function(code) {
+        var badge = document.createElement('div'); badge.className = "flex items-center gap-1.5 bg-white border-2 border-purple-300 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 shadow-xs";
+        badge.innerHTML = '<span>📋 <strong class="tracking-wider text-purple-700">' + code + '</strong></span>' +
+          '<button type="button" class="text-[10px] bg-purple-100 hover:bg-purple-200 px-2 py-0.5 rounded-md font-extrabold" onclick="window.copyClassCode(\'' + code + '\')">Copy</button>' +
+          '<button type="button" class="text-[10px] bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-md font-extrabold" onclick="window.copyStudentLink(\'' + code + '\')">Link</button>';
+        container.appendChild(badge);
+      });
+    }
+
+    window.copyClassCode = function(code) {
+      try { navigator.clipboard.writeText(code); showToast("Copied " + code); } catch (err) { showToast("Code: " + code); }
+    };
+    window.copyStudentLink = function(code) {
+      var ws = getActiveTeacherWorkspace(); var tName = ws ? ws.displayName : "Teacher";
+      var directUrl = window.location.origin + window.location.pathname + "?code=" + encodeURIComponent(code) + "&teacher=" + encodeURIComponent(tName);
+      try { navigator.clipboard.writeText(directUrl); showToast("🔗 Link copied!"); } catch (e) { showToast("Link: " + directUrl); }
+    };
+    window.copyMasterDirectLink = function() {
+      var ws = getActiveTeacherWorkspace();
+      if (!ws || !ws.codes || ws.codes.length === 0) { showToast("⚠️ يرجى إنشاء كود صف أولاً"); return; }
+      window.copyStudentLink(ws.codes[0]);
+    };
+    window.addExistingClassCode = function() {
+      var ws = getActiveTeacherWorkspace(); if (!ws) return;
+      var input = document.getElementById('newClassNameInput');
+      var code = (input.value || "").trim().toUpperCase();
+      if (!code) { showToast("⚠️ اكتبي الكود في الخانة أولاً ثم اضغطي Add Existing Code"); return; }
+      if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
+      input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast("✅ أضيف الكود " + code);
+    };
+
+    var createBtn = document.getElementById('createClassBtn');
+    if (createBtn) createBtn.onclick = function() {
+      var ws = getActiveTeacherWorkspace(); if (!ws) return;
+      var input = document.getElementById('newClassNameInput'); var code = "NX-" + Math.floor(100 + Math.random() * 900);
+      if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
+      input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast("✅ تم إنشاء الكود " + code);
+    };
+
+    function renderStudentTable() {
+      var tbody = document.getElementById('studentTableBody'); var countLabel = document.getElementById('studentCountLabel');
+      if (!tbody) return; tbody.innerHTML = ""; var ws = getActiveTeacherWorkspace(); var students = ws ? (ws.students || []) : [];
+      if (countLabel) countLabel.innerText = students.length + " Active Student(s)";
+      if (students.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="p-5 text-center text-purple-400 font-bold">لا توجد طالبات مسجلات بعد</td></tr>'; return; }
+      students.forEach(function(st) {
+        var tr = document.createElement('tr'); tr.className = "hover:bg-purple-50/50 transition";
+        tr.innerHTML = '<td class="p-2.5 font-bold text-purple-900">' + st.name + '</td>' +
+          '<td class="p-2.5 font-bold text-purple-700 bg-purple-50/60 rounded">' + (st.gradeClass || 'N/A') + '</td>' +
+          '<td class="p-2.5"><span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">' + (st.code || 'N/A') + '</span></td>' +
+          '<td class="p-2.5 font-bold text-purple-700">CEFR ' + (st.level || 'A1') + '</td>' +
+          '<td class="p-2.5 font-bold text-violet-700">💎 ' + (st.xp || 0) + '</td>' +
+          '<td class="p-2.5 font-bold text-rose-600">❤️ ' + (st.hearts !== undefined ? st.hearts : 5) + '</td>' +
+          '<td class="p-2.5 font-bold text-amber-600">🔥 ' + (st.streak || 0) + '</td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateEnrolledStudentScore() {
+      var currName = AppState.user.name; var currCode = AppState.user.classCode;
+      if (!currName || !currCode) return;
+      var ownerKey = findTeacherKeyByClassCode(currCode) || AppState.loggedInTeacherKey; if (!ownerKey) return;
+      var ws = AppState.teachersWorkspaces[ownerKey]; if (!ws) return; if (!Array.isArray(ws.students)) ws.students = [];
+      var record = ws.students.find(function(s) { return s.name.toLowerCase() === currName.toLowerCase() && s.code === currCode; });
+      if (!record) {
+        record = { name: currName, gradeClass: AppState.user.gradeClass || "Grade 8", code: currCode, level: AppState.currentLevel, xp: AppState.xp, hearts: AppState.hearts, streak: AppState.streak, time: new Date().toLocaleTimeString() };
+        ws.students.push(record);
+      } else {
+        record.level = AppState.currentLevel; record.xp = AppState.xp; record.hearts = AppState.hearts; record.streak = AppState.streak; record.gradeClass = AppState.user.gradeClass || record.gradeClass;
+      }
+      saveWorkspacesToStorage(); if (AppState.loggedInTeacherKey === ownerKey) renderStudentTable();
+    }
+
+    window.changeTeacherPassword = function() {
+      window.closeTeacherModal();
+      window.openLoginModal('teacher');
+      window.setTeacherAuthView('forgot');
+    };
+
+    window.downloadTeacherCredentialsCard = function() {
+      var ws = getActiveTeacherWorkspace(); if (!ws) return;
+      var content = "NEXLY TEACHER CREDENTIALS\nName: " + ws.displayName + "\nEmail: " + ws.email + "\nPassword: " + ws.password + "\nCodes: " + ((ws.codes && ws.codes.length) ? ws.codes.join(', ') : 'None');
+      var blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Nexly_Teacher_" + ws.displayName.replace(/\s+/g, '_') + ".txt";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); showToast("🪪 تم تنزيل البطاقة");
+    };
+
+    window.openTeacherModal = function() {
+      var ws = getActiveTeacherWorkspace();
+      if (!ws) { window.openLoginModal('teacher'); return; }
+      var dTag = document.getElementById('teacherDisplayTag'); if (dTag) dTag.innerText = ws.displayName;
+      var eTag = document.getElementById('teacherEmailTag'); if (eTag) eTag.innerText = ws.email ? "(" + ws.email + ")" : "";
+      renderTeacherCodes(); renderStudentTable();
+      var tm = document.getElementById('teacherModal'); if (tm) { tm.classList.remove('hidden'); tm.style.display = 'flex'; }
+    };
+
+    window.closeTeacherModal = function() {
+      var tm = document.getElementById('teacherModal'); if (tm) { tm.classList.add('hidden'); tm.style.display = 'none'; }
+    };
+
+    window.logoutTeacher = function() {
+      AppState.loggedInTeacherKey = null; AppState.user = { name: "", gradeClass: "", classCode: "", role: "student" };
+      var nm = document.getElementById('activeUserName'); if (nm) nm.innerText = "Student";
+      window.closeTeacherModal(); window.openLoginModal('teacher'); showToast("🚪 تم تسجيل الخروج");
+    };
+
+    var csvBtn = document.getElementById('downloadCsvBtn');
+    if (csvBtn) csvBtn.onclick = function() {
+      var ws = getActiveTeacherWorkspace(); var students = ws ? (ws.students || []) : [];
+      if (students.length === 0) { showToast("⚠️ لا توجد طالبات مسجلات بعد"); return; }
+      var csv = "Student Name,Class / Section,Class Code,Level,XP,Hearts,Streak,Teacher,Date\n";
+      students.forEach(function(st) {
+        csv += '"' + st.name + '","' + (st.gradeClass || 'N/A') + '","' + (st.code || 'N/A') + '","' + (st.level || 'A1') + '",' + (st.xp || 0) + ',' + (st.hearts !== undefined ? st.hearts : 5) + ',' + (st.streak || 0) + ',"' + ws.displayName + '","' + new Date().toLocaleDateString() + '"\n';
+      });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })); a.download = "Nexly_Report.csv"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    };
+
+    var tPortalBtn = document.getElementById('teacherPortalBtn');
+    if (tPortalBtn) tPortalBtn.onclick = function() {
+      if (AppState.loggedInTeacherKey && getActiveTeacherWorkspace()) { window.openTeacherModal(); }
+      else { window.openLoginModal('teacher'); }
+    };
+
+    /* --- AUTH FORMS --- */
+    var stuForm = document.getElementById('studentSimpleLoginForm');
+    if (stuForm) stuForm.onsubmit = function(e) {
+      e.preventDefault();
+      var sName = document.getElementById('stuNameInput').value.trim();
+      var sClass = document.getElementById('stuClassInput').value.trim();
+      var sCode = document.getElementById('stuCodeInput').value.trim().toUpperCase();
+      var errEl = document.getElementById('stuLoginError');
+      if (!sCode || sCode === "CLASS-CODE" || sCode === "E.G. CLASS-CODE" || sCode.length < 2) { errEl.classList.remove('hidden'); playErrorBuzz(); return; }
+      errEl.classList.add('hidden');
+      AppState.user = { name: sName, gradeClass: sClass, classCode: sCode, role: "student" }; AppState.currentLevel = "A1";
+      document.querySelectorAll('.keycap-level').forEach(function(b) { b.className = (b.getAttribute('data-level') === 'A1') ? "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" : "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900"; });
+      var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = sName;
+      updateEnrolledStudentScore(); triggerConfetti(); playSuccessChime(); window.closeLoginModal(); showToast("Welcome, " + sName + "!"); loadCurrentExercise();
+    };
+
+    var tLogForm = document.getElementById('teacherDirectLoginForm');
+    if (tLogForm) tLogForm.onsubmit = function(e) {
+      e.preventDefault();
+      var identifier = document.getElementById('tLoginName').value.trim();
+      var pass = document.getElementById('tLoginPass').value.trim();
+      var errBox = document.getElementById('tLoginError');
+      var found = findTeacherWorkspace(identifier);
+      if (!found) {
+        errBox.innerHTML = '⚠️ هذا الحساب غير مسجل بعد! اضغطي على <b>✨ First Time Sign Up (تسجيل جديد)</b> بالأعلى لإنشاء حسابكِ أولاً.';
+        errBox.classList.remove('hidden'); playErrorBuzz(); return;
+      }
+      if (found.data.password !== pass) {
+        errBox.innerHTML = '⚠️ كلمة المرور غير صحيحة! يمكنكِ الضغط على <b>نسيتِ كلمة المرور؟</b> لاستعادتها.';
+        errBox.classList.remove('hidden'); playErrorBuzz(); return;
+      }
+      errBox.classList.add('hidden'); AppState.loggedInTeacherKey = found.key;
+      AppState.user = { name: found.data.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+      var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = found.data.displayName;
+      document.getElementById('tLoginPass').value = ""; window.closeLoginModal(); window.openTeacherModal(); showToast("مرحباً " + found.data.displayName + "!");
+    };
+
+    window.resetTeacherStep1 = function() {
+      document.getElementById('teacherStep1_Form').classList.remove('hidden'); document.getElementById('teacherStep2_Form').classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.add('hidden');
+      document.getElementById('tOtpError').classList.add('hidden'); document.getElementById('tPassMatchError').classList.add('hidden'); document.getElementById('tRegStep1Error').classList.add('hidden');
+    };
+    
+    var tReg1 = document.getElementById('teacherStep1_Form');
+    if (tReg1) tReg1.onsubmit = function(e) {
+      e.preventDefault();
+      var tName = document.getElementById('tRegName').value.trim(); var tEmail = document.getElementById('tRegEmail').value.trim(); var step1Err = document.getElementById('tRegStep1Error');
+      if (findTeacherWorkspace(tName) || findTeacherWorkspace(tEmail)) { step1Err.innerText = "⚠️ هذا الحساب مسجل مسبقاً! انتقلي لتبويب Teacher Login للدخول."; step1Err.classList.remove('hidden'); playErrorBuzz(); return; }
+      step1Err.classList.add('hidden'); var otp = Math.floor(1000 + Math.random() * 9000).toString();
+      AppState.tempTeacherSignUp = { name: tName, email: tEmail, otp: otp };
+      tReg1.classList.add('hidden'); document.getElementById('teacherStep2_Form').classList.remove('hidden');
+      document.getElementById('tDisplayEmail').innerText = tEmail; document.getElementById('tActiveOtp').innerText = otp; document.getElementById('tInputOtp').value = otp;
+      showEmailAlert("📬 رسالة تحقق فورية", "مرحباً " + tName + "، كود التحقق هو [ " + otp + " ] وتمت تعبئته تلقائياً!"); playSuccessChime();
+    };
+
+    var tReg2 = document.getElementById('teacherStep2_Form');
+    if (tReg2) tReg2.onsubmit = function(e) {
+      e.preventDefault();
+      var errBox = document.getElementById('tOtpError');
+      if (document.getElementById('tInputOtp').value.trim() !== AppState.tempTeacherSignUp.otp) { document.getElementById('tInputOtp').value = AppState.tempTeacherSignUp.otp; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+      errBox.classList.add('hidden'); playSuccessChime(); tReg2.classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.remove('hidden'); showToast("✅ تم التحقق!");
+    };
+
+    var tReg3 = document.getElementById('teacherStep3_Form');
+    if (tReg3) tReg3.onsubmit = function(e) {
+      e.preventDefault();
+      var pw1 = document.getElementById('tNewPass').value.trim(); var pw2 = document.getElementById('tConfirmPass').value.trim(); var errBox = document.getElementById('tPassMatchError');
+      if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+      errBox.classList.add('hidden'); var tName = AppState.tempTeacherSignUp.name; var tKey = normalizeKey(tName);
+      AppState.teachersWorkspaces[tKey] = { displayName: tName, email: AppState.tempTeacherSignUp.email, password: pw1, codes: [], students: [] }; saveWorkspacesToStorage();
+      AppState.loggedInTeacherKey = tKey; AppState.user = { name: tName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+      var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = tName;
+      triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal();
+    };
+
+    window.resetTeacherForgotStep1 = function() {
+      document.getElementById('teacherForgotStep1_Form').classList.remove('hidden'); document.getElementById('teacherForgotStep2_Form').classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.add('hidden');
+      document.getElementById('tForgotStep1Error').classList.add('hidden'); document.getElementById('tForgotOtpError').classList.add('hidden'); document.getElementById('tForgotPassMatchError').classList.add('hidden');
+    };
+
+    var tForg1 = document.getElementById('teacherForgotStep1_Form');
+    if (tForg1) tForg1.onsubmit = function(e) {
+      e.preventDefault();
+      var iden = document.getElementById('tForgotIdentifier').value.trim(); var errBox = document.getElementById('tForgotStep1Error'); var found = findTeacherWorkspace(iden);
+      if (!found) { errBox.innerHTML = "⚠️ لم يتم العثور على حساب بهذا الاسم أو الإيميل!"; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+      errBox.classList.add('hidden'); var otp = Math.floor(1000 + Math.random() * 9000).toString();
+      AppState.tempTeacherRecovery = { key: found.key, name: found.data.displayName, email: found.data.email, otp: otp };
+      tForg1.classList.add('hidden'); document.getElementById('teacherForgotStep2_Form').classList.remove('hidden');
+      document.getElementById('tForgotDisplayAccount').innerText = found.data.displayName; document.getElementById('tForgotActiveOtp').innerText = otp; document.getElementById('tForgotInputOtp').value = otp;
+      showEmailAlert("🔑 كود استعادة كلمة المرور", "الكود هو [ " + otp + " ] وتمت تعبئته تلقائياً!"); playSuccessChime();
+    };
+
+    var tForg2 = document.getElementById('teacherForgotStep2_Form');
+    if (tForg2) tForg2.onsubmit = function(e) {
+      e.preventDefault();
+      var errBox = document.getElementById('tForgotOtpError');
+      if (document.getElementById('tForgotInputOtp').value.trim() !== AppState.tempTeacherRecovery.otp) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+      errBox.classList.add('hidden'); playSuccessChime(); tForg2.classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.remove('hidden');
+    };
+
+    var tForg3 = document.getElementById('teacherForgotStep3_Form');
+    if (tForg3) tForg3.onsubmit = function(e) {
+      e.preventDefault();
+      var pw1 = document.getElementById('tForgotNewPass').value.trim(); var pw2 = document.getElementById('tForgotConfirmPass').value.trim(); var errBox = document.getElementById('tForgotPassMatchError');
+      if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+      errBox.classList.add('hidden'); var targetKey = AppState.tempTeacherRecovery.key; var ws = AppState.teachersWorkspaces[targetKey];
+      if (ws) {
+        ws.password = pw1; saveWorkspacesToStorage(); AppState.loggedInTeacherKey = targetKey;
+        AppState.user = { name: ws.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+        var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = ws.displayName;
+        triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal();
+      }
+    };
+
+    window.openCertificateModal = function() {
+      var cModal = document.getElementById('certificateModal'); if (!cModal) return;
+      document.getElementById('certStudentName').innerText = AppState.user.name || "Enthusiastic Learner";
+      document.getElementById('certStudentClass').innerText = "Class: " + (AppState.user.gradeClass || 'General');
+      document.getElementById('certLevelName').innerText = "CEFR " + AppState.currentLevel;
+      document.getElementById('certTotalXp').innerText = AppState.xp + " XP";
+      document.getElementById('certStreak').innerText = "🔥 " + AppState.streak;
+      document.getElementById('certDateText').innerText = new Date().toISOString().split('T')[0];
+      var cT = directTeacher || "T. Hameeda BuSakhar"; var oK = findTeacherKeyByClassCode(AppState.user.classCode);
+      if (oK && AppState.teachersWorkspaces[oK]) cT = AppState.teachersWorkspaces[oK].displayName;
+      document.getElementById('certTeacherSignature').innerText = cT;
+      cModal.classList.remove('hidden'); triggerConfetti(); playSuccessChime();
+    };
+
+    window.closeCertificateModal = function() { var cModal = document.getElementById('certificateModal'); if (cModal) cModal.classList.add('hidden'); AppState.hearts = 5; updateTopMetrics(); };
+    window.startLevelPracticeAgain = function() { window.closeCertificateModal(); AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 }; window.selectSkill('listen'); showToast("🔄 Starting fresh practice!"); };
+
+    document.getElementById('langToggleBtn').onclick = function() {
+      AppState.uiLang = (AppState.uiLang === 'EN') ? 'AR' : 'EN'; var isAr = (AppState.uiLang === 'AR');
+      document.getElementById('langLabel').innerText = isAr ? 'EN' : 'AR'; document.getElementById('btnTeacherLabel').innerText = isAr ? 'المعلمة' : 'Teacher';
+      document.getElementById('lblNormalAudio').innerText = isAr ? 'استمع (1.0x)' : 'Listen (1.0x)'; document.getElementById('lblTurtleAudio').innerText = isAr ? 'بطيء (0.5x)' : 'Slow (0.5x)';
+      document.getElementById('lblErase').innerText = isAr ? 'مسح' : 'Erase'; document.getElementById('lblClear').innerText = isAr ? 'إعادة' : 'Clear';
+      var chk = document.getElementById('checkAnswerBtn'); if (chk) chk.innerText = isAr ? 'تحقق من الإجابة' : 'CHECK ANSWER';
+      var skp = document.getElementById('skipQuestionBtn'); if (skp) skp.innerText = isAr ? 'تخطي الآن' : 'Skip for now';
+      document.getElementById('audioInstructionNote').innerText = isAr ? '💡 نطق بشري حقيقي وواضح • اضغطي 🔊 أو 🐢' : '💡 Real Human Pronunciation • Tap 🔊 Normal or 🐢 Slow';
+    };
+
+    if (directCode) { var codeInp = document.getElementById('stuCodeInput'); if (codeInp) codeInp.value = directCode; }
+    updateTopMetrics(); loadCurrentExercise();
   </script>
 </body>
 </html>
