@@ -194,6 +194,84 @@
       }
     }
   </style>
+
+  <!-- CRITICAL UI SCRIPT: LOADED INSTANTLY IN HEAD TO PREVENT FREEZING -->
+  <script>
+    // هذه الدوال تعمل فوراً وبشكل مستقل عن أي رسومات أو جافاسكربت معقدة أخرى
+    window.switchMainRole = function(role) {
+      try {
+        const tabStudent = document.getElementById('tabRoleStudent');
+        const tabTeacher = document.getElementById('tabRoleTeacher');
+        const studentContainer = document.getElementById('studentSectionContainer');
+        const teacherContainer = document.getElementById('teacherSectionContainer');
+
+        if (!tabStudent || !tabTeacher || !studentContainer || !teacherContainer) return;
+
+        if (role === 'student') {
+          tabStudent.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold";
+          tabTeacher.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800";
+          studentContainer.classList.remove('hidden');
+          teacherContainer.classList.add('hidden');
+        } else {
+          tabTeacher.className = "py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold";
+          tabStudent.className = "py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800";
+          studentContainer.classList.add('hidden');
+          teacherContainer.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error("Error switching roles:", err);
+      }
+    };
+
+    window.setTeacherAuthView = function(view) {
+      try {
+        const loginForm = document.getElementById('teacherDirectLoginForm');
+        const regFlow = document.getElementById('teacherRegisterFlow');
+        const forgotFlow = document.getElementById('teacherForgotFlow');
+        const tabLogin = document.getElementById('subTabTeacherLogin');
+        const tabReg = document.getElementById('subTabTeacherRegister');
+
+        if (document.getElementById('tLoginError')) document.getElementById('tLoginError').classList.add('hidden');
+        if (forgotFlow) forgotFlow.classList.add('hidden');
+
+        if (view === 'login') {
+          loginForm.classList.remove('hidden');
+          regFlow.classList.add('hidden');
+          tabLogin.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
+          tabReg.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
+        } else if (view === 'register') {
+          loginForm.classList.add('hidden');
+          regFlow.classList.remove('hidden');
+          tabReg.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
+          tabLogin.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
+          if (window.resetTeacherStep1) window.resetTeacherStep1();
+        } else if (view === 'forgot') {
+          loginForm.classList.add('hidden');
+          regFlow.classList.add('hidden');
+          if (forgotFlow) forgotFlow.classList.remove('hidden');
+          tabLogin.className = "py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200";
+          tabReg.className = "py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900";
+          if (window.resetTeacherForgotStep1) window.resetTeacherForgotStep1();
+        }
+      } catch (err) {
+        console.error("Error setting teacher auth view:", err);
+      }
+    };
+
+    window.openLoginModal = function() {
+      try {
+        const modal = document.getElementById('loginModal');
+        if (modal) modal.classList.remove('hidden');
+      } catch (err) {}
+    };
+
+    window.closeLoginModal = function() {
+      try {
+        const modal = document.getElementById('loginModal');
+        if (modal) modal.classList.add('hidden');
+      } catch (err) {}
+    };
+  </script>
 </head>
 <body class="text-purple-950 min-h-screen flex flex-col justify-between overflow-x-hidden relative">
 
@@ -205,7 +283,7 @@
     <span id="toastText">Welcome to Nexly!</span>
   </div>
 
-  <!-- Unmissable Top-of-Screen Incoming Email Popup Banner -->
+  <!-- Email Alert -->
   <div id="emailSimulatedAlert" class="hidden fixed top-3 left-1/2 -translate-x-1/2 z-[100] w-11/12 max-w-lg bg-white border-4 border-emerald-500 p-4 rounded-3xl shadow-2xl animate-pop">
     <div class="flex items-start justify-between gap-3">
       <div class="flex items-start gap-3">
@@ -227,16 +305,15 @@
   <!-- MAIN WRAPPER -->
   <div class="w-full flex-grow flex flex-col items-center">
 
-    <!-- TOP APP BAR (Permanent Creator Attribution & Contact Email: Hameeda.ahmed@hotmail.com) -->
+    <!-- TOP APP BAR -->
     <header class="w-full bg-white/95 backdrop-blur-md border-b-2 border-purple-100 shadow-sm sticky top-0 z-40 transition-all">
       <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3">
         
         <div class="flex items-center justify-between gap-3 sm:gap-6">
-          
-          <!-- Brand Logo & Permanent Creator Attribution -->
+          <!-- Brand Logo with robust inline SVG fallback (Fully URL Encoded to prevent breaking) -->
           <div class="flex items-center gap-2.5 shrink-0">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-md flex items-center justify-center overflow-hidden relative cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-              <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
+              <img class="nexly-brand-logo w-full h-full object-cover bg-purple-100" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
             </div>
             <div>
               <div class="flex items-center gap-2">
@@ -259,31 +336,19 @@
               <span class="text-base sm:text-lg animate-pulse">❤️</span>
               <span id="heartsCounter" class="font-chunky font-bold text-xs sm:text-sm text-rose-700">5</span>
             </div>
-
             <div class="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
               <span class="text-base sm:text-lg">🔥</span>
               <span id="streakCounter" class="font-chunky font-bold text-xs sm:text-sm text-amber-700">0</span>
             </div>
-
             <div class="flex items-center gap-1.5 bg-violet-50 border border-violet-200 px-2.5 sm:px-3.5 py-1.5 rounded-xl shadow-xs">
               <span class="text-base sm:text-lg">💎</span>
               <span id="xpCounter" class="font-chunky font-bold text-xs sm:text-sm text-violet-700">0</span>
-            </div>
-
-            <div class="hidden lg:flex flex-col flex-grow ml-2">
-              <div class="flex justify-between text-[11px] font-bold text-purple-700 mb-1">
-                <span>Stage Progress: <span id="progressSummaryText">0 / 30 Questions</span></span>
-                <span id="progressPercentageText">0%</span>
-              </div>
-              <div class="w-full h-3 bg-purple-100 rounded-full overflow-hidden border border-purple-200 p-0.5">
-                <div id="desktopProgressBar" class="h-full bg-gradient-to-r from-emerald-400 via-teal-400 to-green-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
-              </div>
             </div>
           </div>
 
           <!-- Controls -->
           <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            <button id="activeVoiceBadge" onclick="toggleVoiceAccent()" class="inline-flex items-center gap-1 text-[11px] font-extrabold bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl transition cursor-pointer shadow-xs" title="Switch US / UK Human Pronunciation">
+            <button id="activeVoiceBadge" onclick="if(window.toggleVoiceAccent) window.toggleVoiceAccent()" class="inline-flex items-center gap-1 text-[11px] font-extrabold bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-800 px-2.5 py-1.5 rounded-xl transition cursor-pointer shadow-xs" title="Switch US / UK Human Pronunciation">
               🇺🇸 US Clear Voice
             </button>
 
@@ -291,54 +356,42 @@
               🌐 <span id="langLabel">AR</span>
             </button>
 
-            <div id="userBadge" class="hidden sm:flex items-center gap-1.5 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 cursor-pointer" onclick="openLoginModal()" title="Switch Profile">
+            <div id="userBadge" class="hidden sm:flex items-center gap-1.5 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 cursor-pointer" onclick="window.openLoginModal()" title="Switch Profile">
               <span>👤</span>
               <span id="activeUserName" class="truncate max-w-[90px]">Student</span>
             </div>
 
+            <!-- TEACHER HEADER BUTTON -->
             <button id="teacherPortalBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-3 sm:px-4 py-2 rounded-xl gap-1.5">
               <span>👩‍🏫</span>
               <span class="hidden md:inline" id="btnTeacherLabel">Teacher</span>
             </button>
           </div>
-
         </div>
-
-        <!-- Mobile Progress Bar -->
-        <div class="mt-2 lg:hidden">
-          <div class="flex justify-between items-center text-[10px] font-bold text-purple-700 mb-0.5">
-            <span id="mobileProgressSummary">Progress: 0 / 30</span>
-            <span id="mobileProgressPercent">0%</span>
-          </div>
-          <div class="w-full h-2.5 bg-purple-100 rounded-full overflow-hidden border border-purple-200">
-            <div id="mobileProgressBar" class="h-full bg-gradient-to-r from-emerald-400 to-green-500 rounded-full transition-all duration-300" style="width: 0%;"></div>
-          </div>
-        </div>
-
       </div>
     </header>
 
     <!-- MAIN CONTENT AREA -->
     <main class="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-5 flex-grow flex flex-col justify-start">
       
-      <!-- Level & Skill Switchers - Student Controlled (Starts at A1) -->
+      <!-- Level & Skill Switchers -->
       <section class="w-full flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 sm:mb-5">
         <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          <span class="text-xs font-extrabold uppercase tracking-wider text-purple-500 mr-1 hidden sm:inline">Stage:</span>
-          <button class="keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" data-level="A1">Stage 1: A1 (Beginner)</button>
-          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="A2">Stage 2: A2 (Elementary)</button>
-          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B1">Stage 3: B1 (Impact 3)</button>
-          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B2">Stage 4: B2 (Advanced)</button>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-purple-500 mr-1 hidden sm:inline">Level:</span>
+          <button class="keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" data-level="A1">A1 (Beginner)</button>
+          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="A2">A2 (Elementary)</button>
+          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B1">B1 (Impact 3)</button>
+          <button class="keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900" data-level="B2">B2 (Advanced)</button>
         </div>
 
         <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          <button id="skillTab-listen" class="btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="selectSkill('listen')">
+          <button id="skillTab-listen" class="btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('listen')">
             🎧 <span>Listen & Spell</span> <span class="bg-purple-900/40 text-[10px] px-1.5 py-0.5 rounded-full" id="listenCountBadge">0/10</span>
           </button>
-          <button id="skillTab-reading" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="selectSkill('reading')">
+          <button id="skillTab-reading" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('reading')">
             📖 <span>Reading</span> <span class="bg-purple-200 text-purple-900 text-[10px] px-1.5 py-0.5 rounded-full" id="readingCountBadge">0/10</span>
           </button>
-          <button id="skillTab-grammar" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="selectSkill('grammar')">
+          <button id="skillTab-grammar" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" onclick="if(window.selectSkill) window.selectSkill('grammar')">
             📝 <span>Grammar</span> <span class="bg-purple-200 text-purple-900 text-[10px] px-1.5 py-0.5 rounded-full" id="grammarCountBadge">0/10</span>
           </button>
         </div>
@@ -348,19 +401,18 @@
       <div id="exerciseContainer" class="w-full bg-white rounded-3xl border-2 border-purple-100 shadow-xl overflow-hidden p-4 sm:p-7 transition-all duration-300">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          <!-- LEFT COLUMN: Compact Illustration, Extra-Large Reading Story, Audio -->
+          <!-- LEFT COLUMN -->
           <div class="lg:col-span-5 flex flex-col justify-start">
-            
-            <div class="flex items-center justify-between mb-2 flex-wrap gap-1">
+            <div class="flex items-center justify-between mb-2">
               <span id="skillBadgeLabel" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider bg-purple-100 text-purple-800 border border-purple-200">
                 🎧 Listen & Spell
               </span>
-              <span id="spacedRepetitionTag" class="hidden inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-800 bg-amber-100 px-3 py-0.5 rounded-full border-2 border-amber-300 animate-pulse">
-                🔄 Asked in a New Way (سؤال بصيغة مختلفة)
+              <span id="spacedRepetitionTag" class="hidden inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300 animate-pulse">
+                🔁 Review Question
               </span>
             </div>
 
-            <!-- Compact & Crisp Illustration (h-28 sm:h-36) -->
+            <!-- Illustration -->
             <div class="relative w-full h-28 sm:h-36 rounded-2xl overflow-hidden border-2 border-purple-100 shadow-sm bg-purple-50 mb-3 flex items-center justify-center">
               <img id="exerciseImage" src="" alt="Visual Clue" class="w-full h-full object-contain p-1 transition-opacity duration-300">
               <div class="absolute inset-0 bg-gradient-to-t from-purple-950/30 via-transparent to-transparent pointer-events-none"></div>
@@ -370,7 +422,7 @@
               </div>
             </div>
 
-            <!-- Audio Station (Listen & Spell) -->
+            <!-- Audio Station -->
             <div id="audioStation" class="flex flex-col gap-2 mt-1">
               <div class="flex items-center gap-2">
                 <button id="listenNormalBtn" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
@@ -385,12 +437,12 @@
               </p>
             </div>
 
-            <!-- Extra-Large, Highly Legible Reading Box with Read Aloud -->
+            <!-- Reading Box -->
             <div id="readingPassageContainer" class="hidden mt-1 p-5 sm:p-6 bg-purple-50/90 border-2 border-purple-300 rounded-3xl text-purple-950 flex flex-col justify-between shadow-inner">
               <div>
                 <div class="flex items-center justify-between mb-3 border-b border-purple-200 pb-2">
                   <h4 id="readingStoryTitle" class="font-chunky font-bold text-purple-900 text-base sm:text-lg lg:text-xl">Story Title</h4>
-                  <button id="readStoryAloudBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0" onclick="toggleReadStoryAudio()">
+                  <button id="readStoryAloudBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0" onclick="if(window.toggleReadStoryAudio) window.toggleReadStoryAudio()">
                     <span>🔊 Read Story</span>
                   </button>
                 </div>
@@ -402,18 +454,18 @@
 
           </div>
 
-          <!-- RIGHT COLUMN: Small Letter Slots, Randomized A/B/C/D Choices Grid -->
+          <!-- RIGHT COLUMN -->
           <div class="lg:col-span-7 flex flex-col justify-between pt-1">
             <div>
               <h3 id="questionHeading" class="text-base sm:text-lg lg:text-xl font-chunky font-bold text-purple-950 mb-1 leading-snug">
                 Listen and spell what you hear
               </h3>
-              <p id="questionHint" class="text-xs sm:text-sm font-bold text-purple-700 bg-purple-50 border border-purple-200 px-3 py-2 rounded-xl mb-4 flex items-center gap-1.5">
+              <p id="questionHint" class="text-xs sm:text-sm font-bold text-purple-600 mb-4 flex items-center gap-1.5">
                 <span>💡</span> <span id="hintContent">Hint: A place where children learn</span>
               </p>
 
-              <!-- Single-Line Small Letter Slots (Listen & Spell) -->
-              <div id="listenSlotsArea" onclick="focusSpellingInput()" class="flex flex-col items-center justify-center py-6 bg-purple-50/40 border-2 border-dashed border-purple-200 rounded-2xl relative mb-4 cursor-text">
+              <!-- Typing Area -->
+              <div id="listenSlotsArea" onclick="if(window.focusSpellingInput) window.focusSpellingInput()" class="flex flex-col items-center justify-center py-6 bg-purple-50/40 border-2 border-dashed border-purple-200 rounded-2xl relative mb-4 cursor-text">
                 <span class="text-xs font-bold text-purple-600 mb-3">
                   👇 Type using your keyboard (small letters):
                 </span>
@@ -432,7 +484,7 @@
                 </div>
               </div>
 
-              <!-- Multiple Choice Grid (Reading & Grammar - Shuffled A, B, C, D) -->
+              <!-- Multiple Choice Grid -->
               <div id="multipleChoiceArea" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"></div>
             </div>
 
@@ -446,15 +498,12 @@
                 CHECK ANSWER
               </button>
             </div>
-
           </div>
-
         </div>
       </div>
-
     </main>
 
-    <!-- FOOTER WITH PERMANENT CREATOR ATTRIBUTION & CONTACT EMAIL -->
+    <!-- FOOTER -->
     <footer class="w-full bg-white border-t border-purple-100 py-3.5 px-4 text-center text-[11px] sm:text-xs font-bold text-purple-600 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3">
       <span>Nexly Educational Platform • Created by <span class="font-black text-purple-950">T. Hameeda BuSakhar</span></span>
       <span class="hidden sm:inline text-purple-300">|</span>
@@ -465,19 +514,16 @@
 
   </div>
 
-  <!-- SLIDE-UP FEEDBACK DRAWER (Shows ONLY on Check Answer, hides on Continue) -->
+  <!-- SLIDE-UP FEEDBACK DRAWER -->
   <div id="feedbackDrawer" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full pointer-events-none transition-transform duration-300 ease-out border-t-4 shadow-2xl p-4 sm:p-6 backdrop-blur-md">
     <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-3.5 w-full sm:w-auto">
-        <div id="feedbackIconBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md shrink-0">
-          🎉
-        </div>
+        <div id="feedbackIconBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md shrink-0">🎉</div>
         <div>
           <h4 id="feedbackTitle" class="font-chunky text-lg sm:text-xl font-bold">Awesome!</h4>
           <p id="feedbackMessage" class="text-xs sm:text-sm font-bold">Your answer is completely correct.</p>
         </div>
       </div>
-
       <button id="continueBtn" class="btn-3d w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold min-w-[160px]">
         CONTINUE
       </button>
@@ -488,16 +534,15 @@
   <div id="loginModal" class="fixed inset-0 z-50 bg-[#230948]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-md p-5 sm:p-7 animate-pop relative overflow-hidden my-auto">
       
-      <!-- Top Mascot Icon (3D High-Res Canvas Replica of Image 35) -->
+      <!-- Top Mascot Icon (Fallback SVG included here as well) -->
       <div class="flex justify-center -mt-1 mb-2.5">
-        <div class="w-28 h-28 rounded-[28px] shadow-xl flex items-center justify-center overflow-hidden relative logo-float border-2 border-purple-100">
-          <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
+        <div class="w-28 h-28 rounded-[28px] shadow-xl flex items-center justify-center overflow-hidden relative logo-float border-2 border-purple-100 bg-purple-50">
+          <img class="nexly-brand-logo w-full h-full object-cover" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
         </div>
       </div>
 
       <h2 class="font-chunky text-2xl font-bold text-center text-purple-950 mb-1">Welcome to Nexly!</h2>
       
-      <!-- PERMANENT CREATOR BADGE & CONTACT EMAIL -->
       <div class="text-center mb-3.5 flex flex-col items-center gap-1">
         <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-black border border-purple-200">
           👩‍🏫 By T. Hameeda BuSakhar
@@ -508,17 +553,17 @@
         <p class="text-[11px] font-bold text-purple-500">Your Next Level Starts Here</p>
       </div>
 
-      <!-- Main Role Tabs: Student vs Teacher -->
+      <!-- Main Role Tabs -->
       <div class="grid grid-cols-2 bg-purple-100 p-1 rounded-2xl mb-4 border border-purple-200 text-xs font-extrabold text-purple-800">
-        <button type="button" id="tabRoleStudent" onclick="switchMainRole('student')" class="py-2.5 rounded-xl bg-purple-700 text-white shadow-xs">
+        <button type="button" id="tabRoleStudent" onclick="window.switchMainRole('student')" class="py-2.5 rounded-xl bg-purple-700 text-white shadow-xs font-extrabold">
           🎒 Student (طالبة)
         </button>
-        <button type="button" id="tabRoleTeacher" onclick="switchMainRole('teacher')" class="py-2.5 rounded-xl hover:bg-purple-200">
+        <button type="button" id="tabRoleTeacher" onclick="window.switchMainRole('teacher')" class="py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800">
           👩‍🏫 Teacher (معلمة)
         </button>
       </div>
 
-      <!-- ================= 1. STUDENT FORM (3 SIMPLE FIELDS ONLY - NO EMAIL / NO OTP) ================= -->
+      <!-- ================= 1. STUDENT FORM ================= -->
       <div id="studentSectionContainer">
         <form id="studentSimpleLoginForm" class="space-y-3.5">
           <div>
@@ -544,25 +589,24 @@
           </p>
 
           <button type="submit" class="btn-3d btn-3d-purple w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-2">
-            🚀 START QUEST (ابدأي من المرحلة A1)
+            🚀 START QUEST (ابدأي من المستوى A1)
           </button>
         </form>
       </div>
 
-      <!-- ================= 2. TEACHER SECTION (STRICT REGISTRATION & ISOLATED ACCOUNTS) ================= -->
+      <!-- ================= 2. TEACHER SECTION ================= -->
       <div id="teacherSectionContainer" class="hidden">
         
-        <!-- Teacher Sub-Navigation: Login vs First Time Sign Up -->
         <div class="grid grid-cols-2 gap-1.5 bg-purple-50 p-1 rounded-xl border border-purple-200 mb-3">
-          <button type="button" id="subTabTeacherLogin" onclick="setTeacherAuthView('login')" class="py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200">
+          <button type="button" id="subTabTeacherLogin" onclick="window.setTeacherAuthView('login')" class="py-2 rounded-lg text-[11px] font-extrabold bg-white text-purple-900 shadow-xs border border-purple-200">
             🔑 Teacher Login (دخول)
           </button>
-          <button type="button" id="subTabTeacherRegister" onclick="setTeacherAuthView('register')" class="py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900">
+          <button type="button" id="subTabTeacherRegister" onclick="window.setTeacherAuthView('register')" class="py-2 rounded-lg text-[11px] font-bold text-purple-600 hover:text-purple-900">
             ✨ First Time Sign Up (تسجيل جديد)
           </button>
         </div>
 
-        <!-- A) TEACHER LOGIN -->
+        <!-- LOGIN FORM -->
         <form id="teacherDirectLoginForm" class="space-y-3">
           <div>
             <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Name or Email (الاسم أو الإيميل المسجل):</label>
@@ -572,30 +616,22 @@
             <label class="block text-xs font-extrabold text-purple-900 mb-1">Password (كلمة المرور الخاصة بكِ):</label>
             <input id="tLoginPass" type="password" required placeholder="Enter your registered password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
           </div>
-
           <div class="flex justify-end -mt-1">
-            <button type="button" onclick="setTeacherAuthView('forgot')" class="text-[11px] font-extrabold text-purple-700 hover:text-purple-950 underline flex items-center gap-1">
+            <button type="button" onclick="window.setTeacherAuthView('forgot')" class="text-[11px] font-extrabold text-purple-700 hover:text-purple-950 underline flex items-center gap-1">
               🔑 Forgot Password? (نسيتِ كلمة المرور؟ اضغطي هنا لاستعادتها)
             </button>
           </div>
-
-          <div id="tLoginError" class="bg-rose-50 border-2 border-rose-300 text-rose-700 p-2.5 rounded-xl text-xs font-bold text-center hidden">
-            ⚠️ هذا الحساب غير مسجل! يرجى التسجيل أولاً من تبويب (تسجيل جديد / First Time Sign Up).
-          </div>
-
+          <div id="tLoginError" class="bg-rose-50 border-2 border-rose-300 text-rose-700 p-2.5 rounded-xl text-xs font-bold text-center hidden"></div>
           <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-1">
             🔑 OPEN TEACHER PORTAL
           </button>
-
           <p class="text-center text-[11px] text-purple-600 font-bold pt-1">
-            معلمة جديدة؟ اضغطي على <button type="button" onclick="setTeacherAuthView('register')" class="text-purple-900 underline font-black">✨ تسجيل جديد (First Time Sign Up)</button>
+            معلمة جديدة؟ اضغطي على <button type="button" onclick="window.setTeacherAuthView('register')" class="text-purple-900 underline font-black">✨ تسجيل جديد (First Time Sign Up)</button>
           </p>
         </form>
 
-        <!-- B) TEACHER FIRST-TIME SIGN UP WITH INSTANT AUTO-FILLED VERIFICATION -->
+        <!-- REGISTER FLOW -->
         <div id="teacherRegisterFlow" class="hidden space-y-3">
-          
-          <!-- Step 1: Teacher Name + Email -->
           <form id="teacherStep1_Form" class="space-y-3">
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Full Name (اسم المعلمة الثلاثي):</label>
@@ -608,15 +644,12 @@
                 ✅ يقبل جميع أنواع الإيميلات (Hotmail، Outlook، إيميل الوزارة، iCloud، Gmail وغيرها)
               </p>
             </div>
-
             <p id="tRegStep1Error" class="text-rose-600 text-xs font-bold text-center hidden"></p>
-
             <button type="submit" class="btn-3d btn-3d-purple w-full py-3 rounded-2xl font-chunky text-sm font-bold">
               📩 Send Verification Code (إرسال كود التحقق)
             </button>
           </form>
 
-          <!-- Step 2: Instant On-Screen Verification Card + Auto-Filled Code -->
           <form id="teacherStep2_Form" class="space-y-3 hidden">
             <div class="bg-emerald-50 border-2 border-emerald-500 p-3.5 rounded-2xl text-center shadow-md">
               <div class="inline-flex items-center gap-1 bg-emerald-600 text-white text-[10px] font-black px-3 py-0.5 rounded-full uppercase tracking-wider mb-1">
@@ -630,23 +663,19 @@
                 <span id="tActiveOtp" class="text-emerald-700 font-chunky text-2xl tracking-widest font-black">----</span>
               </div>
               <p class="text-[11px] font-bold text-emerald-800 leading-snug">
-                💡 يظهر لكِ الكود هنا فوراً وتمت تعبئته تلقائياً في الخانة بالأسفل!
+                💡 لأن الموقع يعمل مباشرة من المتصفح، يظهر لكِ الكود هنا فوراً وتمت تعبئته تلقائياً في الخانة بالأسفل!
               </p>
             </div>
-
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1 text-center">كود التحقق المكون من 4 أرقام (تمت تعبئته تلقائياً):</label>
               <input id="tInputOtp" type="text" maxlength="4" required placeholder="• • • •" class="w-full px-4 py-2.5 rounded-xl border-2 border-emerald-500 font-chunky text-2xl text-center tracking-widest font-bold text-emerald-900 focus:border-purple-600 focus:outline-none bg-emerald-50/40">
             </div>
-
             <p id="tOtpError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كود التحقق غير صحيح!</p>
-
             <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-sm sm:text-base font-bold">
               ⚡ تأكيد الكود والمتابعة لإنشاء كلمة المرور (Verify Now)
             </button>
           </form>
 
-          <!-- Step 3: Set Custom Password -->
           <form id="teacherStep3_Form" class="space-y-3 hidden">
             <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 text-center text-xs font-bold text-purple-800">
               ✅ تم تأكيد البريد الإلكتروني بنجاح! الآن أنشئي كلمة المرور الخاصة بكِ:
@@ -659,33 +688,28 @@
               <label class="block text-xs font-extrabold text-purple-900 mb-1">Confirm Password (تأكيد كلمة المرور):</label>
               <input id="tConfirmPass" type="password" required placeholder="Re-type password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
             </div>
-
             <p id="tPassMatchError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كلمتا المرور غير متطابقتين!</p>
-
             <button type="submit" class="btn-3d btn-3d-purple w-full py-3 rounded-2xl font-chunky text-sm font-bold">
               🎉 Complete Registration (إتمام التسجيل وحفظ البيانات)
             </button>
           </form>
-
         </div>
 
-        <!-- C) TEACHER FORGOT PASSWORD RECOVERY FLOW -->
+        <!-- RECOVERY FLOW -->
         <div id="teacherForgotFlow" class="hidden space-y-3">
           <div class="bg-amber-50 border-2 border-amber-300 p-2.5 rounded-xl text-center">
-            <h4 class="text-xs font-black text-amber-900">🔑 استعادة وتعيين كلمة مرور جديدة (Password Recovery)</h4>
+            <h4 class="text-xs font-black text-amber-900">🔑 استعادة وتعيين كلمة مرور جديدة</h4>
             <p class="text-[11px] font-bold text-amber-800 mt-0.5">ستحتفظين بجميع أكواد صفوفكِ ودرجات طالباتكِ كاملة</p>
           </div>
 
           <form id="teacherForgotStep1_Form" class="space-y-3">
             <div>
-              <label class="block text-xs font-extrabold text-purple-900 mb-1">Registered Teacher Name or Email (الاسم أو الإيميل المسجل):</label>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Registered Teacher Name or Email:</label>
               <input id="tForgotIdentifier" type="text" required placeholder="e.g. T. Hameeda BuSakhar or Hameeda.ahmed@hotmail.com" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
             </div>
-
             <p id="tForgotStep1Error" class="bg-rose-50 border border-rose-300 text-rose-700 p-2 rounded-xl text-xs font-bold text-center hidden"></p>
-
             <button type="submit" class="btn-3d btn-3d-orange w-full py-3 rounded-2xl font-chunky text-sm font-bold">
-              📩 Send Recovery Code (إرسال كود الاستعادة)
+              📩 Send Recovery Code
             </button>
           </form>
 
@@ -701,18 +725,12 @@
                 <span class="text-xs font-extrabold text-emerald-900">كود الاستعادة:</span>
                 <span id="tForgotActiveOtp" class="text-emerald-700 font-chunky text-2xl tracking-widest font-black">----</span>
               </div>
-              <p class="text-[11px] font-bold text-emerald-800 leading-snug">
-                💡 تمت تعبئة كود الاستعادة تلقائياً في الخانة بالأسفل، اضغطي فقط على الزر الأخضر للمتابعة!
-              </p>
             </div>
-
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1 text-center">كود الاستعادة المكون من 4 أرقام (معبأ تلقائياً):</label>
               <input id="tForgotInputOtp" type="text" maxlength="4" required placeholder="• • • •" class="w-full px-4 py-2.5 rounded-xl border-2 border-emerald-500 font-chunky text-2xl text-center tracking-widest font-bold text-emerald-900 focus:border-purple-600 focus:outline-none bg-emerald-50/40">
             </div>
-
             <p id="tForgotOtpError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كود الاستعادة غير صحيح!</p>
-
             <button type="submit" class="btn-3d btn-3d-green w-full py-3.5 rounded-2xl font-chunky text-sm sm:text-base font-bold">
               ⚡ تأكيد الكود وتعيين كلمة المرور الجديدة (Verify Now)
             </button>
@@ -723,23 +741,20 @@
               ✅ تم التحقق بنجاح! أدخلي كلمة المرور الجديدة لحسابكِ:
             </div>
             <div>
-              <label class="block text-xs font-extrabold text-purple-900 mb-1">New Password (كلمة المرور الجديدة):</label>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">New Password:</label>
               <input id="tForgotNewPass" type="password" required placeholder="Enter new password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
             </div>
             <div>
-              <label class="block text-xs font-extrabold text-purple-900 mb-1">Confirm New Password (تأكيد كلمة المرور الجديدة):</label>
+              <label class="block text-xs font-extrabold text-purple-900 mb-1">Confirm New Password:</label>
               <input id="tForgotConfirmPass" type="password" required placeholder="Re-type new password" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
             </div>
-
             <p id="tForgotPassMatchError" class="text-rose-600 text-xs font-bold text-center hidden">⚠️ كلمتا المرور غير متطابقتين!</p>
-
             <button type="submit" class="btn-3d btn-3d-purple w-full py-3 rounded-2xl font-chunky text-sm font-bold">
               🔒 Save New Password & Login (حفظ كلمة المرور والدخول)
             </button>
           </form>
-
           <div class="text-center pt-1">
-            <button type="button" onclick="setTeacherAuthView('login')" class="text-xs font-extrabold text-purple-700 hover:text-purple-950 underline">
+            <button type="button" onclick="window.setTeacherAuthView('login')" class="text-xs font-extrabold text-purple-700 hover:text-purple-950 underline">
               ← Back to Teacher Login (العودة لتسجيل الدخول)
             </button>
           </div>
@@ -756,8 +771,8 @@
       <div>
         <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-purple-100 pb-4 mb-4">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-sm shrink-0">
-              <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
+            <div class="w-12 h-12 rounded-2xl overflow-hidden shadow-sm shrink-0 bg-purple-100">
+              <img class="nexly-brand-logo w-full h-full object-cover" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
             </div>
             <div>
               <h3 class="font-chunky text-xl sm:text-2xl font-bold text-purple-950">Teacher Management Portal</h3>
@@ -768,20 +783,13 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="downloadTeacherCredentialsCard()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800" title="حفظ بطاقة معلومات الحساب">
-              🪪 بطاقة حسابي
-            </button>
-            <button onclick="changeTeacherPassword()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">
-              🔒 Change Password
-            </button>
-            <button onclick="logoutTeacher()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-rose-700">
-              🚪 Logout
-            </button>
-            <button onclick="closeTeacherModal()" class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-bold hover:bg-purple-200 flex items-center justify-center">✕</button>
+            <button onclick="if(window.downloadTeacherCredentialsCard) window.downloadTeacherCredentialsCard()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">🪪 بطاقة حسابي</button>
+            <button onclick="if(window.changeTeacherPassword) window.changeTeacherPassword()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-purple-800">🔒 Change Password</button>
+            <button onclick="if(window.logoutTeacher) window.logoutTeacher()" class="btn-3d btn-3d-slate text-[11px] font-extrabold px-3 py-1.5 rounded-xl text-rose-700">🚪 Logout</button>
+            <button onclick="if(window.closeTeacherModal) window.closeTeacherModal()" class="w-8 h-8 rounded-xl bg-purple-100 text-purple-800 font-bold hover:bg-purple-200 flex items-center justify-center">✕</button>
           </div>
         </div>
 
-        <!-- Create & Share Class Codes -->
         <div class="bg-purple-50/70 border-2 border-purple-100 rounded-2xl p-4 mb-5">
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs sm:text-sm font-black text-purple-950">Manage & Share Class Codes:</span>
@@ -789,17 +797,12 @@
           </div>
           <div class="flex flex-col sm:flex-row gap-2 mb-3">
             <input id="newClassNameInput" type="text" placeholder="e.g. Grade 8 - Section B (or type existing code: NX-209)" class="flex-grow px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 text-xs sm:text-sm focus:border-purple-600 focus:outline-none bg-white">
-            <button id="createClassBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-xl shrink-0">
-              + Generate New Code
-            </button>
-            <button id="addExistingCodeBtn" onclick="addExistingClassCode()" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl shrink-0">
-              + Add Existing Code
-            </button>
+            <button id="createClassBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-xl shrink-0">+ Generate New Code</button>
+            <button id="addExistingCodeBtn" onclick="if(window.addExistingClassCode) window.addExistingClassCode()" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl shrink-0">+ Add Existing Code</button>
           </div>
           <div id="activeCodesContainer" class="flex flex-wrap gap-2"></div>
         </div>
 
-        <!-- Student Live Score Table -->
         <div class="border-2 border-purple-100 rounded-2xl p-4 mb-5 bg-white">
           <div class="flex items-center justify-between mb-3">
             <h4 class="text-xs sm:text-sm font-black text-purple-950">Active Students Session Tracker:</h4>
@@ -812,7 +815,7 @@
                   <th class="p-2.5">Student Name (اسم الطالبة)</th>
                   <th class="p-2.5">Class / Section (الصف)</th>
                   <th class="p-2.5">Teacher Code (الكود)</th>
-                  <th class="p-2.5">Stage (المرحلة)</th>
+                  <th class="p-2.5">Level (المستوى)</th>
                   <th class="p-2.5">XP</th>
                   <th class="p-2.5">Hearts</th>
                   <th class="p-2.5">Streak</th>
@@ -823,28 +826,21 @@
           </div>
         </div>
       </div>
-
       <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-purple-100">
-        <button id="downloadCsvBtn" class="btn-3d btn-3d-green w-full sm:flex-1 py-3 px-5 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">
-          📥 Download Student Report (.csv)
-        </button>
-        <button onclick="copyMasterDirectLink()" class="btn-3d btn-3d-purple w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">
-          🔗 Copy Direct Student Link
-        </button>
-        <button onclick="closeTeacherModal()" class="btn-3d btn-3d-slate w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold">
-          Close & Return to Practice
-        </button>
+        <button id="downloadCsvBtn" class="btn-3d btn-3d-green w-full sm:flex-1 py-3 px-5 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">📥 Download Student Report (.csv)</button>
+        <button onclick="if(window.copyMasterDirectLink) window.copyMasterDirectLink()" class="btn-3d btn-3d-purple w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-chunky font-bold gap-2">🔗 Copy Direct Student Link</button>
+        <button onclick="if(window.closeTeacherModal) window.closeTeacherModal()" class="btn-3d btn-3d-slate w-full sm:w-auto py-3 px-6 rounded-2xl text-xs sm:text-sm font-bold">Close & Return to Practice</button>
       </div>
     </div>
   </div>
 
-  <!-- CERTIFICATE OF EXCELLENCE MODAL -->
+  <!-- CERTIFICATE MODAL -->
   <div id="certificateModal" class="fixed inset-0 z-50 bg-[#230948]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-4 sm:p-6 my-auto">
       <div id="printableCertificate" class="certificate-border rounded-2xl p-6 sm:p-10 text-center relative">
         <div class="flex justify-center mb-2">
-          <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-md">
-            <img class="nexly-brand-logo w-full h-full object-cover" alt="Nexly Logo">
+          <div class="w-16 h-16 rounded-2xl overflow-hidden shadow-md bg-purple-100">
+            <img class="nexly-brand-logo w-full h-full object-cover" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%238b5cf6'/%3E%3Ctext x='50' y='68' font-size='55' font-family='sans-serif' font-weight='bold' fill='white' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E" alt="Nexly Logo">
           </div>
         </div>
         <h2 class="font-cert text-2xl sm:text-4xl font-bold text-purple-950 mb-1">Certificate of Excellence</h2>
@@ -857,7 +853,7 @@
         </p>
         <div class="grid grid-cols-3 gap-2 max-w-sm mx-auto bg-purple-50 border border-purple-200 rounded-2xl p-3 mb-6">
           <div>
-            <span class="block text-[10px] font-bold text-purple-500 uppercase">Stage Completed</span>
+            <span class="block text-[10px] font-bold text-purple-500 uppercase">Level</span>
             <span id="certLevelName" class="font-chunky text-sm sm:text-base font-bold text-purple-900">CEFR A1</span>
           </div>
           <div>
@@ -872,7 +868,7 @@
         <div class="flex items-center justify-between text-xs font-bold text-purple-800 border-t border-purple-200 pt-4">
           <div class="text-left">
             <span class="block text-[10px] text-purple-400">Date Issued</span>
-            <span id="certDateText">2026-11-03</span>
+            <span id="certDateText">2026-11-04</span>
           </div>
           <div class="text-right">
             <span class="block text-[10px] text-purple-400">Supervising Educator</span>
@@ -881,693 +877,901 @@
           </div>
         </div>
       </div>
-
       <div class="flex flex-wrap items-center justify-between gap-2.5 mt-5">
-        <button onclick="advanceToNextStageFromCert()" class="btn-3d btn-3d-green flex-1 py-3.5 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">
-          🚀 Advance to Next Stage (المرحلة التالية بأسئلة جديدة)
-        </button>
-        <button onclick="window.print()" class="btn-3d btn-3d-purple py-3.5 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">
-          🖨️ Print / PDF
-        </button>
-        <button onclick="startLevelPracticeAgain()" class="btn-3d btn-3d-slate py-3.5 px-4 rounded-2xl text-xs sm:text-sm font-bold">
-          🔄 More Unseen Questions
-        </button>
+        <button onclick="window.print()" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">🖨️ Print / Save PDF</button>
+        <button onclick="if(window.startLevelPracticeAgain) window.startLevelPracticeAgain()" class="btn-3d btn-3d-green flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-chunky font-bold">🔄 Practice Again</button>
+        <button onclick="if(window.closeCertificateModal) window.closeCertificateModal()" class="btn-3d btn-3d-slate py-3 px-5 rounded-2xl text-xs sm:text-sm font-bold">Close</button>
       </div>
     </div>
   </div>
 
-  <!-- APPLICATION SCRIPT -->
+  <!-- APPLICATION CORE SCRIPT -->
   <script>
-    /* =========================================================================
-       0. HIGH-RESOLUTION 3D CLAY CANVAS RENDERER FOR NEXLY MASCOT LOGO
-       ========================================================================= */
-    function renderNexly3DLogoDataURL() {
-      const canvas = document.createElement('canvas');
-      canvas.width = 600;
-      canvas.height = 600;
-      const ctx = canvas.getContext('2d');
+    try {
+      /* =========================================================================
+         0. SAFE 3D CANVAS LOGO RENDERER (Wrapped to prevent crashes)
+         ========================================================================= */
+      function renderNexly3DLogoDataURL() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 600; canvas.height = 600;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error("Canvas 2D context not supported");
 
-      function drawRoundedRect(x, y, w, h, r) {
-        ctx.beginPath();
-        ctx.moveTo(x + r, y);
-        ctx.lineTo(x + w - r, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-        ctx.lineTo(x + w, y + h - r);
-        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        ctx.lineTo(x + r, y + h);
-        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-        ctx.lineTo(x, y + r);
-        ctx.quadraticCurveTo(x, y, x + r, y);
-        ctx.closePath();
+        function drawRoundedRect(x, y, w, h, r) {
+          ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y);
+          ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r);
+          ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h);
+          ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r);
+          ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath();
+        }
+
+        const bgGrad = ctx.createLinearGradient(0, 0, 600, 600);
+        bgGrad.addColorStop(0, '#efe3ff'); bgGrad.addColorStop(1, '#e4d2fe');
+        ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 600, 600);
+
+        ctx.save(); ctx.shadowColor = 'rgba(109, 40, 217, 0.14)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
+        drawRoundedRect(42, 42, 516, 516, 138);
+        const sqGrad = ctx.createRadialGradient(300, 265, 30, 300, 300, 290);
+        sqGrad.addColorStop(0, '#fcf9ff'); sqGrad.addColorStop(0.68, '#f2e6ff'); sqGrad.addColorStop(1, '#e7d5fd');
+        ctx.fillStyle = sqGrad; ctx.fill(); ctx.lineWidth = 14; ctx.strokeStyle = '#ffffff'; ctx.stroke(); ctx.restore();
+
+        ctx.save(); ctx.lineCap = 'round'; ctx.lineWidth = 22; ctx.strokeStyle = 'rgba(181, 152, 252, 0.72)';
+        ctx.beginPath(); ctx.moveTo(205, 255); ctx.bezierCurveTo(148, 285, 140, 326, 182, 338); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(405, 194); ctx.bezierCurveTo(462, 188, 490, 202, 474, 232); ctx.stroke(); ctx.restore();
+
+        ctx.save(); ctx.strokeStyle = '#7c51ec'; ctx.lineWidth = 13; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(116, 178); ctx.lineTo(95, 169); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(112, 204); ctx.lineTo(91, 209); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(120, 228); ctx.lineTo(105, 240); ctx.stroke(); ctx.restore();
+
+        ctx.save(); ctx.shadowColor = 'rgba(76, 29, 149, 0.16)'; ctx.shadowBlur = 12; ctx.shadowOffsetY = 5;
+        ctx.save(); ctx.translate(230, 162); ctx.rotate(-0.42); ctx.fillStyle = '#7448e5';
+        ctx.beginPath(); ctx.ellipse(0, 0, 20, 31, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#e5d8ff'; ctx.beginPath(); ctx.ellipse(5, -2, 15, 26, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+
+        const hbGrad = ctx.createLinearGradient(130, 110, 235, 165);
+        hbGrad.addColorStop(0, '#a685ff'); hbGrad.addColorStop(0.55, '#8258f2'); hbGrad.addColorStop(1, '#6a3fd9');
+        ctx.strokeStyle = hbGrad; ctx.lineWidth = 25; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(142, 188); ctx.bezierCurveTo(122, 124, 200, 98, 230, 152); ctx.stroke();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)'; ctx.lineWidth = 5;
+        ctx.beginPath(); ctx.moveTo(142, 182); ctx.bezierCurveTo(126, 128, 196, 106, 224, 150); ctx.stroke();
+
+        ctx.save(); ctx.translate(154, 202); ctx.rotate(-0.42); ctx.fillStyle = '#6c3fd9';
+        ctx.beginPath(); ctx.ellipse(6, -1, 21, 34, 0, 0, Math.PI * 2); ctx.fill();
+        const cushGrad = ctx.createLinearGradient(-15, -30, 15, 30); cushGrad.addColorStop(0, '#f7f3ff'); cushGrad.addColorStop(1, '#d6c4ff');
+        ctx.fillStyle = cushGrad; ctx.beginPath(); ctx.ellipse(-4, 2, 18, 31, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#8558f2'; ctx.beginPath(); ctx.ellipse(2, 0, 13, 25, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); ctx.restore();
+
+        function traceNPath(offsetX, offsetY) {
+          ctx.beginPath(); ctx.moveTo(198 + offsetX, 386 + offsetY); ctx.lineTo(198 + offsetX, 224 + offsetY);
+          ctx.bezierCurveTo(198 + offsetX, 178 + offsetY, 260 + offsetX, 170 + offsetY, 290 + offsetX, 208 + offsetY);
+          ctx.lineTo(342 + offsetX, 276 + offsetY); ctx.lineTo(342 + offsetX, 198 + offsetY);
+          ctx.bezierCurveTo(342 + offsetX, 156 + offsetY, 414 + offsetX, 156 + offsetY, 414 + offsetX, 198 + offsetY);
+          ctx.lineTo(414 + offsetX, 382 + offsetY); ctx.bezierCurveTo(414 + offsetX, 408 + offsetY, 368 + offsetX, 408 + offsetY, 344 + offsetX, 378 + offsetY);
+          ctx.lineTo(278 + offsetX, 302 + offsetY); ctx.lineTo(278 + offsetX, 386 + offsetY); ctx.closePath();
+        }
+
+        ctx.save(); ctx.shadowColor = 'rgba(88, 28, 135, 0.22)'; ctx.shadowBlur = 22; ctx.shadowOffsetY = 10;
+        traceNPath(13, 5); const nSideGrad = ctx.createLinearGradient(210, 170, 430, 400);
+        nSideGrad.addColorStop(0, '#7c52e8'); nSideGrad.addColorStop(1, '#5d34c2'); ctx.fillStyle = nSideGrad; ctx.fill(); ctx.restore();
+
+        ctx.save(); traceNPath(0, 0); const nFrontGrad = ctx.createLinearGradient(198, 165, 414, 395);
+        nFrontGrad.addColorStop(0, '#bc9fff'); nFrontGrad.addColorStop(0.45, '#9b77ff'); nFrontGrad.addColorStop(0.85, '#835cf6'); nFrontGrad.addColorStop(1, '#7347eb');
+        ctx.fillStyle = nFrontGrad; ctx.fill();
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.52)'; ctx.lineWidth = 6.5; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(212, 218); ctx.bezierCurveTo(216, 188, 256, 184, 282, 212); ctx.lineTo(334, 280); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(355, 195); ctx.bezierCurveTo(358, 172, 392, 168, 402, 185); ctx.stroke(); ctx.restore();
+
+        ctx.save(); ctx.fillStyle = '#271754'; ctx.beginPath(); ctx.ellipse(245, 260, 9, 15, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#271754'; ctx.lineWidth = 6.8; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(261, 273); ctx.quadraticCurveTo(271, 284, 281, 273); ctx.stroke();
+        ctx.lineJoin = 'round'; ctx.lineWidth = 7.2; ctx.beginPath(); ctx.moveTo(310, 250); ctx.lineTo(292, 260); ctx.lineTo(311, 265); ctx.stroke();
+        ctx.fillStyle = 'rgba(251, 162, 184, 0.9)'; ctx.beginPath(); ctx.ellipse(234, 281, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(314, 279, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+
+        ctx.save(); const orbitGrad = ctx.createLinearGradient(165, 340, 470, 210);
+        orbitGrad.addColorStop(0, 'rgba(181, 152, 252, 0.84)'); orbitGrad.addColorStop(0.5, 'rgba(232, 222, 255, 0.94)'); orbitGrad.addColorStop(1, 'rgba(195, 171, 255, 0.86)');
+        ctx.strokeStyle = orbitGrad; ctx.lineWidth = 19; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(168, 334); ctx.bezierCurveTo(198, 358, 342, 322, 442, 256); ctx.bezierCurveTo(470, 238, 482, 220, 472, 208); ctx.stroke();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)'; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(280, 328); ctx.bezierCurveTo(348, 310, 426, 268, 466, 232); ctx.stroke(); ctx.restore();
+
+        function drawFourPointStar(cx, cy, rOuter, rInner, fillStyle) {
+          ctx.beginPath(); ctx.moveTo(cx, cy - rOuter); ctx.quadraticCurveTo(cx + rInner, cy - rInner, cx + rOuter, cy);
+          ctx.quadraticCurveTo(cx + rInner, cy + rInner, cx, cy + rOuter); ctx.quadraticCurveTo(cx - rInner, cy + rInner, cx - rOuter, cy);
+          ctx.quadraticCurveTo(cx - rInner, cy - rInner, cx, cy - rOuter); ctx.closePath(); ctx.fillStyle = fillStyle; ctx.fill();
+        }
+        ctx.save(); ctx.shadowColor = 'rgba(180, 83, 9, 0.22)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 5;
+        drawFourPointStar(413, 162, 40, 11, '#d98a19'); const starGrad = ctx.createLinearGradient(385, 120, 445, 195);
+        starGrad.addColorStop(0, '#fff282'); starGrad.addColorStop(0.5, '#fadc46'); starGrad.addColorStop(1, '#f4b62b');
+        drawFourPointStar(417, 158, 40, 11, starGrad); ctx.restore();
+        ctx.save(); ctx.shadowColor = 'rgba(180, 83, 9, 0.16)'; ctx.shadowBlur = 8; ctx.shadowOffsetY = 3;
+        drawFourPointStar(130, 350, 22, 6, '#fad643'); ctx.restore();
+
+        ctx.save(); ctx.shadowColor = 'rgba(91, 33, 182, 0.14)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 5;
+        const bx = 438, by = 268, bw = 88, bh = 60, br = 30;
+        ctx.beginPath(); ctx.moveTo(bx + br, by); ctx.lineTo(bx + bw - br, by); ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
+        ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - br, by + bh); ctx.lineTo(bx + 26, by + bh); ctx.lineTo(bx + 10, by + bh + 13);
+        ctx.lineTo(bx + 14, by + bh - 3); ctx.quadraticCurveTo(bx, by + bh - 8, bx, by + br); ctx.quadraticCurveTo(bx, by, bx + br, by); ctx.closePath();
+        const bubGrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh); bubGrad.addColorStop(0, '#e6daff'); bubGrad.addColorStop(1, '#cbb4fc');
+        ctx.fillStyle = bubGrad; ctx.fill();
+        ctx.fillStyle = '#7c51ec'; [463, 482, 501].forEach(dx => { ctx.beginPath(); ctx.arc(dx, 298, 6, 0, Math.PI * 2); ctx.fill(); }); ctx.restore();
+
+        ctx.save(); ctx.shadowColor = 'rgba(76, 29, 149, 0.18)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 8;
+        ctx.beginPath(); ctx.moveTo(154, 422); ctx.bezierCurveTo(210, 416, 268, 434, 307, 458); ctx.bezierCurveTo(346, 434, 404, 416, 460, 422);
+        ctx.bezierCurveTo(465, 431, 461, 440, 451, 441); ctx.bezierCurveTo(398, 435, 346, 450, 315, 471); ctx.quadraticCurveTo(307, 476, 299, 471);
+        ctx.bezierCurveTo(268, 450, 216, 435, 163, 441); ctx.bezierCurveTo(153, 440, 149, 431, 154, 422); ctx.closePath();
+        const covGrad = ctx.createLinearGradient(150, 420, 460, 475); covGrad.addColorStop(0, '#754ae0'); covGrad.addColorStop(0.5, '#9672f7'); covGrad.addColorStop(1, '#754ae0');
+        ctx.fillStyle = covGrad; ctx.fill();
+
+        ctx.beginPath(); ctx.moveTo(162, 398); ctx.bezierCurveTo(216, 391, 271, 410, 307, 448); ctx.bezierCurveTo(343, 410, 398, 391, 452, 398);
+        ctx.bezierCurveTo(458, 408, 456, 420, 448, 426); ctx.bezierCurveTo(396, 418, 343, 434, 307, 462); ctx.bezierCurveTo(271, 434, 218, 418, 166, 426);
+        ctx.bezierCurveTo(158, 420, 156, 408, 162, 398); ctx.closePath();
+        const midGrad = ctx.createLinearGradient(160, 395, 455, 460); midGrad.addColorStop(0, '#e8dffe'); midGrad.addColorStop(1, '#cbb8fb');
+        ctx.fillStyle = midGrad; ctx.fill();
+
+        ctx.beginPath(); ctx.moveTo(170, 362); ctx.bezierCurveTo(218, 357, 273, 376, 307, 422); ctx.bezierCurveTo(341, 376, 396, 357, 444, 362);
+        ctx.lineTo(436, 400); ctx.bezierCurveTo(390, 395, 341, 414, 307, 450); ctx.bezierCurveTo(273, 414, 224, 395, 178, 400); ctx.closePath();
+        const creamGrad = ctx.createLinearGradient(170, 360, 444, 450); creamGrad.addColorStop(0, '#fffef7'); creamGrad.addColorStop(1, '#f6f0dc');
+        ctx.fillStyle = creamGrad; ctx.fill(); ctx.restore();
+
+        return canvas.toDataURL('image/png');
       }
 
-      const bgGrad = ctx.createLinearGradient(0, 0, 600, 600);
-      bgGrad.addColorStop(0, '#efe3ff');
-      bgGrad.addColorStop(1, '#e4d2fe');
-      ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, 600, 600);
-
-      ctx.save();
-      ctx.shadowColor = 'rgba(109, 40, 217, 0.14)';
-      ctx.shadowBlur = 24;
-      ctx.shadowOffsetY = 10;
-      drawRoundedRect(42, 42, 516, 516, 138);
-      const sqGrad = ctx.createRadialGradient(300, 265, 30, 300, 300, 290);
-      sqGrad.addColorStop(0, '#fcf9ff');
-      sqGrad.addColorStop(0.68, '#f2e6ff');
-      sqGrad.addColorStop(1, '#e7d5fd');
-      ctx.fillStyle = sqGrad;
-      ctx.fill();
-      ctx.lineWidth = 14;
-      ctx.strokeStyle = '#ffffff';
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.save();
-      ctx.lineCap = 'round';
-      ctx.lineWidth = 22;
-      ctx.strokeStyle = 'rgba(181, 152, 252, 0.72)';
-      ctx.beginPath();
-      ctx.moveTo(205, 255);
-      ctx.bezierCurveTo(148, 285, 140, 326, 182, 338);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(405, 194);
-      ctx.bezierCurveTo(462, 188, 490, 202, 474, 232);
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.save();
-      ctx.strokeStyle = '#7c51ec';
-      ctx.lineWidth = 13;
-      ctx.lineCap = 'round';
-      ctx.beginPath(); ctx.moveTo(116, 178); ctx.lineTo(95, 169); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(112, 204); ctx.lineTo(91, 209); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(120, 228); ctx.lineTo(105, 240); ctx.stroke();
-      ctx.restore();
-
-      ctx.save();
-      ctx.shadowColor = 'rgba(76, 29, 149, 0.16)';
-      ctx.shadowBlur = 12;
-      ctx.shadowOffsetY = 5;
-
-      ctx.save();
-      ctx.translate(230, 162);
-      ctx.rotate(-0.42);
-      ctx.fillStyle = '#7448e5';
-      ctx.beginPath(); ctx.ellipse(0, 0, 20, 31, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#e5d8ff';
-      ctx.beginPath(); ctx.ellipse(5, -2, 15, 26, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
-
-      const hbGrad = ctx.createLinearGradient(130, 110, 235, 165);
-      hbGrad.addColorStop(0, '#a685ff');
-      hbGrad.addColorStop(0.55, '#8258f2');
-      hbGrad.addColorStop(1, '#6a3fd9');
-      ctx.strokeStyle = hbGrad;
-      ctx.lineWidth = 25;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(142, 188);
-      ctx.bezierCurveTo(122, 124, 200, 98, 230, 152);
-      ctx.stroke();
-
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-      ctx.lineWidth = 5;
-      ctx.beginPath();
-      ctx.moveTo(142, 182);
-      ctx.bezierCurveTo(126, 128, 196, 106, 224, 150);
-      ctx.stroke();
-
-      ctx.save();
-      ctx.translate(154, 202);
-      ctx.rotate(-0.42);
-      ctx.fillStyle = '#6c3fd9';
-      ctx.beginPath(); ctx.ellipse(6, -1, 21, 34, 0, 0, Math.PI * 2); ctx.fill();
-      const cushGrad = ctx.createLinearGradient(-15, -30, 15, 30);
-      cushGrad.addColorStop(0, '#f7f3ff');
-      cushGrad.addColorStop(1, '#d6c4ff');
-      ctx.fillStyle = cushGrad;
-      ctx.beginPath(); ctx.ellipse(-4, 2, 18, 31, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#8558f2';
-      ctx.beginPath(); ctx.ellipse(2, 0, 13, 25, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
-      ctx.restore();
-
-      function traceNPath(offsetX, offsetY) {
-        ctx.beginPath();
-        ctx.moveTo(198 + offsetX, 386 + offsetY);
-        ctx.lineTo(198 + offsetX, 224 + offsetY);
-        ctx.bezierCurveTo(198 + offsetX, 178 + offsetY, 260 + offsetX, 170 + offsetY, 290 + offsetX, 208 + offsetY);
-        ctx.lineTo(342 + offsetX, 276 + offsetY);
-        ctx.lineTo(342 + offsetX, 198 + offsetY);
-        ctx.bezierCurveTo(342 + offsetX, 156 + offsetY, 414 + offsetX, 156 + offsetY, 414 + offsetX, 198 + offsetY);
-        ctx.lineTo(414 + offsetX, 382 + offsetY);
-        ctx.bezierCurveTo(414 + offsetX, 408 + offsetY, 368 + offsetX, 408 + offsetY, 344 + offsetX, 378 + offsetY);
-        ctx.lineTo(278 + offsetX, 302 + offsetY);
-        ctx.lineTo(278 + offsetX, 386 + offsetY);
-        ctx.closePath();
+      function applyNexlyLogoEverywhere() {
+        try {
+          const dataUrl = renderNexly3DLogoDataURL();
+          document.querySelectorAll('.nexly-brand-logo').forEach(img => img.src = dataUrl);
+          const fav = document.getElementById('dynamicFavicon');
+          if (fav) fav.href = dataUrl;
+        } catch (e) {
+          console.warn("Canvas blocked or failed. Using SVG Fallback.", e);
+        }
       }
 
-      ctx.save();
-      ctx.shadowColor = 'rgba(88, 28, 135, 0.22)';
-      ctx.shadowBlur = 22;
-      ctx.shadowOffsetY = 10;
-
-      traceNPath(13, 5);
-      const nSideGrad = ctx.createLinearGradient(210, 170, 430, 400);
-      nSideGrad.addColorStop(0, '#7c52e8');
-      nSideGrad.addColorStop(1, '#5d34c2');
-      ctx.fillStyle = nSideGrad;
-      ctx.fill();
-      ctx.restore();
-
-      ctx.save();
-      traceNPath(0, 0);
-      const nFrontGrad = ctx.createLinearGradient(198, 165, 414, 395);
-      nFrontGrad.addColorStop(0, '#bc9fff');
-      nFrontGrad.addColorStop(0.45, '#9b77ff');
-      nFrontGrad.addColorStop(0.85, '#835cf6');
-      nFrontGrad.addColorStop(1, '#7347eb');
-      ctx.fillStyle = nFrontGrad;
-      ctx.fill();
-
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.52)';
-      ctx.lineWidth = 6.5;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(212, 218);
-      ctx.bezierCurveTo(216, 188, 256, 184, 282, 212);
-      ctx.lineTo(334, 280);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(355, 195);
-      ctx.bezierCurveTo(358, 172, 392, 168, 402, 185);
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.save();
-      ctx.fillStyle = '#271754';
-      ctx.beginPath();
-      ctx.ellipse(245, 260, 9, 15, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.strokeStyle = '#271754';
-      ctx.lineWidth = 6.8;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(261, 273);
-      ctx.quadraticCurveTo(271, 284, 281, 273);
-      ctx.stroke();
-
-      ctx.lineJoin = 'round';
-      ctx.lineWidth = 7.2;
-      ctx.beginPath();
-      ctx.moveTo(310, 250);
-      ctx.lineTo(292, 260);
-      ctx.lineTo(311, 265);
-      ctx.stroke();
-
-      ctx.fillStyle = 'rgba(251, 162, 184, 0.9)';
-      ctx.beginPath(); ctx.ellipse(234, 281, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(314, 279, 14, 8.2, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
-
-      ctx.save();
-      const orbitGrad = ctx.createLinearGradient(165, 340, 470, 210);
-      orbitGrad.addColorStop(0, 'rgba(181, 152, 252, 0.84)');
-      orbitGrad.addColorStop(0.5, 'rgba(232, 222, 255, 0.94)');
-      orbitGrad.addColorStop(1, 'rgba(195, 171, 255, 0.86)');
-      ctx.strokeStyle = orbitGrad;
-      ctx.lineWidth = 19;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(168, 334);
-      ctx.bezierCurveTo(198, 358, 342, 322, 442, 256);
-      ctx.bezierCurveTo(470, 238, 482, 220, 472, 208);
-      ctx.stroke();
-
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(280, 328);
-      ctx.bezierCurveTo(348, 310, 426, 268, 466, 232);
-      ctx.stroke();
-      ctx.restore();
-
-      function drawFourPointStar(cx, cy, rOuter, rInner, fillStyle) {
-        ctx.beginPath();
-        ctx.moveTo(cx, cy - rOuter);
-        ctx.quadraticCurveTo(cx + rInner, cy - rInner, cx + rOuter, cy);
-        ctx.quadraticCurveTo(cx + rInner, cy + rInner, cx, cy + rOuter);
-        ctx.quadraticCurveTo(cx - rInner, cy + rInner, cx - rOuter, cy);
-        ctx.quadraticCurveTo(cx - rInner, cy - rInner, cx, cy - rOuter);
-        ctx.closePath();
-        ctx.fillStyle = fillStyle;
-        ctx.fill();
-      }
-
-      ctx.save();
-      ctx.shadowColor = 'rgba(180, 83, 9, 0.22)';
-      ctx.shadowBlur = 10;
-      ctx.shadowOffsetY = 5;
-      drawFourPointStar(413, 162, 40, 11, '#d98a19');
-      const starGrad = ctx.createLinearGradient(385, 120, 445, 195);
-      starGrad.addColorStop(0, '#fff282');
-      starGrad.addColorStop(0.5, '#fadc46');
-      starGrad.addColorStop(1, '#f4b62b');
-      drawFourPointStar(417, 158, 40, 11, starGrad);
-      ctx.restore();
-
-      ctx.save();
-      ctx.shadowColor = 'rgba(180, 83, 9, 0.16)';
-      ctx.shadowBlur = 8;
-      ctx.shadowOffsetY = 3;
-      drawFourPointStar(130, 350, 22, 6, '#fad643');
-      ctx.restore();
-
-      ctx.save();
-      ctx.shadowColor = 'rgba(91, 33, 182, 0.14)';
-      ctx.shadowBlur = 10;
-      ctx.shadowOffsetY = 5;
-      const bx = 438, by = 268, bw = 88, bh = 60, br = 30;
-      ctx.beginPath();
-      ctx.moveTo(bx + br, by);
-      ctx.lineTo(bx + bw - br, by);
-      ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
-      ctx.quadraticCurveTo(bx + bw, by + bh, bx + bw - br, by + bh);
-      ctx.lineTo(bx + 26, by + bh);
-      ctx.lineTo(bx + 10, by + bh + 13);
-      ctx.lineTo(bx + 14, by + bh - 3);
-      ctx.quadraticCurveTo(bx, by + bh - 8, bx, by + br);
-      ctx.quadraticCurveTo(bx, by, bx + br, by);
-      ctx.closePath();
-      const bubGrad = ctx.createLinearGradient(bx, by, bx + bw, by + bh);
-      bubGrad.addColorStop(0, '#e6daff');
-      bubGrad.addColorStop(1, '#cbb4fc');
-      ctx.fillStyle = bubGrad;
-      ctx.fill();
-
-      ctx.fillStyle = '#7c51ec';
-      [463, 482, 501].forEach(dx => {
-        ctx.beginPath();
-        ctx.arc(dx, 298, 6, 0, Math.PI * 2);
-        ctx.fill();
+      // 💡 قمنا بتشغيل أمر استبدال الشعار *بعد* اكتمال تحميل عناصر الصفحة تماماً
+      window.addEventListener('DOMContentLoaded', () => {
+        applyNexlyLogoEverywhere();
       });
-      ctx.restore();
 
-      ctx.save();
-      ctx.shadowColor = 'rgba(76, 29, 149, 0.18)';
-      ctx.shadowBlur = 16;
-      ctx.shadowOffsetY = 8;
-
-      ctx.beginPath();
-      ctx.moveTo(154, 422);
-      ctx.bezierCurveTo(210, 416, 268, 434, 307, 458);
-      ctx.bezierCurveTo(346, 434, 404, 416, 460, 422);
-      ctx.bezierCurveTo(465, 431, 461, 440, 451, 441);
-      ctx.bezierCurveTo(398, 435, 346, 450, 315, 471);
-      ctx.quadraticCurveTo(307, 476, 299, 471);
-      ctx.bezierCurveTo(268, 450, 216, 435, 163, 441);
-      ctx.bezierCurveTo(153, 440, 149, 431, 154, 422);
-      ctx.closePath();
-      const covGrad = ctx.createLinearGradient(150, 420, 460, 475);
-      covGrad.addColorStop(0, '#754ae0');
-      covGrad.addColorStop(0.5, '#9672f7');
-      covGrad.addColorStop(1, '#754ae0');
-      ctx.fillStyle = covGrad;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(162, 398);
-      ctx.bezierCurveTo(216, 391, 271, 410, 307, 448);
-      ctx.bezierCurveTo(343, 410, 398, 391, 452, 398);
-      ctx.bezierCurveTo(458, 408, 456, 420, 448, 426);
-      ctx.bezierCurveTo(396, 418, 343, 434, 307, 462);
-      ctx.bezierCurveTo(271, 434, 218, 418, 166, 426);
-      ctx.bezierCurveTo(158, 420, 156, 408, 162, 398);
-      ctx.closePath();
-      const midGrad = ctx.createLinearGradient(160, 395, 455, 460);
-      midGrad.addColorStop(0, '#e8dffe');
-      midGrad.addColorStop(1, '#cbb8fb');
-      ctx.fillStyle = midGrad;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(170, 362);
-      ctx.bezierCurveTo(218, 357, 273, 376, 307, 422);
-      ctx.bezierCurveTo(341, 376, 396, 357, 444, 362);
-      ctx.lineTo(436, 400);
-      ctx.bezierCurveTo(390, 395, 341, 414, 307, 450);
-      ctx.bezierCurveTo(273, 414, 224, 395, 178, 400);
-      ctx.closePath();
-      const creamGrad = ctx.createLinearGradient(170, 360, 444, 450);
-      creamGrad.addColorStop(0, '#fffef7');
-      creamGrad.addColorStop(1, '#f6f0dc');
-      ctx.fillStyle = creamGrad;
-      ctx.fill();
-      ctx.restore();
-
-      return canvas.toDataURL('image/png');
-    }
-
-    function applyNexlyLogoEverywhere() {
-      const dataUrl = renderNexly3DLogoDataURL();
-      document.querySelectorAll('.nexly-brand-logo').forEach(img => {
-        img.src = dataUrl;
-      });
-      const fav = document.getElementById('dynamicFavicon');
-      if (fav) fav.href = dataUrl;
-    }
-
-    applyNexlyLogoEverywhere();
-
-    /* ========================================================
-       1. HELPER: FISHER-YATES SHUFFLER (RANDOMIZES ORDER & A/B/C/D)
-       ======================================================== */
-    function shuffleChoicesWithAnswer(optionsArray, correctIndex) {
-      const pairs = optionsArray.map((optText, idx) => ({
-        text: optText,
-        isCorrect: idx === correctIndex
-      }));
-      for (let i = pairs.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = pairs[i];
-        pairs[i] = pairs[j];
-        pairs[j] = temp;
+      /* ========================================================
+         1. HELPER: FISHER-YATES CHOICE SHUFFLER
+         ======================================================== */
+      function shuffleChoicesWithAnswer(optionsArray, correctIndex) {
+        const pairs = optionsArray.map((optText, idx) => ({ text: optText, isCorrect: idx === correctIndex }));
+        for (let i = pairs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = pairs[i]; pairs[i] = pairs[j]; pairs[j] = temp;
+        }
+        return { options: pairs.map(p => p.text), correct: pairs.findIndex(p => p.isCorrect) };
       }
-      return {
-        options: pairs.map(p => p.text),
-        correct: pairs.findIndex(p => p.isCorrect)
-      };
-    }
 
-    function shuffleArray(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const tmp = copy[i];
-        copy[i] = copy[j];
-        copy[j] = tmp;
+      /* ========================================================
+         2. QUESTION BANK GENERATOR
+         ======================================================== */
+      function build1000QuestionBank() {
+        const bank = { A1: { listen: [], reading: [], grammar: [] }, A2: { listen: [], reading: [], grammar: [] }, B1: { listen: [], reading: [], grammar: [] }, B2: { listen: [], reading: [], grammar: [] } };
+        
+        // A1 Mocks
+        const a1ListenSeeds = [
+          { w: "school", h: "A place where children learn", t: "A1: School Life", ic: "school" },
+          { w: "friend", h: "A person you like and spend time with", t: "A1: Relationships", ic: "people" }
+        ];
+        for (let i = 0; i < 90; i++) {
+          const seed = a1ListenSeeds[i % a1ListenSeeds.length];
+          bank.A1.listen.push({ id: `A1_L_${i + 1}`, word: seed.w, hint: seed.h, topic: seed.t, iconName: seed.ic });
+        }
+        const a1ReadingThemes = [
+          { tit: "My School Routine", st: "Adam wakes up early at seven o'clock. He packs his schoolbag and walks to school with his brother. He loves learning English.", q: "How does Adam travel to school?", opt: ["He walks with his brother", "He takes the big train", "He rides a motorcycle", "He stays at home"], ic: "school" }
+        ];
+        for (let i = 0; i < 80; i++) {
+          const theme = a1ReadingThemes[i % a1ReadingThemes.length];
+          const shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
+          bank.A1.reading.push({ id: `A1_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "A1 Reading Comprehension", iconName: theme.ic });
+        }
+        const a1GrammarArchetypes = [
+          { q: "Huda _________ a diligent student in Grade 7.", opt: ["is", "are", "am", "be"], h: "Third person singular takes 'is'" }
+        ];
+        for (let i = 0; i < 80; i++) {
+          const item = a1GrammarArchetypes[i % a1GrammarArchetypes.length];
+          const shuffled = shuffleChoicesWithAnswer(item.opt, 0);
+          bank.A1.grammar.push({ id: `A1_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "A1 Grammar in Context" });
+        }
+
+        // A2 Mocks
+        const a2ListenSeeds = [{ w: "travel", h: "To take a journey across different cities", t: "A2: Voyages", ic: "travel" }];
+        for (let i = 0; i < 90; i++) { bank.A2.listen.push({ id: `A2_L_${i + 1}`, word: a2ListenSeeds[0].w, hint: a2ListenSeeds[0].h, topic: a2ListenSeeds[0].t, iconName: a2ListenSeeds[0].ic }); }
+        const a2ReadingThemes = [{ tit: "Camping in the Desert Sands", st: "Families set up traditional tents...", q: "Where do families set up tents?", opt: ["In the desert sands", "On high snowy peaks", "Inside shopping centers", "On deep ocean ships"], ic: "travel" }];
+        for (let i = 0; i < 80; i++) { const theme = a2ReadingThemes[0]; const shuffled = shuffleChoicesWithAnswer(theme.opt, 0); bank.A2.reading.push({ id: `A2_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "A2 Reading", iconName: theme.ic }); }
+        const a2GrammarArchetypes = [{ q: "Yesterday, the students _________ to the museum.", opt: ["went", "go", "gone", "going"], h: "Past simple of go" }];
+        for (let i = 0; i < 80; i++) { const item = a2GrammarArchetypes[0]; const shuffled = shuffleChoicesWithAnswer(item.opt, 0); bank.A2.grammar.push({ id: `A2_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "A2 Grammar" }); }
+
+        // B1 Mocks
+        const b1ListenSeeds = [{ w: "cooperative", h: "Working willingly together", t: "B1: Impact Unit 1", ic: "people" }];
+        for (let i = 0; i < 90; i++) { bank.B1.listen.push({ id: `B1_L_${i + 1}`, word: b1ListenSeeds[0].w, hint: b1ListenSeeds[0].h, topic: b1ListenSeeds[0].t, iconName: b1ListenSeeds[0].ic }); }
+        const b1ReadingThemes = [{ tit: "Light-1 Satellite", st: "Launched in 2022 to collect data...", q: "What is its mission?", opt: ["Collect lightning data", "Take tourist photos", "Measure ocean salt", "Make fabrics"], ic: "science" }];
+        for (let i = 0; i < 80; i++) { const theme = b1ReadingThemes[0]; const shuffled = shuffleChoicesWithAnswer(theme.opt, 0); bank.B1.reading.push({ id: `B1_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "B1 Reading", iconName: theme.ic }); }
+        const b1GrammarArchetypes = [{ q: "Alicia is friendly, _________?", opt: ["isn't she?", "is she?", "doesn't she?", "wasn't she?"], h: "Question tag" }];
+        for (let i = 0; i < 80; i++) { const item = b1GrammarArchetypes[0]; const shuffled = shuffleChoicesWithAnswer(item.opt, 0); bank.B1.grammar.push({ id: `B1_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "B1 Grammar" }); }
+
+        // B2 Mocks
+        const b2ListenSeeds = [{ w: "biodiversity", h: "Variety of ecological life", t: "B2: Biospheres", ic: "nature" }];
+        for (let i = 0; i < 90; i++) { bank.B2.listen.push({ id: `B2_L_${i + 1}`, word: b2ListenSeeds[0].w, hint: b2ListenSeeds[0].h, topic: b2ListenSeeds[0].t, iconName: b2ListenSeeds[0].ic }); }
+        const b2ReadingThemes = [{ tit: "Dilmun Civilization", st: "Bronze Age excavations...", q: "Why was Dilmun significant?", opt: ["Maritime trade bridge", "Invented synthetic fabrics", "Isolated kingdom", "Banned vessels"], ic: "art" }];
+        for (let i = 0; i < 80; i++) { const theme = b2ReadingThemes[0]; const shuffled = shuffleChoicesWithAnswer(theme.opt, 0); bank.B2.reading.push({ id: `B2_R_${i + 1}`, title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "B2 Reading", iconName: theme.ic }); }
+        const b2GrammarArchetypes = [{ q: "Seldom _________ such treasures in one excavation.", opt: ["have archaeologists uncovered", "archaeologists have uncovered", "uncovered archaeologists", "did uncover archaeologists"], h: "Inversion" }];
+        for (let i = 0; i < 80; i++) { const item = b2GrammarArchetypes[0]; const shuffled = shuffleChoicesWithAnswer(item.opt, 0); bank.B2.grammar.push({ id: `B2_G_${i + 1}`, question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "B2 Grammar" }); }
+
+        return bank;
       }
-      return copy;
-    }
 
-    /* ============================================================================
-       2. ZERO-REPEAT, MULTI-VARIANT QUESTION BANK (A1, A2, B1, B2)
-          - Every stage (A1, A2, B1, B2) has 100% distinct questions (NO fake looping!)
-          - Every question has 3 DIFFERENT WAYS OF ASKING (Variants 0, 1, 2) so if a
-            student makes a mistake, the question is asked in a completely NEW way!
-       ============================================================================ */
-    function buildUniqueMultiVariantQuestionBank() {
-      const bank = {
-        A1: { listen: [], reading: [], grammar: [] },
-        A2: { listen: [], reading: [], grammar: [] },
-        B1: { listen: [], reading: [], grammar: [] },
-        B2: { listen: [], reading: [], grammar: [] }
+      let QUESTIONS_BANK = { A1: { listen: [], reading: [], grammar: [] }, A2: { listen: [], reading: [], grammar: [] }, B1: { listen: [], reading: [], grammar: [] }, B2: { listen: [], reading: [], grammar: [] } };
+      try { QUESTIONS_BANK = build1000QuestionBank(); } catch (e) { console.error("Bank error", e); }
+
+      /* ========================================================
+         3. APPLICATION STATE
+         ======================================================== */
+      const urlParams = new URLSearchParams(window.location.search);
+      const directCode = (urlParams.get('code') || urlParams.get('c') || "").trim().toUpperCase();
+      const directTeacher = (urlParams.get('teacher') || urlParams.get('t') || "").trim();
+
+      function normalizeKey(str) { return (str || "").trim().toLowerCase().replace(/\s+/g, ' '); }
+
+      let savedWorkspaces = {};
+      try { savedWorkspaces = JSON.parse(localStorage.getItem('nexly_isolated_teachers_v3') || '{}'); } catch (e) { savedWorkspaces = {}; }
+
+      const AppState = {
+        user: { name: "", gradeClass: "", classCode: directCode, role: "student" },
+        currentLevel: "A1", currentSkill: "listen", hearts: 5, streak: 0, xp: 0,
+        completedCounts: { listen: 0, reading: 0, grammar: 0 },
+        seenQuestionIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
+        completedIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
+        reviewQueues: { listen: [], reading: [], grammar: [] },
+        currentQuestion: null, activeOptions: [], activeCorrectIndex: 0, typedInput: "", selectedOptionIndex: null,
+        teachersWorkspaces: savedWorkspaces, loggedInTeacherKey: null,
+        tempTeacherSignUp: { name: "", email: "", otp: "" }, tempTeacherRecovery: { key: "", name: "", email: "", otp: "" },
+        uiLang: "EN", voiceAccent: "US"
       };
 
-      // Helper to build Listen item with 3 distinct ways of asking
-      function createListenItem(id, word, hint1, sentenceGap2, riddleClue3, topic) {
-        return {
-          id,
-          word,
-          topic,
-          variants: [
-            {
-              heading: "Listen and spell what you hear (small letters):",
-              hint: `Definition: ${hint1}`
-            },
-            {
-              heading: "🔄 Asked in a Different Way: Listen & complete the missing word in this sentence:",
-              hint: `Sentence Clue: "${sentenceGap2}" (Starts with '${word[0].toLowerCase()}')`
-            },
-            {
-              heading: "🔄 New Clue Angle: Listen carefully and solve the word riddle:",
-              hint: `Word Riddle: ${riddleClue3} (${word.length} letters: ${word[0].toLowerCase()}...${word[word.length - 1].toLowerCase()})`
-            }
-          ]
+      function saveWorkspacesToStorage() { try { localStorage.setItem('nexly_isolated_teachers_v3', JSON.stringify(AppState.teachersWorkspaces)); } catch (e) {} }
+
+      function findTeacherWorkspace(nameOrEmail) {
+        const q = normalizeKey(nameOrEmail);
+        if (!q) return null;
+        if (AppState.teachersWorkspaces[q]) return { key: q, data: AppState.teachersWorkspaces[q] };
+        for (const k in AppState.teachersWorkspaces) {
+          const ws = AppState.teachersWorkspaces[k];
+          if (normalizeKey(ws.email) === q || normalizeKey(ws.displayName) === q) return { key: k, data: ws };
+        }
+        return null;
+      }
+
+      function findTeacherKeyByClassCode(classCode) {
+        const cleanCode = (classCode || "").trim().toUpperCase();
+        for (const k in AppState.teachersWorkspaces) {
+          const ws = AppState.teachersWorkspaces[k];
+          if (Array.isArray(ws.codes) && ws.codes.includes(cleanCode)) return k;
+        }
+        return null;
+      }
+
+      function getActiveTeacherWorkspace() {
+        if (!AppState.loggedInTeacherKey) return null;
+        return AppState.teachersWorkspaces[AppState.loggedInTeacherKey] || null;
+      }
+
+      /* ========================================================
+         4. SVG SCENE ENGINE
+         ======================================================== */
+      function generateQuestionSceneSvg(q) {
+        if (!q) return "";
+        const pal = { bg1: '#e0f2fe', bg2: '#bae6fd', accent: '#0284c7', badge: '#0369a1' };
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="100%" height="100%">
+            <rect width="600" height="220" rx="22" fill="#c4b5fd"/>
+            <circle cx="300" cy="110" r="60" fill="#ffffff" opacity="0.9"/>
+            <text x="300" y="130" font-size="50" text-anchor="middle">🌟</text>
+          </svg>
+        `;
+        return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+      }
+
+      /* ========================================================
+         5. DUAL-LAYER CRYSTAL-CLEAR HUMAN PRONUNCIATION ENGINE
+         ======================================================== */
+      let audioCtx = null;
+      let activeAudioElement = null;
+      let slowRepeatTimer = null;
+
+      function initAudioContext() {
+        if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      }
+
+      function stopAllActiveSpeech() {
+        if (slowRepeatTimer) { clearTimeout(slowRepeatTimer); slowRepeatTimer = null; }
+        if (activeAudioElement) { try { activeAudioElement.pause(); activeAudioElement.src = ""; } catch (e) {} activeAudioElement = null; }
+        if ('speechSynthesis' in window && window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
+      }
+
+      window.toggleVoiceAccent = function() {
+        AppState.voiceAccent = (AppState.voiceAccent === 'US') ? 'UK' : 'US';
+        const badge = document.getElementById('activeVoiceBadge');
+        if (badge) badge.innerHTML = (AppState.voiceAccent === 'US') ? '🇺🇸 US Clear Voice' : '🇬🇧 UK Clear Voice';
+        showToast(AppState.voiceAccent === 'US' ? '🇺🇸 Switched to American English Human Pronunciation' : '🇬🇧 Switched to British English Human Pronunciation');
+        if (AppState.currentSkill === 'listen' && AppState.currentQuestion) speakTargetWord(1.0);
+      };
+
+      function playTone(freq, type = 'sine', duration = 0.15, startTime = 0) {
+        try {
+          initAudioContext(); if (!audioCtx) return;
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          const osc = new OscillatorNode(audioCtx, { type, frequency: freq });
+          const gain = audioCtx.createGain();
+          gain.gain.setValueAtTime(0.25, audioCtx.currentTime + startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + startTime + duration);
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          osc.start(audioCtx.currentTime + startTime); osc.stop(audioCtx.currentTime + startTime + duration);
+        } catch (e) {}
+      }
+
+      function playSuccessChime() { playTone(523.25, 'triangle', 0.12, 0.00); playTone(659.25, 'triangle', 0.12, 0.10); playTone(783.99, 'triangle', 0.14, 0.20); playTone(1046.50, 'triangle', 0.28, 0.32); }
+      function playErrorBuzz() { playTone(220, 'sawtooth', 0.25, 0); playTone(180, 'sawtooth', 0.25, 0.15); }
+
+      function speakWithSafeTTSFallback(textToSpeak, isSlowMode = false, onEndCallback = null) {
+        if (!('speechSynthesis' in window) || !window.speechSynthesis || !textToSpeak) { if (onEndCallback) onEndCallback(); return; }
+        try {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(textToSpeak);
+          utterance.lang = (AppState.voiceAccent === 'UK') ? 'en-GB' : 'en-US';
+          utterance.rate = isSlowMode ? 0.42 : 0.95;
+          if (onEndCallback) { utterance.onend = onEndCallback; utterance.onerror = onEndCallback; }
+          window.speechSynthesis.speak(utterance);
+        } catch (e) { if (onEndCallback) onEndCallback(); }
+      }
+
+      function playHumanAudioStream(textToSpeak, speedMode = 'normal', onFinish = null) {
+        if (!textToSpeak) return;
+        stopAllActiveSpeech();
+        const cleanText = textToSpeak.trim();
+        const isSlow = (speedMode === 'slow');
+        const youdaoType = (AppState.voiceAccent === 'UK') ? 1 : 2;
+        const url = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(cleanText)}&type=${youdaoType}`;
+
+        const audio = new Audio();
+        activeAudioElement = audio;
+        audio.src = url;
+        if ('preservesPitch' in audio) audio.preservesPitch = true;
+        
+        audio.oncanplaythrough = () => { audio.playbackRate = isSlow ? 0.5 : 1.0; audio.play().catch(() => speakWithSafeTTSFallback(cleanText, isSlow, onFinish)); };
+        audio.onended = () => { if (onFinish) onFinish(); };
+        audio.onerror = () => speakWithSafeTTSFallback(cleanText, isSlow, onFinish);
+        audio.load();
+      }
+
+      function speakTargetWord(rate = 1.0) {
+        const word = AppState.currentQuestion?.word || "";
+        if (!word) return;
+        playHumanAudioStream(word, (rate <= 0.65) ? 'slow' : 'normal');
+      }
+
+      window.toggleReadStoryAudio = function() {
+        const btn = document.getElementById('readStoryAloudBtn');
+        const isPlaying = (activeAudioElement && !activeAudioElement.paused) || ('speechSynthesis' in window && window.speechSynthesis && window.speechSynthesis.speaking);
+        if (isPlaying) { stopAllActiveSpeech(); if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; } return; }
+        const text = `${AppState.currentQuestion.title}. ${AppState.currentQuestion.story}`;
+        if (btn) { btn.innerHTML = "<span>⏹️ Stop Reading</span>"; btn.className = 'btn-3d btn-3d-orange text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
+        playHumanAudioStream(text, 'normal', () => { if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; } });
+      };
+
+      function triggerConfetti() {
+        const canvas = document.getElementById('confettiCanvas');
+        if (!canvas) return; const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const particles = []; const colors = ['#935ef7', '#10b981', '#fbbf24', '#f43f5e', '#38bdf8'];
+        for (let i = 0; i < 90; i++) particles.push({ x: canvas.width / 2 + (Math.random() * 200 - 100), y: canvas.height * 0.45, vx: (Math.random() - 0.5) * 14, vy: Math.random() * -12 - 4, size: Math.random() * 9 + 4, color: colors[Math.floor(Math.random() * colors.length)], rotation: Math.random() * 360, vRot: (Math.random() - 0.5) * 10 });
+        let frame = 0;
+        function render() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.45; p.rotation += p.vRot; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate((p.rotation * Math.PI) / 180); ctx.fillStyle = p.color; ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size); ctx.restore(); });
+          frame++; if (frame < 80) requestAnimationFrame(render); else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        render();
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById('toastMessage');
+        const text = document.getElementById('toastText');
+        if (!toast || !text) return; text.innerText = msg;
+        toast.classList.remove('hidden'); setTimeout(() => toast.classList.add('hidden'), 3800);
+      }
+
+      function showEmailAlert(header, body) {
+        const banner = document.getElementById('emailSimulatedAlert');
+        if (!banner) return;
+        const hdr = document.getElementById('emailAlertHeader');
+        const bdy = document.getElementById('emailAlertBody');
+        if (hdr) hdr.innerText = header;
+        if (bdy) bdy.innerText = body;
+        banner.classList.remove('hidden'); setTimeout(() => banner.classList.add('hidden'), 12000);
+      }
+
+      /* ========================================================
+         6. EXERCISE ENGINE
+         ======================================================== */
+      const hiddenTypingInput = document.getElementById('hiddenTypingInput');
+
+      function syncHiddenInputWithTypedState() {
+        if (!hiddenTypingInput) return;
+        if (hiddenTypingInput.value !== AppState.typedInput) hiddenTypingInput.value = AppState.typedInput;
+        try { const len = hiddenTypingInput.value.length; hiddenTypingInput.setSelectionRange(len, len); } catch (e) {}
+      }
+
+      window.focusSpellingInput = function() {
+        if (AppState.currentSkill === 'listen' && hiddenTypingInput) { hiddenTypingInput.focus(); syncHiddenInputWithTypedState(); }
+      };
+
+      function loadCurrentExercise() {
+        const level = AppState.currentLevel; const skill = AppState.currentSkill;
+        const bank = QUESTIONS_BANK[level][skill]; const seenSet = AppState.seenQuestionIds[level][skill];
+        let q = null; const isReview = (AppState.reviewQueues[skill].length > 0 && Math.random() > 0.5);
+
+        if (isReview) { q = AppState.reviewQueues[skill].shift(); document.getElementById('spacedRepetitionTag').classList.remove('hidden'); } 
+        else {
+          const available = bank.filter(item => !seenSet.has(item.id));
+          if (available.length > 0) { q = available[Math.floor(Math.random() * Math.min(available.length, 15))]; } 
+          else { seenSet.clear(); showToast(`🌟 Outstanding! Fresh questions loaded.`); q = bank[Math.floor(Math.random() * bank.length)]; }
+          document.getElementById('spacedRepetitionTag').classList.add('hidden');
+        }
+
+        AppState.currentQuestion = q; AppState.typedInput = ""; AppState.selectedOptionIndex = null;
+        syncHiddenInputWithTypedState();
+
+        const img = document.getElementById('exerciseImage');
+        if (img) { img.classList.remove('animate-pop'); void img.offsetWidth; img.src = generateQuestionSceneSvg(q); img.classList.add('animate-pop'); }
+
+        document.getElementById('imageTopicTitle').innerText = q.topic || "English Learning Quest";
+        document.getElementById('levelIndicatorBadge').innerText = `CEFR ${level}`;
+
+        const drawer = document.getElementById('feedbackDrawer');
+        drawer.classList.add('translate-y-full', 'pointer-events-none'); drawer.classList.remove('translate-y-0', 'pointer-events-auto');
+
+        stopAllActiveSpeech();
+        const readStoryBtn = document.getElementById('readStoryAloudBtn');
+        if (readStoryBtn) { readStoryBtn.innerHTML = "<span>🔊 Read Story</span>"; readStoryBtn.className = "btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0"; }
+
+        const skillBadge = document.getElementById('skillBadgeLabel');
+        const questionHeading = document.getElementById('questionHeading');
+        const questionHint = document.getElementById('questionHint');
+        const hintContent = document.getElementById('hintContent');
+        const audioStation = document.getElementById('audioStation');
+        const readingPassageContainer = document.getElementById('readingPassageContainer');
+        const listenSlotsArea = document.getElementById('listenSlotsArea');
+        const multipleChoiceArea = document.getElementById('multipleChoiceArea');
+        const checkBtn = document.getElementById('checkAnswerBtn');
+        if(checkBtn) checkBtn.disabled = true;
+
+        if (skill === 'listen') {
+          skillBadge.innerHTML = "🎧 Listen & Spell"; questionHeading.innerText = "Listen and spell what you hear (small letters):";
+          questionHint.classList.remove('hidden'); hintContent.innerText = q.hint;
+          audioStation.classList.remove('hidden'); readingPassageContainer.classList.add('hidden');
+          listenSlotsArea.classList.remove('hidden'); multipleChoiceArea.classList.add('hidden');
+          renderLetterSlots();
+          if (document.getElementById('loginModal').classList.contains('hidden')) setTimeout(() => speakTargetWord(1.0), 380);
+        } else if (skill === 'reading') {
+          skillBadge.innerHTML = "📖 Reading Comprehension"; questionHeading.innerText = q.question;
+          questionHint.classList.add('hidden'); audioStation.classList.add('hidden');
+          readingPassageContainer.classList.remove('hidden'); listenSlotsArea.classList.add('hidden');
+          multipleChoiceArea.classList.remove('hidden');
+          document.getElementById('readingStoryTitle').innerText = q.title;
+          document.getElementById('readingStoryText').innerText = q.story;
+          const shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
+          AppState.activeOptions = shuffled.options; AppState.activeCorrectIndex = shuffled.correct;
+          renderChoiceCards(AppState.activeOptions);
+        } else if (skill === 'grammar') {
+          skillBadge.innerHTML = "📝 Grammar in Context"; questionHeading.innerText = q.question;
+          questionHint.classList.remove('hidden'); hintContent.innerText = q.hint || "Choose the grammatically correct option";
+          audioStation.classList.add('hidden'); readingPassageContainer.classList.add('hidden');
+          listenSlotsArea.classList.add('hidden'); multipleChoiceArea.classList.remove('hidden');
+          const shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
+          AppState.activeOptions = shuffled.options; AppState.activeCorrectIndex = shuffled.correct;
+          renderChoiceCards(AppState.activeOptions);
+        }
+        updateTopMetrics();
+      }
+
+      function renderLetterSlots() {
+        const container = document.getElementById('slotsContainer');
+        if(!container) return;
+        container.innerHTML = "";
+        const target = (AppState.currentQuestion.word || "").toLowerCase();
+        const current = AppState.typedInput.toLowerCase();
+        for (let i = 0; i < target.length; i++) {
+          if (target[i] === ' ') {
+            const spaceDiv = document.createElement('div'); spaceDiv.className = "w-4 sm:w-6 h-10 sm:h-12 shrink-0"; container.appendChild(spaceDiv);
+          } else {
+            const slot = document.createElement('div');
+            const isFilled = i < current.length && current[i] !== undefined;
+            const letterVal = isFilled ? current[i].toLowerCase() : "";
+            const isCurrentFocus = i === current.length;
+            slot.className = `w-8 sm:w-10 lg:w-11 h-11 sm:h-12 lg:h-13 rounded-2xl flex items-center justify-center font-chunky text-lg sm:text-xl font-bold lowercase transition-all shrink-0 ${isFilled ? "bg-purple-100 text-purple-900 border-2 border-purple-400 border-b-4 border-b-purple-600 animate-pop" : isCurrentFocus ? "bg-white border-2 border-purple-500 shadow-md slot-focused" : "bg-white/80 border-2 border-purple-200 border-b-4 border-b-purple-300"}`;
+            slot.innerText = letterVal; container.appendChild(slot);
+          }
+        }
+        const checkBtn = document.getElementById('checkAnswerBtn');
+        if(checkBtn) checkBtn.disabled = current.replace(/\s+/g, '').length < target.replace(/\s+/g, '').length;
+      }
+
+      function renderChoiceCards(options) {
+        const container = document.getElementById('multipleChoiceArea');
+        if(!container) return;
+        container.innerHTML = ""; const letters = ['A', 'B', 'C', 'D'];
+        options.forEach((opt, idx) => {
+          const card = document.createElement('div'); const isSelected = AppState.selectedOptionIndex === idx;
+          card.className = `btn-choice p-3 sm:p-4 flex items-center gap-3 ${isSelected ? 'btn-choice-selected' : ''}`;
+          card.onclick = () => { AppState.selectedOptionIndex = idx; renderChoiceCards(AppState.activeOptions); const btn = document.getElementById('checkAnswerBtn'); if(btn) btn.disabled = false; };
+          card.innerHTML = `
+            <div class="w-8 h-8 rounded-xl font-chunky font-bold flex items-center justify-center text-xs shrink-0 ${isSelected ? 'bg-purple-700 text-white shadow-sm' : 'bg-purple-100 text-purple-800'}">${letters[idx]}</div>
+            <span class="text-xs sm:text-sm font-bold text-purple-950 flex-grow text-left leading-snug">${opt}</span>
+            <div class="w-5 h-5 rounded-full border-2 border-purple-300 flex items-center justify-center shrink-0 ${isSelected ? 'border-purple-600 bg-purple-600 text-white' : ''}">${isSelected ? '✓' : ''}</div>`;
+          container.appendChild(card);
+        });
+      }
+
+      if (hiddenTypingInput) {
+        hiddenTypingInput.addEventListener('input', () => {
+          if (AppState.currentSkill !== 'listen' || !AppState.currentQuestion) return;
+          const targetLen = (AppState.currentQuestion.word || "").length;
+          AppState.typedInput = (hiddenTypingInput.value || "").toLowerCase().replace(/[^a-z ]/g, '').slice(0, targetLen);
+          syncHiddenInputWithTypedState(); renderLetterSlots();
+        });
+        hiddenTypingInput.addEventListener('click', syncHiddenInputWithTypedState);
+        hiddenTypingInput.addEventListener('keyup', syncHiddenInputWithTypedState);
+      }
+
+      window.addEventListener('keydown', (e) => {
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal && !loginModal.classList.contains('hidden')) return;
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const checkBtn = document.getElementById('checkAnswerBtn');
+          const drawer = document.getElementById('feedbackDrawer');
+          if (drawer && drawer.classList.contains('translate-y-0')) document.getElementById('continueBtn').click();
+          else if (checkBtn && !checkBtn.disabled) checkBtn.click();
+          return;
+        }
+        if (e.target === hiddenTypingInput || document.activeElement === hiddenTypingInput) return;
+        if (AppState.currentSkill === 'listen') {
+          if (e.key === 'Backspace') { e.preventDefault(); if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); } }
+          else if (e.key === ' ' || (/^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey)) { e.preventDefault(); const target = (AppState.currentQuestion?.word || "").toLowerCase(); if (AppState.typedInput.length < target.length) { AppState.typedInput += e.key.toLowerCase(); syncHiddenInputWithTypedState(); renderLetterSlots(); } }
+        }
+      });
+
+      const eraseBtn = document.getElementById('eraseLetterBtn');
+      if (eraseBtn) eraseBtn.onclick = (e) => { e.stopPropagation(); if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); } };
+      
+      const clearBtn = document.getElementById('clearAllLettersBtn');
+      if (clearBtn) clearBtn.onclick = (e) => { e.stopPropagation(); AppState.typedInput = ""; syncHiddenInputWithTypedState(); renderLetterSlots(); };
+
+      const normBtn = document.getElementById('listenNormalBtn'); if (normBtn) normBtn.onclick = () => speakTargetWord(1.0);
+      const slowBtn = document.getElementById('listenTurtleBtn'); if (slowBtn) slowBtn.onclick = () => speakTargetWord(0.5);
+
+      const checkAnsBtn = document.getElementById('checkAnswerBtn');
+      if (checkAnsBtn) {
+        checkAnsBtn.onclick = () => {
+          initAudioContext();
+          let isCorrect = false; let targetAnswer = ""; const letters = ['A', 'B', 'C', 'D'];
+          if (AppState.currentSkill === 'listen') {
+            const cleanTarget = (AppState.currentQuestion.word || "").toLowerCase().replace(/[^a-z0-9]/g, '');
+            const cleanUser = AppState.typedInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+            isCorrect = (cleanTarget === cleanUser && cleanTarget.length > 0); targetAnswer = AppState.currentQuestion.word.toLowerCase();
+          } else {
+            isCorrect = (AppState.selectedOptionIndex === AppState.activeCorrectIndex);
+            targetAnswer = `${letters[AppState.activeCorrectIndex]}) ${AppState.activeOptions[AppState.activeCorrectIndex]}`;
+          }
+
+          const drawer = document.getElementById('feedbackDrawer'); const iconBox = document.getElementById('feedbackIconBox');
+          const title = document.getElementById('feedbackTitle'); const msg = document.getElementById('feedbackMessage');
+          const continueBtn = document.getElementById('continueBtn');
+
+          drawer.classList.remove('translate-y-full', 'pointer-events-none'); drawer.classList.add('translate-y-0', 'pointer-events-auto');
+
+          if (isCorrect) {
+            AppState.streak++; AppState.xp += 15; AppState.completedCounts[AppState.currentSkill]++;
+            AppState.completedIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
+            AppState.seenQuestionIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
+            playSuccessChime(); triggerConfetti();
+            drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-emerald-500 bg-emerald-50/95 text-emerald-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
+            iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-emerald-500 text-white"; iconBox.innerText = "🎉";
+            title.innerText = "Awesome!"; msg.innerText = `Correct Answer: "${targetAnswer}". Keep up the brilliant work!`;
+            continueBtn.className = "btn-3d btn-3d-green w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
+          } else {
+            AppState.hearts = Math.max(0, AppState.hearts - 1); playErrorBuzz();
+            AppState.reviewQueues[AppState.currentSkill].push(AppState.currentQuestion);
+            drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-rose-500 bg-rose-50/95 text-rose-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
+            iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-rose-500 text-white"; iconBox.innerText = "💡";
+            title.innerText = "Keep trying!"; msg.innerText = `The correct answer was: "${targetAnswer}". Review it and try again soon.`;
+            continueBtn.className = "btn-3d btn-3d-red w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
+          }
+          updateTopMetrics(); updateEnrolledStudentScore();
         };
       }
 
-      /* -------------------- STAGE 1: A1 LISTEN (25 UNIQUE WORDS) -------------------- */
-      const a1ListenRaw = [
-        ["school", "A place where children go to learn every day", "The children walk to _______ every morning with their bags.", "Where teachers teach lessons in classrooms", "A1: School Life"],
-        ["friend", "A person you like, trust, and spend happy time with", "Sara is my best _______ and we share our lunch.", "Someone who plays with you and supports you", "A1: Relationships"],
-        ["doctor", "A medical professional who treats sick patients", "When Omar had a fever, his mother took him to the _______.", "Works in a hospital or clinic wearing a white coat", "A1: Community Jobs"],
-        ["family", "Parents, brothers, and sisters living together in one home", "On Fridays, my whole _______ gathers for a warm lunch.", "Your mother, father, brother, and sister together", "A1: Home & Family"],
-        ["water", "Clear natural liquid that all living things need to drink", "Please drink a glass of cold _______ after running.", "It falls as rain and fills rivers and oceans", "A1: Nature Elements"],
-        ["animal", "A living creature that can move and eat, like a horse or sheep", "The lion is a strong wild _______ that lives in Africa.", "Cats, dogs, rabbits, and giraffes are examples of this", "A1: World Animals"],
-        ["garden", "A piece of land by a house where colourful flowers and trees grow", "My grandmother waters the red roses in her green _______.", "An outdoor space with grass, butterflies, and plants", "A1: Nature & Plants"],
-        ["happy", "Feeling joyful, pleased, and smiling brightly", " winning the game made the whole team feel very _______.", "The opposite of sad; feeling cheerful inside", "A1: Human Emotions"],
-        ["pencil", "A wooden classroom tool used for writing and drawing", "Use your sharp _______ to draw a picture in your art book.", "You sharpen it and erase its marks with a rubber", "A1: Classroom Tools"],
-        ["orange", "A round juicy citrus fruit that is rich in vitamin C", "I peeled a sweet _______ and drank its fresh juice.", "Both a bright fruit and the colour between red and yellow", "A1: Healthy Foods"],
-        ["teacher", "A person who helps students learn subjects at school", "Our English _______ wrote the new words on the board.", "The adult leader who explains lessons in class", "A1: School Life"],
-        ["brother", "A boy or man who has the same mother and father as you", "My older _______ taught me how to ride a bicycle.", "A male sibling in your family", "A1: Family"],
-        ["window", "An opening in a wall with glass that lets sunlight and fresh air in", "Open the bedroom _______ to see the sunny garden outside.", "Made of glass in a wall so you can look outdoors", "A1: Home Architecture"],
-        ["yellow", "The bright colour of the sun, ripe lemons, and sunflowers", "She painted a bright _______ sun at the top of her page.", "The sunny colour of bananas and baby chicks", "A1: Basic Colours"],
-        ["summer", "The warmest, sunniest season of the year when schools have holidays", "In _______, we love swimming at the beach to stay cool.", "The hot season that comes after spring", "A1: Yearly Seasons"],
-        ["rabbit", "A small furry mammal with long ears that hops quickly", "The white _______ nibbled on a crunchy orange carrot.", "A gentle hopping pet with long ears and a fluffy tail", "A1: Cute Pets"],
-        ["morning", "The early part of the day when the sun rises and we eat breakfast", "I brush my teeth and eat eggs every _______ before seven.", "The time of day before noon and afternoon", "A1: Time & Routine"],
-        ["market", "A busy place where people buy fresh fruit, vegetables, and fish", "We bought fresh tomatoes and dates at the Friday _______.", "A place with stalls and shops selling daily food", "A1: City Life"],
-        ["sister", "A girl or woman who has the same parents as you", "My little _______ loves reading bedtime stories with me.", "A female sibling in your home", "A1: Family Members"],
-        ["football", "A popular team sport played by kicking a ball into a goal", "Ali scored two goals during the school _______ match.", "A game played on a green pitch with eleven players", "A1: Active Sports"],
-        ["mother", "A female parent who cares for and loves her children", "My _______ baked a delicious cake for my birthday.", "Another word for mum or mom", "A1: Family"],
-        ["father", "A male parent who cares for and supports the family", "My _______ drives us to the park on Saturday afternoons.", "Another word for dad", "A1: Family"],
-        ["apple", "A round crisp fruit with red, green, or yellow skin", "A crunchy red _______ is a healthy snack for school.", "A popular fruit that grows on orchard trees", "A1: Foods"],
-        ["banana", "A long curved fruit with soft sweet flesh and yellow peel", "Monkeys love peeling and eating a ripe yellow _______.", "A long yellow tropical fruit rich in energy", "A1: Foods"],
-        ["kitchen", "A room in a house where food is cooked and meals are prepared", "A wonderful smell of warm bread came from the _______.", "The room with a stove, fridge, and sink for cooking", "A1: Home Rooms"]
-      ];
-      a1ListenRaw.forEach((item, idx) => {
-        bank.A1.listen.push(createListenItem(`A1_L_${idx + 1}`, item[0], item[1], item[2], item[3], item[4]));
-      });
+      const contBtn = document.getElementById('continueBtn');
+      if (contBtn) {
+        contBtn.onclick = () => {
+          const drawer = document.getElementById('feedbackDrawer');
+          drawer.classList.remove('translate-y-0', 'pointer-events-auto'); drawer.classList.add('translate-y-full', 'pointer-events-none');
+          if (AppState.hearts <= 0) { showToast("Hearts depleted! Showing your performance certificate."); if(window.openCertificateModal) window.openCertificateModal(); return; }
+          if (AppState.completedCounts[AppState.currentSkill] >= 10) {
+            if (AppState.currentSkill === 'listen') { showToast("🎧 Moving to Reading."); window.selectSkill('reading'); return; }
+            else if (AppState.currentSkill === 'reading') { showToast("📖 Moving to Grammar."); window.selectSkill('grammar'); return; }
+            else if (AppState.currentSkill === 'grammar') { if(window.openCertificateModal) window.openCertificateModal(); return; }
+          }
+          loadCurrentExercise();
+        };
+      }
 
-      /* -------------------- STAGE 2: A2 LISTEN (25 UNIQUE WORDS) -------------------- */
-      const a2ListenRaw = [
-        ["travel", "To go from one town or country to another on a journey", "Next holiday, our family will _______ by plane to Oman.", "Exploring new cities and countries by air, land, or sea", "A2: Voyages"],
-        ["weather", "The daily state of the sky such as rain, wind, sunshine, or clouds", "Check the _______ forecast before going on a boat trip.", "Whether it is sunny, stormy, windy, or cold outside", "A2: Climate"],
-        ["healthy", "Strong and well in body and mind through good food and exercise", "Eating fresh vegetables and sleeping early keeps you _______.", "Not sick; full of physical wellness and energy", "A2: Health"],
-        ["island", "A piece of land completely surrounded by sea water on all sides", "Bahrain is a beautiful _______ nation in the Arabian Gulf.", "Land in the middle of the sea or ocean", "A2: Geography"],
-        ["wildlife", "Wild animals and birds living naturally in forests and deserts", "National parks protect desert _______ like the Arabian Oryx.", "Animals that live free in nature, not in houses", "A2: Nature"],
-        ["museum", "A special building where historical objects and art are displayed", "Students saw ancient Dilmun pottery at the national _______.", "A place you visit to see history, science, and old treasures", "A2: Culture"],
-        ["protect", "To keep someone or something safe from harm or danger", "Sunglasses _______ your eyes from bright summer sunlight.", "To guard, shield, and save from damage", "A2: Ecology"],
-        ["dinosaur", "A giant prehistoric reptile that lived millions of years ago", "We saw a huge _______ skeleton at the natural history hall.", "An extinct ancient creature like T-Rex or Triceratops", "A2: Prehistory"],
-        ["computer", "An electronic machine used for writing, coding, and browsing information", "She typed her science project on the classroom _______.", "A digital device with a screen, keyboard, and mouse", "A2: Tech"],
-        ["festival", "A joyful public celebration with music, food, and cultural events", "The spring culture _______ attracts visitors from many countries.", "A special time of celebration, parades, and traditional shows", "A2: Heritage"],
-        ["library", "A quiet room or building filled with thousands of books to borrow", "Mariam borrowed three adventure storybooks from the school _______.", "A quiet place where people read and borrow books", "A2: Education"],
-        ["airport", "A large station where aeroplanes take off and land with passengers", "We arrived at the _______ two hours before our flight departed.", "Where pilots, runways, and passenger planes are found", "A2: Voyages"],
-        ["bicycle", "A two-wheeled vehicle that you ride by pushing pedals with your feet", "Rashid rides his blue _______ along the coastal path.", "A two-wheeled eco-friendly ride with handlebars and pedals", "A2: Transport"],
-        ["mountain", "A very high natural hill of rock rising steeply into the sky", "Snow covered the top of the highest _______ in winter.", "Much taller than a hill, where climbers hike to the peak", "A2: Geography"],
-        ["desert", "A large dry region covered with sand dunes and very little rain", "Camels are adapted to walk across the hot sandy _______.", "A dry landscape with sand dunes, oases, and palm trees", "A2: Geography"],
-        ["hospital", "A large medical center where doctors and nurses care for patients", "The ambulance carried the injured player quickly to the _______.", "The building where operations and medical care happen", "A2: Community"],
-        ["sandwich", "Two slices of bread with cheese, chicken, or salad in between", "Noor packed a cheese and cucumber _______ in her lunchbox.", "A quick meal made with filling between two pieces of bread", "A2: Food"],
-        ["painting", "A colourful picture created by an artist using a brush and paint", "A famous _______ of the sea hangs on the gallery wall.", "Artwork made with watercolours or oil paints on canvas", "A2: Art"],
-        ["homework", "School exercises that teachers give students to complete at home", "Yusuf finished all his maths _______ before dinner.", "Study tasks you do at home after school finishes", "A2: Education"],
-        ["calendar", "A chart showing the days, weeks, and months of a whole year", "Circle the date of the school trip on the wall _______.", "It shows January to December and helps you track dates", "A2: Time"],
-        ["umbrella", "A folding canopy you hold over your head to stay dry in the rain", "Take your _______ because dark rain clouds are gathering.", "You open it above your head when it rains or is very sunny", "A2: Weather"],
-        ["necklaces", "Pieces of jewellery worn around the neck, often made of pearls or gold", "Bahraini pearl _______ are famous for their natural beauty.", "Ornamental chains or pearls worn around the neck", "A2: Culture"],
-        ["dolphin", "A smart, friendly sea mammal that swims and leaps in the ocean", "A playful grey _______ jumped beside our fishing boat.", "An intelligent ocean mammal known for smiling and leaping", "A2: Marine Life"],
-        ["lantern", "A portable lamp inside a glass or metal case that shines in the dark", "Each camper carried a bright _______ while walking at night.", "A traditional light with a handle used in the dark", "A2: Camping"],
-        ["compass", "An instrument with a magnetic needle that always points north", "The scout used a _______ and map to find the right direction.", "A navigation tool showing North, South, East, and West", "A2: Exploration"]
-      ];
-      a2ListenRaw.forEach((item, idx) => {
-        bank.A2.listen.push(createListenItem(`A2_L_${idx + 1}`, item[0], item[1], item[2], item[3], item[4]));
-      });
+      const skipBtn = document.getElementById('skipQuestionBtn');
+      if (skipBtn) skipBtn.onclick = () => loadCurrentExercise();
 
-      /* -------------------- STAGE 3: B1 LISTEN (25 UNIQUE IMPACT 3 WORDS) -------------------- */
-      const b1ListenRaw = [
-        ["cooperative", "Working willingly with others toward a common team goal", "Group projects succeed when every member is helpful and _______.", "The adjective for someone who collaborates well in a team", "Impact Unit 1: Personality"],
-        ["competitive", "Having a strong desire to win or be more successful than others", "My sisters are very _______ whenever they play board games.", "Always trying hard to winfirst place in sports or contests", "Impact Unit 1: Identity"],
-        ["animation", "The art and technique of making drawings or models appear to move in films", "Modern cartoon movies use digital computer _______.", "Creating moving visual stories from drawings or CGI", "Impact Unit 7: Visual Stories"],
-        ["masterpiece", "An outstanding work of art created with extraordinary skill", "The Mona Lisa is considered a world-famous artistic _______.", "An artist's greatest and most admired creation", "Impact Unit 7: Art"],
-        ["portrait", "A painting, drawing, or photograph showing a person's face and expression", "The artist painted a detailed _______ of the young princess.", "Artwork focused on capturing a person's face and character", "Impact Unit 7: Art"],
-        ["achievement", "Something important accomplished through great effort and courage", "Launching the Light-1 satellite was a proud scientific _______.", "A major success reached after hard work and dedication", "Impact Unit 8: Achievements"],
-        ["explorer", "A person who travels to unfamiliar places to discover new knowledge", "National Geographic _______ Corey Jaskolski invents deep-sea cameras.", "A brave researcher who investigates uncharted frontiers", "Impact Unit 8: Why We Explore"],
-        ["wingspan", "The measurement from the tip of one wing to the tip of the other", "The wandering albatross has the largest _______ of any living bird.", "Distance from left wingtip to right wingtip on a bird or glider", "Impact Unit 5: Flying High"],
-        ["synthetic", "Made by chemical processes in a factory rather than from natural plants", "Nylon and polyester are _______ materials,unlike natural cotton.", "Man-made fabric or material, the opposite of natural", "Impact Unit 4: Fashion Footprints"],
-        ["atmosphere", "The protective layer of gases surrounding planet Earth", "The satellite collects data on radiation high in Earth's _______.", "The sky layer of air and gases enveloping a planet", "Impact Unit 6: Space"],
-        ["misunderstood", "Incorrectly judged or feared because people lack accurate facts", "Bats and snakes are often _______ animals that actually help nature.", "When an animal or person is unfairly judged without knowing the truth", "Impact Unit 2: Animals"],
-        ["beneficial", "Producing helpful, positive, and good results for the environment", "Bees and wasps are _______ insects because they pollinate crops.", "Helpful and advantageous; the opposite of harmful", "Impact Unit 2: Ecosystems"],
-        ["ecosystem", "All the living plants and animals interacting within a natural habitat", "Coral reefs form a delicate marine _______ that shelters thousands of fish.", "A biological community of interacting organisms and their environment", "Impact Unit 2: Nature"],
-        ["ambitious", "Having a strong determination to succeed and reach high goals", "She is an _______ student who plans to become a space engineer.", "Aiming high and working hard to achieve big dreams", "Impact Unit 1: Personality"],
-        ["migration", "The seasonal movement of animals or birds from one region to another", "Flamingos make an annual _______ to warm coastal lagoons in winter.", "When flocks of birds fly thousands of kilometres every season", "Impact Unit 3: Collective Behaviour"],
-        ["footprint", "The mark or environmental impact left behind by human activities", "Choosing eco-friendly clothes reduces our water and carbon _______.", "The ecological trace or impression we leave on the planet", "Impact Unit 4: Sustainability"],
-        ["adaptation", "A special physical feature or behaviour that helps an animal survive", "Hollow bones are a key _______ that allows birds to fly effortlessly.", "An evolutionary change that helps a species survive in its habitat", "Impact Unit 5: Evolution of Flight"],
-        ["astronaut", "A trained crew member who travels aboard a spacecraft into orbit", "Every _______ aboard the space station conducts daily experiments.", "A space traveller who orbits Earth or explores the Moon", "Impact Unit 6: New Frontiers"],
-        ["audience", "The group of people gathered to watch a play, concert, or film", "The entire _______ clapped enthusiastically at the end of the show.", "Spectators or listeners watching a performance or presentation", "Impact Unit 7: Performing Arts"],
-        ["pioneer", "A person who is among the first to develop a new method or area of knowledge", "Ibn Firnas was an early aviation _______ who studied flight.", "A trailblazer who opens the way for others to follow", "Impact Unit 8: Pioneers"],
-        ["investigate", "To examine and research a mystery or scientific question carefully", "Marine biologists _______ deep ocean trenches using robotic submarines.", "To study closely in order to discover facts and truth", "Impact Unit 8: Research"],
-        ["remote", "Far away from cities and difficult for people to reach", "Camera traps film snow leopards in _______ mountain valleys.", "Distant, isolated, and far from human towns", "Impact Unit 8: Exploration"],
-        ["confident", "Feeling sure of your own abilities and not afraid to try", "Practising her speech aloud made Dana feel calm and _______.", "Self-assured and believing in your capability to succeed", "Impact Unit 1: Character"],
-        ["poisonous", "Containing toxins that can cause harm if touched or swallowed", "Bright colours on a rainforest frog warn predators that it is _______.", "Toxic or venomous to other creatures", "Impact Unit 2: Animal Defences"],
-        ["glider", "A light aircraft that flies smoothly on air currents without an engine", "The silent _______ soared high above the valley on warm air currents.", "An engineless aircraft that rides wind currents like a bird", "Impact Unit 5: Flight"]
-      ];
-      b1ListenRaw.forEach((item, idx) => {
-        bank.B1.listen.push(createListenItem(`B1_L_${idx + 1}`, item[0], item[1], item[2], item[3], item[4]));
-      });
-
-      /* -------------------- STAGE 4: B2 LISTEN (20 UNIQUE ADVANCED WORDS) -------------------- */
-      const b2ListenRaw = [
-        ["biodiversity", "The rich variety of plant and animal species living in an environment", "Protecting rainforests is vital for preserving global _______.", "Biological variety of all life forms within an ecosystem", "B2: Ecology"],
-        ["archaeological", "Relating to the study of human history through excavated sites and artefacts", "Qal'at al-Bahrain is an important _______ site revealing Dilmun history.", "Connected with digging up and studying ancient civilizations", "B2: Antiquities"],
-        ["entrepreneur", "An innovative person who sets up a business to solve real problems", "The young _______ designed biodegradable packaging from seaweed.", "A founder who launches creative new ventures", "B2: Innovation"],
-        ["perseverance", "Continued steady effort to achieve something despite difficulties", "Through years of _______, the scientists finally decoded the signal.", "Never giving up even when tasks are challenging", "B2: Character"],
-        ["sophisticated", "Highly developed, complex, and using advanced technology", "Deep-sea explorers rely on _______ 3D sonar cameras.", "Advanced, refined, and technically state-of-the-art", "B2: High Tech"],
-        ["sustainability", "Using natural resources responsibly so they remain available for future generations", "Solar power and recycling are central to environmental _______.", "Meeting today's needs without harming the planet's future", "B2: Environment"],
-        ["misconception", "A widespread belief or idea that is false because it is based on incorrect information", "It is a common _______ that all bats are blind.", "A mistaken belief that science can correct", "B2: Critical Thinking"],
-        ["collaboration", "The action of working together with partners to produce something", "The Light-1 satellite was built through regional scientific _______.", "Teamwork and partnership between researchers or nations", "B2: Global Science"],
-        ["extraordinary", "Very unusual, remarkable, and far beyond what is ordinary", "The diver captured _______ footage of glowing deep-sea creatures.", "Amazing, exceptional, and unforgettable", "B2: Discovery"],
-        ["conservation", "The careful protection and preservation of natural habitats and wildlife", "Marine _______ programmes protect sea turtles during nesting season.", "Saving and protecting nature, forests, and endangered species", "B2: Wildlife Protection"],
-        ["civilization", "An advanced stage of human society with culture, trade, and cities", "The ancient Dilmun _______ connected trade across the Arabian Gulf.", "A historical society with cities, writing, and trade routes", "B2: World History"],
-        ["astronomy", "The scientific study of stars, planets, galaxies, and space", "High-altitude telescopes have revolutionized modern _______.", "The science of observing celestial objects in the universe", "B2: Space Science"],
-        ["innovation", "A new method, idea, or invention that improves how things work", "Clean energy _______ is transforming how modern cities operate.", "Introducing creative new inventions and solutions", "B2: Future Tech"],
-        ["phenomenon", "A remarkable natural event or fact that can be observed and studied", "The northern lights are a breathtaking atmospheric _______.", "An observable natural occurrence that inspires wonder", "B2: Natural World"],
-        ["resilience", "The capacity to recover quickly from challenges or tough conditions", "Desert plants show remarkable _______ during long dry summers.", "Strength to bounce back and adapt to difficult conditions", "B2: Biology"]
-      ];
-      b2ListenRaw.forEach((item, idx) => {
-        bank.B2.listen.push(createListenItem(`B2_L_${idx + 1}`, item[0], item[1], item[2], item[3], item[4]));
-      });
-
-      /* ============================================================================
-         READING COMPREHENSION POOLS (3 DISTINCT QUESTIONS PER STORY SO IF A STUDENT
-         MAKES A MISTAKE, IT ASKS ABOUT THE STORY IN A COMPLETELY DIFFERENT WAY!)
-         ============================================================================ */
-      const a1ReadingRaw = [
-        {
-          tit: "Adam's Morning Walk to School",
-          st: "Adam wakes up early at six thirty every morning. After eating a warm breakfast with his family, he packs his blue schoolbag and walks to school with his older brother Sami. Adam enjoys English class because he loves reading stories.",
-          variants: [
-            { q: "How does Adam go to school every morning?", opt: ["He walks with his brother Sami", "He travels on a big train", "He rides a fast motorcycle", "He stays at home all day"] },
-            { q: "🔄 Different Question: Why does Adam enjoy his English class?", opt: ["Because he loves reading stories", "Because he sleeps in class", "Because there are no books", "Because it is at night"] },
-            { q: "🔄 Different Question: What does Adam do before he packs his blue schoolbag?", opt: ["He eats a warm breakfast with his family", "He plays football in the street", "He watches television for hours", "He goes shopping at the market"] }
-          ]
-        },
-        {
-          tit: "Sara and Her Brown Puppy Max",
-          st: "Sara has an energetic brown puppy named Max. Every afternoon after finishing her homework, Sara takes Max into the green garden. Max loves running across the grass to catch his favourite red rubber ball.",
-          variants: [
-            { q: "What colour is Sara's puppy Max?", opt: ["Brown", "Black and white", "Bright yellow", "Dark grey"] },
-            { q: "🔄 Different Question: When does Sara take Max out into the green garden?", opt: ["Every afternoon after finishing her homework", "Early in the morning before breakfast", "Late at night while everyone sleeps", "During her school lessons"] },
-            { q: "🔄 Different Question: What toy does Max love catching in the garden?", opt: ["His favourite red rubber ball", "A wooden kite", "A blue plastic boat", "A heavy schoolbook"] }
-          ]
-        },
-        {
-          tit: "Friday Morning at Grandmother's House",
-          st: "On Friday mornings, Zainab visits her grandmother's house in Muharraq. Together, they bake warm traditional bread in the kitchen and drizzle sweet golden honey on top. Afterwards, they sit in the courtyard and drink mint tea.",
-          variants: [
-            { q: "What do Zainab and her grandmother put on top of the warm bread?", opt: ["Sweet golden honey", "Cold chocolate ice cream", "Salty tomato soup", "Green pepper sauce"] },
-            { q: "🔄 Different Question: When does Zainab visit her grandmother's house?", opt: ["On Friday mornings", "On Monday nights", "Only in winter", "During school exams"] },
-            { q: "🔄 Different Question: What do they drink together in the courtyard?", opt: ["Mint tea", "Orange soda", "Cold milk", "Coffee with lemon"] }
-          ]
-        },
-        {
-          tit: "Ali's Safe Bicycle Ride",
-          st: "Ali rides his blue bicycle around the neighbourhood park every Saturday afternoon. Before he starts pedalling, he always fastens his bright yellow helmet to protect his head and checks his brakes carefully.",
-          variants: [
-            { q: "What does Ali always wear to protect his head?", opt: ["A bright yellow helmet", "A heavy wool scarf", "Dark sunglasses", "A red winter coat"] },
-            { q: "🔄 Different Question: Where does Ali ride his blue bicycle on Saturdays?", opt: ["Around the neighbourhood park", "Inside the shopping mall", "Across the deep sea", "Inside his school classroom"] },
-            { q: "🔄 Different Question: Besides wearing his helmet, what else does Ali check before riding?", opt: ["He checks his brakes carefully", "He paints the wheels green", "He removes the pedals", "He washes his shoes"] }
-          ]
-        },
-        {
-          tit: "Tall Giraffes at the Wildlife Park",
-          st: "Mona visited the Al Areen Wildlife Park with her school class. Her favourite animals were the tall giraffes. She watched them stretch their long necks high into the acacia trees to eat fresh green leaves.",
-          variants: [
-            { q: "What did the giraffes eat at the wildlife park?", opt: ["Fresh green leaves from high trees", "Fish from the river", "Warm baked bread", "Red strawberries on the ground"] },
-            { q: "🔄 Different Question: Who did Mona visit the wildlife park with?", opt: ["With her school class", "All by herself at night", "With her neighbour's cat", "With a group of pilots"] },
-            { q: "🔄 Different Question: How do giraffes reach the leaves high up in the trees?", opt: ["They stretch their long necks", "They climb up a wooden ladder", "They fly with big wings", "They jump on a trampoline"] }
-          ]
-        },
-        {
-          tit: "Noor's Healthy Evening Salad",
-          st: "Every evening before dinner, Noor helps her mother in the kitchen. She washes ripe red tomatoes, crisp green cucumbers, and fresh lettuce in cold water to prepare a healthy salad for the whole family.",
-          variants: [
-            { q: "What dish does Noor help her mother prepare for dinner?", opt: ["A healthy green salad", "A chocolate birthday cake", "Fried chicken and rice", "Sweet banana pancakes"] },
-            { q: "🔄 Different Question: What does Noor do to the tomatoes and cucumbers first?", opt: ["She washes them in cold water", "She bakes them in the oven", "She freezes them into ice", "She paints them yellow"] },
-            { q: "🔄 Different Question: Which vegetables does Noor use in the salad?", opt: ["Tomatoes, cucumbers, and lettuce", "Potatoes, onions, and garlic", "Carrots, corn, and beans", "Pumpkins and aubergines"] }
-          ]
-        },
-        {
-          tit: "A Sunny Day at Jazair Beach",
-          st: "Last weekend, Hassan and his sister Layla went to Jazair Beach with their parents. They built a big sandcastle decorated with white seashells and swam in the calm blue sea before watching the sunset.",
-          variants: [
-            { q: "What did Hassan and Layla use to decorate their sandcastle?", opt: ["White seashells", "Plastic spoons", "Paper notebooks", "Coloured pencils"] },
-            { q: "🔄 Different Question: What did the family watch at the end of their beach visit?", opt: ["The sunset", "A cinema movie", "A football match", "A snowstorm"] },
-            { q: "🔄 Different Question: Who went with Hassan and Layla to Jazair Beach?", opt: ["Their parents", "Their school principal", "Their doctor", "Only their friends"] }
-          ]
-        },
-        {
-          tit: "The School Library Corner",
-          st: "Every Tuesday, Grade 7 students visit the quiet school library. Fatima likes sitting on the soft purple rug near the window. Yesterday, she borrowed an illustrated book about ocean animals.",
-          variants: [
-            { q: "What was the book that Fatima borrowed about?", opt: ["Ocean animals", "Desert trucks", "Cooking pasta", "Building bridges"] },
-            { q: "🔄 Different Question: Where does Fatima like sitting in the library?", opt: ["On the soft purple rug near the window", "On the roof of the building", "Outside in the sports field", "Behind the cafeteria door"] },
-            { q: "🔄 Different Question: On which day do the students visit the school library?", opt: ["Every Tuesday", "Every Saturday", "Only in August", "Every Friday night"] }
-          ]
-        },
-        {
-          tit: "Planting a Lemon Tree",
-          st: "Tariq and his father dug a small hole in the sunny corner of their backyard. They planted a young lemon tree and watered the soil gently. Tariq checks the tree every morning to see new green leaves growing.",
-          variants: [
-            { q: "What kind of tree did Tariq and his father plant?", opt: ["A young lemon tree", "A tall pine tree", "A coconut palm", "An oak tree"] },
-            { q: "🔄 Different Question: Why did they plant the tree in that corner of the backyard?", opt: ["Because it is a sunny corner", "Because it is completely dark", "Because it is inside the kitchen", "Because there is no soil there"] },
-            { q: "🔄 Different Question: What does Tariq look for when he checks the tree every morning?", opt: ["New green leaves growing", "Snowflakes falling", "Birds building cages", "Gold coins on the branches"] }
-          ]
-        },
-        {
-          tit: "The Colourful Art Competition",
-          st: "Reem loves painting with watercolours. For the school art competition, she painted a traditional wooden dhow sailing across the turquoise sea of Bahrain. Her teacher awarded her a gold star sticker.",
-          variants: [
-            { q: "What did Reem paint for the school art competition?", opt: ["A traditional wooden dhow sailing on the sea", "A red racing car in the desert", "A snowy mountain in winter", "A bowl of fruit on a table"] },
-            { q: "🔄 Different Question: What reward did Reem's teacher give her?", opt: ["A gold star sticker", "A new bicycle", "A box of chocolates", "A cinema ticket"] },
-            { q: "🔄 Different Question: Which art material does Reem love using?", opt: ["Watercolours", "Clay bricks", "Charcoal sticks", "Metal wires"] }
-          ]
-        },
-        {
-          tit: "Feeding the Backyard Birds",
-          st: "Every winter morning, Khalid places a wooden bowl of seeds and fresh water on his balcony wall. Small cheerful sparrows fly down from the palm trees to eat the seeds and chirp happily.",
-          variants: [
-            { q: "What does Khalid put on his balcony wall for the sparrows?", opt: ["Seeds and fresh water", "Hot soup and rice", "Cheese sandwiches", "Sweet biscuits"] },
-            { q: "🔄 Different Question: Where do the small sparrows fly down from?", opt: ["From the palm trees", "From inside the living room", "From an aeroplane", "From under the sea"] },
-            { q: "🔄 Different Question: When does Khalid put food out for the birds?", opt: ["Every winter morning", "Only at midnight", "Once every five years", "During hot summer afternoons"] }
-          ]
-        },
-        {
-          tit: "A Visit to the Dentist",
-          st: "Amna brushes her teeth twice a day using mint toothpaste. When she visited Dr. Huda for her six-month check-up, the dentist smiled and said Amna's teeth were strong, clean, and healthy.",
-          variants: [
-            { q: "How often does Amna brush her teeth every day?", opt: ["Twice a day", "Once a week", "Only on Fridays", "Five times an hour"] },
-            { q: "🔄 Different Question: What did Dr. Huda say about Amna's teeth?", opt: ["They were strong, clean, and healthy", "They needed three operations", "They were stained with paint", "They were too small"] },
-            { q: "🔄 Different Question: What flavour of toothpaste does Amna use?", opt: ["Mint toothpaste", "Chocolate toothpaste", "Salty toothpaste", "Coffee toothpaste"] }
-          ]
-        }
-      ];
-
-      a1ReadingRaw.forEach((item, idx) => {
-        bank.A1.reading.push({
-          id: `A1_R_${idx + 1}`,
-          title: item.tit,
-          story: item.st,
-          topic: "A1 Reading Comprehension",
-          variants: item.variants
+      window.selectSkill = function(skillName) {
+        AppState.currentSkill = skillName;
+        ['listen', 'reading', 'grammar'].forEach(s => {
+          const tab = document.getElementById(`skillTab-${s}`);
+          if (tab) tab.className = (s === skillName) ? "btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" : "btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5";
         });
+        loadCurrentExercise();
+      };
+
+      document.querySelectorAll('.keycap-level').forEach(btn => {
+        btn.onclick = () => {
+          document.querySelectorAll('.keycap-level').forEach(b => b.className = "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900");
+          btn.className = "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold";
+          AppState.currentLevel = btn.getAttribute('data-level');
+          AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 };
+          showToast(`Level set to CEFR ${AppState.currentLevel}`);
+          loadCurrentExercise();
+        };
       });
 
-      /* -------------------- STAGE 2: A2 READING (12 UNIQUE STORIES) -------------------- */
-      const a2ReadingRaw = [
-        {
-          tit: "Winter Camping in Sakhir",
-          st: "During the cool winter months in Bahrain, families set up comfortable tents in the Sakhir desert. In the evening, they gather around a warm campfire, drink spiced Karak tea, and look up at the bright stars in the clear night sky.",
-          variants: [
-            { q: "Where do families set up their tents during the cool winter months?", opt: ["In the Sakhir desert", "On top of snowy mountains", "Inside shopping centres", "On ocean cruise ships"] },
-            { q: "🔄 Different Question: What do families do in the evening around the campfire?", opt: ["Drink spiced Karak tea and look at the stars", "Swim in cold rivers", "Build snowmen", "Play computer games indoors"] },
-            { q: "🔄 Different Question: Why is the Sakhir night sky great for stargazing?", opt: ["Because the desert night sky is clear and bright", "Because the sun shines at midnight", "Because streetlights cover the dunes", "Because heavy snow falls"] }
-          ]
-        },
-        {
-          tit: "Protecting the Arabian Oryx",
-          st: "The Arabian Oryx is a graceful desert antelope with a pure white coat and two long straight horns. Its white fur reflects intense desert sunlight. Conservation sanctuaries across the Gulf protect these animals so their herds can thrive safely.",
-          variants: [
-            { q: "How does the Arabian Oryx's white coat help it survive in the desert?", opt: ["It reflects intense desert sunlight", "It helps it swim underwater", "It absorbs cold winter snow", "It makes it invisible
+      function updateTopMetrics() {
+        const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
+        setVal('heartsCounter', AppState.hearts); setVal('streakCounter', AppState.streak); setVal('xpCounter', AppState.xp);
+        const totalCompleted = AppState.completedCounts.listen + AppState.completedCounts.reading + AppState.completedCounts.grammar;
+        const percent = Math.min(100, Math.round((totalCompleted / 30) * 100));
+        setVal('progressSummaryText', `${totalCompleted} / 30 Questions`); setVal('progressPercentageText', `${percent}%`);
+        const dbar = document.getElementById('desktopProgressBar'); if(dbar) dbar.style.width = `${percent}%`;
+        setVal('mobileProgressSummary', `Progress: ${totalCompleted} / 30`); setVal('mobileProgressPercent', `${percent}%`);
+        const mbar = document.getElementById('mobileProgressBar'); if(mbar) mbar.style.width = `${percent}%`;
+        setVal('listenCountBadge', `${AppState.completedCounts.listen}/10`); setVal('readingCountBadge', `${AppState.completedCounts.reading}/10`); setVal('grammarCountBadge', `${AppState.completedCounts.grammar}/10`);
+      }
+
+      /* ========================================================
+         7. TEACHER PORTAL & LOGIN ACTIONS
+         ======================================================== */
+      function renderTeacherCodes() {
+        const container = document.getElementById('activeCodesContainer'); if (!container) return;
+        container.innerHTML = ""; const ws = getActiveTeacherWorkspace(); const codes = ws ? ws.codes : [];
+        if (!codes || codes.length === 0) { container.innerHTML = `<div class="text-xs text-purple-600 font-bold bg-purple-100/60 p-3 rounded-xl w-full text-center">📌 لا توجد أكواد صفوف. اضغطي Generate New Code</div>`; return; }
+        codes.forEach(code => {
+          const badge = document.createElement('div'); badge.className = "flex items-center gap-1.5 bg-white border-2 border-purple-300 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 shadow-xs";
+          badge.innerHTML = `<span>📋 <strong class="tracking-wider text-purple-700">${code}</strong></span><button class="text-[10px] bg-purple-100 hover:bg-purple-200 px-2 py-0.5 rounded-md font-extrabold" onclick="if(window.copyClassCode) window.copyClassCode('${code}')">Copy</button><button class="text-[10px] bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-md font-extrabold" onclick="if(window.copyStudentLink) window.copyStudentLink('${code}')">Link</button>`;
+          container.appendChild(badge);
+        });
+      }
+
+      window.copyClassCode = function(code) { try { navigator.clipboard.writeText(code); showToast(`Copied ${code}`); } catch (err) { alert(`Code: ${code}`); } };
+      window.copyStudentLink = function(code) {
+        const ws = getActiveTeacherWorkspace(); const tName = ws ? ws.displayName : "Teacher";
+        const directUrl = `${window.location.origin}${window.location.pathname}?code=${encodeURIComponent(code)}&teacher=${encodeURIComponent(tName)}`;
+        try { navigator.clipboard.writeText(directUrl); showToast(`🔗 Link copied!`); } catch (e) { prompt("Copy link:", directUrl); }
+      };
+      window.copyMasterDirectLink = function() { const ws = getActiveTeacherWorkspace(); if (!ws || !ws.codes || ws.codes.length === 0) { showToast("⚠️ يرجى إنشاء كود صف أولاً"); return; } window.copyStudentLink(ws.codes[0]); };
+      window.addExistingClassCode = function() {
+        const ws = getActiveTeacherWorkspace(); if (!ws) return;
+        const input = document.getElementById('newClassNameInput'); let code = (input.value || "").trim().toUpperCase() || (prompt("أدخلي الكود السابق:") || "").trim().toUpperCase();
+        if (!code) return; if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
+        input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast(`✅ أضيف الكود ${code}`);
+      };
+
+      const createBtn = document.getElementById('createClassBtn');
+      if (createBtn) createBtn.onclick = () => {
+        const ws = getActiveTeacherWorkspace(); if (!ws) return;
+        const input = document.getElementById('newClassNameInput'); const code = "NX-" + Math.floor(100 + Math.random() * 900);
+        if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
+        input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast(`✅ تم إنشاء ${code}`);
+      };
+
+      function renderStudentTable() {
+        const tbody = document.getElementById('studentTableBody'); const countLabel = document.getElementById('studentCountLabel');
+        if (!tbody) return; tbody.innerHTML = ""; const ws = getActiveTeacherWorkspace(); const students = ws ? (ws.students || []) : [];
+        if (countLabel) countLabel.innerText = `${students.length} Active Student(s)`;
+        if (students.length === 0) { tbody.innerHTML = `<tr><td colspan="7" class="p-5 text-center text-purple-400 font-bold">لا توجد طالبات بعد</td></tr>`; return; }
+        students.forEach(st => {
+          const tr = document.createElement('tr'); tr.className = "hover:bg-purple-50/50 transition";
+          tr.innerHTML = `<td class="p-2.5 font-bold text-purple-900">${st.name}</td><td class="p-2.5 font-bold text-purple-700 bg-purple-50/60 rounded">${st.gradeClass || 'N/A'}</td><td class="p-2.5"><span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">${st.code || 'N/A'}</span></td><td class="p-2.5 font-bold text-purple-700">CEFR ${st.level || 'A1'}</td><td class="p-2.5 font-bold text-violet-700">💎 ${st.xp || 0}</td><td class="p-2.5 font-bold text-rose-600">❤️ ${st.hearts !== undefined ? st.hearts : 5}</td><td class="p-2.5 font-bold text-amber-600">🔥 ${st.streak || 0}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function updateEnrolledStudentScore() {
+        const currName = AppState.user.name; const currCode = AppState.user.classCode;
+        if (!currName || !currCode) return;
+        let ownerKey = findTeacherKeyByClassCode(currCode) || AppState.loggedInTeacherKey; if (!ownerKey) return;
+        const ws = AppState.teachersWorkspaces[ownerKey]; if (!ws) return; if (!Array.isArray(ws.students)) ws.students = [];
+        let record = ws.students.find(s => s.name.toLowerCase() === currName.toLowerCase() && s.code === currCode);
+        if (!record) { record = { name: currName, gradeClass: AppState.user.gradeClass || "Grade 8", code: currCode, level: AppState.currentLevel, xp: AppState.xp, hearts: AppState.hearts, streak: AppState.streak, time: new Date().toLocaleTimeString() }; ws.students.push(record); } 
+        else { record.level = AppState.currentLevel; record.xp = AppState.xp; record.hearts = AppState.hearts; record.streak = AppState.streak; record.gradeClass = AppState.user.gradeClass || record.gradeClass; }
+        saveWorkspacesToStorage(); if (AppState.loggedInTeacherKey === ownerKey) renderStudentTable();
+      }
+
+      window.changeTeacherPassword = function() {
+        const ws = getActiveTeacherWorkspace(); if (!ws) return;
+        const newPw = prompt(`أدخلي كلمة المرور الجديدة لحساب (${ws.displayName}):`);
+        if (newPw && newPw.trim().length >= 2) { ws.password = newPw.trim(); saveWorkspacesToStorage(); showToast("🔒 تم التحديث!"); }
+      };
+
+      window.downloadTeacherCredentialsCard = function() {
+        const ws = getActiveTeacherWorkspace(); if (!ws) return;
+        const content = `NEXLY TEACHER CREDENTIALS\nName: ${ws.displayName}\nEmail: ${ws.email}\nPassword: ${ws.password}\nCodes: ${(ws.codes && ws.codes.length) ? ws.codes.join(', ') : 'None'}`;
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `Nexly_Teacher_${ws.displayName.replace(/\s+/g, '_')}.txt`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a); showToast("🪪 تم تنزيل البطاقة");
+      };
+
+      window.openTeacherModal = function() {
+        const ws = getActiveTeacherWorkspace();
+        if (!ws) { window.openLoginModal(); window.switchMainRole('teacher'); return; }
+        const dTag = document.getElementById('teacherDisplayTag'); if(dTag) dTag.innerText = ws.displayName;
+        const eTag = document.getElementById('teacherEmailTag'); if(eTag) eTag.innerText = ws.email ? `(${ws.email})` : "";
+        renderTeacherCodes(); renderStudentTable();
+        const tm = document.getElementById('teacherModal'); if(tm) tm.classList.remove('hidden');
+      };
+
+      window.closeTeacherModal = function() { const tm = document.getElementById('teacherModal'); if(tm) tm.classList.add('hidden'); };
+      window.logoutTeacher = function() { AppState.loggedInTeacherKey = null; AppState.user = { name: "", gradeClass: "", classCode: "", role: "student" }; const nm = document.getElementById('activeUserName'); if(nm) nm.innerText = "Student"; window.closeTeacherModal(); window.openLoginModal(); window.switchMainRole('teacher'); showToast("🚪 تم تسجيل الخروج"); };
+
+      const csvBtn = document.getElementById('downloadCsvBtn');
+      if (csvBtn) csvBtn.onclick = () => {
+        const ws = getActiveTeacherWorkspace(); const students = ws ? (ws.students || []) : [];
+        if (students.length === 0) { showToast("⚠️ لا توجد طالبات"); return; }
+        let csv = "Student Name,Class / Section,Class Code,Level,XP,Hearts,Streak,Teacher,Date\n";
+        students.forEach(st => csv += `"${st.name}","${st.gradeClass || 'N/A'}","${st.code || 'N/A'}","${st.level || 'A1'}",${st.xp || 0},${st.hearts !== undefined ? st.hearts : 5},${st.streak || 0},"${ws.displayName}","${new Date().toLocaleDateString()}"\n`);
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })); a.download = `Nexly_Report.csv`; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      };
+
+      const tPortalBtn = document.getElementById('teacherPortalBtn');
+      if (tPortalBtn) tPortalBtn.onclick = () => { if (AppState.loggedInTeacherKey && getActiveTeacherWorkspace()) { window.openTeacherModal(); } else { window.openLoginModal(); window.switchMainRole('teacher'); } };
+
+      /* --- AUTH FORMS --- */
+      const stuForm = document.getElementById('studentSimpleLoginForm');
+      if (stuForm) stuForm.onsubmit = (e) => {
+        e.preventDefault();
+        const sName = document.getElementById('stuNameInput').value.trim(); const sClass = document.getElementById('stuClassInput').value.trim(); const sCode = document.getElementById('stuCodeInput').value.trim().toUpperCase(); const errEl = document.getElementById('stuLoginError');
+        if (!sCode || sCode === "CLASS-CODE" || sCode === "E.G. CLASS-CODE" || sCode.length < 2) { errEl.classList.remove('hidden'); playErrorBuzz(); return; }
+        errEl.classList.add('hidden');
+        AppState.user = { name: sName, gradeClass: sClass, classCode: sCode, role: "student" }; AppState.currentLevel = "A1";
+        document.querySelectorAll('.keycap-level').forEach(b => b.className = (b.getAttribute('data-level') === 'A1') ? "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" : "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900");
+        const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = sName;
+        updateEnrolledStudentScore(); triggerConfetti(); playSuccessChime(); window.closeLoginModal(); showToast(`Welcome, ${sName}!`); loadCurrentExercise();
+      };
+
+      const tLogForm = document.getElementById('teacherDirectLoginForm');
+      if (tLogForm) tLogForm.onsubmit = (e) => {
+        e.preventDefault();
+        const identifier = document.getElementById('tLoginName').value.trim(); const pass = document.getElementById('tLoginPass').value.trim(); const errBox = document.getElementById('tLoginError');
+        const found = findTeacherWorkspace(identifier);
+        if (!found) { errBox.innerHTML = `⚠️ هذا الحساب غير مسجل!`; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+        if (found.data.password !== pass) { errBox.innerHTML = `⚠️ كلمة المرور غير صحيحة!`; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+        errBox.classList.add('hidden'); AppState.loggedInTeacherKey = found.key; AppState.user = { name: found.data.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+        const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = found.data.displayName;
+        document.getElementById('tLoginPass').value = ""; window.closeLoginModal(); window.openTeacherModal(); showToast(`مرحباً ${found.data.displayName}!`);
+      };
+
+      window.resetTeacherStep1 = function() {
+        document.getElementById('teacherStep1_Form').classList.remove('hidden'); document.getElementById('teacherStep2_Form').classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.add('hidden');
+        document.getElementById('tOtpError').classList.add('hidden'); document.getElementById('tPassMatchError').classList.add('hidden'); document.getElementById('tRegStep1Error').classList.add('hidden');
+      };
+      
+      const tReg1 = document.getElementById('teacherStep1_Form');
+      if (tReg1) tReg1.onsubmit = (e) => {
+        e.preventDefault();
+        const tName = document.getElementById('tRegName').value.trim(); const tEmail = document.getElementById('tRegEmail').value.trim(); const step1Err = document.getElementById('tRegStep1Error');
+        if (findTeacherWorkspace(tName) || findTeacherWorkspace(tEmail)) { step1Err.innerText = "⚠️ مسجل مسبقاً!"; step1Err.classList.remove('hidden'); playErrorBuzz(); return; }
+        step1Err.classList.add('hidden'); const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        AppState.tempTeacherSignUp = { name: tName, email: tEmail, otp: otp };
+        tReg1.classList.add('hidden'); document.getElementById('teacherStep2_Form').classList.remove('hidden');
+        document.getElementById('tDisplayEmail').innerText = tEmail; document.getElementById('tActiveOtp').innerText = otp; document.getElementById('tInputOtp').value = otp;
+        showEmailAlert(`📬 رسالة تحقق`, `مرحباً، الكود هو [ ${otp} ]`); playSuccessChime();
+      };
+
+      const tReg2 = document.getElementById('teacherStep2_Form');
+      if (tReg2) tReg2.onsubmit = (e) => {
+        e.preventDefault();
+        const errBox = document.getElementById('tOtpError');
+        if (document.getElementById('tInputOtp').value.trim() !== AppState.tempTeacherSignUp.otp) { document.getElementById('tInputOtp').value = AppState.tempTeacherSignUp.otp; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+        errBox.classList.add('hidden'); playSuccessChime(); tReg2.classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.remove('hidden'); showToast("✅ تم التحقق!");
+      };
+
+      const tReg3 = document.getElementById('teacherStep3_Form');
+      if (tReg3) tReg3.onsubmit = (e) => {
+        e.preventDefault();
+        const pw1 = document.getElementById('tNewPass').value.trim(); const pw2 = document.getElementById('tConfirmPass').value.trim(); const errBox = document.getElementById('tPassMatchError');
+        if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+        errBox.classList.add('hidden'); const tName = AppState.tempTeacherSignUp.name; const tKey = normalizeKey(tName);
+        AppState.teachersWorkspaces[tKey] = { displayName: tName, email: AppState.tempTeacherSignUp.email, password: pw1, codes: [], students: [] }; saveWorkspacesToStorage();
+        AppState.loggedInTeacherKey = tKey; AppState.user = { name: tName, gradeClass: "Teacher", classCode: "", role: "teacher" };
+        const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = tName;
+        triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal();
+      };
+
+      window.resetTeacherForgotStep1 = function() {
+        document.getElementById('teacherForgotStep1_Form').classList.remove('hidden'); document.getElementById('teacherForgotStep2_Form').classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.add('hidden');
+        document.getElementById('tForgotStep1Error').classList.add('hidden'); document.getElementById('tForgotOtpError').classList.add('hidden'); document.getElementById('tForgotPassMatchError').classList.add('hidden');
+      };
+
+      const tForg1 = document.getElementById('teacherForgotStep1_Form');
+      if (tForg1) tForg1.onsubmit = (e) => {
+        e.preventDefault();
+        const iden = document.getElementById('tForgotIdentifier').value.trim(); const errBox = document.getElementById('tForgotStep1Error'); const found = findTeacherWorkspace(iden);
+        if (!found) { errBox.innerHTML = `⚠️ لم يتم العثور على حساب!`; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+        errBox.classList.add('hidden'); const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        AppState.tempTeacherRecovery = { key: found.key, name: found.data.displayName, email: found.data.email, otp: otp };
+        tForg1.classList.add('hidden'); document.getElementById('teacherForgotStep2_Form').classList.remove('hidden');
+        document.getElementById('tForgotDisplayAccount').innerText = `${found.data.displayName}`; document.getElementById('tForgotActiveOtp').innerText = otp; document.getElementById('tForgotInputOtp').value = otp;
+        showEmailAlert(`🔑 كود استعادة`, `الكود هو [ ${otp} ]`); playSuccessChime();
+      };
+
+      const tForg2 = document.getElementById('teacherForgotStep2_Form');
+      if (tForg2) tForg2.onsubmit = (e) => {
+        e.preventDefault();
+        const errBox = document.getElementById('tForgotOtpError');
+        if (document.getElementById('tForgotInputOtp').value.trim() !== AppState.tempTeacherRecovery.otp) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+        errBox.classList.add('hidden'); playSuccessChime(); tForg2.classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.remove('hidden');
+      };
+
+      const tForg3 = document.getElementById('teacherForgotStep3_Form');
+      if (tForg3) tForg3.onsubmit = (e) => {
+        e.preventDefault();
+        const pw1 = document.getElementById('tForgotNewPass').value.trim(); const pw2 = document.getElementById('tForgotConfirmPass').value.trim(); const errBox = document.getElementById('tForgotPassMatchError');
+        if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
+        errBox.classList.add('hidden'); const targetKey = AppState.tempTeacherRecovery.key; const ws = AppState.teachersWorkspaces[targetKey];
+        if (ws) { ws.password = pw1; saveWorkspacesToStorage(); AppState.loggedInTeacherKey = targetKey; AppState.user = { name: ws.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" }; const actNm = document.getElementById('activeUserName'); if(actNm) actNm.innerText = ws.displayName; triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal(); }
+      };
+
+      window.openCertificateModal = function() {
+        const cModal = document.getElementById('certificateModal'); if(!cModal) return;
+        document.getElementById('certStudentName').innerText = AppState.user.name || "Enthusiastic Learner"; document.getElementById('certStudentClass').innerText = `Class: ${AppState.user.gradeClass || 'General'}`;
+        document.getElementById('certLevelName').innerText = `CEFR ${AppState.currentLevel}`; document.getElementById('certTotalXp').innerText = `${AppState.xp} XP`; document.getElementById('certStreak').innerText = `🔥 ${AppState.streak}`; document.getElementById('certDateText').innerText = new Date().toISOString().split('T')[0];
+        let cT = directTeacher || "T. Hameeda BuSakhar"; const oK = findTeacherKeyByClassCode(AppState.user.classCode); if (oK && AppState.teachersWorkspaces[oK]) cT = AppState.teachersWorkspaces[oK].displayName;
+        document.getElementById('certTeacherSignature').innerText = cT;
+        cModal.classList.remove('hidden'); triggerConfetti(); playSuccessChime();
+      };
+
+      window.closeCertificateModal = function() { const cModal = document.getElementById('certificateModal'); if(cModal) cModal.classList.add('hidden'); AppState.hearts = 5; updateTopMetrics(); };
+      window.startLevelPracticeAgain = function() { window.closeCertificateModal(); AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 }; window.selectSkill('listen'); showToast(`🔄 Starting fresh practice!`); };
+
+      document.getElementById('langToggleBtn').onclick = () => {
+        AppState.uiLang = (AppState.uiLang === 'EN') ? 'AR' : 'EN'; const isAr = (AppState.uiLang === 'AR');
+        document.getElementById('langLabel').innerText = isAr ? 'EN' : 'AR'; document.getElementById('btnTeacherLabel').innerText = isAr ? 'المعلمة' : 'Teacher';
+        document.getElementById('lblNormalAudio').innerText = isAr ? 'استمع (1.0x)' : 'Listen (1.0x)'; document.getElementById('lblTurtleAudio').innerText = isAr ? 'بطيء (0.5x)' : 'Slow (0.5x)';
+        document.getElementById('lblErase').innerText = isAr ? 'مسح' : 'Erase'; document.getElementById('lblClear').innerText = isAr ? 'إعادة' : 'Clear';
+        const chk = document.getElementById('checkAnswerBtn'); if(chk) chk.innerText = isAr ? 'تحقق من الإجابة' : 'CHECK ANSWER';
+        const skp = document.getElementById('skipQuestionBtn'); if(skp) skp.innerText = isAr ? 'تخطي الآن' : 'Skip for now';
+        document.getElementById('audioInstructionNote').innerText = isAr ? '💡 نطق بشري حقيقي وواضح • اضغطي 🔊 أو 🐢' : '💡 Real Human Pronunciation • Tap 🔊 Normal or 🐢 Slow';
+      };
+
+      window.addEventListener('DOMContentLoaded', () => {
+        if (directCode) { const codeInp = document.getElementById('stuCodeInput'); if (codeInp) codeInp.value = directCode; }
+        updateTopMetrics(); loadCurrentExercise();
+      });
+
+    } catch (criticalError) {
+      console.error("Fatal initialization error intercepted:", criticalError);
+    }
+  </script>
+</body>
+</html>
