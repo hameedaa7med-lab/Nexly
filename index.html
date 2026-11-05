@@ -9,16 +9,16 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&family=Playfair+Display:ital,wght@1,700&family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
 
   <style>
     body {
-      font-family: 'Nunito', 'Fredoka', sans-serif;
+      font-family: 'Nunito', 'Cairo', 'Fredoka', sans-serif;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      background: radial-gradient(circle at 50% 0%, #f6efff 0%, #faf6fe 45%, #f1e9fa 100%);
+      background: radial-gradient(circle at 50% 0%, #f5eeff 0%, #faf6fe 45%, #efe5fd 100%);
     }
-    .font-chunky { font-family: 'Fredoka', 'Nunito', sans-serif; }
+    .font-chunky { font-family: 'Fredoka', 'Nunito', 'Cairo', sans-serif; }
     .font-cert { font-family: 'Playfair Display', serif; }
 
     /* Tactile 3D Buttons System */
@@ -105,7 +105,7 @@
     /* Multiple-Choice Interactive Card */
     .btn-choice {
       position: relative;
-      transition: all 0.1s ease;
+      transition: all 0.12s ease;
       cursor: pointer;
       background: #ffffff;
       border: 2.5px solid #e9d5ff;
@@ -118,7 +118,7 @@
     .btn-choice:hover {
       border-color: #c4b5fd;
       background-color: #faf5ff;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
     .btn-choice:active {
       transform: translateY(3px);
@@ -130,7 +130,19 @@
       border-color: #7c3aed !important;
       border-bottom: 5px solid #5b21b6 !important;
       color: #3b0764 !important;
-      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.2) !important;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.22) !important;
+    }
+    .btn-choice-correct {
+      background: #ecfdf5 !important;
+      border-color: #10b981 !important;
+      border-bottom: 5px solid #047857 !important;
+      color: #064e3b !important;
+    }
+    .btn-choice-wrong {
+      background: #fff1f2 !important;
+      border-color: #f43f5e !important;
+      border-bottom: 5px solid #be123c !important;
+      color: #881337 !important;
     }
 
     /* Keycap Level Indicators */
@@ -153,11 +165,11 @@
     }
 
     @keyframes letterBounce {
-      0% { transform: scale(0.85); opacity: 0.6; }
-      50% { transform: scale(1.12); }
+      0% { transform: scale(0.88); opacity: 0.6; }
+      50% { transform: scale(1.06); }
       100% { transform: scale(1); opacity: 1; }
     }
-    .animate-pop { animation: letterBounce 0.16s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .animate-pop { animation: letterBounce 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
     @keyframes gentleFloat {
       0%, 100% { transform: translateY(0px); }
@@ -178,6 +190,14 @@
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .story-highlight {
+      background: linear-gradient(120deg, #fef08a 0%, #fde047 100%);
+      padding: 0 6px;
+      border-radius: 6px;
+      color: #3b0764;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
 
     @media print {
       body * { visibility: hidden; }
@@ -311,7 +331,7 @@
       <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3">
         
         <div class="flex items-center justify-between gap-3 sm:gap-6">
-          <!-- Brand Logo using Direct Canvas (Never breaks or shows broken image icon) -->
+          <!-- Brand Logo -->
           <div class="flex items-center gap-2.5 shrink-0">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-md flex items-center justify-center overflow-hidden relative cursor-pointer bg-purple-100" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
               <canvas class="nexly-logo-canvas w-full h-full block" width="600" height="600"></canvas>
@@ -400,75 +420,120 @@
 
       <!-- EXERCISE ARENA -->
       <div id="exerciseContainer" class="w-full bg-white rounded-3xl border-2 border-purple-100 shadow-xl overflow-hidden p-4 sm:p-7 transition-all duration-300">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          
-          <!-- LEFT COLUMN -->
-          <div class="lg:col-span-5 flex flex-col justify-start">
-            <div class="flex items-center justify-between mb-2">
-              <span id="skillBadgeLabel" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider bg-purple-100 text-purple-800 border border-purple-200">
-                🎧 Listen & Spell
-              </span>
-              <span id="spacedRepetitionTag" class="hidden inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300 animate-pulse">
-                🔁 Review Question
-              </span>
-            </div>
+        
+        <!-- TOP BADGE ROW -->
+        <div class="flex items-center justify-between mb-4 border-b border-purple-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span id="skillBadgeLabel" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider bg-purple-100 text-purple-900 border border-purple-200">
+              🎧 Listen & Spell
+            </span>
+            <span id="imageTopicTitle" class="text-xs sm:text-sm font-extrabold text-purple-600">English Learning Quest</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="spacedRepetitionTag" class="hidden inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300 animate-pulse">
+              🔁 سؤال مراجعة لتثبيت المعلومة
+            </span>
+            <span id="levelIndicatorBadge" class="bg-purple-900 text-white font-extrabold px-3 py-1 rounded-xl text-xs">CEFR A1</span>
+          </div>
+        </div>
 
-            <!-- Illustration -->
-            <div class="relative w-full h-28 sm:h-36 rounded-2xl overflow-hidden border-2 border-purple-100 shadow-sm bg-purple-50 mb-3 flex items-center justify-center">
-              <img id="exerciseImage" src="" alt="Visual Clue" class="w-full h-full object-contain p-1 transition-opacity duration-300">
-              <div class="absolute inset-0 bg-gradient-to-t from-purple-950/30 via-transparent to-transparent pointer-events-none"></div>
-              <div class="absolute bottom-1.5 left-2 right-2 flex justify-between items-center text-white text-[10px] font-bold px-1 pointer-events-none">
-                <span id="imageTopicTitle" class="truncate drop-shadow">English Learning Quest</span>
-                <span id="levelIndicatorBadge" class="bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded-md text-[9px]">CEFR A1</span>
-              </div>
-            </div>
-
-            <!-- Audio Station -->
-            <div id="audioStation" class="flex flex-col gap-2 mt-1">
-              <div class="flex items-center gap-2">
-                <button type="button" id="listenNormalBtn" class="btn-3d btn-3d-purple flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
-                  <span class="text-lg">🔊</span> <span id="lblNormalAudio">Listen (1.0x)</span>
-                </button>
-                <button type="button" id="listenTurtleBtn" class="btn-3d btn-3d-orange flex-1 py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
-                  <span class="text-lg">🐢</span> <span id="lblTurtleAudio">Slow (0.5x)</span>
-                </button>
-              </div>
-              <p id="audioInstructionNote" class="text-center text-[11px] font-bold text-purple-500 mt-0.5">
-                💡 Real Human Pronunciation • Tap 🔊 Normal (1.0x) or 🐢 Slow (0.5x)
-              </p>
-            </div>
-
-            <!-- Reading Box -->
-            <div id="readingPassageContainer" class="hidden mt-1 p-5 sm:p-6 bg-purple-50/90 border-2 border-purple-300 rounded-3xl text-purple-950 flex flex-col justify-between shadow-inner">
+        <!-- READING SPECIAL TOP SECTION: BIG PASSAGE + SIDE CARTOON ILLUSTRATION -->
+        <div id="readingHeroSection" class="hidden mb-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch bg-gradient-to-br from-purple-50 via-white to-violet-50 border-2 border-purple-300 rounded-3xl p-4 sm:p-6 shadow-md">
+            
+            <!-- LARGE READING PASSAGE (7 Cols on Desktop) -->
+            <div class="lg:col-span-7 flex flex-col justify-between">
               <div>
-                <div class="flex items-center justify-between mb-3 border-b border-purple-200 pb-2">
-                  <h4 id="readingStoryTitle" class="font-chunky font-bold text-purple-900 text-base sm:text-lg lg:text-xl">Story Title</h4>
-                  <button type="button" id="readStoryAloudBtn" class="btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0" onclick="if(window.toggleReadStoryAudio) window.toggleReadStoryAudio()">
-                    <span>🔊 Read Story</span>
-                  </button>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3 border-b-2 border-purple-200 pb-3">
+                  <div>
+                    <span class="text-[11px] font-black uppercase tracking-wider text-purple-600 block">📖 Read Carefully & Listen</span>
+                    <h4 id="readingStoryTitle" class="font-chunky font-bold text-purple-950 text-xl sm:text-2xl lg:text-3xl">Story Title</h4>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button type="button" id="readStoryAloudBtn" class="btn-3d btn-3d-purple text-xs sm:text-sm font-extrabold px-4 py-2 rounded-xl gap-1.5" onclick="if(window.toggleReadStoryAudio) window.toggleReadStoryAudio(0.80)">
+                      <span>🔊 قراءة واضحة وهادئة (0.8x)</span>
+                    </button>
+                    <button type="button" id="readStorySlowBtn" class="btn-3d btn-3d-orange text-xs sm:text-sm font-extrabold px-3.5 py-2 rounded-xl gap-1" onclick="if(window.toggleReadStoryAudio) window.toggleReadStoryAudio(0.62)">
+                      <span>🐢 بطيء جداً</span>
+                    </button>
+                  </div>
                 </div>
-                <p id="readingStoryText" class="text-purple-950 text-lg sm:text-xl leading-relaxed font-bold tracking-wide">
+                <p id="readingStoryText" class="text-purple-950 text-lg sm:text-xl lg:text-2xl leading-relaxed sm:leading-loose font-bold tracking-wide bg-white/90 p-4 sm:p-5 rounded-2xl border border-purple-200 shadow-inner">
                   Passage content goes here...
                 </p>
+              </div>
+              <div class="mt-3 flex items-center justify-between text-xs font-extrabold text-purple-700 bg-purple-100/70 px-3.5 py-2 rounded-xl">
+                <span>💡 استمعي للفقرة بصوت واضح وهادئ ثم أجيبي عن السؤال بالأسفل</span>
+                <span id="readingWordCountBadge" class="text-purple-900">Reading Passage</span>
+              </div>
+            </div>
+
+            <!-- SIDE CARTOON SCENE RELATED TO THE STORY (5 Cols on Desktop) -->
+            <div class="lg:col-span-5 flex flex-col justify-center">
+              <div class="relative w-full h-56 sm:h-64 lg:h-full min-h-[230px] rounded-2xl overflow-hidden border-4 border-white shadow-lg bg-purple-100 flex items-center justify-center">
+                <div id="readingCartoonWrapper" class="w-full h-full flex items-center justify-center"></div>
+                <div class="absolute bottom-2 left-2 right-2 bg-purple-950/75 backdrop-blur-xs text-white text-xs font-bold px-3 py-1.5 rounded-xl text-center">
+                  🎨 <span id="readingSceneCaption">Cartoon Story Illustration</span>
+                </div>
               </div>
             </div>
 
           </div>
+        </div>
 
-          <!-- RIGHT COLUMN -->
-          <div class="lg:col-span-7 flex flex-col justify-between pt-1">
+        <!-- MAIN WORKSPACE GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          <!-- LEFT COLUMN (Cartoon Scene for Listen & Grammar) -->
+          <div id="leftVisualColumn" class="lg:col-span-5 flex flex-col justify-between">
+            
+            <!-- Vivid Custom Cartoon Illustration Box -->
+            <div class="relative w-full h-52 sm:h-64 rounded-3xl overflow-hidden border-4 border-purple-200 shadow-lg bg-purple-50 mb-3 flex items-center justify-center">
+              <div id="exerciseCartoonContainer" class="w-full h-full flex items-center justify-center"></div>
+              <div class="absolute bottom-2 left-2.5 right-2.5 flex justify-between items-center bg-purple-950/75 backdrop-blur-xs text-white text-[11px] font-extrabold px-3 py-1 rounded-xl pointer-events-none">
+                <span id="cartoonCaptionText" class="truncate">🎨 Custom Cartoon Clue</span>
+                <span id="questionCounterTiny" class="text-amber-300">#1</span>
+              </div>
+            </div>
+
+            <!-- Audio Station (For Listen & Spell) -->
+            <div id="audioStation" class="flex flex-col gap-2 mt-1">
+              <div class="flex items-center gap-2.5">
+                <button type="button" id="listenNormalBtn" class="btn-3d btn-3d-purple flex-1 py-3.5 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
+                  <span class="text-lg">🔊</span> <span id="lblNormalAudio">Listen Clearly (0.85x)</span>
+                </button>
+                <button type="button" id="listenTurtleBtn" class="btn-3d btn-3d-orange flex-1 py-3.5 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
+                  <span class="text-lg">🐢</span> <span id="lblTurtleAudio">Slow & Clear (0.5x)</span>
+                </button>
+              </div>
+              <p id="audioInstructionNote" class="text-center text-xs font-extrabold text-purple-600 mt-0.5 bg-purple-50 py-1.5 px-3 rounded-xl border border-purple-100">
+                💡 اضغطي 🔊 للاستماع بصوت بشري واضح أو 🐢 للنطق البطيء حرفاً بحرف
+              </p>
+            </div>
+
+            <!-- Grammar Audio Helper (For Grammar sentences) -->
+            <div id="grammarAudioStation" class="hidden flex flex-col gap-2 mt-1">
+              <button type="button" onclick="if(window.speakGrammarSentence) window.speakGrammarSentence()" class="btn-3d btn-3d-slate w-full py-3 px-4 rounded-2xl text-xs sm:text-sm font-extrabold gap-2">
+                <span>🔊</span> <span>Listen to the Sentence (استمعي للجملة)</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN (Question, Input/Options & Instant Explanation) -->
+          <div id="rightQuestionColumn" class="lg:col-span-7 flex flex-col justify-between pt-1">
             <div>
-              <h3 id="questionHeading" class="text-base sm:text-lg lg:text-xl font-chunky font-bold text-purple-950 mb-1 leading-snug">
+              <h3 id="questionHeading" class="text-lg sm:text-xl lg:text-2xl font-chunky font-bold text-purple-950 mb-2 leading-snug">
                 Listen and spell what you hear
               </h3>
-              <p id="questionHint" class="text-xs sm:text-sm font-bold text-purple-600 mb-4 flex items-center gap-1.5">
-                <span>💡</span> <span id="hintContent">Hint: A place where children learn</span>
+              <p id="questionHint" class="text-xs sm:text-sm font-extrabold text-purple-800 bg-amber-50 border-2 border-amber-200 px-3.5 py-2 rounded-2xl mb-4 flex items-center gap-2 shadow-xs">
+                <span class="text-base">💡</span> <span id="hintContent">Hint: A place where children learn</span>
               </p>
 
-              <!-- Typing Area -->
-              <div id="listenSlotsArea" onclick="if(window.focusSpellingInput) window.focusSpellingInput()" class="flex flex-col items-center justify-center py-6 bg-purple-50/40 border-2 border-dashed border-purple-200 rounded-2xl relative mb-4 cursor-text">
-                <span class="text-xs font-bold text-purple-600 mb-3">
-                  👇 Type using your keyboard (small letters):
+              <!-- Typing Area (Listen & Spell) -->
+              <div id="listenSlotsArea" onclick="if(window.focusSpellingInput) window.focusSpellingInput()" class="flex flex-col items-center justify-center py-6 bg-purple-50/50 border-2 border-dashed border-purple-300 rounded-2xl relative mb-4 cursor-text">
+                <span class="text-xs sm:text-sm font-extrabold text-purple-800 mb-3">
+                  👇 اكتبي الكلمة المسموعة بالحروف الصغيرة (Type small letters):
                 </span>
 
                 <div id="slotsContainer" class="flex flex-nowrap items-center justify-center gap-1.5 sm:gap-2 px-2 max-w-full overflow-x-auto no-scrollbar py-2"></div>
@@ -477,26 +542,38 @@
 
                 <div class="flex items-center gap-3 mt-4 z-20">
                   <button type="button" id="eraseLetterBtn" class="btn-3d btn-3d-slate text-xs font-bold px-4 py-2 rounded-xl gap-1">
-                    ⌫ <span id="lblErase">Erase</span>
+                    ⌫ <span id="lblErase">Erase (مسح حرف)</span>
                   </button>
                   <button type="button" id="clearAllLettersBtn" class="btn-3d btn-3d-slate text-xs font-bold px-4 py-2 rounded-xl gap-1">
-                    🔄 <span id="lblClear">Clear</span>
+                    🔄 <span id="lblClear">Clear (إعادة)</span>
                   </button>
                 </div>
               </div>
 
               <!-- Multiple Choice Grid -->
-              <div id="multipleChoiceArea" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4"></div>
+              <div id="multipleChoiceArea" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-4"></div>
+
+              <!-- IN-PAGE EXPLANATION BOX (Appears immediately when checked) -->
+              <div id="inlineExplanationBox" class="hidden rounded-2xl border-2 p-4 mb-4 transition-all animate-pop">
+                <div class="flex items-start gap-3">
+                  <div id="inlineExpIcon" class="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 font-bold">💡</div>
+                  <div class="flex-grow">
+                    <h5 id="inlineExpHeadline" class="font-chunky text-sm sm:text-base font-bold mb-1">Correct Answer & Explanation</h5>
+                    <p id="inlineExpEnglish" class="text-xs sm:text-sm font-extrabold mb-1"></p>
+                    <p id="inlineExpArabic" class="text-xs sm:text-sm font-bold bg-white/80 px-3 py-2 rounded-xl border mt-1.5" dir="rtl"></p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Action Strip -->
-            <div class="mt-4 pt-3 border-t border-purple-100 flex items-center justify-between gap-3">
-              <button type="button" id="skipQuestionBtn" class="text-xs sm:text-sm font-bold text-purple-400 hover:text-purple-700 transition px-3 py-2">
-                Skip for now
+            <div class="mt-3 pt-3 border-t border-purple-100 flex items-center justify-between gap-3">
+              <button type="button" id="skipQuestionBtn" class="btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-4 py-2.5 rounded-xl">
+                ⏭️ Skip (سؤال آخر)
               </button>
 
-              <button type="button" id="checkAnswerBtn" class="btn-3d btn-3d-green text-sm sm:text-base font-chunky font-bold py-3.5 px-8 sm:px-12 rounded-2xl flex-grow sm:flex-grow-0 min-w-[200px]" disabled>
-                CHECK ANSWER
+              <button type="button" id="checkAnswerBtn" class="btn-3d btn-3d-green text-sm sm:text-base font-chunky font-bold py-3.5 px-8 sm:px-12 rounded-2xl flex-grow sm:flex-grow-0 min-w-[210px]" disabled>
+                CHECK ANSWER (تحقق)
               </button>
             </div>
           </div>
@@ -515,18 +592,19 @@
 
   </div>
 
-  <!-- SLIDE-UP FEEDBACK DRAWER -->
-  <div id="feedbackDrawer" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full pointer-events-none transition-transform duration-300 ease-out border-t-4 shadow-2xl p-4 sm:p-6 backdrop-blur-md">
-    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3.5 w-full sm:w-auto">
-        <div id="feedbackIconBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md shrink-0">🎉</div>
-        <div>
+  <!-- SLIDE-UP FEEDBACK DRAWER WITH DETAILED REASON -->
+  <div id="feedbackDrawer" class="fixed bottom-0 left-0 right-0 z-50 transform translate-y-full pointer-events-none transition-transform duration-300 ease-out border-t-4 shadow-2xl p-4 sm:p-5 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-start gap-3.5 w-full md:w-auto">
+        <div id="feedbackIconBox" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md shrink-0 mt-0.5">🎉</div>
+        <div class="flex-grow">
           <h4 id="feedbackTitle" class="font-chunky text-lg sm:text-xl font-bold">Awesome!</h4>
-          <p id="feedbackMessage" class="text-xs sm:text-sm font-bold">Your answer is completely correct.</p>
+          <p id="feedbackMessage" class="text-xs sm:text-sm font-extrabold mt-0.5">Your answer is completely correct.</p>
+          <p id="feedbackReasonAr" class="text-xs sm:text-sm font-bold mt-1 bg-white/85 px-3 py-1.5 rounded-xl border border-purple-200 text-purple-950" dir="rtl"></p>
         </div>
       </div>
-      <button type="button" id="continueBtn" class="btn-3d w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold min-w-[160px]">
-        CONTINUE
+      <button type="button" id="continueBtn" class="btn-3d w-full md:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold min-w-[180px] shrink-0">
+        CONTINUE (التالي) ➔
       </button>
     </div>
   </div>
@@ -535,7 +613,7 @@
   <div id="loginModal" class="fixed inset-0 z-50 bg-[#230948]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl border-4 border-purple-200 shadow-2xl w-full max-w-md p-5 sm:p-7 animate-pop relative overflow-hidden my-auto">
       
-      <!-- Top Mascot Icon (Direct Canvas - Never shows broken image icon) -->
+      <!-- Top Mascot Icon -->
       <div class="flex justify-center -mt-1 mb-2.5">
         <div class="w-28 h-28 rounded-[28px] shadow-xl flex items-center justify-center overflow-hidden relative logo-float border-2 border-purple-100 bg-purple-100">
           <canvas class="nexly-logo-canvas w-full h-full block" width="600" height="600"></canvas>
@@ -554,15 +632,15 @@
         <p class="text-[11px] font-bold text-purple-500">Your Next Level Starts Here</p>
       </div>
 
-      <!-- Main Role Tabs (Triple-bound: inline DOM + switchMainRole + EventListener) -->
+      <!-- Main Role Tabs -->
       <div class="grid grid-cols-2 bg-purple-100 p-1 rounded-2xl mb-4 border border-purple-200 text-xs font-extrabold text-purple-800 relative z-20">
         <button type="button" id="tabRoleStudent"
-          onclick="document.getElementById('studentSectionContainer').classList.remove('hidden'); document.getElementById('studentSectionContainer').style.display='block'; document.getElementById('teacherSectionContainer').classList.add('hidden'); document.getElementById('teacherSectionContainer').style.display='none'; this.className='py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition'; document.getElementById('tabRoleTeacher').className='py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer';"
+          onclick="switchMainRole('student')"
           class="py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition">
           🎒 Student (طالبة)
         </button>
         <button type="button" id="tabRoleTeacher"
-          onclick="document.getElementById('teacherSectionContainer').classList.remove('hidden'); document.getElementById('teacherSectionContainer').style.display='block'; document.getElementById('studentSectionContainer').classList.add('hidden'); document.getElementById('studentSectionContainer').style.display='none'; this.className='py-2.5 rounded-xl bg-purple-700 text-white shadow-sm font-extrabold cursor-pointer transition'; document.getElementById('tabRoleStudent').className='py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer';"
+          onclick="switchMainRole('teacher')"
           class="py-2.5 rounded-xl hover:bg-purple-200 transition font-extrabold text-purple-800 cursor-pointer">
           👩‍🏫 Teacher (معلمة)
         </button>
@@ -594,7 +672,7 @@
           </p>
 
           <button type="submit" class="btn-3d btn-3d-purple w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-2">
-            🚀 START QUEST (ابدأي من المستوى A1)
+            🚀 START QUEST (ابدأي التحدي الآن)
           </button>
         </form>
       </div>
@@ -893,8 +971,7 @@
   <!-- APPLICATION CORE SCRIPT -->
   <script>
     /* =========================================================================
-       0. DIRECT 3D CANVAS LOGO PAINTER (Draws directly on visible <canvas> elements)
-          Zero toDataURL() reliance = Never blocked by browser privacy extensions!
+       0. DIRECT 3D CANVAS LOGO PAINTER
        ========================================================================= */
     function paintNexlyLogoOnCanvas(canvas) {
       if (!canvas || !canvas.getContext) return;
@@ -1031,8 +1108,319 @@
     paintAllLogosNow();
     window.addEventListener('DOMContentLoaded', paintAllLogosNow);
 
+    /* =========================================================================
+       1. CUSTOM CARTOON ILLUSTRATION STUDIO (Bahraini Uniforms & Modest Dress)
+          - Girl: Brown pinafore dress (مريول بني) + White shirt + White hijab
+          - Woman: Modest long outfit (ملابس محتشمة) + Hijab
+          - Boy: White shirt (قميص أبيض) + Brown trousers (سروال بني)
+          - Man: White shirt (قميص أبيض) + Black trousers (بنطلون أسود)
+       ========================================================================= */
+    function svgGirlBahrainUniform(cx, cy, scale, action) {
+      var s = scale || 1;
+      var armRight = (action === 'wave')
+        ? '<path d="M22,-18 Q42,-38 48,-52" stroke="#ffffff" stroke-width="11" stroke-linecap="round" fill="none"/><circle cx="49" cy="-54" r="6" fill="#fde68a"/>'
+        : '<path d="M22,-16 Q34,2 30,18" stroke="#ffffff" stroke-width="11" stroke-linecap="round" fill="none"/><circle cx="30" cy="20" r="6" fill="#fde68a"/>';
+      return '<g transform="translate(' + cx + ',' + cy + ') scale(' + s + ')">' +
+        '<!-- Shoes & White Socks -->' +
+        '<rect x="-18" y="58" width="12" height="18" rx="4" fill="#ffffff"/>' +
+        '<rect x="6" y="58" width="12" height="18" rx="4" fill="#ffffff"/>' +
+        '<ellipse cx="-12" cy="76" rx="9" ry="5" fill="#27272a"/>' +
+        '<ellipse cx="12" cy="76" rx="9" ry="5" fill="#27272a"/>' +
+        '<!-- White Shirt Sleeves Underneath -->' +
+        '<path d="M-22,-16 Q-34,2 -30,18" stroke="#ffffff" stroke-width="11" stroke-linecap="round" fill="none"/>' +
+        '<circle cx="-30" cy="20" r="6" fill="#fde68a"/>' +
+        armRight +
+        '<!-- White Shirt Collar & Chest -->' +
+        '<rect x="-18" y="-24" width="36" height="28" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>' +
+        '<!-- Brown School Pinafore (مريول بني) -->' +
+        '<path d="M-24,-6 L24,-6 L32,60 L-32,60 Z" fill="#78350f" stroke="#451a03" stroke-width="2"/>' +
+        '<!-- Brown Pinafore Straps over White Shirt -->' +
+        '<rect x="-20" y="-24" width="9" height="22" rx="2" fill="#78350f"/>' +
+        '<rect x="11" y="-24" width="9" height="22" rx="2" fill="#78350f"/>' +
+        '<!-- Pinafore Pleats & Belt -->' +
+        '<rect x="-25" y="10" width="50" height="6" rx="2" fill="#451a03"/>' +
+        '<line x1="-10" y1="16" x2="-14" y2="60" stroke="#451a03" stroke-width="1.5" opacity="0.6"/>' +
+        '<line x1="10" y1="16" x2="14" y2="60" stroke="#451a03" stroke-width="1.5" opacity="0.6"/>' +
+        '<!-- White Hijab (حجاب أبيض) -->' +
+        '<path d="M-30,-48 C-30,-74 30,-74 30,-48 C33,-24 28,-10 0,-8 C-28,-10 -33,-24 -30,-48 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>' +
+        '<path d="M-18,-20 Q0,-10 18,-20" fill="none" stroke="#e2e8f0" stroke-width="2"/>' +
+        '<!-- Cute Cartoon Face -->' +
+        '<ellipse cx="0" cy="-45" rx="19" ry="18" fill="#fde68a"/>' +
+        '<!-- Hijab Forehead Band -->' +
+        '<path d="M-19,-52 Q0,-60 19,-52 C19,-62 -19,-62 -19,-52 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>' +
+        '<!-- Eyes & Smile -->' +
+        '<circle cx="-7" cy="-46" r="2.8" fill="#1e1b4b"/>' +
+        '<circle cx="7" cy="-46" r="2.8" fill="#1e1b4b"/>' +
+        '<circle cx="-8" cy="-47" r="1" fill="#ffffff"/>' +
+        '<circle cx="6" cy="-47" r="1" fill="#ffffff"/>' +
+        '<ellipse cx="-11" cy="-40" rx="3.5" ry="2" fill="#fda4af" opacity="0.7"/>' +
+        '<ellipse cx="11" cy="-40" rx="3.5" ry="2" fill="#fda4af" opacity="0.7"/>' +
+        '<path d="M-5,-38 Q0,-33 5,-38" fill="none" stroke="#78350f" stroke-width="2.2" stroke-linecap="round"/>' +
+      '</g>';
+    }
+
+    function svgBoyBahrainUniform(cx, cy, scale, action) {
+      var s = scale || 1;
+      var armRight = (action === 'wave')
+        ? '<path d="M22,-18 Q40,-36 46,-50" stroke="#ffffff" stroke-width="11" stroke-linecap="round" fill="none"/><circle cx="47" cy="-52" r="6" fill="#fde68a"/>'
+        : '<path d="M22,-16 Q32,4 28,20" stroke="#ffffff" stroke-width="11" stroke-linecap="round" fill="none"/><circle cx="28" cy="22" r="6" fill="#fde68a"/>';
+      return '<g transform="translate(' + cx + ',' + cy + ') scale(' + s + ')">' +
+        '<!-- Brown Trousers (سروال بني) -->' +
+        '<rect x="-20" y="18" width="18" height="54" rx="4" fill="#78350f" stroke="#451a03" stroke-width="1.8"/>' +
+        '<rect x="2" y="18" width="18" height="54" rx="4" fill="#78350f" stroke="#451a03" stroke-width="1.8"/>' +
+        '<rect x="-21" y="15" width="42" height="7" rx="2" fill="#451a03"/>' +
+        '<!-- Shoes -->' +
+        '<ellipse cx="-11" cy="74" rx="10" ry="5" fill="#18181b"/>' +
+        '<ellipse cx="11" cy="74" rx="10" ry="5" fill="#18181b"/>' +
+        '<!-- White Shirt Sleeves (قميص أبيض) -->' +
+        '<path d="M-22,-16 Q-32,4 -28,20" stroke="#ffffff" stroke-width="11" stroke-linecap="round" fill="none"/>' +
+        '<circle cx="-28" cy="22" r="6" fill="#fde68a"/>' +
+        armRight +
+        '<!-- White Collared Shirt Body -->' +
+        '<rect x="-22" y="-24" width="44" height="42" rx="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>' +
+        '<polygon points="-10,-24 0,-12 10,-24" fill="#e2e8f0"/>' +
+        '<circle cx="0" cy="-4" r="2" fill="#94a3b8"/>' +
+        '<circle cx="0" cy="6" r="2" fill="#94a3b8"/>' +
+        '<rect x="6" y="-12" width="10" height="11" rx="2" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>' +
+        '<!-- Neck & Head -->' +
+        '<rect x="-6" y="-32" width="12" height="10" fill="#fde68a"/>' +
+        '<ellipse cx="0" cy="-47" rx="20" ry="19" fill="#fde68a" stroke="#f59e0b" stroke-width="0.8"/>' +
+        '<!-- Boy Hair -->' +
+        '<path d="M-20,-49 C-22,-68 22,-68 20,-49 C15,-57 -15,-57 -20,-49 Z" fill="#27272a"/>' +
+        '<!-- Eyes & Smile -->' +
+        '<circle cx="-7" cy="-46" r="2.8" fill="#1e1b4b"/>' +
+        '<circle cx="7" cy="-46" r="2.8" fill="#1e1b4b"/>' +
+        '<path d="M-6,-37 Q0,-32 6,-37" fill="none" stroke="#78350f" stroke-width="2.2" stroke-linecap="round"/>' +
+      '</g>';
+    }
+
+    function svgModestHijabiWoman(cx, cy, scale, gownColor, hijabColor) {
+      var s = scale || 1;
+      var gCol = gownColor || "#5b21b6";
+      var hCol = hijabColor || "#ede9fe";
+      return '<g transform="translate(' + cx + ',' + cy + ') scale(' + s + ')">' +
+        '<!-- Shoes -->' +
+        '<ellipse cx="-12" cy="80" rx="9" ry="4.5" fill="#1e1b4b"/>' +
+        '<ellipse cx="12" cy="80" rx="9" ry="4.5" fill="#1e1b4b"/>' +
+        '<!-- Modest Long Gown / Abaya Dress (ملابس محتشمة) -->' +
+        '<path d="M-24,-22 L24,-22 L34,76 L-34,76 Z" fill="' + gCol + '" stroke="#3b0764" stroke-width="2"/>' +
+        '<!-- Modest Long Sleeves -->' +
+        '<path d="M-24,-18 Q-38,6 -32,26" stroke="' + gCol + '" stroke-width="12" stroke-linecap="round" fill="none"/>' +
+        '<circle cx="-32" cy="28" r="6" fill="#fde68a"/>' +
+        '<path d="M24,-18 Q38,-6 44,-22" stroke="' + gCol + '" stroke-width="12" stroke-linecap="round" fill="none"/>' +
+        '<circle cx="45" cy="-24" r="6" fill="#fde68a"/>' +
+        '<!-- Modest Hijab (حجاب) -->' +
+        '<path d="M-31,-50 C-31,-78 31,-78 31,-50 C34,-22 28,-4 0,-2 C-28,-4 -34,-22 -31,-50 Z" fill="' + hCol + '" stroke="#a78bfa" stroke-width="2"/>' +
+        '<!-- Face -->' +
+        '<ellipse cx="0" cy="-47" rx="19" ry="18" fill="#fde68a"/>' +
+        '<circle cx="-7" cy="-47" r="2.6" fill="#1e1b4b"/>' +
+        '<circle cx="7" cy="-47" r="2.6" fill="#1e1b4b"/>' +
+        '<ellipse cx="-11" cy="-41" rx="3.5" ry="2" fill="#fda4af" opacity="0.65"/>' +
+        '<ellipse cx="11" cy="-41" rx="3.5" ry="2" fill="#fda4af" opacity="0.65"/>' +
+        '<path d="M-5,-39 Q0,-34 5,-39" fill="none" stroke="#78350f" stroke-width="2.2" stroke-linecap="round"/>' +
+      '</g>';
+    }
+
+    function svgAdultManWhiteShirtBlackPants(cx, cy, scale) {
+      var s = scale || 1;
+      return '<g transform="translate(' + cx + ',' + cy + ') scale(' + s + ')">' +
+        '<!-- Black Trousers (بنطلون أسود) -->' +
+        '<rect x="-21" y="18" width="19" height="58" rx="4" fill="#111827" stroke="#030712" stroke-width="1.8"/>' +
+        '<rect x="2" y="18" width="19" height="58" rx="4" fill="#111827" stroke="#030712" stroke-width="1.8"/>' +
+        '<rect x="-22" y="15" width="44" height="6" rx="2" fill="#030712"/>' +
+        '<!-- Shoes -->' +
+        '<ellipse cx="-12" cy="78" rx="10" ry="5" fill="#09090b"/>' +
+        '<ellipse cx="12" cy="78" rx="10" ry="5" fill="#09090b"/>' +
+        '<!-- White Shirt Sleeves (قميص أبيض) -->' +
+        '<path d="M-23,-18 Q-35,4 -30,22" stroke="#ffffff" stroke-width="12" stroke-linecap="round" fill="none"/>' +
+        '<circle cx="-30" cy="24" r="6" fill="#fde68a"/>' +
+        '<path d="M23,-18 Q35,4 30,22" stroke="#ffffff" stroke-width="12" stroke-linecap="round" fill="none"/>' +
+        '<circle cx="30" cy="24" r="6" fill="#fde68a"/>' +
+        '<!-- White Shirt Body -->' +
+        '<rect x="-23" y="-26" width="46" height="44" rx="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>' +
+        '<polygon points="-11,-26 0,-13 11,-26" fill="#e2e8f0"/>' +
+        '<line x1="0" y1="-13" x2="0" y2="16" stroke="#cbd5e1" stroke-width="1.8"/>' +
+        '<!-- Head & Beard/Hair -->' +
+        '<rect x="-6" y="-34" width="12" height="10" fill="#fde68a"/>' +
+        '<ellipse cx="0" cy="-50" rx="20" ry="19" fill="#fde68a"/>' +
+        '<path d="M-20,-52 C-22,-71 22,-71 20,-52 C14,-60 -14,-60 -20,-52 Z" fill="#1f2937"/>' +
+        '<circle cx="-7" cy="-49" r="2.6" fill="#111827"/>' +
+        '<circle cx="7" cy="-49" r="2.6" fill="#111827"/>' +
+        '<path d="M-6,-40 Q0,-35 6,-40" fill="none" stroke="#1f2937" stroke-width="2.2" stroke-linecap="round"/>' +
+      '</g>';
+    }
+
+    /* Master Cartoon Scene Builder based on exact question content */
+    function generateCartoonIllustrationSVG(q) {
+      if (!q) return "";
+      var scene = (q.scene || q.word || "").toLowerCase();
+      var text = ((q.word || "") + " " + (q.question || "") + " " + (q.title || "") + " " + (q.story || "")).toLowerCase();
+
+      var skyColor = "#e0f2fe";
+      var groundColor = "#bbf7d0";
+      var artBody = "";
+
+      if (scene === "school" || text.indexOf("school") !== -1 || text.indexOf("diligent student") !== -1 || text.indexOf("schoolbag") !== -1) {
+        skyColor = "#dbeafe"; groundColor = "#d1fae5";
+        artBody =
+          '<!-- Cartoon School Building -->' +
+          '<rect x="190" y="45" width="220" height="145" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>' +
+          '<polygon points="175,48 300,8 425,48" fill="#ef4444" stroke="#b91c1c" stroke-width="3"/>' +
+          '<rect x="272" y="125" width="56" height="65" rx="6" fill="#92400e"/>' +
+          '<circle cx="300" cy="34" r="14" fill="#ffffff" stroke="#d97706" stroke-width="2.5"/>' +
+          '<line x1="300" y1="34" x2="300" y2="25" stroke="#1e293b" stroke-width="2"/>' +
+          '<line x1="300" y1="34" x2="307" y2="34" stroke="#1e293b" stroke-width="2"/>' +
+          '<rect x="212" y="68" width="40" height="36" rx="4" fill="#93c5fd" stroke="#2563eb" stroke-width="2"/>' +
+          '<rect x="348" y="68" width="40" height="36" rx="4" fill="#93c5fd" stroke="#2563eb" stroke-width="2"/>' +
+          svgGirlBahrainUniform(125, 130, 0.92, 'wave') +
+          svgBoyBahrainUniform(475, 132, 0.92, 'wave');
+      } else if (scene === "teacher" || text.indexOf("teacher") !== -1 || text.indexOf("alicia") !== -1 || text.indexOf("explain") !== -1) {
+        skyColor = "#f3e8ff"; groundColor = "#fde68a";
+        artBody =
+          '<!-- Classroom Chalkboard -->' +
+          '<rect x="175" y="25" width="270" height="125" rx="10" fill="#065f46" stroke="#b45309" stroke-width="6"/>' +
+          '<text x="310" y="75" font-size="24" font-family="Fredoka, sans-serif" font-weight="bold" fill="#ffffff" text-anchor="middle">Welcome to English!</text>' +
+          '<text x="310" y="112" font-size="18" font-family="Nunito, sans-serif" fill="#fde047" text-anchor="middle">A B C • Grammar &amp; Reading</text>' +
+          svgModestHijabiWoman(120, 128, 0.95, "#5b21b6", "#f5f3ff") +
+          svgGirlBahrainUniform(490, 135, 0.88, 'normal');
+      } else if (scene === "family" || text.indexOf("family") !== -1 || text.indexOf("parents") !== -1) {
+        skyColor = "#fce7f3"; groundColor = "#dcfce7";
+        artBody =
+          '<!-- Warm Family Home -->' +
+          '<rect x="230" y="38" width="140" height="110" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2.5"/>' +
+          '<polygon points="215,42 300,6 385,42" fill="#ec4899"/>' +
+          svgAdultManWhiteShirtBlackPants(110, 125, 0.92) +
+          svgModestHijabiWoman(215, 126, 0.90, "#047857", "#ecfdf5") +
+          svgGirlBahrainUniform(390, 138, 0.82, 'wave') +
+          svgBoyBahrainUniform(495, 138, 0.82, 'wave');
+      } else if (scene === "brother" || scene === "friend" || text.indexOf("brother") !== -1 || text.indexOf("friend") !== -1 || text.indexOf("football") !== -1 || text.indexOf("cooperative") !== -1) {
+        skyColor = "#e0f2fe"; groundColor = "#86efac";
+        artBody =
+          '<!-- Sunny Park & Trees -->' +
+          '<circle cx="75" cy="45" r="26" fill="#facc15"/>' +
+          '<rect x="292" y="95" width="16" height="80" fill="#78350f"/>' +
+          '<circle cx="300" cy="72" r="42" fill="#22c55e"/>' +
+          svgBoyBahrainUniform(175, 128, 0.96, 'wave') +
+          svgBoyBahrainUniform(425, 128, 0.96, 'normal') +
+          '<!-- Soccer Ball -->' +
+          '<circle cx="300" cy="192" r="18" fill="#ffffff" stroke="#1e293b" stroke-width="3"/>' +
+          '<polygon points="300,182 292,190 296,200 304,200 308,190" fill="#1e293b"/>';
+      } else if (scene === "water" || text.indexOf("water") !== -1 || text.indexOf("rain") !== -1 || text.indexOf("weather") !== -1) {
+        skyColor = "#bae6fd"; groundColor = "#7dd3fc";
+        artBody =
+          '<!-- Fluffy Clouds & Raindrops / Pure Water Glass -->' +
+          '<path d="M120,65 Q140,35 175,48 Q205,28 235,52 Q265,45 270,72 Z" fill="#ffffff"/>' +
+          '<rect x="245" y="65" width="110" height="130" rx="14" fill="#ffffff" opacity="0.85" stroke="#0284c7" stroke-width="4"/>' +
+          '<path d="M250,110 Q275,102 300,110 T350,110 L350,188 L250,188 Z" fill="#38bdf8"/>' +
+          '<path d="M300,130 C300,130 282,154 282,165 C282,175 290,182 300,182 C310,182 318,175 318,165 C318,154 300,130 300,130 Z" fill="#e0f2fe"/>' +
+          svgGirlBahrainUniform(135, 132, 0.90, 'wave') +
+          svgBoyBahrainUniform(465, 132, 0.90, 'normal');
+      } else if (scene === "animal" || text.indexOf("animal") !== -1 || text.indexOf("farm") !== -1 || text.indexOf("sheep") !== -1 || text.indexOf("whale") !== -1 || text.indexOf("lizard") !== -1 || text.indexOf("spider") !== -1) {
+        skyColor = "#dcfce7"; groundColor = "#86efac";
+        artBody =
+          '<!-- Red Farm Barn -->' +
+          '<rect x="60" y="68" width="120" height="105" fill="#ef4444" stroke="#991b1b" stroke-width="3"/>' +
+          '<polygon points="50,70 120,25 190,70" fill="#b91c1c"/>' +
+          '<!-- Cute Cartoon Sheep -->' +
+          '<g transform="translate(275,155)">' +
+            '<line x1="-18" y1="15" x2="-18" y2="38" stroke="#1f2937" stroke-width="5"/>' +
+            '<line x1="18" y1="15" x2="18" y2="38" stroke="#1f2937" stroke-width="5"/>' +
+            '<circle cx="-20" cy="0" r="22" fill="#ffffff"/>' +
+            '<circle cx="0" cy="-6" r="25" fill="#ffffff"/>' +
+            '<circle cx="20" cy="0" r="22" fill="#ffffff"/>' +
+            '<ellipse cx="34" cy="-4" rx="14" ry="12" fill="#1f2937"/>' +
+            '<circle cx="38" cy="-6" r="2.5" fill="#ffffff"/>' +
+          '</g>' +
+          '<!-- Cute Cartoon Brown Horse -->' +
+          '<g transform="translate(405,138)">' +
+            '<rect x="-28" y="0" width="56" height="32" rx="14" fill="#92400e"/>' +
+            '<rect x="-24" y="26" width="8" height="28" rx="3" fill="#78350f"/>' +
+            '<rect x="16" y="26" width="8" height="28" rx="3" fill="#78350f"/>' +
+            '<path d="M16,6 L34,-26 L52,-18 L34,14 Z" fill="#92400e"/>' +
+            '<circle cx="38" cy="-20" r="3" fill="#ffffff"/>' +
+          '</g>' +
+          svgBoyBahrainUniform(520, 130, 0.88, 'wave');
+      } else if (scene === "garden" || text.indexOf("garden") !== -1 || text.indexOf("flower") !== -1 || text.indexOf("cotton") !== -1 || text.indexOf("biodiversity") !== -1 || text.indexOf("morning") !== -1) {
+        skyColor = "#fef9c3"; groundColor = "#86efac";
+        artBody =
+          '<!-- Bright Rising Sun -->' +
+          '<circle cx="95" cy="52" r="34" fill="#facc15" stroke="#eab308" stroke-width="4"/>' +
+          '<!-- Colorful Cartoon Flowers -->' +
+          '<g transform="translate(250,150)">' +
+            '<line x1="0" y1="0" x2="0" y2="45" stroke="#15803d" stroke-width="5"/>' +
+            '<circle cx="-12" cy="-10" r="10" fill="#f43f5e"/><circle cx="12" cy="-10" r="10" fill="#f43f5e"/>' +
+            '<circle cx="0" cy="-22" r="10" fill="#f43f5e"/><circle cx="0" cy="2" r="10" fill="#f43f5e"/>' +
+            '<circle cx="0" cy="-10" r="9" fill="#facc15"/>' +
+          '</g>' +
+          '<g transform="translate(335,142)">' +
+            '<line x1="0" y1="0" x2="0" y2="52" stroke="#15803d" stroke-width="5"/>' +
+            '<circle cx="0" cy="-12" r="22" fill="#eab308"/>' +
+            '<circle cx="0" cy="-12" r="11" fill="#78350f"/>' +
+          '</g>' +
+          svgGirlBahrainUniform(155, 130, 0.92, 'wave') +
+          svgModestHijabiWoman(460, 125, 0.90, "#059669", "#ecfdf5");
+      } else if (scene === "pencil" || text.indexOf("pencil") !== -1 || text.indexOf("books") !== -1 || text.indexOf("computers") !== -1 || text.indexOf("masterpiece") !== -1 || text.indexOf("painting") !== -1) {
+        skyColor = "#ffedd5"; groundColor = "#fed7aa";
+        artBody =
+          '<!-- Giant Cartoon Pencil & Open Notebook -->' +
+          '<rect x="215" y="42" width="165" height="125" rx="10" fill="#ffffff" stroke="#7c3aed" stroke-width="4"/>' +
+          '<line x1="297" y1="42" x2="297" y2="167" stroke="#c4b5fd" stroke-width="3"/>' +
+          '<line x1="232" y1="72" x2="282" y2="72" stroke="#94a3b8" stroke-width="3"/>' +
+          '<line x1="232" y1="96" x2="282" y2="96" stroke="#94a3b8" stroke-width="3"/>' +
+          '<g transform="translate(345,105) rotate(-28)">' +
+            '<rect x="-60" y="-12" width="110" height="24" fill="#facc15" stroke="#ca8a04" stroke-width="2.5"/>' +
+            '<polygon points="50,-12 82,0 50,12" fill="#fde68a" stroke="#ca8a04" stroke-width="2"/>' +
+            '<polygon points="72,-4 82,0 72,4" fill="#1e293b"/>' +
+            '<rect x="-78" y="-12" width="18" height="24" rx="4" fill="#fb7185"/>' +
+          '</g>' +
+          svgGirlBahrainUniform(115, 132, 0.92, 'wave') +
+          svgBoyBahrainUniform(490, 132, 0.92, 'normal');
+      } else if (scene === "science" || text.indexOf("satellite") !== -1 || text.indexOf("light-1") !== -1 || text.indexOf("innovator") !== -1 || text.indexOf("sophisticated") !== -1) {
+        skyColor = "#1e1b4b"; groundColor = "#312e81";
+        artBody =
+          '<!-- Space Stars & Orbiting Satellite -->' +
+          '<circle cx="90" cy="45" r="3" fill="#fef08a"/><circle cx="510" cy="60" r="4" fill="#fef08a"/><circle cx="200" cy="35" r="2.5" fill="#ffffff"/>' +
+          '<g transform="translate(300,90) rotate(-15)">' +
+            '<rect x="-110" y="-16" width="65" height="32" rx="4" fill="#38bdf8" stroke="#e0f2fe" stroke-width="2"/>' +
+            '<rect x="45" y="-16" width="65" height="32" rx="4" fill="#38bdf8" stroke="#e0f2fe" stroke-width="2"/>' +
+            '<rect x="-32" y="-26" width="64" height="52" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="3"/>' +
+            '<circle cx="0" cy="0" r="12" fill="#f59e0b"/>' +
+          '</g>' +
+          svgBoyBahrainUniform(120, 134, 0.90, 'wave') +
+          svgGirlBahrainUniform(485, 134, 0.90, 'wave');
+      } else if (scene === "food" || text.indexOf("breakfast") !== -1 || text.indexOf("healthy") !== -1 || text.indexOf("eats") !== -1) {
+        skyColor = "#fef3c7"; groundColor = "#fde68a";
+        artBody =
+          '<!-- Dining Table with Healthy Breakfast -->' +
+          '<rect x="195" y="125" width="210" height="16" rx="6" fill="#92400e"/>' +
+          '<rect x="220" y="141" width="14" height="55" fill="#78350f"/>' +
+          '<rect x="366" y="141" width="14" height="55" fill="#78350f"/>' +
+          '<ellipse cx="270" cy="118" rx="34" ry="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>' +
+          '<circle cx="270" cy="110" r="14" fill="#ef4444"/>' +
+          '<rect x="325" y="88" width="26" height="36" rx="4" fill="#ffffff" stroke="#bae6fd" stroke-width="2"/>' +
+          svgGirlBahrainUniform(125, 130, 0.92, 'wave') +
+          svgModestHijabiWoman(475, 125, 0.90, "#7c3aed", "#f3e8ff");
+      } else {
+        /* Travel / Museum / Desert Camp / Dilmun */
+        skyColor = "#ffedd5"; groundColor = "#fcd34d";
+        artBody =
+          '<!-- Sakhir Desert Tent & Museum Arch -->' +
+          '<circle cx="510" cy="48" r="28" fill="#f59e0b"/>' +
+          '<polygon points="185,175 300,62 415,175" fill="#92400e" stroke="#451a03" stroke-width="3"/>' +
+          '<polygon points="265,175 300,115 335,175" fill="#fef3c7"/>' +
+          svgAdultManWhiteShirtBlackPants(115, 126, 0.90) +
+          svgBoyBahrainUniform(475, 132, 0.90, 'wave');
+      }
+
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 225" class="w-full h-full">' +
+        '<rect width="600" height="170" fill="' + skyColor + '"/>' +
+        '<rect y="165" width="600" height="60" fill="' + groundColor + '"/>' +
+        artBody +
+      '</svg>';
+    }
+
     /* ========================================================
-       1. HELPER: FISHER-YATES CHOICE SHUFFLER
+       2. HELPER: FISHER-YATES CHOICE SHUFFLER
        ======================================================== */
     function shuffleChoicesWithAnswer(optionsArray, correctIndex) {
       var pairs = optionsArray.map(function(optText, idx) { return { text: optText, isCorrect: idx === correctIndex }; });
@@ -1044,907 +1432,22 @@
     }
 
     /* ========================================================
-       2. RICH QUESTION BANK GENERATOR (A1, A2, B1 Impact 3, B2)
+       3. QUESTION BANK WITH SCENES & BILINGUAL EXPLANATIONS
        ======================================================== */
-    function build1000QuestionBank() {
-      var bank = { A1: { listen: [], reading: [], grammar: [] }, A2: { listen: [], reading: [], grammar: [] }, B1: { listen: [], reading: [], grammar: [] }, B2: { listen: [], reading: [], grammar: [] } };
-      
-      var a1ListenSeeds = [
-        { w: "school", h: "A place where children learn", t: "A1: School Life", ic: "school" },
-        { w: "friend", h: "A person you like and spend time with", t: "A1: Relationships", ic: "people" },
-        { w: "family", h: "Parents, brothers, and sisters living together", t: "A1: Home & Family", ic: "family" },
-        { w: "water", h: "Clear natural liquid necessary for all life", t: "A1: Nature Elements", ic: "water" },
-        { w: "brother", h: "A male sibling with shared parents", t: "A1: Family", ic: "brother" },
-        { w: "animal", h: "A living creature such as a horse or sheep", t: "A1: World Animals", ic: "animal" },
-        { w: "garden", h: "A plot of land where plants and flowers grow", t: "A1: Nature & Plants", ic: "garden" },
-        { w: "pencil", h: "A wooden tool with graphite used for drawing", t: "A1: Classroom Tools", ic: "pencil" },
-        { w: "teacher", h: "An educator who helps students learn at school", t: "A1: School Life", ic: "school" },
-        { w: "morning", h: "The early part of the day when the sun rises", t: "A1: Daily Routine", ic: "garden" }
-      ];
-      for (var i = 0; i < 60; i++) {
-        var seed = a1ListenSeeds[i % a1ListenSeeds.length];
-        bank.A1.listen.push({ id: "A1_L_" + (i + 1), word: seed.w, hint: seed.h, topic: seed.t, iconName: seed.ic });
-      }
-
-      var a1ReadingThemes = [
-        { tit: "My School Routine", st: "Adam wakes up early at seven o'clock. He packs his schoolbag and walks to school with his brother. He loves learning English.", q: "How does Adam travel to school?", opt: ["He walks with his brother", "He takes the big train", "He rides a motorcycle", "He stays at home"], ic: "school" },
-        { tit: "The Sunny Garden", st: "Sara has a small garden behind her house. Every afternoon, she waters the red roses and yellow sunflowers with her mother.", q: "What does Sara do every afternoon?", opt: ["She waters the flowers", "She paints the fence blue", "She climbs a snowy mountain", "She sells old books"], ic: "garden" },
-        { tit: "A Visit to the Farm", st: "On Friday, Ali visited his grandfather's farm. He fed the white sheep and watched the brown horses run across the green field.", q: "Which animals did Ali see on the farm?", opt: ["Sheep and horses", "Sharks and whales", "Polar bears and penguins", "Lions and tigers"], ic: "animal" }
-      ];
-      for (var i = 0; i < 45; i++) {
-        var theme = a1ReadingThemes[i % a1ReadingThemes.length];
-        var shuffled = shuffleChoicesWithAnswer(theme.opt, 0);
-        bank.A1.reading.push({ id: "A1_R_" + (i + 1), title: theme.tit, story: theme.st, question: theme.q, options: shuffled.options, correct: shuffled.correct, topic: "A1 Reading Comprehension", iconName: theme.ic });
-      }
-
-      var a1GrammarArchetypes = [
-        { q: "Huda _________ a diligent student in Grade 7.", opt: ["is", "are", "am", "be"], h: "Third person singular takes 'is'" },
-        { q: "My brothers _________ football in the park every Friday.", opt: ["play", "plays", "playing", "is play"], h: "Plural subject takes base verb in Present Simple" },
-        { q: "There _________ five books inside my schoolbag.", opt: ["are", "is", "am", "was"], h: "Use 'are' with plural countable nouns" },
-        { q: "She _________ breakfast at 6:30 every morning.", opt: ["eats", "eat", "eating", "to eat"], h: "Add -s to the verb with she/he/it" }
-      ];
-      for (var i = 0; i < 45; i++) {
-        var item = a1GrammarArchetypes[i % a1GrammarArchetypes.length];
-        var shuffled = shuffleChoicesWithAnswer(item.opt, 0);
-        bank.A1.grammar.push({ id: "A1_G_" + (i + 1), question: item.q, options: shuffled.options, correct: shuffled.correct, hint: item.h, topic: "A1 Grammar in Context" });
-      }
-
-      var a2ListenSeeds = [
-        { w: "travel", h: "To take a journey across different cities", t: "A2: Voyages", ic: "travel" },
-        { w: "museum", h: "A building where historical objects are exhibited", t: "A2: Culture", ic: "school" },
-        { w: "healthy", h: "In good physical condition and free from illness", t: "A2: Lifestyle", ic: "garden" },
-        { w: "weather", h: "The state of the atmosphere such as rain or sunshine", t: "A2: Nature", ic: "water" }
-      ];
-      for (var i = 0; i < 40; i++) {
-        var s2 = a2ListenSeeds[i % a2ListenSeeds.length];
-        bank.A2.listen.push({ id: "A2_L_" + (i + 1), word: s2.w, hint: s2.h, topic: s2.t, iconName: s2.ic });
-      }
-      var a2ReadingThemes = [
-        { tit: "Camping in the Desert Sands", st: "Last winter, families set up traditional tents in Sakhir. At night, they sat around the warm campfire and looked at the bright stars.", q: "Where did the families set up their tents?", opt: ["In the desert sands of Sakhir", "On high snowy peaks", "Inside shopping centers", "On deep ocean ships"], ic: "travel" },
-        { tit: "Bahrain National Museum", st: "Last Tuesday, Grade 8 visited the Bahrain National Museum in Manama. They saw ancient Dilmun seals and traditional pearl diving boats.", q: "What did the students see at the museum?", opt: ["Ancient Dilmun seals and boats", "Space rockets on Mars", "Modern racing cars", "Tropical rainforest birds"], ic: "school" }
-      ];
-      for (var i = 0; i < 40; i++) {
-        var th2 = a2ReadingThemes[i % a2ReadingThemes.length];
-        var sh2 = shuffleChoicesWithAnswer(th2.opt, 0);
-        bank.A2.reading.push({ id: "A2_R_" + (i + 1), title: th2.tit, story: th2.st, question: th2.q, options: sh2.options, correct: sh2.correct, topic: "A2 Reading", iconName: th2.ic });
-      }
-      var a2GrammarArchetypes = [
-        { q: "Yesterday, the students _________ to the national museum.", opt: ["went", "go", "gone", "going"], h: "Past simple of 'go' is 'went'" },
-        { q: "Look! It _________ heavily outside right now.", opt: ["is raining", "rains", "rained", "rain"], h: "Present continuous for actions happening right now" },
-        { q: "Whales are _________ than dolphins.", opt: ["larger", "largest", "more large", "as large"], h: "Comparative adjective with 'than'" }
-      ];
-      for (var i = 0; i < 40; i++) {
-        var g2 = a2GrammarArchetypes[i % a2GrammarArchetypes.length];
-        var shG2 = shuffleChoicesWithAnswer(g2.opt, 0);
-        bank.A2.grammar.push({ id: "A2_G_" + (i + 1), question: g2.q, options: shG2.options, correct: shG2.correct, hint: g2.h, topic: "A2 Grammar" });
-      }
-
-      var b1ListenSeeds = [
-        { w: "cooperative", h: "Working willingly together towards a common goal", t: "B1: Impact 3 Unit 1", ic: "people" },
-        { w: "innovator", h: "A person who introduces new methods or original ideas", t: "B1: Impact 3 Explorers", ic: "science" },
-        { w: "beneficial", h: "Resulting in good outcomes; helpful and advantageous", t: "B1: Impact 3 Unit 2", ic: "garden" },
-        { w: "satellite", h: "An artificial body placed in orbit around the earth", t: "B1: Space & Light-1", ic: "science" },
-        { w: "parachute", h: "A cloth canopy that allows a person to descend safely from the air", t: "B1: Impact 3 Flight", ic: "travel" }
-      ];
-      for (var i = 0; i < 50; i++) {
-        var sb1 = b1ListenSeeds[i % b1ListenSeeds.length];
-        bank.B1.listen.push({ id: "B1_L_" + (i + 1), word: sb1.w, hint: sb1.h, topic: sb1.t, iconName: sb1.ic });
-      }
-      var b1ReadingThemes = [
-        { tit: "Light-1 Satellite Mission", st: "In 2022, a joint Bahraini-Emirati satellite called Light-1 was launched into orbit to collect scientific data during lightning storms and study radiation exposure.", q: "What is the main mission of the Light-1 satellite?", opt: ["Collect scientific data during lightning storms", "Take tourist photos on the moon", "Measure salt levels in the deep ocean", "Manufacture synthetic fabrics"], ic: "science" },
-        { tit: "Sanga's Clean Energy Solution", st: "National Geographic Explorer Sanga Moses wanted to help his sister attend school instead of walking miles to gather wood. He invented clean fuel made from farm waste.", q: "Why did Sanga Moses become an energy innovator?", opt: ["To help children stay in school instead of gathering wood", "To build luxury sports cars in the city", "To close all rural farms permanently", "To sell imported coal to factories"], ic: "garden" },
-        { tit: "The Texas Horned Lizard", st: "When a Texas horned lizard is hunted by a predator like a desert cat or coyote, it uses an unusual defense mechanism: it can shoot a stream of blood from its eyes to confuse the predator.", q: "How does the Texas horned lizard defend itself from predators?", opt: ["It shoots blood from its eyes to confuse predators", "It flies high into the clouds like an eagle", "It builds a wooden shelter underground", "It changes into a swimming fish"], ic: "animal" }
-      ];
-      for (var i = 0; i < 45; i++) {
-        var thb1 = b1ReadingThemes[i % b1ReadingThemes.length];
-        var shb1 = shuffleChoicesWithAnswer(thb1.opt, 0);
-        bank.B1.reading.push({ id: "B1_R_" + (i + 1), title: thb1.tit, story: thb1.st, question: thb1.q, options: shb1.options, correct: shb1.correct, topic: "B1 Impact 3 Reading", iconName: thb1.ic });
-      }
-      var b1GrammarArchetypes = [
-        { q: "Alicia is very friendly and helpful, _________?", opt: ["isn't she?", "is she?", "doesn't she?", "wasn't she?"], h: "Positive statement takes a negative question tag" },
-        { q: "Gina just screamed! She _________ seen a spider in the cave.", opt: ["must have", "can't to", "shouldn't have", "used to"], h: "Modal + have + past participle for past certainty" },
-        { q: "Organic cotton _________ grown by farmers in many countries.", opt: ["is", "are", "has", "were"], h: "Present passive voice: is/are + past participle" },
-        { q: "Students are allowed _________ the computers at lunchtime.", opt: ["to use", "use", "using", "used"], h: "'be allowed + to-infinitive'" },
-        { q: "She bought her friend some flowers to _________.", opt: ["cheer her up", "knock her over", "lock her out", "break her into"], h: "Phrasal verb meaning 'make someone feel happier'" }
-      ];
-      for (var i = 0; i < 45; i++) {
-        var gb1 = b1GrammarArchetypes[i % b1GrammarArchetypes.length];
-        var shgb1 = shuffleChoicesWithAnswer(gb1.opt, 0);
-        bank.B1.grammar.push({ id: "B1_G_" + (i + 1), question: gb1.q, options: shgb1.options, correct: shgb1.correct, hint: gb1.h, topic: "B1 Impact 3 Grammar" });
-      }
-
-      var b2ListenSeeds = [
-        { w: "biodiversity", h: "Variety of plant and animal life in the world or a habitat", t: "B2: Biospheres", ic: "garden" },
-        { w: "masterpiece", h: "A work of outstanding artistry, skill, or workmanship", t: "B2: Fine Arts", ic: "school" },
-        { w: "sophisticated", h: "Highly developed, complex, and advanced in design", t: "B2: Technology", ic: "science" }
-      ];
-      for (var i = 0; i < 40; i++) {
-        var sb2 = b2ListenSeeds[i % b2ListenSeeds.length];
-        bank.B2.listen.push({ id: "B2_L_" + (i + 1), word: sb2.w, hint: sb2.h, topic: sb2.t, iconName: sb2.ic });
-      }
-      var b2ReadingThemes = [
-        { tit: "The Ancient Dilmun Civilization", st: "Archaeological excavations in Bahrain reveal that Dilmun served as a vital maritime trade bridge connecting Mesopotamia and the Indus Valley during the Bronze Age.", q: "Why was the Dilmun civilization historically significant?", opt: ["It served as a vital maritime trade bridge", "It invented modern synthetic plastics", "It was an isolated mountain kingdom", "It banned all sea vessels"], ic: "travel" }
-      ];
-      for (var i = 0; i < 40; i++) {
-        var thb2 = b2ReadingThemes[i % b2ReadingThemes.length];
-        var shb2 = shuffleChoicesWithAnswer(thb2.opt, 0);
-        bank.B2.reading.push({ id: "B2_R_" + (i + 1), title: thb2.tit, story: thb2.st, question: thb2.q, options: shb2.options, correct: shb2.correct, topic: "B2 Advanced Reading", iconName: thb2.ic });
-      }
-      var b2GrammarArchetypes = [
-        { q: "Seldom _________ such remarkable artifacts in a single excavation.", opt: ["have archaeologists uncovered", "archaeologists have uncovered", "uncovered archaeologists", "did uncover archaeologists"], h: "Negative adverbial at the start requires inversion" },
-        { q: "The art critic said that the painting _________ a wonderful example of self-expression.", opt: ["was", "is being", "will be", "has been"], h: "Reported speech backshifts present simple to past simple" }
-      ];
-      for (var i = 0; i < 40; i++) {
-        var gb2 = b2GrammarArchetypes[i % b2GrammarArchetypes.length];
-        var shgb2 = shuffleChoicesWithAnswer(gb2.opt, 0);
-        bank.B2.grammar.push({ id: "B2_G_" + (i + 1), question: gb2.q, options: shgb2.options, correct: shgb2.correct, hint: gb2.h, topic: "B2 Advanced Grammar" });
-      }
-
-      return bank;
-    }
-
-    var QUESTIONS_BANK = build1000QuestionBank();
-
-    /* ========================================================
-       3. APPLICATION STATE & TEACHER WORKSPACES
-       ======================================================== */
-    var urlParams = new URLSearchParams(window.location.search);
-    var directCode = (urlParams.get('code') || urlParams.get('c') || "").trim().toUpperCase();
-    var directTeacher = (urlParams.get('teacher') || urlParams.get('t') || "").trim();
-
-    function normalizeKey(str) { return (str || "").trim().toLowerCase().replace(/\s+/g, ' '); }
-
-    var savedWorkspaces = {};
-    try { savedWorkspaces = JSON.parse(localStorage.getItem('nexly_isolated_teachers_v3') || '{}'); } catch (e) { savedWorkspaces = {}; }
-
-    var AppState = {
-      user: { name: "", gradeClass: "", classCode: directCode, role: "student" },
-      currentLevel: "A1", currentSkill: "listen", hearts: 5, streak: 0, xp: 0,
-      completedCounts: { listen: 0, reading: 0, grammar: 0 },
-      seenQuestionIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
-      completedIds: { A1: { listen: new Set(), reading: new Set(), grammar: new Set() }, A2: { listen: new Set(), reading: new Set(), grammar: new Set() }, B1: { listen: new Set(), reading: new Set(), grammar: new Set() }, B2: { listen: new Set(), reading: new Set(), grammar: new Set() } },
-      reviewQueues: { listen: [], reading: [], grammar: [] },
-      currentQuestion: null, activeOptions: [], activeCorrectIndex: 0, typedInput: "", selectedOptionIndex: null,
-      teachersWorkspaces: savedWorkspaces, loggedInTeacherKey: null,
-      tempTeacherSignUp: { name: "", email: "", otp: "" }, tempTeacherRecovery: { key: "", name: "", email: "", otp: "" },
-      uiLang: "EN", voiceAccent: "US"
-    };
-
-    function saveWorkspacesToStorage() { try { localStorage.setItem('nexly_isolated_teachers_v3', JSON.stringify(AppState.teachersWorkspaces)); } catch (e) {} }
-
-    function findTeacherWorkspace(nameOrEmail) {
-      var q = normalizeKey(nameOrEmail);
-      if (!q) return null;
-      if (AppState.teachersWorkspaces[q]) return { key: q, data: AppState.teachersWorkspaces[q] };
-      for (var k in AppState.teachersWorkspaces) {
-        var ws = AppState.teachersWorkspaces[k];
-        if (normalizeKey(ws.email) === q || normalizeKey(ws.displayName) === q) return { key: k, data: ws };
-      }
-      return null;
-    }
-
-    function findTeacherKeyByClassCode(classCode) {
-      var cleanCode = (classCode || "").trim().toUpperCase();
-      for (var k in AppState.teachersWorkspaces) {
-        var ws = AppState.teachersWorkspaces[k];
-        if (Array.isArray(ws.codes) && ws.codes.includes(cleanCode)) return k;
-      }
-      return null;
-    }
-
-    function getActiveTeacherWorkspace() {
-      if (!AppState.loggedInTeacherKey) return null;
-      return AppState.teachersWorkspaces[AppState.loggedInTeacherKey] || null;
-    }
-
-    /* ========================================================
-       4. DYNAMIC SVG SCENE ENGINE FOR EVERY QUESTION
-       ======================================================== */
-    function generateQuestionSceneSvg(q) {
-      if (!q) return "";
-      var wordKey = (q.word || q.iconName || "").toLowerCase();
-      var bg = "#ede9fe", emoji = "🌟", sub = q.topic || "English Quest";
-
-      if (wordKey.indexOf("water") !== -1) { bg = "#e0f2fe"; emoji = "💧🌊"; }
-      else if (wordKey.indexOf("brother") !== -1 || wordKey.indexOf("friend") !== -1 || wordKey.indexOf("people") !== -1) { bg = "#fef3c7"; emoji = "👦🤝👦"; }
-      else if (wordKey.indexOf("animal") !== -1) { bg = "#dcfce7"; emoji = "🐎🐑"; }
-      else if (wordKey.indexOf("garden") !== -1) { bg = "#d1fae5"; emoji = "🌻🌷🦋"; }
-      else if (wordKey.indexOf("family") !== -1) { bg = "#fce7f3"; emoji = "👨‍👩‍👧‍👦🏡"; }
-      else if (wordKey.indexOf("pencil") !== -1) { bg = "#ffedd5"; emoji = "✏️📒"; }
-      else if (wordKey.indexOf("school") !== -1 || wordKey.indexOf("teacher") !== -1) { bg = "#e0e7ff"; emoji = "🏫📚"; }
-      else if (wordKey.indexOf("science") !== -1 || wordKey.indexOf("satellite") !== -1 || wordKey.indexOf("innovator") !== -1) { bg = "#dbeafe"; emoji = "🛰️⚡🔬"; }
-      else if (wordKey.indexOf("travel") !== -1 || wordKey.indexOf("parachute") !== -1) { bg = "#fae8ff"; emoji = "✈️⛺🌍"; }
-
-      var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 220" width="100%" height="100%">' +
-        '<rect width="600" height="220" rx="22" fill="' + bg + '"/>' +
-        '<circle cx="300" cy="100" r="68" fill="#ffffff" opacity="0.92"/>' +
-        '<text x="300" y="118" font-size="48" text-anchor="middle">' + emoji + '</text>' +
-        '</svg>';
-      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-    }
-
-    /* ========================================================
-       5. HUMAN PRONUNCIATION ENGINE
-       ======================================================== */
-    var audioCtx = null;
-    var activeAudioElement = null;
-
-    function initAudioContext() {
-      if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-    }
-
-    function stopAllActiveSpeech() {
-      if (activeAudioElement) { try { activeAudioElement.pause(); activeAudioElement.src = ""; } catch (e) {} activeAudioElement = null; }
-      if ('speechSynthesis' in window && window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
-    }
-
-    window.toggleVoiceAccent = function() {
-      AppState.voiceAccent = (AppState.voiceAccent === 'US') ? 'UK' : 'US';
-      var badge = document.getElementById('activeVoiceBadge');
-      if (badge) badge.innerHTML = (AppState.voiceAccent === 'US') ? '🇺🇸 US Clear Voice' : '🇬🇧 UK Clear Voice';
-      showToast(AppState.voiceAccent === 'US' ? '🇺🇸 Switched to American English Human Pronunciation' : '🇬🇧 Switched to British English Human Pronunciation');
-      if (AppState.currentSkill === 'listen' && AppState.currentQuestion) speakTargetWord(1.0);
-    };
-
-    function playTone(freq, type, duration, startTime) {
-      try {
-        initAudioContext(); if (!audioCtx) return;
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        var osc = audioCtx.createOscillator();
-        osc.type = type || 'sine';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (startTime || 0));
-        var gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.25, audioCtx.currentTime + (startTime || 0));
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (startTime || 0) + (duration || 0.15));
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(audioCtx.currentTime + (startTime || 0));
-        osc.stop(audioCtx.currentTime + (startTime || 0) + (duration || 0.15));
-      } catch (e) {}
-    }
-
-    function playSuccessChime() { playTone(523.25, 'triangle', 0.12, 0.00); playTone(659.25, 'triangle', 0.12, 0.10); playTone(783.99, 'triangle', 0.14, 0.20); playTone(1046.50, 'triangle', 0.28, 0.32); }
-    function playErrorBuzz() { playTone(220, 'sawtooth', 0.25, 0); playTone(180, 'sawtooth', 0.25, 0.15); }
-
-    function speakWithSafeTTSFallback(textToSpeak, isSlowMode, onEndCallback) {
-      if (!('speechSynthesis' in window) || !window.speechSynthesis || !textToSpeak) { if (onEndCallback) onEndCallback(); return; }
-      try {
-        window.speechSynthesis.cancel();
-        var utterance = new SpeechSynthesisUtterance(textToSpeak);
-        utterance.lang = (AppState.voiceAccent === 'UK') ? 'en-GB' : 'en-US';
-        utterance.rate = isSlowMode ? 0.45 : 0.92;
-        var voices = window.speechSynthesis.getVoices() || [];
-        var banned = /organ|bubbles|bells|bad news|good news|cellos|boing|hysterical|pipe|trinoids|whisper|zarvox|albert|jester|superstar|wobble/i;
-        for (var i = 0; i < voices.length; i++) {
-          if (voices[i].lang.indexOf('en') === 0 && !banned.test(voices[i].name)) {
-            utterance.voice = voices[i];
-            break;
-          }
-        }
-        if (onEndCallback) { utterance.onend = onEndCallback; utterance.onerror = onEndCallback; }
-        window.speechSynthesis.speak(utterance);
-      } catch (e) { if (onEndCallback) onEndCallback(); }
-    }
-
-    function playHumanAudioStream(textToSpeak, speedMode, onFinish) {
-      if (!textToSpeak) return;
-      stopAllActiveSpeech();
-      var cleanText = textToSpeak.trim();
-      var isSlow = (speedMode === 'slow');
-      var youdaoType = (AppState.voiceAccent === 'UK') ? 1 : 2;
-      var url = "https://dict.youdao.com/dictvoice?audio=" + encodeURIComponent(cleanText) + "&type=" + youdaoType;
-
-      var audio = new Audio();
-      activeAudioElement = audio;
-      audio.src = url;
-      if ('preservesPitch' in audio) audio.preservesPitch = true;
-      
-      audio.oncanplaythrough = function() {
-        audio.playbackRate = isSlow ? 0.5 : 1.0;
-        audio.play().catch(function() { speakWithSafeTTSFallback(cleanText, isSlow, onFinish); });
+    function buildRichQuestionBank() {
+      var bank = {
+        A1: { listen: [], reading: [], grammar: [] },
+        A2: { listen: [], reading: [], grammar: [] },
+        B1: { listen: [], reading: [], grammar: [] },
+        B2: { listen: [], reading: [], grammar: [] }
       };
-      audio.onended = function() { if (onFinish) onFinish(); };
-      audio.onerror = function() { speakWithSafeTTSFallback(cleanText, isSlow, onFinish); };
-      audio.load();
-    }
 
-    function speakTargetWord(rate) {
-      var word = AppState.currentQuestion && AppState.currentQuestion.word ? AppState.currentQuestion.word : "";
-      if (!word) return;
-      playHumanAudioStream(word, (rate <= 0.65) ? 'slow' : 'normal');
-    }
-
-    window.toggleReadStoryAudio = function() {
-      var btn = document.getElementById('readStoryAloudBtn');
-      var isPlaying = (activeAudioElement && !activeAudioElement.paused) || ('speechSynthesis' in window && window.speechSynthesis && window.speechSynthesis.speaking);
-      if (isPlaying) {
-        stopAllActiveSpeech();
-        if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
-        return;
-      }
-      var text = AppState.currentQuestion.title + ". " + AppState.currentQuestion.story;
-      if (btn) { btn.innerHTML = "<span>⏹️ Stop Reading</span>"; btn.className = 'btn-3d btn-3d-orange text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
-      playHumanAudioStream(text, 'normal', function() {
-        if (btn) { btn.innerHTML = "<span>🔊 Read Story</span>"; btn.className = 'btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0'; }
-      });
-    };
-
-    function triggerConfetti() {
-      var canvas = document.getElementById('confettiCanvas');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      var particles = []; var colors = ['#935ef7', '#10b981', '#fbbf24', '#f43f5e', '#38bdf8'];
-      for (var i = 0; i < 80; i++) {
-        particles.push({ x: canvas.width / 2 + (Math.random() * 200 - 100), y: canvas.height * 0.45, vx: (Math.random() - 0.5) * 14, vy: Math.random() * -12 - 4, size: Math.random() * 9 + 4, color: colors[Math.floor(Math.random() * colors.length)], rotation: Math.random() * 360, vRot: (Math.random() - 0.5) * 10 });
-      }
-      var frame = 0;
-      function render() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(function(p) {
-          p.x += p.vx; p.y += p.vy; p.vy += 0.45; p.rotation += p.vRot;
-          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate((p.rotation * Math.PI) / 180);
-          ctx.fillStyle = p.color; ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size); ctx.restore();
-        });
-        frame++; if (frame < 75) requestAnimationFrame(render); else ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-      render();
-    }
-
-    function showToast(msg) {
-      var toast = document.getElementById('toastMessage');
-      var text = document.getElementById('toastText');
-      if (!toast || !text) return;
-      text.innerText = msg;
-      toast.classList.remove('hidden');
-      setTimeout(function() { toast.classList.add('hidden'); }, 3800);
-    }
-
-    function showEmailAlert(header, body) {
-      var banner = document.getElementById('emailSimulatedAlert');
-      if (!banner) return;
-      var hdr = document.getElementById('emailAlertHeader');
-      var bdy = document.getElementById('emailAlertBody');
-      if (hdr) hdr.innerText = header;
-      if (bdy) bdy.innerText = body;
-      banner.classList.remove('hidden');
-      setTimeout(function() { banner.classList.add('hidden'); }, 12000);
-    }
-
-    /* ========================================================
-       6. EXERCISE ENGINE
-       ======================================================== */
-    var hiddenTypingInput = document.getElementById('hiddenTypingInput');
-
-    function syncHiddenInputWithTypedState() {
-      if (!hiddenTypingInput) return;
-      if (hiddenTypingInput.value !== AppState.typedInput) hiddenTypingInput.value = AppState.typedInput;
-      try { var len = hiddenTypingInput.value.length; hiddenTypingInput.setSelectionRange(len, len); } catch (e) {}
-    }
-
-    window.focusSpellingInput = function() {
-      if (AppState.currentSkill === 'listen' && hiddenTypingInput) { hiddenTypingInput.focus(); syncHiddenInputWithTypedState(); }
-    };
-
-    function loadCurrentExercise() {
-      var level = AppState.currentLevel; var skill = AppState.currentSkill;
-      var bank = QUESTIONS_BANK[level][skill]; var seenSet = AppState.seenQuestionIds[level][skill];
-      var q = null; var isReview = (AppState.reviewQueues[skill].length > 0 && Math.random() > 0.5);
-
-      if (isReview) {
-        q = AppState.reviewQueues[skill].shift();
-        document.getElementById('spacedRepetitionTag').classList.remove('hidden');
-      } else {
-        var available = bank.filter(function(item) { return !seenSet.has(item.id); });
-        if (available.length > 0) {
-          q = available[Math.floor(Math.random() * Math.min(available.length, 15))];
-        } else {
-          seenSet.clear();
-          q = bank[Math.floor(Math.random() * bank.length)];
-        }
-        document.getElementById('spacedRepetitionTag').classList.add('hidden');
-      }
-
-      AppState.currentQuestion = q; AppState.typedInput = ""; AppState.selectedOptionIndex = null;
-      syncHiddenInputWithTypedState();
-
-      var img = document.getElementById('exerciseImage');
-      if (img) { img.classList.remove('animate-pop'); void img.offsetWidth; img.src = generateQuestionSceneSvg(q); img.classList.add('animate-pop'); }
-
-      document.getElementById('imageTopicTitle').innerText = q.topic || "English Learning Quest";
-      document.getElementById('levelIndicatorBadge').innerText = "CEFR " + level;
-
-      var drawer = document.getElementById('feedbackDrawer');
-      drawer.classList.add('translate-y-full', 'pointer-events-none'); drawer.classList.remove('translate-y-0', 'pointer-events-auto');
-
-      stopAllActiveSpeech();
-      var readStoryBtn = document.getElementById('readStoryAloudBtn');
-      if (readStoryBtn) { readStoryBtn.innerHTML = "<span>🔊 Read Story</span>"; readStoryBtn.className = "btn-3d btn-3d-slate text-xs font-extrabold px-3.5 py-1.5 rounded-xl gap-1 shrink-0"; }
-
-      var skillBadge = document.getElementById('skillBadgeLabel');
-      var questionHeading = document.getElementById('questionHeading');
-      var questionHint = document.getElementById('questionHint');
-      var hintContent = document.getElementById('hintContent');
-      var audioStation = document.getElementById('audioStation');
-      var readingPassageContainer = document.getElementById('readingPassageContainer');
-      var listenSlotsArea = document.getElementById('listenSlotsArea');
-      var multipleChoiceArea = document.getElementById('multipleChoiceArea');
-      var checkBtn = document.getElementById('checkAnswerBtn');
-      if (checkBtn) checkBtn.disabled = true;
-
-      if (skill === 'listen') {
-        skillBadge.innerHTML = "🎧 Listen & Spell"; questionHeading.innerText = "Listen and spell what you hear (small letters):";
-        questionHint.classList.remove('hidden'); hintContent.innerText = q.hint;
-        audioStation.classList.remove('hidden'); readingPassageContainer.classList.add('hidden');
-        listenSlotsArea.classList.remove('hidden'); multipleChoiceArea.classList.add('hidden');
-        renderLetterSlots();
-        if (document.getElementById('loginModal').classList.contains('hidden')) setTimeout(function() { speakTargetWord(1.0); }, 380);
-      } else if (skill === 'reading') {
-        skillBadge.innerHTML = "📖 Reading Comprehension"; questionHeading.innerText = q.question;
-        questionHint.classList.add('hidden'); audioStation.classList.add('hidden');
-        readingPassageContainer.classList.remove('hidden'); listenSlotsArea.classList.add('hidden');
-        multipleChoiceArea.classList.remove('hidden');
-        document.getElementById('readingStoryTitle').innerText = q.title;
-        document.getElementById('readingStoryText').innerText = q.story;
-        var shuffled = shuffleChoicesWithAnswer(q.options, q.correct);
-        AppState.activeOptions = shuffled.options; AppState.activeCorrectIndex = shuffled.correct;
-        renderChoiceCards(AppState.activeOptions);
-      } else if (skill === 'grammar') {
-        skillBadge.innerHTML = "📝 Grammar in Context"; questionHeading.innerText = q.question;
-        questionHint.classList.remove('hidden'); hintContent.innerText = q.hint || "Choose the grammatically correct option";
-        audioStation.classList.add('hidden'); readingPassageContainer.classList.add('hidden');
-        listenSlotsArea.classList.add('hidden'); multipleChoiceArea.classList.remove('hidden');
-        var shuffledG = shuffleChoicesWithAnswer(q.options, q.correct);
-        AppState.activeOptions = shuffledG.options; AppState.activeCorrectIndex = shuffledG.correct;
-        renderChoiceCards(AppState.activeOptions);
-      }
-      updateTopMetrics();
-    }
-
-    function renderLetterSlots() {
-      var container = document.getElementById('slotsContainer');
-      if (!container) return;
-      container.innerHTML = "";
-      var target = (AppState.currentQuestion.word || "").toLowerCase();
-      var current = AppState.typedInput.toLowerCase();
-      for (var i = 0; i < target.length; i++) {
-        if (target[i] === ' ') {
-          var spaceDiv = document.createElement('div'); spaceDiv.className = "w-4 sm:w-6 h-10 sm:h-12 shrink-0"; container.appendChild(spaceDiv);
-        } else {
-          var slot = document.createElement('div');
-          var isFilled = i < current.length && current[i] !== undefined;
-          var letterVal = isFilled ? current[i].toLowerCase() : "";
-          var isCurrentFocus = i === current.length;
-          slot.className = "w-8 sm:w-10 lg:w-11 h-11 sm:h-12 lg:h-13 rounded-2xl flex items-center justify-center font-chunky text-lg sm:text-xl font-bold lowercase transition-all shrink-0 " + (isFilled ? "bg-purple-100 text-purple-900 border-2 border-purple-400 border-b-4 border-b-purple-600 animate-pop" : isCurrentFocus ? "bg-white border-2 border-purple-500 shadow-md slot-focused" : "bg-white/80 border-2 border-purple-200 border-b-4 border-b-purple-300");
-          slot.innerText = letterVal; container.appendChild(slot);
-        }
-      }
-      var checkBtn = document.getElementById('checkAnswerBtn');
-      if (checkBtn) checkBtn.disabled = current.replace(/\s+/g, '').length < target.replace(/\s+/g, '').length;
-    }
-
-    function renderChoiceCards(options) {
-      var container = document.getElementById('multipleChoiceArea');
-      if (!container) return;
-      container.innerHTML = ""; var letters = ['A', 'B', 'C', 'D'];
-      options.forEach(function(opt, idx) {
-        var card = document.createElement('div'); var isSelected = AppState.selectedOptionIndex === idx;
-        card.className = "btn-choice p-3 sm:p-4 flex items-center gap-3 " + (isSelected ? 'btn-choice-selected' : '');
-        card.onclick = function() {
-          AppState.selectedOptionIndex = idx;
-          renderChoiceCards(AppState.activeOptions);
-          var btn = document.getElementById('checkAnswerBtn'); if (btn) btn.disabled = false;
-        };
-        card.innerHTML = '<div class="w-8 h-8 rounded-xl font-chunky font-bold flex items-center justify-center text-xs shrink-0 ' + (isSelected ? 'bg-purple-700 text-white shadow-sm' : 'bg-purple-100 text-purple-800') + '">' + letters[idx] + '</div>' +
-          '<span class="text-xs sm:text-sm font-bold text-purple-950 flex-grow text-left leading-snug">' + opt + '</span>' +
-          '<div class="w-5 h-5 rounded-full border-2 border-purple-300 flex items-center justify-center shrink-0 ' + (isSelected ? 'border-purple-600 bg-purple-600 text-white' : '') + '">' + (isSelected ? '✓' : '') + '</div>';
-        container.appendChild(card);
-      });
-    }
-
-    if (hiddenTypingInput) {
-      hiddenTypingInput.addEventListener('input', function() {
-        if (AppState.currentSkill !== 'listen' || !AppState.currentQuestion) return;
-        var targetLen = (AppState.currentQuestion.word || "").length;
-        AppState.typedInput = (hiddenTypingInput.value || "").toLowerCase().replace(/[^a-z ]/g, '').slice(0, targetLen);
-        syncHiddenInputWithTypedState(); renderLetterSlots();
-      });
-      hiddenTypingInput.addEventListener('click', syncHiddenInputWithTypedState);
-      hiddenTypingInput.addEventListener('keyup', syncHiddenInputWithTypedState);
-    }
-
-    window.addEventListener('keydown', function(e) {
-      var loginModal = document.getElementById('loginModal');
-      if (loginModal && !loginModal.classList.contains('hidden')) return;
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        var checkBtn = document.getElementById('checkAnswerBtn');
-        var drawer = document.getElementById('feedbackDrawer');
-        if (drawer && drawer.classList.contains('translate-y-0')) document.getElementById('continueBtn').click();
-        else if (checkBtn && !checkBtn.disabled) checkBtn.click();
-        return;
-      }
-      if (e.target === hiddenTypingInput || document.activeElement === hiddenTypingInput) return;
-      if (AppState.currentSkill === 'listen') {
-        if (e.key === 'Backspace') {
-          e.preventDefault();
-          if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); }
-        } else if (e.key === ' ' || (/^[a-zA-Z]$/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey)) {
-          e.preventDefault();
-          var target = (AppState.currentQuestion && AppState.currentQuestion.word ? AppState.currentQuestion.word : "").toLowerCase();
-          if (AppState.typedInput.length < target.length) { AppState.typedInput += e.key.toLowerCase(); syncHiddenInputWithTypedState(); renderLetterSlots(); }
-        }
-      }
-    });
-
-    var eraseBtn = document.getElementById('eraseLetterBtn');
-    if (eraseBtn) eraseBtn.onclick = function(e) { e.stopPropagation(); if (AppState.typedInput.length > 0) { AppState.typedInput = AppState.typedInput.slice(0, -1); syncHiddenInputWithTypedState(); renderLetterSlots(); } };
-    
-    var clearBtn = document.getElementById('clearAllLettersBtn');
-    if (clearBtn) clearBtn.onclick = function(e) { e.stopPropagation(); AppState.typedInput = ""; syncHiddenInputWithTypedState(); renderLetterSlots(); };
-
-    var normBtn = document.getElementById('listenNormalBtn'); if (normBtn) normBtn.onclick = function() { speakTargetWord(1.0); };
-    var slowBtn = document.getElementById('listenTurtleBtn'); if (slowBtn) slowBtn.onclick = function() { speakTargetWord(0.5); };
-
-    var checkAnsBtn = document.getElementById('checkAnswerBtn');
-    if (checkAnsBtn) {
-      checkAnsBtn.onclick = function() {
-        initAudioContext();
-        var isCorrect = false; var targetAnswer = ""; var letters = ['A', 'B', 'C', 'D'];
-        if (AppState.currentSkill === 'listen') {
-          var cleanTarget = (AppState.currentQuestion.word || "").toLowerCase().replace(/[^a-z0-9]/g, '');
-          var cleanUser = AppState.typedInput.toLowerCase().replace(/[^a-z0-9]/g, '');
-          isCorrect = (cleanTarget === cleanUser && cleanTarget.length > 0); targetAnswer = AppState.currentQuestion.word.toLowerCase();
-        } else {
-          isCorrect = (AppState.selectedOptionIndex === AppState.activeCorrectIndex);
-          targetAnswer = letters[AppState.activeCorrectIndex] + ") " + AppState.activeOptions[AppState.activeCorrectIndex];
-        }
-
-        var drawer = document.getElementById('feedbackDrawer'); var iconBox = document.getElementById('feedbackIconBox');
-        var title = document.getElementById('feedbackTitle'); var msg = document.getElementById('feedbackMessage');
-        var continueBtn = document.getElementById('continueBtn');
-
-        drawer.classList.remove('translate-y-full', 'pointer-events-none'); drawer.classList.add('translate-y-0', 'pointer-events-auto');
-
-        if (isCorrect) {
-          AppState.streak++; AppState.xp += 15; AppState.completedCounts[AppState.currentSkill]++;
-          AppState.completedIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
-          AppState.seenQuestionIds[AppState.currentLevel][AppState.currentSkill].add(AppState.currentQuestion.id);
-          playSuccessChime(); triggerConfetti();
-          drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-emerald-500 bg-emerald-50/95 text-emerald-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
-          iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-emerald-500 text-white"; iconBox.innerText = "🎉";
-          title.innerText = "Awesome!"; msg.innerText = 'Correct Answer: "' + targetAnswer + '". Keep up the brilliant work!';
-          continueBtn.className = "btn-3d btn-3d-green w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
-        } else {
-          AppState.hearts = Math.max(0, AppState.hearts - 1); playErrorBuzz();
-          AppState.reviewQueues[AppState.currentSkill].push(AppState.currentQuestion);
-          drawer.className = "fixed bottom-0 left-0 right-0 z-50 transform translate-y-0 pointer-events-auto transition-transform duration-300 ease-out border-t-4 border-rose-500 bg-rose-50/95 text-rose-950 p-4 sm:p-6 backdrop-blur-md shadow-2xl";
-          iconBox.className = "w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md bg-rose-500 text-white"; iconBox.innerText = "💡";
-          title.innerText = "Keep trying!"; msg.innerText = 'The correct answer was: "' + targetAnswer + '". Review it and try again soon.';
-          continueBtn.className = "btn-3d btn-3d-red w-full sm:w-auto py-3.5 px-10 rounded-2xl font-chunky text-sm sm:text-base font-bold text-white min-w-[160px]";
-        }
-        updateTopMetrics(); updateEnrolledStudentScore();
-      };
-    }
-
-    var contBtn = document.getElementById('continueBtn');
-    if (contBtn) {
-      contBtn.onclick = function() {
-        var drawer = document.getElementById('feedbackDrawer');
-        drawer.classList.remove('translate-y-0', 'pointer-events-auto'); drawer.classList.add('translate-y-full', 'pointer-events-none');
-        if (AppState.hearts <= 0) { showToast("Hearts depleted! Showing your performance certificate."); if (window.openCertificateModal) window.openCertificateModal(); return; }
-        if (AppState.completedCounts[AppState.currentSkill] >= 10) {
-          if (AppState.currentSkill === 'listen') { showToast("🎧 Moving to Reading."); window.selectSkill('reading'); return; }
-          else if (AppState.currentSkill === 'reading') { showToast("📖 Moving to Grammar."); window.selectSkill('grammar'); return; }
-          else if (AppState.currentSkill === 'grammar') { if (window.openCertificateModal) window.openCertificateModal(); return; }
-        }
-        loadCurrentExercise();
-      };
-    }
-
-    var skipBtn = document.getElementById('skipQuestionBtn');
-    if (skipBtn) skipBtn.onclick = function() { loadCurrentExercise(); };
-
-    window.selectSkill = function(skillName) {
-      AppState.currentSkill = skillName;
-      ['listen', 'reading', 'grammar'].forEach(function(s) {
-        var tab = document.getElementById("skillTab-" + s);
-        if (tab) tab.className = (s === skillName) ? "btn-3d btn-3d-violet text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5" : "btn-3d btn-3d-slate text-xs sm:text-sm font-extrabold px-3.5 py-1.5 sm:py-2 rounded-xl gap-1.5";
-      });
-      loadCurrentExercise();
-    };
-
-    document.querySelectorAll('.keycap-level').forEach(function(btn) {
-      btn.onclick = function() {
-        document.querySelectorAll('.keycap-level').forEach(function(b) { b.className = "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900"; });
-        btn.className = "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold";
-        AppState.currentLevel = btn.getAttribute('data-level');
-        AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 };
-        showToast("Level set to CEFR " + AppState.currentLevel);
-        loadCurrentExercise();
-      };
-    });
-
-    function updateTopMetrics() {
-      var setVal = function(id, val) { var el = document.getElementById(id); if (el) el.innerText = val; };
-      setVal('heartsCounter', AppState.hearts); setVal('streakCounter', AppState.streak); setVal('xpCounter', AppState.xp);
-      setVal('listenCountBadge', AppState.completedCounts.listen + "/10");
-      setVal('readingCountBadge', AppState.completedCounts.reading + "/10");
-      setVal('grammarCountBadge', AppState.completedCounts.grammar + "/10");
-    }
-
-    /* ========================================================
-       7. TEACHER PORTAL & LOGIN ACTIONS
-       ======================================================== */
-    function renderTeacherCodes() {
-      var container = document.getElementById('activeCodesContainer'); if (!container) return;
-      container.innerHTML = ""; var ws = getActiveTeacherWorkspace(); var codes = ws ? ws.codes : [];
-      if (!codes || codes.length === 0) { container.innerHTML = '<div class="text-xs text-purple-600 font-bold bg-purple-100/60 p-3 rounded-xl w-full text-center">📌 لا توجد أكواد صفوف. اضغطي + Generate New Code</div>'; return; }
-      codes.forEach(function(code) {
-        var badge = document.createElement('div'); badge.className = "flex items-center gap-1.5 bg-white border-2 border-purple-300 px-3 py-1.5 rounded-xl text-xs font-bold text-purple-900 shadow-xs";
-        badge.innerHTML = '<span>📋 <strong class="tracking-wider text-purple-700">' + code + '</strong></span>' +
-          '<button type="button" class="text-[10px] bg-purple-100 hover:bg-purple-200 px-2 py-0.5 rounded-md font-extrabold" onclick="window.copyClassCode(\'' + code + '\')">Copy</button>' +
-          '<button type="button" class="text-[10px] bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-md font-extrabold" onclick="window.copyStudentLink(\'' + code + '\')">Link</button>';
-        container.appendChild(badge);
-      });
-    }
-
-    window.copyClassCode = function(code) {
-      try { navigator.clipboard.writeText(code); showToast("Copied " + code); } catch (err) { showToast("Code: " + code); }
-    };
-    window.copyStudentLink = function(code) {
-      var ws = getActiveTeacherWorkspace(); var tName = ws ? ws.displayName : "Teacher";
-      var directUrl = window.location.origin + window.location.pathname + "?code=" + encodeURIComponent(code) + "&teacher=" + encodeURIComponent(tName);
-      try { navigator.clipboard.writeText(directUrl); showToast("🔗 Link copied!"); } catch (e) { showToast("Link: " + directUrl); }
-    };
-    window.copyMasterDirectLink = function() {
-      var ws = getActiveTeacherWorkspace();
-      if (!ws || !ws.codes || ws.codes.length === 0) { showToast("⚠️ يرجى إنشاء كود صف أولاً"); return; }
-      window.copyStudentLink(ws.codes[0]);
-    };
-    window.addExistingClassCode = function() {
-      var ws = getActiveTeacherWorkspace(); if (!ws) return;
-      var input = document.getElementById('newClassNameInput');
-      var code = (input.value || "").trim().toUpperCase();
-      if (!code) { showToast("⚠️ اكتبي الكود في الخانة أولاً ثم اضغطي Add Existing Code"); return; }
-      if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
-      input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast("✅ أضيف الكود " + code);
-    };
-
-    var createBtn = document.getElementById('createClassBtn');
-    if (createBtn) createBtn.onclick = function() {
-      var ws = getActiveTeacherWorkspace(); if (!ws) return;
-      var input = document.getElementById('newClassNameInput'); var code = "NX-" + Math.floor(100 + Math.random() * 900);
-      if (!ws.codes.includes(code)) { ws.codes.unshift(code); saveWorkspacesToStorage(); }
-      input.value = ""; renderTeacherCodes(); renderStudentTable(); showToast("✅ تم إنشاء الكود " + code);
-    };
-
-    function renderStudentTable() {
-      var tbody = document.getElementById('studentTableBody'); var countLabel = document.getElementById('studentCountLabel');
-      if (!tbody) return; tbody.innerHTML = ""; var ws = getActiveTeacherWorkspace(); var students = ws ? (ws.students || []) : [];
-      if (countLabel) countLabel.innerText = students.length + " Active Student(s)";
-      if (students.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="p-5 text-center text-purple-400 font-bold">لا توجد طالبات مسجلات بعد</td></tr>'; return; }
-      students.forEach(function(st) {
-        var tr = document.createElement('tr'); tr.className = "hover:bg-purple-50/50 transition";
-        tr.innerHTML = '<td class="p-2.5 font-bold text-purple-900">' + st.name + '</td>' +
-          '<td class="p-2.5 font-bold text-purple-700 bg-purple-50/60 rounded">' + (st.gradeClass || 'N/A') + '</td>' +
-          '<td class="p-2.5"><span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-mono font-bold">' + (st.code || 'N/A') + '</span></td>' +
-          '<td class="p-2.5 font-bold text-purple-700">CEFR ' + (st.level || 'A1') + '</td>' +
-          '<td class="p-2.5 font-bold text-violet-700">💎 ' + (st.xp || 0) + '</td>' +
-          '<td class="p-2.5 font-bold text-rose-600">❤️ ' + (st.hearts !== undefined ? st.hearts : 5) + '</td>' +
-          '<td class="p-2.5 font-bold text-amber-600">🔥 ' + (st.streak || 0) + '</td>';
-        tbody.appendChild(tr);
-      });
-    }
-
-    function updateEnrolledStudentScore() {
-      var currName = AppState.user.name; var currCode = AppState.user.classCode;
-      if (!currName || !currCode) return;
-      var ownerKey = findTeacherKeyByClassCode(currCode) || AppState.loggedInTeacherKey; if (!ownerKey) return;
-      var ws = AppState.teachersWorkspaces[ownerKey]; if (!ws) return; if (!Array.isArray(ws.students)) ws.students = [];
-      var record = ws.students.find(function(s) { return s.name.toLowerCase() === currName.toLowerCase() && s.code === currCode; });
-      if (!record) {
-        record = { name: currName, gradeClass: AppState.user.gradeClass || "Grade 8", code: currCode, level: AppState.currentLevel, xp: AppState.xp, hearts: AppState.hearts, streak: AppState.streak, time: new Date().toLocaleTimeString() };
-        ws.students.push(record);
-      } else {
-        record.level = AppState.currentLevel; record.xp = AppState.xp; record.hearts = AppState.hearts; record.streak = AppState.streak; record.gradeClass = AppState.user.gradeClass || record.gradeClass;
-      }
-      saveWorkspacesToStorage(); if (AppState.loggedInTeacherKey === ownerKey) renderStudentTable();
-    }
-
-    window.changeTeacherPassword = function() {
-      window.closeTeacherModal();
-      window.openLoginModal('teacher');
-      window.setTeacherAuthView('forgot');
-    };
-
-    window.downloadTeacherCredentialsCard = function() {
-      var ws = getActiveTeacherWorkspace(); if (!ws) return;
-      var content = "NEXLY TEACHER CREDENTIALS\nName: " + ws.displayName + "\nEmail: " + ws.email + "\nPassword: " + ws.password + "\nCodes: " + ((ws.codes && ws.codes.length) ? ws.codes.join(', ') : 'None');
-      var blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
-      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "Nexly_Teacher_" + ws.displayName.replace(/\s+/g, '_') + ".txt";
-      document.body.appendChild(a); a.click(); document.body.removeChild(a); showToast("🪪 تم تنزيل البطاقة");
-    };
-
-    window.openTeacherModal = function() {
-      var ws = getActiveTeacherWorkspace();
-      if (!ws) { window.openLoginModal('teacher'); return; }
-      var dTag = document.getElementById('teacherDisplayTag'); if (dTag) dTag.innerText = ws.displayName;
-      var eTag = document.getElementById('teacherEmailTag'); if (eTag) eTag.innerText = ws.email ? "(" + ws.email + ")" : "";
-      renderTeacherCodes(); renderStudentTable();
-      var tm = document.getElementById('teacherModal'); if (tm) { tm.classList.remove('hidden'); tm.style.display = 'flex'; }
-    };
-
-    window.closeTeacherModal = function() {
-      var tm = document.getElementById('teacherModal'); if (tm) { tm.classList.add('hidden'); tm.style.display = 'none'; }
-    };
-
-    window.logoutTeacher = function() {
-      AppState.loggedInTeacherKey = null; AppState.user = { name: "", gradeClass: "", classCode: "", role: "student" };
-      var nm = document.getElementById('activeUserName'); if (nm) nm.innerText = "Student";
-      window.closeTeacherModal(); window.openLoginModal('teacher'); showToast("🚪 تم تسجيل الخروج");
-    };
-
-    var csvBtn = document.getElementById('downloadCsvBtn');
-    if (csvBtn) csvBtn.onclick = function() {
-      var ws = getActiveTeacherWorkspace(); var students = ws ? (ws.students || []) : [];
-      if (students.length === 0) { showToast("⚠️ لا توجد طالبات مسجلات بعد"); return; }
-      var csv = "Student Name,Class / Section,Class Code,Level,XP,Hearts,Streak,Teacher,Date\n";
-      students.forEach(function(st) {
-        csv += '"' + st.name + '","' + (st.gradeClass || 'N/A') + '","' + (st.code || 'N/A') + '","' + (st.level || 'A1') + '",' + (st.xp || 0) + ',' + (st.hearts !== undefined ? st.hearts : 5) + ',' + (st.streak || 0) + ',"' + ws.displayName + '","' + new Date().toLocaleDateString() + '"\n';
-      });
-      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' })); a.download = "Nexly_Report.csv"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    };
-
-    var tPortalBtn = document.getElementById('teacherPortalBtn');
-    if (tPortalBtn) tPortalBtn.onclick = function() {
-      if (AppState.loggedInTeacherKey && getActiveTeacherWorkspace()) { window.openTeacherModal(); }
-      else { window.openLoginModal('teacher'); }
-    };
-
-    /* --- AUTH FORMS --- */
-    var stuForm = document.getElementById('studentSimpleLoginForm');
-    if (stuForm) stuForm.onsubmit = function(e) {
-      e.preventDefault();
-      var sName = document.getElementById('stuNameInput').value.trim();
-      var sClass = document.getElementById('stuClassInput').value.trim();
-      var sCode = document.getElementById('stuCodeInput').value.trim().toUpperCase();
-      var errEl = document.getElementById('stuLoginError');
-      if (!sCode || sCode === "CLASS-CODE" || sCode === "E.G. CLASS-CODE" || sCode.length < 2) { errEl.classList.remove('hidden'); playErrorBuzz(); return; }
-      errEl.classList.add('hidden');
-      AppState.user = { name: sName, gradeClass: sClass, classCode: sCode, role: "student" }; AppState.currentLevel = "A1";
-      document.querySelectorAll('.keycap-level').forEach(function(b) { b.className = (b.getAttribute('data-level') === 'A1') ? "keycap-level keycap-level-active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold" : "keycap-level px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900"; });
-      var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = sName;
-      updateEnrolledStudentScore(); triggerConfetti(); playSuccessChime(); window.closeLoginModal(); showToast("Welcome, " + sName + "!"); loadCurrentExercise();
-    };
-
-    var tLogForm = document.getElementById('teacherDirectLoginForm');
-    if (tLogForm) tLogForm.onsubmit = function(e) {
-      e.preventDefault();
-      var identifier = document.getElementById('tLoginName').value.trim();
-      var pass = document.getElementById('tLoginPass').value.trim();
-      var errBox = document.getElementById('tLoginError');
-      var found = findTeacherWorkspace(identifier);
-      if (!found) {
-        errBox.innerHTML = '⚠️ هذا الحساب غير مسجل بعد! اضغطي على <b>✨ First Time Sign Up (تسجيل جديد)</b> بالأعلى لإنشاء حسابكِ أولاً.';
-        errBox.classList.remove('hidden'); playErrorBuzz(); return;
-      }
-      if (found.data.password !== pass) {
-        errBox.innerHTML = '⚠️ كلمة المرور غير صحيحة! يمكنكِ الضغط على <b>نسيتِ كلمة المرور؟</b> لاستعادتها.';
-        errBox.classList.remove('hidden'); playErrorBuzz(); return;
-      }
-      errBox.classList.add('hidden'); AppState.loggedInTeacherKey = found.key;
-      AppState.user = { name: found.data.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
-      var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = found.data.displayName;
-      document.getElementById('tLoginPass').value = ""; window.closeLoginModal(); window.openTeacherModal(); showToast("مرحباً " + found.data.displayName + "!");
-    };
-
-    window.resetTeacherStep1 = function() {
-      document.getElementById('teacherStep1_Form').classList.remove('hidden'); document.getElementById('teacherStep2_Form').classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.add('hidden');
-      document.getElementById('tOtpError').classList.add('hidden'); document.getElementById('tPassMatchError').classList.add('hidden'); document.getElementById('tRegStep1Error').classList.add('hidden');
-    };
-    
-    var tReg1 = document.getElementById('teacherStep1_Form');
-    if (tReg1) tReg1.onsubmit = function(e) {
-      e.preventDefault();
-      var tName = document.getElementById('tRegName').value.trim(); var tEmail = document.getElementById('tRegEmail').value.trim(); var step1Err = document.getElementById('tRegStep1Error');
-      if (findTeacherWorkspace(tName) || findTeacherWorkspace(tEmail)) { step1Err.innerText = "⚠️ هذا الحساب مسجل مسبقاً! انتقلي لتبويب Teacher Login للدخول."; step1Err.classList.remove('hidden'); playErrorBuzz(); return; }
-      step1Err.classList.add('hidden'); var otp = Math.floor(1000 + Math.random() * 9000).toString();
-      AppState.tempTeacherSignUp = { name: tName, email: tEmail, otp: otp };
-      tReg1.classList.add('hidden'); document.getElementById('teacherStep2_Form').classList.remove('hidden');
-      document.getElementById('tDisplayEmail').innerText = tEmail; document.getElementById('tActiveOtp').innerText = otp; document.getElementById('tInputOtp').value = otp;
-      showEmailAlert("📬 رسالة تحقق فورية", "مرحباً " + tName + "، كود التحقق هو [ " + otp + " ] وتمت تعبئته تلقائياً!"); playSuccessChime();
-    };
-
-    var tReg2 = document.getElementById('teacherStep2_Form');
-    if (tReg2) tReg2.onsubmit = function(e) {
-      e.preventDefault();
-      var errBox = document.getElementById('tOtpError');
-      if (document.getElementById('tInputOtp').value.trim() !== AppState.tempTeacherSignUp.otp) { document.getElementById('tInputOtp').value = AppState.tempTeacherSignUp.otp; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-      errBox.classList.add('hidden'); playSuccessChime(); tReg2.classList.add('hidden'); document.getElementById('teacherStep3_Form').classList.remove('hidden'); showToast("✅ تم التحقق!");
-    };
-
-    var tReg3 = document.getElementById('teacherStep3_Form');
-    if (tReg3) tReg3.onsubmit = function(e) {
-      e.preventDefault();
-      var pw1 = document.getElementById('tNewPass').value.trim(); var pw2 = document.getElementById('tConfirmPass').value.trim(); var errBox = document.getElementById('tPassMatchError');
-      if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-      errBox.classList.add('hidden'); var tName = AppState.tempTeacherSignUp.name; var tKey = normalizeKey(tName);
-      AppState.teachersWorkspaces[tKey] = { displayName: tName, email: AppState.tempTeacherSignUp.email, password: pw1, codes: [], students: [] }; saveWorkspacesToStorage();
-      AppState.loggedInTeacherKey = tKey; AppState.user = { name: tName, gradeClass: "Teacher", classCode: "", role: "teacher" };
-      var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = tName;
-      triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal();
-    };
-
-    window.resetTeacherForgotStep1 = function() {
-      document.getElementById('teacherForgotStep1_Form').classList.remove('hidden'); document.getElementById('teacherForgotStep2_Form').classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.add('hidden');
-      document.getElementById('tForgotStep1Error').classList.add('hidden'); document.getElementById('tForgotOtpError').classList.add('hidden'); document.getElementById('tForgotPassMatchError').classList.add('hidden');
-    };
-
-    var tForg1 = document.getElementById('teacherForgotStep1_Form');
-    if (tForg1) tForg1.onsubmit = function(e) {
-      e.preventDefault();
-      var iden = document.getElementById('tForgotIdentifier').value.trim(); var errBox = document.getElementById('tForgotStep1Error'); var found = findTeacherWorkspace(iden);
-      if (!found) { errBox.innerHTML = "⚠️ لم يتم العثور على حساب بهذا الاسم أو الإيميل!"; errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-      errBox.classList.add('hidden'); var otp = Math.floor(1000 + Math.random() * 9000).toString();
-      AppState.tempTeacherRecovery = { key: found.key, name: found.data.displayName, email: found.data.email, otp: otp };
-      tForg1.classList.add('hidden'); document.getElementById('teacherForgotStep2_Form').classList.remove('hidden');
-      document.getElementById('tForgotDisplayAccount').innerText = found.data.displayName; document.getElementById('tForgotActiveOtp').innerText = otp; document.getElementById('tForgotInputOtp').value = otp;
-      showEmailAlert("🔑 كود استعادة كلمة المرور", "الكود هو [ " + otp + " ] وتمت تعبئته تلقائياً!"); playSuccessChime();
-    };
-
-    var tForg2 = document.getElementById('teacherForgotStep2_Form');
-    if (tForg2) tForg2.onsubmit = function(e) {
-      e.preventDefault();
-      var errBox = document.getElementById('tForgotOtpError');
-      if (document.getElementById('tForgotInputOtp').value.trim() !== AppState.tempTeacherRecovery.otp) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-      errBox.classList.add('hidden'); playSuccessChime(); tForg2.classList.add('hidden'); document.getElementById('teacherForgotStep3_Form').classList.remove('hidden');
-    };
-
-    var tForg3 = document.getElementById('teacherForgotStep3_Form');
-    if (tForg3) tForg3.onsubmit = function(e) {
-      e.preventDefault();
-      var pw1 = document.getElementById('tForgotNewPass').value.trim(); var pw2 = document.getElementById('tForgotConfirmPass').value.trim(); var errBox = document.getElementById('tForgotPassMatchError');
-      if (!pw1 || pw1 !== pw2) { errBox.classList.remove('hidden'); playErrorBuzz(); return; }
-      errBox.classList.add('hidden'); var targetKey = AppState.tempTeacherRecovery.key; var ws = AppState.teachersWorkspaces[targetKey];
-      if (ws) {
-        ws.password = pw1; saveWorkspacesToStorage(); AppState.loggedInTeacherKey = targetKey;
-        AppState.user = { name: ws.displayName, gradeClass: "Teacher", classCode: "", role: "teacher" };
-        var actNm = document.getElementById('activeUserName'); if (actNm) actNm.innerText = ws.displayName;
-        triggerConfetti(); playSuccessChime(); window.closeLoginModal(); window.openTeacherModal();
-      }
-    };
-
-    window.openCertificateModal = function() {
-      var cModal = document.getElementById('certificateModal'); if (!cModal) return;
-      document.getElementById('certStudentName').innerText = AppState.user.name || "Enthusiastic Learner";
-      document.getElementById('certStudentClass').innerText = "Class: " + (AppState.user.gradeClass || 'General');
-      document.getElementById('certLevelName').innerText = "CEFR " + AppState.currentLevel;
-      document.getElementById('certTotalXp').innerText = AppState.xp + " XP";
-      document.getElementById('certStreak').innerText = "🔥 " + AppState.streak;
-      document.getElementById('certDateText').innerText = new Date().toISOString().split('T')[0];
-      var cT = directTeacher || "T. Hameeda BuSakhar"; var oK = findTeacherKeyByClassCode(AppState.user.classCode);
-      if (oK && AppState.teachersWorkspaces[oK]) cT = AppState.teachersWorkspaces[oK].displayName;
-      document.getElementById('certTeacherSignature').innerText = cT;
-      cModal.classList.remove('hidden'); triggerConfetti(); playSuccessChime();
-    };
-
-    window.closeCertificateModal = function() { var cModal = document.getElementById('certificateModal'); if (cModal) cModal.classList.add('hidden'); AppState.hearts = 5; updateTopMetrics(); };
-    window.startLevelPracticeAgain = function() { window.closeCertificateModal(); AppState.completedCounts = { listen: 0, reading: 0, grammar: 0 }; window.selectSkill('listen'); showToast("🔄 Starting fresh practice!"); };
-
-    document.getElementById('langToggleBtn').onclick = function() {
-      AppState.uiLang = (AppState.uiLang === 'EN') ? 'AR' : 'EN'; var isAr = (AppState.uiLang === 'AR');
-      document.getElementById('langLabel').innerText = isAr ? 'EN' : 'AR'; document.getElementById('btnTeacherLabel').innerText = isAr ? 'المعلمة' : 'Teacher';
-      document.getElementById('lblNormalAudio').innerText = isAr ? 'استمع (1.0x)' : 'Listen (1.0x)'; document.getElementById('lblTurtleAudio').innerText = isAr ? 'بطيء (0.5x)' : 'Slow (0.5x)';
-      document.getElementById('lblErase').innerText = isAr ? 'مسح' : 'Erase'; document.getElementById('lblClear').innerText = isAr ? 'إعادة' : 'Clear';
-      var chk = document.getElementById('checkAnswerBtn'); if (chk) chk.innerText = isAr ? 'تحقق من الإجابة' : 'CHECK ANSWER';
-      var skp = document.getElementById('skipQuestionBtn'); if (skp) skp.innerText = isAr ? 'تخطي الآن' : 'Skip for now';
-      document.getElementById('audioInstructionNote').innerText = isAr ? '💡 نطق بشري حقيقي وواضح • اضغطي 🔊 أو 🐢' : '💡 Real Human Pronunciation • Tap 🔊 Normal or 🐢 Slow';
-    };
-
-    if (directCode) { var codeInp = document.getElementById('stuCodeInput'); if (codeInp) codeInp.value = directCode; }
-    updateTopMetrics(); loadCurrentExercise();
-  </script>
-</body>
-</html>
+      var a1Listen = [
+        { w: "school", h: "A place where students go every day to learn", t: "A1: School Life", scene: "school", cap: "Bahraini students in school uniform at school", expEn: "'school' (s-c-h-o-o-l) means an institution for educating children.", expAr: "السبب: كلمة (school) تعني المدرسة، وتُكتب بالحروف s-c-h-o-o-l." },
+        { w: "teacher", h: "An educator who helps students learn in the classroom", t: "A1: Classroom", scene: "teacher", cap: "Modest hijabi teacher explaining English on the board", expEn: "'teacher' (t-e-a-c-h-e-r) ends with the suffix '-er' meaning a person who teaches.", expAr: "السبب: كلمة (teacher) تعني معلمة/معلم، وتتكون من الفعل teach + اللاحقة er." },
+        { w: "family", h: "Parents, brothers, and sisters living together", t: "A1: Home & Family", scene: "family", cap: "Father, mother in modest dress, son, and daughter", expEn: "'family' (f-a-m-i-l-y) refers to parents and their children.", expAr: "السبب: كلمة (family) تعني العائلة أو الأسرة، وتنتهي بحرف y." },
+        { w: "water", h: "Clear natural liquid necessary for all life", t: "A1: Nature Elements", scene: "water", cap: "Students learning about clean drinking water", expEn: "'water' (w-a-t-e-r) is the essential clear liquid we drink every day.", expAr: "السبب: كلمة (water) تعني الماء النقي الضروري للحياة." },
+        { w: "brother", h: "A male sibling who shares the same parents", t: "A1: Family Members", scene: "brother", cap: "Two brothers in white shirts and brown trousers", expEn: "'brother' (b-r-o-t-h-e-r) contains the 'th' digraph in the middle.", expAr: "السبب: كلمة (brother) تعني الأخ، وتحتوي في وسطها على الحرفين المركبين (th)." },
+        { w: "animal", h: "A living creature such as a horse or sheep", t: "A1: World Animals", scene: "animal", cap: "Student visiting sheep and horses on the farm", expEn: "'animal' (a-n-i-m-a-l) is a living organism that feeds and moves.", expAr: "السبب: كلمة (animal) تعني حيوان (مثل الحصان أو الخروف في المزرعة)." },
+        { w: "garden", h: "A piece of land with green grass and colorful flowers", t: "A1: Nature & Plants", scene: "garden", cap: "Girl in brown pinafore & white hijab in a sunny garden", expEn: "'garden' (g-a-r-d-e-n) is where flowers, trees, and plants grow.", expAr: "السبب: كلمة (garden) تعني الحديقة المزروعة بالأزهار والنباتات." },
+        { w: "pencil", h: "A wooden tool with
