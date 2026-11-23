@@ -193,6 +193,22 @@
       box-shadow: 0 4px 0 #e11d48 !important;
     }
 
+    /* Confetti Particles */
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 14px;
+      top: -20px;
+      z-index: 150;
+      pointer-events: none;
+      border-radius: 3px;
+      animation: confettiFall 2.8s linear forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+
     /* Vertical Margin Text on Certificate */
     .cert-margin-vertical {
       writing-mode: vertical-rl;
@@ -329,10 +345,10 @@
         </div>
       </div>
 
-      <!-- Center/Right: Stats, Voice Accent, & Role Switcher -->
+      <!-- Center/Right: Stats, UK/US Voice Accent (UK Default), & Role Switcher -->
       <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-        <button type="button" id="voiceAccentToggleBtn" onclick="window.toggleVoiceAccent()" class="bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-900 px-2.5 py-1.5 rounded-xl text-[11px] font-extrabold cursor-pointer transition" title="Switch Human Pronunciation Accent">
-          🇺🇸 US Voice
+        <button type="button" id="voiceAccentToggleBtn" onclick="window.toggleVoiceAccent()" class="bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-300 text-indigo-950 px-2.5 py-1.5 rounded-xl text-[11px] font-black cursor-pointer transition shadow-2xs" title="British English (UK) is Primary • Click to switch">
+          🇬🇧 UK Voice
         </button>
 
         <div class="flex items-center gap-2 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-black">
@@ -381,7 +397,7 @@
         <button type="button" class="keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-level="B2">👑 B2 (Advanced)</button>
       </div>
 
-      <!-- Row 3: Skills Tabs (10 Questions per Skill to Earn Certificate) -->
+      <!-- Row 3: Skills Tabs (Strict 10 Questions per Skill Stage) -->
       <div class="flex flex-wrap items-center justify-between gap-2 pt-0.5">
         <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
           <button type="button" class="skill-tab skill-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 flex items-center gap-1.5" data-skill="listen">
@@ -399,7 +415,7 @@
         </div>
 
         <div id="levelProgressPill" class="bg-white/90 border border-purple-200 px-3 py-1.5 rounded-xl text-[11px] font-extrabold text-purple-900 shadow-2xs">
-          🎓 Level Mastery: <span id="levelMasteryCounter" class="text-purple-700 font-black">0 / 30</span>
+          🎓 Level Score: <span id="levelMasteryCounter" class="text-purple-700 font-black">0 / 30</span>
         </div>
       </div>
     </section>
@@ -412,31 +428,31 @@
           📘 Impact 1 • Bahrain Edition
         </span>
         <div class="flex items-center gap-2">
-          <span id="questionCounterTag" class="text-xs font-extrabold text-purple-500">Question #1 of 10</span>
-          <span id="cefrLevelBadge" class="bg-purple-900 text-white text-[11px] font-black px-2.5 py-0.5 rounded-lg">A1 Beginner</span>
+          <span id="questionCounterTag" class="bg-amber-50 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-lg text-xs font-black">Question 1 of 10</span>
+          <span id="cefrLevelBadge" class="bg-purple-900 text-white text-[11px] font-black px-2.5 py-0.5 rounded-lg">A1 (Beginner)</span>
         </div>
       </div>
 
-      <!-- Cartoon Visual Illustration Scene Box -->
-      <div id="visualSceneContainer" class="w-full h-36 sm:h-44 rounded-2xl bg-gradient-to-br from-purple-50 via-indigo-50 to-violet-100 border-2 border-purple-100 mb-5 flex items-center justify-center overflow-hidden relative">
-        <!-- Dynamic Cartoon SVG Scene injected via JS -->
+      <!-- Exact Word-Matched Cartoon Visual Scene Box -->
+      <div id="visualSceneContainer" class="w-full h-40 sm:h-48 rounded-2xl bg-gradient-to-br from-purple-50 via-indigo-50 to-violet-100 border-2 border-purple-200/80 mb-5 flex items-center justify-center overflow-hidden relative shadow-inner">
+        <!-- Exact Matched Cartoon SVG Scene injected via JS -->
       </div>
 
       <!-- 1. LISTEN & SPELL VIEW -->
       <div id="listenView" class="space-y-4">
         <div class="grid grid-cols-2 gap-3">
-          <button type="button" onclick="window.playCurrentWord(1.0)" class="btn-3d btn-3d-purple py-3.5 px-4 rounded-2xl font-chunky text-sm sm:text-base font-bold gap-2">
+          <button type="button" onclick="window.playCurrentWord(0.9)" class="btn-3d btn-3d-purple py-3.5 px-4 rounded-2xl font-chunky text-sm sm:text-base font-bold gap-2">
             <span>🔊</span>
-            <span>Listen (1.0x)</span>
+            <span id="listenNormalLabel">Listen (UK • 1.0x)</span>
           </button>
-          <button type="button" onclick="window.playCurrentWord(0.5)" class="btn-3d btn-3d-amber py-3.5 px-4 rounded-2xl font-chunky text-sm sm:text-base font-bold gap-2">
+          <button type="button" onclick="window.playCurrentWord(0.55)" class="btn-3d btn-3d-amber py-3.5 px-4 rounded-2xl font-chunky text-sm sm:text-base font-bold gap-2">
             <span>🐢</span>
-            <span>Slow (0.5x)</span>
+            <span>Slow (Clear • 0.5x)</span>
           </button>
         </div>
 
         <div class="bg-purple-50/70 border border-purple-200 rounded-2xl p-3.5 text-center">
-          <p class="font-extrabold text-purple-950 text-sm sm:text-base mb-1">Listen and spell what you hear (small letters):</p>
+          <p class="font-extrabold text-purple-950 text-sm sm:text-base mb-1">Look at the picture, listen carefully, and spell the word (small letters):</p>
           <p id="listenHintText" class="text-xs sm:text-sm font-bold text-purple-700">💡 Clue appears here</p>
         </div>
 
@@ -492,7 +508,7 @@
       <!-- BOTTOM ACTION CONTROLS -->
       <div class="mt-6 pt-4 border-t border-purple-100 flex flex-wrap items-center justify-between gap-3">
         <button type="button" onclick="window.skipCurrentQuestion()" class="text-xs sm:text-sm font-extrabold text-purple-500 hover:text-purple-800 px-3 py-2 cursor-pointer">
-          Skip for now ➔
+          Skip Question ➔
         </button>
 
         <div class="flex items-center gap-2.5 ml-auto">
@@ -790,7 +806,7 @@
         </div>
       </div>
 
-      <!-- Return to Active Session Button (Shown ONLY if user is already logged in and opened Switch Account) -->
+      <!-- Return to Active Session Button (Shown ONLY if user is already logged in) -->
       <div id="returnToActiveSessionBox" class="hidden mt-4 pt-3 border-t border-purple-100 flex items-center justify-between gap-2">
         <button type="button" onclick="window.closeLoginModal()" class="flex-1 bg-purple-100 hover:bg-purple-200 text-purple-900 py-2 px-3 rounded-xl text-xs font-extrabold cursor-pointer">
           ← العودة إلى جلستي الحالية
@@ -803,7 +819,7 @@
   </div>
 
   <!-- ======================================================================
-       MODAL 2: TEACHER MANAGEMENT PORTAL (NO CUSTOM QUESTIONS, CERT PREVIEW ONLY FOR TEACHER)
+       MODAL 2: TEACHER MANAGEMENT PORTAL
        ====================================================================== -->
   <div id="teacherModal" class="fixed inset-0 z-50 bg-[#1e073b]/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-white rounded-[2rem] border-4 border-purple-200 shadow-2xl w-full max-w-4xl p-5 sm:p-7 my-auto animate-pop max-h-[92vh] overflow-y-auto">
@@ -914,8 +930,94 @@
   </div>
 
   <!-- ======================================================================
-       MODAL 4: OFFICIAL COMPLETION CERTIFICATE MODAL
-       (Shows Registered Teacher Name below Signature + T. Hameeda BuSakhar on Margin)
+       MODAL 4: SKILL STAGE RESULT & MOTIVATION MODAL (AFTER EACH 10-QUESTION SKILL)
+       ====================================================================== -->
+  <div id="skillResultModal" class="fixed inset-0 z-[95] bg-[#16042e]/85 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div id="skillResultCard" class="bg-white rounded-[2rem] border-4 border-purple-300 shadow-2xl w-full max-w-md p-6 sm:p-8 text-center animate-pop space-y-4">
+      <div id="skillResultEmoji" class="w-20 h-20 mx-auto rounded-3xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center text-4xl shadow-md">
+        🎉
+      </div>
+      <div>
+        <span id="skillResultStageTag" class="inline-block bg-purple-100 text-purple-900 text-xs font-black px-3 py-1 rounded-full mb-1.5">
+          🎧 Listen & Spell • Stage Complete
+        </span>
+        <h3 id="skillResultHeading" class="font-chunky text-2xl sm:text-3xl font-bold text-purple-950">
+          رائع جداً! أتممتِ المرحلة بنجاح!
+        </h3>
+      </div>
+
+      <!-- Score Summary Box -->
+      <div id="skillResultScoreBox" class="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 space-y-1.5">
+        <p class="text-xs font-extrabold text-emerald-800">نتيجتكِ في هذه المهارة (10 أسئلة):</p>
+        <p id="skillResultScoreNumber" class="font-chunky text-3xl font-bold text-emerald-950">9 / 10</p>
+        <p id="skillResultMotivationText" class="text-xs sm:text-sm font-bold text-emerald-900 leading-relaxed pt-1">
+          أداء متميز وتركيز عالٍ! استمري بهذا التألق نحو المهارة التالية.
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col gap-2.5 pt-2">
+        <button type="button" id="skillResultPrimaryBtn" onclick="window.handleSkillResultPrimaryAction()" class="btn-3d btn-3d-green w-full py-3.5 px-5 rounded-2xl font-chunky text-sm sm:text-base font-bold">
+          ➡️ الانتقال إلى المهارة التالية (Reading)
+        </button>
+        <button type="button" id="skillResultRetryBtn" onclick="window.retryCurrentSkillFreshBatch()" class="btn-3d btn-3d-slate w-full py-2.5 px-4 rounded-2xl text-xs sm:text-sm font-extrabold">
+          🔄 إعادة هذه المهارة بأسئلة جديدة متنوعة
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 5: LEVEL SUMMARY & ENCOURAGEMENT MODAL (WHEN ALL 3 SKILLS ARE DONE)
+       ====================================================================== -->
+  <div id="levelSummaryModal" class="fixed inset-0 z-[98] bg-[#16042e]/88 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-[2rem] border-4 border-amber-300 shadow-2xl w-full max-w-lg p-6 sm:p-8 text-center animate-pop space-y-4">
+      <div id="lvlSumIcon" class="w-20 h-20 mx-auto rounded-3xl bg-purple-100 border-2 border-purple-300 flex items-center justify-center text-4xl shadow-md">
+        🌟
+      </div>
+      <h3 id="lvlSumTitle" class="font-chunky text-2xl sm:text-3xl font-bold text-purple-950">
+        ملخص إنجازكِ في المستوى!
+      </h3>
+      <p id="lvlSumSubtitle" class="text-xs sm:text-sm font-bold text-purple-700 leading-relaxed">
+        لقد أنهيتِ جميع المهارات الثلاث (30 سؤالاً)! إليكِ نتيجتكِ التفصيلية:
+      </p>
+
+      <!-- 3 Skills Breakdown -->
+      <div class="grid grid-cols-3 gap-2 text-center">
+        <div class="bg-purple-50 border border-purple-200 rounded-2xl p-2.5">
+          <p class="text-[11px] font-extrabold text-purple-700">🎧 Listen</p>
+          <p id="lvlSumListenScore" class="font-chunky text-lg font-bold text-purple-950">0/10</p>
+        </div>
+        <div class="bg-purple-50 border border-purple-200 rounded-2xl p-2.5">
+          <p class="text-[11px] font-extrabold text-purple-700">📖 Reading</p>
+          <p id="lvlSumReadingScore" class="font-chunky text-lg font-bold text-purple-950">0/10</p>
+        </div>
+        <div class="bg-purple-50 border border-purple-200 rounded-2xl p-2.5">
+          <p class="text-[11px] font-extrabold text-purple-700">🧩 Grammar</p>
+          <p id="lvlSumGrammarScore" class="font-chunky text-lg font-bold text-purple-950">0/10</p>
+        </div>
+      </div>
+
+      <div id="lvlSumCoachingBox" class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 text-right space-y-1">
+        <p id="lvlSumCoachingTitle" class="text-xs sm:text-sm font-black text-amber-950">💪 رسالة تحفيزية لكِ:</p>
+        <p id="lvlSumCoachingBody" class="text-xs font-bold text-amber-900 leading-relaxed">
+          لا تيأسي أبداً! كل محاولة تقرّبكِ أكثر من الإتقان. أعيدي التدريب على المهارة التي تحتاج لتحسين لترفعي مجموعكِ وتحصلين على الشهادة!
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+        <button type="button" id="lvlSumActionBtn" onclick="window.handleLevelSummaryAction()" class="btn-3d btn-3d-purple flex-1 py-3.5 px-5 rounded-2xl font-chunky text-xs sm:text-sm font-bold">
+          🔄 أعيدي المهارات لرفع الدرجة
+        </button>
+        <button type="button" onclick="document.getElementById('levelSummaryModal').classList.add('hidden')" class="btn-3d btn-3d-slate py-3 px-5 rounded-2xl font-bold text-xs sm:text-sm">
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 6: OFFICIAL COMPLETION CERTIFICATE MODAL
        ====================================================================== -->
   <div id="certificateModal" class="fixed inset-0 z-[100] bg-[#140429]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div id="certificatePrintableArea" class="relative bg-gradient-to-br from-[#fffdf7] via-white to-[#f5f3ff] rounded-[2rem] border-[6px] border-amber-400 shadow-2xl w-full max-w-2xl p-6 sm:p-10 my-auto animate-pop text-center overflow-hidden">
@@ -939,12 +1041,12 @@
         </div>
         <p class="text-[11px] font-black uppercase tracking-[0.22em] text-purple-600">Nexly English Mastery • Kingdom of Bahrain</p>
         <h2 class="font-chunky text-2xl sm:text-4xl font-bold text-purple-950">Certificate of Achievement</h2>
-        <p class="text-xs sm:text-sm font-extrabold text-amber-700">شهادة اجتياز وتفوق في اللغة الإنجليزية</p>
+        <p class="text-xs sm:text-sm font-extrabold text-amber-700">شهادة تفوق واجتياز للمتميزات في اللغة الإنجليزية</p>
       </div>
 
       <!-- Student Name & Achievement Details -->
       <div class="relative z-10 my-5 py-4 px-4 bg-purple-50/70 rounded-2xl border border-purple-200 space-y-2">
-        <p class="text-xs font-bold text-purple-700">This is proudly awarded to / تُمنح هذه الشهادة للطالبة المتألقة:</p>
+        <p class="text-xs font-bold text-purple-700">This is proudly awarded to / تُمنح هذه الشهادة للطالبة المجدة والمتفوقة:</p>
         <h3 id="certStudentName" class="font-chunky text-2xl sm:text-3xl font-bold text-purple-950 underline decoration-amber-400 decoration-4 underline-offset-4">
           Fatima Ali Ahmed
         </h3>
@@ -957,10 +1059,13 @@
           <span id="certLevelBadge" class="bg-purple-800 text-white text-xs font-black px-3.5 py-1 rounded-full">
             ⭐ Level: A1 (Beginner)
           </span>
+          <span id="certFinalScoreBadge" class="bg-emerald-700 text-white text-xs font-black px-3.5 py-1 rounded-full">
+            🌟 Score: 28 / 30
+          </span>
         </div>
 
         <p class="text-[11px] sm:text-xs font-bold text-purple-900 pt-1">
-          For successfully mastering all 3 core skills: <strong>Listen & Spell (10/10)</strong>, <strong>Reading (10/10)</strong>, and <strong>Grammar (10/10)</strong>.
+          🌟 طالبة مجدة ومتفوقة! واصلي تألقكِ وإبداعكِ نحو المستويات الأعلى في اللغة الإنجليزية.
         </p>
       </div>
 
@@ -1012,18 +1117,24 @@
        ====================================================================== -->
   <script>
     /* ========================================================
-       1. FISHER-YATES RANDOMIZER FOR A / B / C / D OPTIONS
+       1. FISHER-YATES RANDOMIZER FOR ARRAYS & MCQ OPTIONS
        ======================================================== */
+    function shuffleArrayCopy(arr) {
+      var copy = arr.slice();
+      for (var i = copy.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = copy[i];
+        copy[i] = copy[j];
+        copy[j] = tmp;
+      }
+      return copy;
+    }
+
     function shuffleChoicesWithAnswer(optionsArr, originalCorrectIdx) {
       var paired = optionsArr.map(function(txt, idx) {
         return { text: txt, isCorrect: idx === originalCorrectIdx };
       });
-      for (var i = paired.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = paired[i];
-        paired[i] = paired[j];
-        paired[j] = temp;
-      }
+      paired = shuffleArrayCopy(paired);
       var newCorrectIdx = 0;
       var newOptions = paired.map(function(item, idx) {
         if (item.isCorrect) newCorrectIdx = idx;
@@ -1033,8 +1144,81 @@
     }
 
     /* ========================================================
-       2. MULTI-UNIT GRADED QUESTION BANK (IMPACT 1, 2, 3 x A1, A2, B1, B2)
-       Each Book + Level has 10 diverse questions per skill across Units 1-8!
+       2. EXACT WORD-MATCHED CARTOON SVG SCENES (40+ DISTINCT SCENES)
+       Every single word/question gets its exact matching picture!
+       ======================================================== */
+    function getExactCartoonSvg(iconKey) {
+      var scenes = {
+        spider: '<svg viewBox="0 0 320 140" class="w-full h-full"><line x1="160" y1="0" x2="160" y2="48" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="4 3"/><path d="M126 64 Q102 48 92 64 M124 74 Q96 72 88 86 M128 84 Q102 94 96 108 M134 92 Q114 108 112 120" stroke="#312e81" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M194 64 Q218 48 228 64 M196 74 Q224 72 232 86 M192 84 Q218 94 224 108 M186 92 Q206 108 208 120" stroke="#312e81" stroke-width="4.5" fill="none" stroke-linecap="round"/><ellipse cx="160" cy="76" rx="34" ry="26" fill="#4c1d95" stroke="#2e1065" stroke-width="3"/><circle cx="160" cy="54" r="16" fill="#6d28d9" stroke="#2e1065" stroke-width="3"/><circle cx="153" cy="51" r="5" fill="#ffffff"/><circle cx="167" cy="51" r="5" fill="#ffffff"/><circle cx="154" cy="51" r="2.5" fill="#0f172a"/><circle cx="166" cy="51" r="2.5" fill="#0f172a"/><path d="M153 60 Q160 65 167 60" stroke="#f9a8d4" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+        snake: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="20" y="104" width="280" height="22" rx="11" fill="#bbf7d0"/><path d="M95 96 C95 74, 215 74, 215 96 C215 110, 110 110, 110 92 C110 78, 195 78, 195 62 C195 46, 148 44, 142 54" fill="none" stroke="#16a34a" stroke-width="15" stroke-linecap="round"/><ellipse cx="136" cy="52" rx="16" ry="11" fill="#22c55e" stroke="#15803d" stroke-width="2.5"/><circle cx="131" cy="49" r="3.5" fill="#fef08a"/><circle cx="131" cy="49" r="1.8" fill="#052e16"/><path d="M120 54 L108 51 M113 52 L108 57" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/></svg>',
+        lizard: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="24" y="102" width="272" height="24" rx="12" fill="#fde68a"/><path d="M132 82 L120 102 M152 84 L144 102 M176 84 L184 102 M194 80 L204 102" stroke="#059669" stroke-width="5" stroke-linecap="round"/><ellipse cx="164" cy="74" rx="42" ry="18" fill="#10b981" stroke="#047857" stroke-width="3"/><polygon points="145,57 150,47 155,57" fill="#f59e0b"/><polygon points="160,56 165,45 170,56" fill="#f59e0b"/><polygon points="175,57 180,47 185,57" fill="#f59e0b"/><circle cx="206" cy="66" r="14" fill="#34d399" stroke="#047857" stroke-width="3"/><circle cx="211" cy="63" r="3.5" fill="#064e3b"/><path d="M122 74 Q94 56 82 72" stroke="#10b981" stroke-width="8" fill="none" stroke-linecap="round"/></svg>',
+        group: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="24" y="106" width="272" height="20" rx="10" fill="#ddd6fe"/><circle cx="105" cy="52" r="15" fill="#fdba74"/><path d="M84 106 C84 80, 126 80, 126 106 Z" fill="#ec4899"/><circle cx="99" cy="50" r="2.2" fill="#1e1b4b"/><circle cx="111" cy="50" r="2.2" fill="#1e1b4b"/><path d="M100 57 Q105 61 110 57" stroke="#1e1b4b" stroke-width="2" fill="none"/><circle cx="160" cy="46" r="17" fill="#fcd34d"/><path d="M136 106 C136 74, 184 74, 184 106 Z" fill="#7c3aed"/><circle cx="154" cy="44" r="2.5" fill="#1e1b4b"/><circle cx="166" cy="44" r="2.5" fill="#1e1b4b"/><path d="M154 52 Q160 57 166 52" stroke="#1e1b4b" stroke-width="2.2" fill="none"/><circle cx="215" cy="52" r="15" fill="#fed7aa"/><path d="M194 106 C194 80, 236 80, 236 106 Z" fill="#10b981"/><circle cx="209" cy="50" r="2.2" fill="#1e1b4b"/><circle cx="221" cy="50" r="2.2" fill="#1e1b4b"/><path d="M210 57 Q215 61 220 57" stroke="#1e1b4b" stroke-width="2" fill="none"/></svg>',
+        flight: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="16" y="14" width="288" height="112" rx="18" fill="#e0f2fe"/><circle cx="75" cy="42" r="14" fill="#ffffff"/><circle cx="90" cy="42" r="17" fill="#ffffff"/><circle cx="107" cy="44" r="13" fill="#ffffff"/><circle cx="235" cy="96" r="13" fill="#ffffff"/><circle cx="250" cy="96" r="15" fill="#ffffff"/><path d="M110 76 L205 56 L224 62 L212 72 L166 78 L150 104 L136 104 L146 80 L114 84 L102 94 L94 92 L102 78 L92 66 L100 64 Z" fill="#2563eb" stroke="#1e3a8a" stroke-width="2.5"/><polygon points="154,66 138,44 152,44 174,62" fill="#60a5fa"/></svg>',
+        story: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M74 36 Q117 28 160 42 Q203 28 246 36 L246 106 Q203 98 160 112 Q117 98 74 106 Z" fill="#fef3c7" stroke="#7c3aed" stroke-width="4"/><line x1="160" y1="42" x2="160" y2="112" stroke="#7c3aed" stroke-width="3"/><line x1="90" y1="54" x2="144" y2="58" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/><line x1="90" y1="68" x2="144" y2="72" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/><line x1="90" y1="82" x2="136" y2="85" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/><polygon points="202,52 206,62 217,62 208,68 211,79 202,72 193,79 196,68 187,62 198,62" fill="#facc15" stroke="#eab308" stroke-width="1.5"/></svg>',
+        brave: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M126 62 L102 114 L218 114 L194 62 Z" fill="#ef4444"/><circle cx="160" cy="44" r="18" fill="#fed7aa" stroke="#9a3412" stroke-width="2.5"/><path d="M136 114 C136 74, 184 74, 184 114 Z" fill="#4f46e5"/><polygon points="160,78 164,87 174,87 166,93 169,102 160,96 151,102 154,93 146,87 156,87" fill="#facc15"/><circle cx="154" cy="42" r="2.5" fill="#1e1b4b"/><circle cx="166" cy="42" r="2.5" fill="#1e1b4b"/><path d="M153 50 Q160 56 167 50" stroke="#1e1b4b" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+        brain: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M158 34 C132 34, 114 48, 114 68 C114 88, 132 102, 158 102 Z" fill="#f472b6" stroke="#be185d" stroke-width="3"/><path d="M162 34 C188 34, 206 48, 206 68 C206 88, 188 102, 162 102 Z" fill="#f9a8d4" stroke="#be185d" stroke-width="3"/><path d="M130 56 Q142 50 148 60 M126 76 Q140 70 146 80 M190 56 Q178 50 172 60 M194 76 Q180 70 174 80" stroke="#be185d" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="232" cy="36" r="12" fill="#facc15"/><rect x="228" y="47" width="8" height="6" rx="2" fill="#64748b"/></svg>',
+        cotton: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M160 116 L160 72" stroke="#15803d" stroke-width="6" stroke-linecap="round"/><path d="M160 94 Q136 84 130 98 Q144 106 160 94 Z" fill="#22c55e"/><path d="M160 88 Q184 78 190 92 Q176 100 160 88 Z" fill="#22c55e"/><circle cx="144" cy="60" r="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5"/><circle cx="176" cy="60" r="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5"/><circle cx="160" cy="44" r="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5"/></svg>',
+        orbit: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="16" y="14" width="288" height="112" rx="18" fill="#1e1b4b"/><ellipse cx="160" cy="70" rx="92" ry="30" fill="none" stroke="#a78bfa" stroke-width="3" stroke-dasharray="6 5"/><circle cx="160" cy="70" r="26" fill="#38bdf8" stroke="#ffffff" stroke-width="2.5"/><path d="M148 62 Q160 54 172 66 Q162 80 148 74 Z" fill="#22c55e"/><circle cx="242" cy="58" r="9" fill="#facc15" stroke="#ffffff" stroke-width="2"/></svg>',
+        camera: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="116" y="34" width="32" height="14" rx="5" fill="#6d28d9"/><rect x="96" y="46" width="128" height="66" rx="16" fill="#4c1d95"/><circle cx="160" cy="79" r="22" fill="#e0e7ff" stroke="#a78bfa" stroke-width="4"/><circle cx="160" cy="79" r="12" fill="#312e81"/><circle cx="156" cy="75" r="4" fill="#ffffff"/><circle cx="204" cy="60" r="6" fill="#facc15"/></svg>',
+        lion: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="20" y="96" width="280" height="24" rx="12" fill="#86efac"/><circle cx="160" cy="66" r="36" fill="#d97706" stroke="#92400e" stroke-width="4"/><circle cx="160" cy="68" r="24" fill="#fde68a"/><circle cx="142" cy="46" r="8" fill="#fbbf24"/><circle cx="178" cy="46" r="8" fill="#fbbf24"/><circle cx="151" cy="62" r="3.5" fill="#451a03"/><circle cx="169" cy="62" r="3.5" fill="#451a03"/><polygon points="155,70 165,70 160,76" fill="#92400e"/><path d="M151 80 Q160 86 169 80" stroke="#451a03" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+        scarf: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M112 48 Q160 66 208 48 L202 68 Q160 84 118 68 Z" fill="#ec4899" stroke="#9d174d" stroke-width="3"/><rect x="132" y="64" width="22" height="50" rx="6" fill="#f472b6" stroke="#9d174d" stroke-width="3"/><rect x="166" y="64" width="22" height="44" rx="6" fill="#ec4899" stroke="#9d174d" stroke-width="3"/><line x1="136" y1="114" x2="136" y2="122" stroke="#9d174d" stroke-width="3"/><line x1="143" y1="114" x2="143" y2="122" stroke="#9d174d" stroke-width="3"/><line x1="150" y1="114" x2="150" y2="122" stroke="#9d174d" stroke-width="3"/></svg>',
+        city: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="20" y="102" width="280" height="22" rx="11" fill="#bbf7d0"/><rect x="70" y="38" width="40" height="66" rx="6" fill="#7c3aed"/><rect x="80" y="48" width="8" height="8" rx="2" fill="#fef08a"/><rect x="94" y="48" width="8" height="8" rx="2" fill="#fef08a"/><rect x="80" y="64" width="8" height="8" rx="2" fill="#fef08a"/><rect x="94" y="64" width="8" height="8" rx="2" fill="#fef08a"/><rect x="122" y="20" width="48" height="84" rx="8" fill="#5b21b6"/><rect x="132" y="32" width="10" height="10" rx="2" fill="#fde047"/><rect x="150" y="32" width="10" height="10" rx="2" fill="#fde047"/><rect x="132" y="50" width="10" height="10" rx="2" fill="#fde047"/><rect x="150" y="50" width="10" height="10" rx="2" fill="#fde047"/><rect x="182" y="46" width="38" height="58" rx="6" fill="#8b5cf6"/><circle cx="252" cy="36" r="14" fill="#fde047"/></svg>',
+        shadow: '<svg viewBox="0 0 320 140" class="w-full h-full"><circle cx="74" cy="36" r="18" fill="#facc15"/><rect x="30" y="102" width="260" height="20" rx="10" fill="#e2e8f0"/><ellipse cx="204" cy="108" rx="46" ry="9" fill="#64748b" opacity="0.65"/><circle cx="152" cy="56" r="14" fill="#7c3aed"/><rect x="142" y="70" width="20" height="32" rx="8" fill="#6d28d9"/></svg>',
+        cartoon: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="92" y="26" width="136" height="86" rx="16" fill="#4c1d95"/><rect x="104" y="36" width="112" height="66" rx="10" fill="#fef08a"/><circle cx="146" cy="64" r="5" fill="#1e1b4b"/><circle cx="174" cy="64" r="5" fill="#1e1b4b"/><path d="M144 78 Q160 92 176 78" stroke="#1e1b4b" stroke-width="4" fill="none" stroke-linecap="round"/></svg>',
+        gadget: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="128" y="22" width="64" height="96" rx="14" fill="#312e81"/><rect x="136" y="34" width="48" height="68" rx="8" fill="#e0e7ff"/><circle cx="160" cy="110" r="4" fill="#a78bfa"/><polygon points="163,48 151,68 161,68 157,86 171,64 161,64" fill="#f59e0b"/></svg>',
+        museum: '<svg viewBox="0 0 320 140" class="w-full h-full"><polygon points="160,18 86,52 234,52" fill="#7c3aed"/><rect x="96" y="52" width="128" height="56" rx="6" fill="#f3e8ff" stroke="#7c3aed" stroke-width="3"/><rect x="112" y="58" width="12" height="44" fill="#c4b5fd"/><rect x="154" y="58" width="12" height="44" fill="#c4b5fd"/><rect x="196" y="58" width="12" height="44" fill="#c4b5fd"/><rect x="84" y="106" width="152" height="12" rx="6" fill="#5b21b6"/></svg>',
+        factory: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="92" y="58" width="136" height="54" rx="8" fill="#64748b"/><polygon points="92,58 124,40 124,58 156,40 156,58 188,40 188,58" fill="#475569"/><rect x="196" y="26" width="18" height="34" fill="#334155"/><circle cx="206" cy="18" r="7" fill="#cbd5e1"/><circle cx="218" cy="12" r="9" fill="#e2e8f0"/><rect x="112" y="74" width="16" height="16" rx="3" fill="#fef08a"/><rect x="144" y="74" width="16" height="16" rx="3" fill="#fef08a"/><rect x="176" y="74" width="16" height="16" rx="3" fill="#fef08a"/></svg>',
+        explorer: '<svg viewBox="0 0 320 140" class="w-full h-full"><ellipse cx="160" cy="44" rx="36" ry="10" fill="#d97706"/><path d="M138 44 C138 24, 182 24, 182 44 Z" fill="#f59e0b"/><circle cx="160" cy="64" r="18" fill="#fed7aa"/><circle cx="154" cy="62" r="2.5" fill="#451a03"/><circle cx="166" cy="62" r="2.5" fill="#451a03"/><path d="M154 70 Q160 75 166 70" stroke="#451a03" stroke-width="2.5" fill="none"/><path d="M134 114 C134 84, 186 84, 186 114 Z" fill="#15803d"/></svg>',
+        wildlife: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="20" y="98" width="280" height="24" rx="12" fill="#86efac"/><circle cx="112" cy="64" r="24" fill="#22c55e"/><rect x="108" y="80" width="8" height="20" fill="#92400e"/><ellipse cx="186" cy="82" rx="28" ry="16" fill="#f59e0b"/><circle cx="212" cy="68" r="12" fill="#f59e0b"/><circle cx="216" cy="66" r="2.5" fill="#1e1b4b"/></svg>',
+        fashion: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M120 34 L142 26 Q160 36 178 26 L200 34 L214 58 L194 66 L188 52 L188 106 L132 106 L132 52 L126 66 L106 58 Z" fill="#a855f7" stroke="#6b21a8" stroke-width="3"/><path d="M142 46 L160 56 L178 46" stroke="#fde047" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="160" cy="76" r="7" fill="#fde047"/></svg>',
+        ocean: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="16" y="14" width="288" height="112" rx="18" fill="#dbeafe"/><ellipse cx="160" cy="66" rx="46" ry="22" fill="#facc15" stroke="#ca8a04" stroke-width="3"/><rect x="148" y="36" width="24" height="12" rx="5" fill="#eab308"/><circle cx="144" cy="66" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/><circle cx="166" cy="66" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/><path d="M32 102 Q95 90 160 102 T288 102" fill="none" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/></svg>',
+        purple: '<svg viewBox="0 0 320 140" class="w-full h-full"><ellipse cx="160" cy="70" rx="64" ry="42" fill="#f3e8ff" stroke="#7c3aed" stroke-width="3"/><circle cx="136" cy="58" r="14" fill="#7c3aed"/><circle cx="170" cy="52" r="14" fill="#9333ea"/><circle cx="186" cy="78" r="14" fill="#6b21a8"/><circle cx="144" cy="84" r="12" fill="#a855f7"/></svg>',
+        nature: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="20" y="96" width="280" height="24" rx="12" fill="#86efac"/><polygon points="80,96 130,36 180,96" fill="#22c55e"/><polygon points="140,96 190,44 240,96" fill="#16a34a"/><circle cx="246" cy="36" r="15" fill="#facc15"/></svg>',
+        carrot: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M160 44 Q146 24 138 36 M160 44 Q160 20 160 34 M160 44 Q174 24 182 36" stroke="#16a34a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M142 46 Q160 40 178 46 L160 116 Z" fill="#f97316" stroke="#c2410c" stroke-width="3"/></svg>',
+        rescue: '<svg viewBox="0 0 320 140" class="w-full h-full"><circle cx="160" cy="70" r="38" fill="#ffffff" stroke="#ef4444" stroke-width="14"/><circle cx="160" cy="70" r="22" fill="#e0f2fe"/><rect x="152" y="24" width="16" height="14" fill="#ef4444"/><rect x="152" y="102" width="16" height="14" fill="#ef4444"/></svg>',
+        screen: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="96" y="22" width="128" height="78" rx="12" fill="#3b0764"/><rect x="104" y="30" width="112" height="62" rx="8" fill="#ddd6fe"/><rect x="146" y="100" width="28" height="10" fill="#6d28d9"/><rect x="126" y="108" width="68" height="8" rx="4" fill="#4c1d95"/><circle cx="160" cy="61" r="16" fill="#8b5cf6"/><path d="M152 61 L158 67 L169 55" stroke="#ffffff" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>',
+        rocket: '<svg viewBox="0 0 320 140" class="w-full h-full"><rect x="16" y="14" width="288" height="112" rx="18" fill="#1e1b4b"/><path d="M160 24 C178 44, 180 76, 174 94 L146 94 C140 76, 142 44, 160 24 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/><polygon points="146,74 130,94 146,90" fill="#ef4444"/><polygon points="174,74 190,94 174,90" fill="#ef4444"/><circle cx="160" cy="58" r="9" fill="#38bdf8"/><polygon points="150,94 170,94 160,118" fill="#f97316"/></svg>',
+        parachute: '<svg viewBox="0 0 320 140" class="w-full h-full"><path d="M108 58 A52 40 0 0 1 212 58 Z" fill="#f43f5e" stroke="#9f1239" stroke-width="3"/><line x1="114" y1="58" x2="156" y2="96" stroke="#64748b" stroke-width="2"/><line x1="206" y1="58" x2="164" y2="96" stroke="#64748b" stroke-width="2"/><circle cx="160" cy="104" r="9" fill="#4f46e5"/></svg>',
+        volcano: '<svg viewBox="0 0 320 140" class="w-full h-full"><polygon points="86,112 142,46 178,46 234,112" fill="#78350f"/><path d="M142 46 Q160 56 178 46 L186 64 L168 58 L160 68 L150 56 L134 64 Z" fill="#ef4444"/><circle cx="152" cy="30" r="8" fill="#94a3b8"/><circle cx="168" cy="24" r="10" fill="#cbd5e1"/></svg>'
+      };
+      return scenes[iconKey] || scenes.story;
+    }
+
+    function renderVisualScene(iconName, topicLabel) {
+      var container = document.getElementById('visualSceneContainer');
+      if (!container) return;
+      var svgMarkup = getExactCartoonSvg(iconName);
+      container.innerHTML = svgMarkup + '<span class="absolute bottom-2 right-3 bg-white/95 text-purple-950 border border-purple-200 px-2.5 py-0.5 rounded-lg text-[10px] font-black shadow-2xs">' + (topicLabel || 'Nexly') + '</span>';
+    }
+
+    /* Display Name Dictionaries (Must be initialized before buildQuestionBank) */
+    var BOOK_DISPLAY_NAMES = { Impact1: "Impact 1", Impact2: "Impact 2", Impact3: "Impact 3" };
+    var LEVEL_DISPLAY_NAMES = {
+      A1: "A1 (Beginner)",
+      A2: "A2 (Elementary)",
+      B1: "B1 (Intermediate)",
+      B2: "B2 (Advanced)"
+    };
+    var LEVEL_ORDER = ["A1", "A2", "B1", "B2"];
+    var SKILL_ORDER = ["listen", "reading", "grammar"];
+    var SKILL_LABELS = {
+      listen: "🎧 Listen & Spell",
+      reading: "📖 Reading",
+      grammar: "🧩 Grammar"
+    };
+
+    function getBookDisplayName(b) {
+      return (BOOK_DISPLAY_NAMES && BOOK_DISPLAY_NAMES[b]) || "Impact 1";
+    }
+    function getLevelDisplayName(l) {
+      return (LEVEL_DISPLAY_NAMES && LEVEL_DISPLAY_NAMES[l]) || "A1 (Beginner)";
+    }
+
+    /* ========================================================
+       3. RICH, NON-REPEATING QUESTION BANK (IMPACT 1, 2, 3 x A1, A2, B1, B2)
+       - Every word has its exact matching iconName!
+       - A1 Reading passages are simplified, short, and clear!
+       - Large pools (15-20 items per skill) guarantee ZERO repetition in 10-question rounds!
        ======================================================== */
     function buildQuestionBank() {
       var books = ["Impact1", "Impact2", "Impact3"];
@@ -1047,241 +1231,370 @@
         });
       });
 
-      // -------------------- IMPACT 1 (ALL 8 UNITS GRADED A1 -> B2) --------------------
-      var i1ListenAll = [
-        // A1 (10 words across Units 1-8)
-        { w: "city", h: "Impact 1 Unit 1: A large town with tall buildings and busy streets", t: "Impact 1 • Unit 1", ic: "city" },
-        { w: "tower", h: "Impact 1 Unit 1: A tall, narrow building or structure", t: "Impact 1 • Unit 1", ic: "city" },
-        { w: "worker", h: "Impact 1 Unit 2: A person who does a particular job", t: "Impact 1 • Unit 2", ic: "archaeology" },
-        { w: "shadow", h: "Impact 1 Unit 3: A dark shape made when light is blocked", t: "Impact 1 • Unit 3", ic: "ocean" },
-        { w: "lion", h: "Impact 1 Unit 4: A large wild cat protected in Tanzania", t: "Impact 1 • Unit 4", ic: "wildlife" },
-        { w: "scarf", h: "Impact 1 Unit 5: A piece of cloth worn around the neck or head", t: "Impact 1 • Unit 5", ic: "fashion" },
-        { w: "cartoon", h: "Impact 1 Unit 6: An animated drawing or short film", t: "Impact 1 • Unit 6", ic: "animation" },
-        { w: "gadget", h: "Impact 1 Unit 7: A small useful electronic device", t: "Impact 1 • Unit 7", ic: "gadget" },
-        { w: "museum", h: "Impact 1 Unit 8: A building where historic treasures are displayed", t: "Impact 1 • Unit 8", ic: "museum" },
-        { w: "factory", h: "Impact 1 Unit 8: A building where goods are made by machines", t: "Impact 1 • Unit 8", ic: "museum" },
-        // A2 (10 words across Units 1-8)
-        { w: "resident", h: "Impact 1 Unit 1: A person who lives in a particular city", t: "Impact 1 • Unit 1", ic: "city" },
-        { w: "explorer", h: "Impact 1 Unit 2: Someone who travels to discover new places", t: "Impact 1 • Unit 2", ic: "archaeology" },
-        { w: "festival", h: "Impact 1 Unit 3: A community celebration with lights and events", t: "Impact 1 • Unit 3", ic: "ocean" },
-        { w: "habitat", h: "Impact 1 Unit 4: The natural home of an animal or plant", t: "Impact 1 • Unit 4", ic: "wildlife" },
-        { w: "wildlife", h: "Impact 1 Unit 4: Wild animals living freely in nature", t: "Impact 1 • Unit 4", ic: "wildlife" },
-        { w: "uniform", h: "Impact 1 Unit 5: Special clothes worn by students at school", t: "Impact 1 • Unit 5", ic: "fashion" },
-        { w: "combine", h: "Impact 1 Unit 6: To join or mix two different styles together", t: "Impact 1 • Unit 6", ic: "animation" },
-        { w: "outdated", h: "Impact 1 Unit 7: Old-fashioned and no longer modern", t: "Impact 1 • Unit 7", ic: "gadget" },
-        { w: "battery", h: "Impact 1 Unit 7: Stores power for phones and solar gadgets", t: "Impact 1 • Unit 7", ic: "gadget" },
-        { w: "ancestor", h: "Impact 1 Unit 8: A family member who lived generations ago", t: "Impact 1 • Unit 8", ic: "museum" },
-        // B1 (10 words across Units 1-8)
-        { w: "skyscraper", h: "Impact 1 Unit 1: A very tall modern building in a city", t: "Impact 1 • Unit 1", ic: "city" },
-        { w: "adventure", h: "Impact 1 Unit 2: An exciting experience in extreme mountains", t: "Impact 1 • Unit 2", ic: "archaeology" },
-        { w: "researcher", h: "Impact 1 Unit 2: A scientist who investigates new facts", t: "Impact 1 • Unit 2", ic: "archaeology" },
-        { w: "nocturnal", h: "Impact 1 Unit 3: Active at night and sleeping during the day", t: "Impact 1 • Unit 3", ic: "ocean" },
-        { w: "sanctuary", h: "Impact 1 Unit 4: A safe reserve protecting endangered species", t: "Impact 1 • Unit 4", ic: "wildlife" },
-        { w: "accessory", h: "Impact 1 Unit 5: An extra item worn with an outfit", t: "Impact 1 • Unit 5", ic: "fashion" },
-        { w: "animation", h: "Impact 1 Unit 6: Creating moving images for films and games", t: "Impact 1 • Unit 6", ic: "animation" },
-        { w: "character", h: "Impact 1 Unit 6: A person or creature in a story or cartoon", t: "Impact 1 • Unit 6", ic: "animation" },
-        { w: "invention", h: "Impact 1 Unit 7: A newly created device or technology", t: "Impact 1 • Unit 7", ic: "gadget" },
-        { w: "treasure", h: "Impact 1 Unit 8: Valuable historic artefacts from the past", t: "Impact 1 • Unit 8", ic: "museum" },
-        // B2 (10 words across Units 1-8)
-        { w: "architecture", h: "Impact 1 Unit 1: The art and science of designing buildings", t: "Impact 1 • Unit 1", ic: "city" },
-        { w: "archaeologist", h: "Impact 1 Unit 2: Specialist who studies ancient ruins and caves", t: "Impact 1 • Unit 2", ic: "archaeology" },
-        { w: "bioluminescence", h: "Impact 1 Unit 3: Glowing light produced by deep-sea organisms", t: "Impact 1 • Unit 3", ic: "ocean" },
-        { w: "conservation", h: "Impact 1 Unit 4: Protecting wildlife and natural ecosystems", t: "Impact 1 • Unit 4", ic: "wildlife" },
-        { w: "coexist", h: "Impact 1 Unit 4: To live peacefully together in the same area", t: "Impact 1 • Unit 4", ic: "wildlife" },
-        { w: "traditional", h: "Impact 1 Unit 5: Following long-established cultural customs", t: "Impact 1 • Unit 5", ic: "fashion" },
-        { w: "embroidery", h: "Impact 1 Unit 5: Decorative needlework like Bahraini kurar", t: "Impact 1 • Unit 5", ic: "fashion" },
-        { w: "application", h: "Impact 1 Unit 7: A software program on a digital device", t: "Impact 1 • Unit 7", ic: "gadget" },
-        { w: "generation", h: "Impact 1 Unit 8: All people born around the same time period", t: "Impact 1 • Unit 8", ic: "museum" },
-        { w: "sacrifice", h: "Impact 1 Unit 8: Giving up something valuable for future generations", t: "Impact 1 • Unit 8", ic: "museum" }
-      ];
-
-      // -------------------- IMPACT 2 (ALL 8 UNITS GRADED A1 -> B2) --------------------
-      var i2ListenAll = [
-        // A1 (10 words)
-        { w: "purple", h: "Impact 2 Unit 1: A royal colour once made from sea snails", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "nature", h: "Impact 2 Unit 1: Plants, trees, and the outdoor environment", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "trust", h: "Impact 2 Unit 1: Feeling safe and confident in someone", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "violet", h: "Impact 2 Unit 1: A bluish-purple colour named after a flower", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "screen", h: "Impact 2 Unit 3: A flat display on a phone or computer", t: "Impact 2 • Unit 3", ic: "screen" },
-        { w: "ocean", h: "Impact 2 Unit 4: A vast body of salt water covering Earth", t: "Impact 2 • Unit 4", ic: "ocean" },
-        { w: "diving", h: "Impact 2 Unit 4: Swimming underwater with breathing gear", t: "Impact 2 • Unit 4", ic: "ocean" },
-        { w: "extreme", h: "Impact 2 Unit 5: Very great, intense, or severe conditions", t: "Impact 2 • Unit 5", ic: "lizard" },
-        { w: "carrot", h: "Impact 2 Unit 6: An orange vegetable often wasted if misshapen", t: "Impact 2 • Unit 6", ic: "gadget" },
-        { w: "rescue", h: "Impact 2 Unit 8: Saving someone from a dangerous emergency", t: "Impact 2 • Unit 8", ic: "ocean" },
-        // A2 (10 words)
-        { w: "visible", h: "Impact 2 Unit 1: Easy to see, like yellow school buses", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "wedding", h: "Impact 2 Unit 1: A marriage ceremony with special colours", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "virtual", h: "Impact 2 Unit 3: Existing online through computer technology", t: "Impact 2 • Unit 3", ic: "screen" },
-        { w: "website", h: "Impact 2 Unit 4: Pages on the Internet sharing live updates", t: "Impact 2 • Unit 4", ic: "ocean" },
-        { w: "volcano", h: "Impact 2 Unit 4: Kick' em Jenny is an underwater volcano", t: "Impact 2 • Unit 4", ic: "ocean" },
-        { w: "survive", h: "Impact 2 Unit 5: To stay alive in freezing or boiling places", t: "Impact 2 • Unit 5", ic: "lizard" },
-        { w: "edible", h: "Impact 2 Unit 6: Safe and healthy to eat without wasting", t: "Impact 2 • Unit 6", ic: "gadget" },
-        { w: "mural", h: "Impact 2 Unit 7: A large artwork painted directly on a wall", t: "Impact 2 • Unit 7", ic: "fashion" },
-        { w: "museum", h: "Impact 2 Unit 8: Bahrain National Museum preserves 6,000 years", t: "Impact 2 • Unit 8", ic: "museum" },
-        { w: "panic", h: "Impact 2 Unit 8: Sudden strong fear during an emergency", t: "Impact 2 • Unit 8", ic: "ocean" },
-        // B1 (10 words)
-        { w: "represent", h: "Impact 2 Unit 1: To stand for or symbolise an idea or brand", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "emergency", h: "Impact 2 Unit 1: A sudden serious situation needing fast help", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "chemical", h: "Impact 2 Unit 1: Substance William Perkin mixed in 1856", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "cyborg", h: "Impact 2 Unit 3: Human extended by technology (Amber Case)", t: "Impact 2 • Unit 3", ic: "screen" },
-        { w: "shipwreck", h: "Impact 2 Unit 4: A sunken ship resting on the ocean floor", t: "Impact 2 • Unit 4", ic: "ocean" },
-        { w: "submarine", h: "Impact 2 Unit 4: An underwater exploration vessel", t: "Impact 2 • Unit 4", ic: "ocean" },
-        { w: "organism", h: "Impact 2 Unit 5: Any living thing, from bacteria to whales", t: "Impact 2 • Unit 5", ic: "lizard" },
-        { w: "consumer", h: "Impact 2 Unit 6: A person who buys food and goods", t: "Impact 2 • Unit 6", ic: "gadget" },
-        { w: "sculpture", h: "Impact 2 Unit 7: Three-dimensional art outside Bahrain Museum", t: "Impact 2 • Unit 7", ic: "museum" },
-        { w: "hurricane", h: "Impact 2 Unit 8: A powerful tropical storm with strong winds", t: "Impact 2 • Unit 8", ic: "ocean" },
-        // B2 (10 words)
-        { w: "symbolise", h: "Impact 2 Unit 1: To represent a deeper cultural meaning", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "experiment", h: "Impact 2 Unit 1: Scientific test that led to synthetic purple dye", t: "Impact 2 • Unit 1", ic: "color" },
-        { w: "anthropologist", h: "Impact 2 Unit 3: Scientist who studies human culture and tools", t: "Impact 2 • Unit 3", ic: "screen" },
-        { w: "exploration", h: "Impact 2 Unit 4: Investigating unknown deep-sea regions", t: "Impact 2 • Unit 4", ic: "ocean" },
-        { w: "extremophile", h: "Impact 2 Unit 5: Tiny creature surviving extreme heat or space", t: "Impact 2 • Unit 5", ic: "lizard" },
-        { w: "astrobiologist", h: "Impact 2 Unit 5: Scientist like Kevin Hand studying life in space", t: "Impact 2 • Unit 5", ic: "space" },
-        { w: "nutritious", h: "Impact 2 Unit 6: Full of vitamins and healthy energy", t: "Impact 2 • Unit 6", ic: "gadget" },
-        { w: "misshapen", h: "Impact 2 Unit 6: Having an unusual or curved natural shape", t: "Impact 2 • Unit 6", ic: "gadget" },
-        { w: "attraction", h: "Impact 2 Unit 7: A famous cultural place visited by many", t: "Impact 2 • Unit 7", ic: "museum" },
-        { w: "evacuate", h: "Impact 2 Unit 8: To move people safely away from danger", t: "Impact 2 • Unit 8", ic: "ocean" }
-      ];
-
-      // -------------------- IMPACT 3 (ALL 8 UNITS GRADED A1 -> B2) --------------------
-      var i3ListenAll = [
-        // A1 (10 words)
-        { w: "brain", h: "Impact 3 Unit 1: The organ inside the head that controls thinking", t: "Impact 3 • Unit 1", ic: "screen" },
-        { w: "spider", h: "Impact 3 Unit 2: An eight-legged creature that eats pests", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "snake", h: "Impact 3 Unit 2: A reptile studied by herpetologist Jenny Daltry", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "group", h: "Impact 3 Unit 3: People who belong or work together", t: "Impact 3 • Unit 3", ic: "city" },
-        { w: "cotton", h: "Impact 3 Unit 4: A soft natural fibre used to make clothes", t: "Impact 3 • Unit 4", ic: "fashion" },
-        { w: "flight", h: "Impact 3 Unit 5: A journey through the air by plane or bird", t: "Impact 3 • Unit 5", ic: "space" },
-        { w: "orbit", h: "Impact 3 Unit 6: The curved path of a satellite around Earth", t: "Impact 3 • Unit 6", ic: "space" },
-        { w: "camera", h: "Impact 3 Unit 7: A device used to capture photos and videos", t: "Impact 3 • Unit 7", ic: "screen" },
-        { w: "story", h: "Impact 3 Unit 7: A narrative shared on cave walls or screens", t: "Impact 3 • Unit 7", ic: "screen" },
-        { w: "brave", h: "Impact 3 Unit 8: Showing courage in difficult situations", t: "Impact 3 • Unit 8", ic: "archaeology" },
-        // A2 (10 words)
-        { w: "emotion", h: "Impact 3 Unit 1: A strong feeling such as joy or anger", t: "Impact 3 • Unit 1", ic: "screen" },
-        { w: "lizard", h: "Impact 3 Unit 2: The Texas horned reptile with clever defences", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "predator", h: "Impact 3 Unit 2: An animal that hunts other animals for food", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "belong", h: "Impact 3 Unit 3: To feel accepted as part of a team or family", t: "Impact 3 • Unit 3", ic: "city" },
-        { w: "fabric", h: "Impact 3 Unit 4: Cloth produced by weaving or knitting fibres", t: "Impact 3 • Unit 4", ic: "fashion" },
-        { w: "glider", h: "Impact 3 Unit 5: A light aircraft that flies without an engine", t: "Impact 3 • Unit 5", ic: "space" },
-        { w: "rocket", h: "Impact 3 Unit 6: A spacecraft launched into outer space", t: "Impact 3 • Unit 6", ic: "space" },
-        { w: "portrait", h: "Impact 3 Unit 7: A painting or photograph of a person", t: "Impact 3 • Unit 7", ic: "screen" },
-        { w: "cloud", h: "Impact 3 Unit 7: Online storage connecting modern screens", t: "Impact 3 • Unit 7", ic: "screen" },
-        { w: "courage", h: "Impact 3 Unit 8: The ability to face danger without giving up", t: "Impact 3 • Unit 8", ic: "archaeology" },
-        // B1 (10 words)
-        { w: "adolescent", h: "Impact 3 Unit 1: A young person developing from child to adult", t: "Impact 3 • Unit 1", ic: "screen" },
-        { w: "passionate", h: "Impact 3 Unit 1: Having strong enthusiasm for a goal", t: "Impact 3 • Unit 1", ic: "screen" },
-        { w: "beneficial", h: "Impact 3 Unit 2: Helpful and producing good results in nature", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "symbolic", h: "Impact 3 Unit 2: Representing a bigger idea (Jenny Daltry)", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "volunteer", h: "Impact 3 Unit 3: Someone who freely offers to help others", t: "Impact 3 • Unit 3", ic: "city" },
-        { w: "synthetic", h: "Impact 3 Unit 4: Man-made material rather than natural fibre", t: "Impact 3 • Unit 4", ic: "fashion" },
-        { w: "parachute", h: "Impact 3 Unit 5: Canopy used to descend safely through air", t: "Impact 3 • Unit 5", ic: "space" },
-        { w: "satellite", h: "Impact 3 Unit 6: Bahrain's Light-1 spacecraft orbiting Earth", t: "Impact 3 • Unit 6", ic: "space" },
-        { w: "pioneer", h: "Impact 3 Unit 7: One of the first to develop a new technique", t: "Impact 3 • Unit 7", ic: "screen" },
-        { w: "endurance", h: "Impact 3 Unit 8: Strength to continue through tough challenges", t: "Impact 3 • Unit 8", ic: "archaeology" },
-        // B2 (10 words)
-        { w: "enthusiastic", h: "Impact 3 Unit 1: Showing intense eagerness and interest", t: "Impact 3 • Unit 1", ic: "screen" },
-        { w: "herpetologist", h: "Impact 3 Unit 2: Scientist like Jenny Daltry studying reptiles", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "ecosystem", h: "Impact 3 Unit 2: Web of living things depending on each other", t: "Impact 3 • Unit 2", ic: "lizard" },
-        { w: "involuntary", h: "Impact 3 Unit 3: Happening naturally without conscious choice", t: "Impact 3 • Unit 3", ic: "city" },
-        { w: "sustainable", h: "Impact 3 Unit 4: Eco-friendly fashion that protects resources", t: "Impact 3 • Unit 4", ic: "fashion" },
-        { w: "aerodynamic", h: "Impact 3 Unit 5: Shaped to move smoothly through the air", t: "Impact 3 • Unit 5", ic: "space" },
-        { w: "radiation", h: "Impact 3 Unit 6: Gamma rays studied by Bahrain's Light-1 satellite", t: "Impact 3 • Unit 6", ic: "space" },
-        { w: "sophisticated", h: "Impact 3 Unit 7: Highly advanced and complex technology", t: "Impact 3 • Unit 7", ic: "screen" },
-        { w: "illustrate", h: "Impact 3 Unit 7: To explain or tell a story using visual images", t: "Impact 3 • Unit 7", ic: "screen" },
-        { w: "perseverance", h: "Impact 3 Unit 8: Steady persistence despite obstacles", t: "Impact 3 • Unit 8", ic: "archaeology" }
-      ];
-
-      // Reading & Grammar curated pools across Units 1-8 for each book
-      var readingPools = {
-        Impact1: [
-          { tit: "Impact 1 • Unit 1: Walking Across Cities", st: "National Geographic Explorer Daniel Raven-Ellison walks across major cities to prove that urban environments contain green parks, gardens, and surprising wildlife.", q: "What did Daniel Raven-Ellison show by walking across cities?", opt: ["Cities contain green parks and wildlife", "Cities have no trees or parks", "Nobody walks in modern cities", "Only cars can enter green parks"], ic: "city" },
-          { tit: "Impact 1 • Unit 2: Extreme Mountain Photography", st: "Climber and photographer Jimmy Chin works on high peaks. He advises young people to prepare carefully and avoid situations where risks are high and control is low.", q: "What advice does Jimmy Chin give to teenagers?", opt: ["Prepare well and avoid high-risk, low-control situations", "Climb icy mountains without safety ropes", "Never take photos in cold weather", "Only work inside quiet offices"], ic: "archaeology" },
-          { tit: "Impact 1 • Unit 3: Glowing Life in the Deep Sea", st: "Marine biologist David Gruber studies bioluminescence in the dark ocean, where sea creatures make their own blue and green light to communicate or hide from predators.", q: "How do deep-sea creatures use bioluminescence?", opt: ["To communicate or hide in the dark", "To heat up cold ocean currents", "To guide large cargo ships", "To grow flowers on rocks"], ic: "ocean" },
-          { tit: "Impact 1 • Unit 4: Living Together with Wildlife", st: "Conservationist Amy Dickman works in Tanzania to help local villagers and wild lions live side by side safely, protecting both livestock and endangered cats.", q: "What is Amy Dickman's main conservation goal?", opt: ["Helping villagers and lions coexist safely", "Moving all lions to cold countries", "Closing national parks in Africa", "Keeping wild lions inside houses"], ic: "wildlife" },
-          { tit: "Impact 1 • Unit 5: Kurar House in Muharraq, Bahrain", st: "At Beit Al Kurar in Muharraq, Bahraini women use fine gold and silver zari thread to hand-embroider traditional thobs and sheilas, preserving a unique heritage craft.", q: "What makes kurar embroidery in Bahrain special?", opt: ["Women hand-embroider garments using gold and silver zari", "It is printed quickly by large machines", "It is only made for winter coats", "It uses plastic threads instead of zari"], ic: "fashion" },
-          { tit: "Impact 1 • Unit 6: Mix and Mash Animation", st: "Modern animators blend hand-drawn art, 3D computer graphics, and mobile emojis to bring characters to life in films and educational games.", q: "How do modern artists create animation in Unit 6?", opt: ["By combining hand-drawn art with 3D digital tools", "By carving stone statues in caves", "By writing long books without pictures", "By painting only on wooden ships"], ic: "animation" },
-          { tit: "Impact 1 • Unit 7: Solar-Powered Gadget Tree", st: "In Unit 7, students explore a solar-powered tree that captures sunlight to charge smartphones and tablets cleanly without using fossil fuels.", q: "How does the solar-powered tree charge gadgets?", opt: ["By converting sunlight into clean electricity", "By burning coal inside a building", "By using cold water from a river", "By connecting to a bicycle"], ic: "gadget" },
-          { tit: "Impact 1 • Unit 8: Time Capsules & Our Ancestors", st: "Time capsules preserve everyday letters, photographs, and tools from today so future generations can understand the hard work of their ancestors.", q: "Why do communities bury or preserve time capsules?", opt: ["So future generations learn how people lived", "To hide treasure from archaeologists forever", "To replace school history lessons", "To stop visitors from entering museums"], ic: "museum" },
-          { tit: "Impact 1 • Unit 2: Underwater Archaeology", st: "Underwater archaeologists dive into flooded caves to study ancient tools and bones, revealing how early humans adapted to climate changes.", q: "Where do underwater archaeologists search for ancient clues?", opt: ["In flooded caves and beneath the sea", "On top of snowy mountains", "Inside modern shopping centres", "In outer space stations"], ic: "archaeology" },
-          { tit: "Impact 1 • Unit 5: Eco-Friendly Teen Fashion", st: "Creative teenage designers turn recycled fabrics into stylish T-shirts and donate part of their profits to environmental charities.", q: "How do teenage eco-designers help the community?", opt: ["By using recycled fabrics and donating to charities", "By throwing away clean cotton clothes", "By banning traditional tailoring", "By closing local markets"], ic: "fashion" }
+      // -------------------- IMPACT 1 LISTEN POOLS (15 UNIQUE WORDS PER LEVEL) --------------------
+      var i1Listen = {
+        A1: [
+          { w: "city", h: "A large town with tall buildings and busy streets", t: "Impact 1 • Unit 1", ic: "city" },
+          { w: "tower", h: "A very tall, narrow building in a city", t: "Impact 1 • Unit 1", ic: "city" },
+          { w: "worker", h: "A person who does a job every day", t: "Impact 1 • Unit 2", ic: "explorer" },
+          { w: "shadow", h: "A dark shape on the ground made by sunlight", t: "Impact 1 • Unit 3", ic: "shadow" },
+          { w: "lion", h: "A large wild cat living in Tanzania", t: "Impact 1 • Unit 4", ic: "lion" },
+          { w: "scarf", h: "A warm cloth worn around the neck or head", t: "Impact 1 • Unit 5", ic: "scarf" },
+          { w: "cartoon", h: "A funny animated drawing or show", t: "Impact 1 • Unit 6", ic: "cartoon" },
+          { w: "gadget", h: "A small useful electronic device", t: "Impact 1 • Unit 7", ic: "gadget" },
+          { w: "museum", h: "A building where old treasures are shown", t: "Impact 1 • Unit 8", ic: "museum" },
+          { w: "factory", h: "A big building where things are made", t: "Impact 1 • Unit 8", ic: "factory" },
+          { w: "tree", h: "A tall green plant with leaves and branches", t: "Impact 1 • Unit 4", ic: "nature" },
+          { w: "ocean", h: "A huge area of blue salt water", t: "Impact 1 • Unit 3", ic: "ocean" },
+          { w: "camera", h: "A tool used to take photographs", t: "Impact 1 • Unit 2", ic: "camera" },
+          { w: "story", h: "A tale we read in a book", t: "Impact 1 • Unit 6", ic: "story" },
+          { w: "shirt", h: "A piece of clothing worn on the upper body", t: "Impact 1 • Unit 5", ic: "fashion" }
         ],
-        Impact2: [
-          { tit: "Impact 2 • Unit 1: William Perkin's Purple Discovery", st: "In 1856, 18-year-old chemistry student William Perkin accidentally mixed cleaning chemicals during an experiment and created a bright purple dye much cheaper than sea-snail dye.", q: "How did William Perkin discover synthetic purple dye?", opt: ["By mixing chemicals during a science experiment in 1856", "By collecting rare sea snails on beaches", "By boiling purple berries in a kitchen", "By importing expensive paint from Rome"], ic: "color" },
-          { tit: "Impact 2 • Unit 1: Why School Buses Are Yellow", st: "Yellow is one of the most visible colours to the human eye, even in early morning fog or rain, which is why many school buses and safety signs use bright yellow.", q: "Why is yellow chosen for school buses and safety signs?", opt: ["It is highly visible even in fog or dim light", "It is the cheapest paint in every factory", "It disappears in the dark", "It represents royal ceremonies"], ic: "color" },
-          { tit: "Impact 2 • Unit 3: Your Virtual Self (Amber Case)", st: "Cyborg anthropologist Amber Case studies how smartphones and online tools extend human memory and communication, urging teens to balance screen time with real life.", q: "What does Explorer Amber Case encourage teenagers to do?", opt: ["Balance technology use with real-world life", "Spend 24 hours a day on video games", "Stop using computers for schoolwork", "Throw away all digital dictionaries"], ic: "screen" },
-          { tit: "Impact 2 • Unit 4: E/V Nautilus Ocean Expedition", st: "Aboard E/V Nautilus, scientists explored Kick' em Jenny underwater volcano and streamed live video through a 24-hour website webcam so students worldwide could watch.", q: "How did students worldwide follow E/V Nautilus?", opt: ["Via its 24-hour live website webcam and blog", "By flying in a helicopter over the ship", "By reading printed letters sent by post", "Only by diving deep underwater"], ic: "ocean" },
-          { tit: "Impact 2 • Unit 5: Life in the Extreme (Kevin Hand)", st: "Astrobiologist Kevin Hand studies extremophiles like tardigrades (water bears) that survive boiling heat, freezing ice, and outer space to learn where life might exist beyond Earth.", q: "Why does Kevin Hand study tiny extremophiles?", opt: ["To understand how life survives extreme environments", "To train pets for television shows", "To grow roses inside shopping malls", "To design winter sports jackets"], ic: "lizard" },
-          { tit: "Impact 2 • Unit 6: Fighting Food Waste (Tristram Stuart)", st: "Campaigner Tristram Stuart encourages supermarkets and shoppers to buy curved carrots and lumpy potatoes because they are just as nutritious and delicious as perfect ones.", q: "What is Tristram Stuart's main advice about misshapen vegetables?", opt: ["Eat them because they are nutritious and reduce waste", "Throw them away before reaching the shop", "Only buy canned vegetables from factories", "Stop farming potatoes and carrots"], ic: "gadget" },
-          { tit: "Impact 2 • Unit 7: Bahrain National Museum", st: "Opened in December 1988, the Bahrain National Museum preserves 6,000 years of Bahrain's rich heritage and displays outdoor modern sculptures like Mother and Child.", q: "How many years of history does Bahrain National Museum preserve?", opt: ["6,000 years of Bahrain's history", "Only 50 years of modern sports", "100 years of space travel", "200 years of train history"], ic: "museum" },
-          { tit: "Impact 2 • Unit 8: Don't Panic! Emergency Readiness", st: "During severe storms or hurricanes, emergency teams advise families to prepare a safety kit with water, a torch, and a battery radio before evacuating to higher ground.", q: "What should families include in an emergency safety kit?", opt: ["Clean water, a torch, and a battery radio", "Heavy glass statues and paintings", "Broken toys and old newspapers", "Only ice cream and cold drinks"], ic: "ocean" },
-          { tit: "Impact 2 • Unit 2: How Colours Affect Mood", st: "Psychologists note that cool colours like blue and green often create a calm, focused atmosphere in classrooms, while warm colours like red and orange feel energetic.", q: "Which colours help create a calm, focused classroom atmosphere?", opt: ["Cool colours like blue and green", "Neon flashing black lights", "Only dark grey and brown", "Bright neon pink everywhere"], ic: "color" },
-          { tit: "Impact 2 • Unit 4: Protecting Underwater Shipwrecks", st: "Historic shipwrecks act as artificial reefs for marine life and hold valuable clues about ancient trade routes across the Arabian Gulf and world oceans.", q: "What dual role do historic shipwrecks play underwater?", opt: ["They shelter marine life and reveal ancient trade history", "They block all fish from swimming", "They create hurricanes in summer", "They turn salt water into fresh milk"], ic: "ocean" }
+        A2: [
+          { w: "resident", h: "A person who lives in a particular city", t: "Impact 1 • Unit 1", ic: "city" },
+          { w: "explorer", h: "Someone who travels to discover new places", t: "Impact 1 • Unit 2", ic: "explorer" },
+          { w: "festival", h: "A happy community celebration with lights", t: "Impact 1 • Unit 3", ic: "cartoon" },
+          { w: "habitat", h: "The natural home of an animal or plant", t: "Impact 1 • Unit 4", ic: "wildlife" },
+          { w: "wildlife", h: "Wild animals living freely in nature", t: "Impact 1 • Unit 4", ic: "lion" },
+          { w: "uniform", h: "Special clothes worn by students at school", t: "Impact 1 • Unit 5", ic: "fashion" },
+          { w: "combine", h: "To join or mix two things together", t: "Impact 1 • Unit 6", ic: "cartoon" },
+          { w: "outdated", h: "Old-fashioned and no longer modern", t: "Impact 1 • Unit 7", ic: "gadget" },
+          { w: "battery", h: "Stores power for phones and gadgets", t: "Impact 1 • Unit 7", ic: "gadget" },
+          { w: "ancestor", h: "A family member who lived long ago", t: "Impact 1 • Unit 8", ic: "museum" },
+          { w: "nature", h: "Trees, mountains, and the outdoor world", t: "Impact 1 • Unit 1", ic: "nature" },
+          { w: "diving", h: "Swimming underwater with air tanks", t: "Impact 1 • Unit 2", ic: "ocean" },
+          { w: "screen", h: "The display on a computer or smartphone", t: "Impact 1 • Unit 7", ic: "screen" },
+          { w: "cotton", h: "Soft white plant fibre used for clothes", t: "Impact 1 • Unit 5", ic: "cotton" },
+          { w: "rescue", h: "Saving someone from danger", t: "Impact 1 • Unit 4", ic: "rescue" }
         ],
-        Impact3: [
-          { tit: "Impact 3 • Unit 1: The Changing Teenage Brain", st: "After infancy, the human brain experiences its greatest growth during adolescence, making teenage years a powerful time for learning new skills and building identity.", q: "When does the brain undergo its greatest growth after infancy?", opt: ["During adolescence", "Only after age seventy", "During a short weekend", "While sleeping for one hour"], ic: "screen" },
-          { tit: "Impact 3 • Unit 2: Texas Horned Lizard Defences", st: "To survive predators, the Texas horned lizard hides under desert rocks from ground cats, but can squirt a stream of blood from its eye if attacked from above by a hawk.", q: "How does the Texas horned lizard defend itself against a hawk?", opt: ["By squirting blood from its eye", "By flying high into the clouds", "By swimming across deep rivers", "By climbing tall pine trees"], ic: "lizard" },
-          { tit: "Impact 3 • Unit 2: Keep an Open Mind (Jenny Daltry)", st: "Herpetologist and conservationist Jenny Daltry protects misunderstood reptiles like snakes and crocodiles, explaining that every species is part of a great ecological web.", q: "Why does Jenny Daltry say we must protect misunderstood snakes?", opt: ["Every species is an essential part of nature's web", "Snakes produce honey for farmers", "Reptiles can build wooden houses", "Snakes are the largest ocean whales"], ic: "lizard" },
-          { tit: "Impact 3 • Unit 2: Thank Spiders, Not Squash Them", st: "Writer Stacey Parks reminds readers that spiders eat thousands of crop-damaging insects every year, keeping gardens and farms healthy without toxic sprays.", q: "How do spiders benefit gardens and farms?", opt: ["They eat harmful insects and keep ecosystems balanced", "They sing loud songs at midnight", "They grow sweet apples on webs", "They scare away all rain clouds"], ic: "lizard" },
-          { tit: "Impact 3 • Unit 3: Everybody's Doing It!", st: "Humans naturally form social groups—some involuntary like family, and others voluntary like school robotics clubs or volunteer charity teams.", q: "Which of the following is an example of a voluntary group?", opt: ["A school robotics or charity volunteer club", "The family you are born into", "Your biological birth order", "The weather in January"], ic: "city" },
-          { tit: "Impact 3 • Unit 4: Reducing Our Fashion Footprint", st: "Eco-conscious shoppers choose organic cotton and durable clothes rather than fast-fashion synthetic garments that pollute rivers with microplastics.", q: "Why do eco-conscious shoppers prefer organic cotton?", opt: ["It reduces pollution and lasts longer than fast fashion", "It is made from melted plastic bottles", "It can only be worn once", "It requires toxic chemical dyes"], ic: "fashion" },
-          { tit: "Impact 3 • Unit 5: Flying High & Aerodynamics", st: "Engineers study how birds soar on warm air currents to design lightweight gliders and parachutes that descend safely and smoothly.", q: "What inspires engineers when designing gliders?", opt: ["How birds soar smoothly on warm air currents", "How heavy rocks sink in lakes", "How submarines dive underwater", "How trains move on iron tracks"], ic: "space" },
-          { tit: "Impact 3 • Unit 6: Bahrain's Light-1 Satellite", st: "Developed through Bahrain's National Space Science Agency (NSSA) in partnership with UAE institutions, Light-1 is a nanosatellite designed to monitor terrestrial gamma-ray flashes.", q: "What is the scientific mission of Bahrain's Light-1 satellite?", opt: ["Monitoring terrestrial gamma-ray flashes from orbit", "Delivering pizza to mountain climbers", "Digging tunnels under the desert", "Painting murals on school walls"], ic: "space" },
-          { tit: "Impact 3 • Unit 7: The World Is a Screen", st: "From prehistoric cave paintings to modern VR headsets and cloud-connected smartwatches, visual screens have always helped humans share stories and track health.", q: "What were humanity's earliest visual 'screens'?", opt: ["Prehistoric cave walls", "Smartwatches and VR headsets", "360-degree cinema domes", "Aeroplane seat monitors"], ic: "screen" },
-          { tit: "Impact 3 • Unit 8: Writing a Formal Cover Letter", st: "In Unit 8, students learn that an effective job cover letter includes the sender's address, date, formal greeting, clear subject line, and polite sign-off.", q: "Which element belongs in a formal cover letter?", opt: ["A clear subject line and formal greeting", "Slang jokes and colourful stickers", "No date or sender name", "Only a single emoji"], ic: "archaeology" }
+        B1: [
+          { w: "skyscraper", h: "A very tall modern building in a city", t: "Impact 1 • Unit 1", ic: "city" },
+          { w: "adventure", h: "An exciting journey in extreme places", t: "Impact 1 • Unit 2", ic: "explorer" },
+          { w: "researcher", h: "A scientist who studies new facts", t: "Impact 1 • Unit 2", ic: "explorer" },
+          { w: "nocturnal", h: "Active at night and sleeping during the day", t: "Impact 1 • Unit 3", ic: "shadow" },
+          { w: "sanctuary", h: "A safe park protecting wild animals", t: "Impact 1 • Unit 4", ic: "wildlife" },
+          { w: "accessory", h: "An extra item like a scarf worn with clothes", t: "Impact 1 • Unit 5", ic: "scarf" },
+          { w: "animation", h: "Creating moving images for films and games", t: "Impact 1 • Unit 6", ic: "cartoon" },
+          { w: "character", h: "A person or animal in a story or film", t: "Impact 1 • Unit 6", ic: "story" },
+          { w: "invention", h: "A newly created machine or device", t: "Impact 1 • Unit 7", ic: "gadget" },
+          { w: "treasure", h: "Valuable historic objects from the past", t: "Impact 1 • Unit 8", ic: "museum" },
+          { w: "submarine", h: "An underwater exploration vessel", t: "Impact 1 • Unit 3", ic: "ocean" },
+          { w: "volunteer", h: "Someone who freely offers to help others", t: "Impact 1 • Unit 4", ic: "group" }
+        ],
+        B2: [
+          { w: "architecture", h: "The art and science of designing buildings", t: "Impact 1 • Unit 1", ic: "city" },
+          { w: "archaeologist", h: "Specialist who studies ancient ruins and caves", t: "Impact 1 • Unit 2", ic: "explorer" },
+          { w: "bioluminescence", h: "Glowing light made by deep-sea creatures", t: "Impact 1 • Unit 3", ic: "ocean" },
+          { w: "conservation", h: "Protecting wildlife and natural habitats", t: "Impact 1 • Unit 4", ic: "wildlife" },
+          { w: "coexist", h: "To live peacefully together in the same place", t: "Impact 1 • Unit 4", ic: "lion" },
+          { w: "traditional", h: "Following long-established cultural customs", t: "Impact 1 • Unit 5", ic: "fashion" },
+          { w: "embroidery", h: "Decorative needlework like Bahraini kurar", t: "Impact 1 • Unit 5", ic: "scarf" },
+          { w: "application", h: "A software program on a digital device", t: "Impact 1 • Unit 7", ic: "screen" },
+          { w: "generation", h: "All people born around the same time", t: "Impact 1 • Unit 8", ic: "group" },
+          { w: "sacrifice", h: "Giving up something valuable for others", t: "Impact 1 • Unit 8", ic: "brave" },
+          { w: "industrial", h: "Relating to factories and manufacturing", t: "Impact 1 • Unit 8", ic: "factory" },
+          { w: "ecosystem", h: "All living things interacting in an environment", t: "Impact 1 • Unit 4", ic: "nature" }
         ]
       };
 
+      // -------------------- IMPACT 2 LISTEN POOLS (15 UNIQUE WORDS PER LEVEL) --------------------
+      var i2Listen = {
+        A1: [
+          { w: "purple", h: "A royal colour made by mixing red and blue", t: "Impact 2 • Unit 1", ic: "purple" },
+          { w: "nature", h: "Plants, trees, and the outdoor environment", t: "Impact 2 • Unit 1", ic: "nature" },
+          { w: "violet", h: "A bluish-purple colour named after a flower", t: "Impact 2 • Unit 1", ic: "purple" },
+          { w: "screen", h: "A flat display on a phone or computer", t: "Impact 2 • Unit 3", ic: "screen" },
+          { w: "ocean", h: "A vast body of salt water covering Earth", t: "Impact 2 • Unit 4", ic: "ocean" },
+          { w: "diving", h: "Swimming underwater with breathing gear", t: "Impact 2 • Unit 4", ic: "ocean" },
+          { w: "carrot", h: "A crunchy orange vegetable", t: "Impact 2 • Unit 6", ic: "carrot" },
+          { w: "rescue", h: "Saving someone from danger in water or storms", t: "Impact 2 • Unit 8", ic: "rescue" },
+          { w: "museum", h: "A place where historic treasures are kept", t: "Impact 2 • Unit 7", ic: "museum" },
+          { w: "camera", h: "A device used to take photos", t: "Impact 2 • Unit 3", ic: "camera" },
+          { w: "group", h: "Friends or people working together", t: "Impact 2 • Unit 2", ic: "group" },
+          { w: "rocket", h: "A spacecraft that flies into space", t: "Impact 2 • Unit 5", ic: "rocket" },
+          { w: "lizard", h: "A small reptile with four legs and a tail", t: "Impact 2 • Unit 5", ic: "lizard" },
+          { w: "shirt", h: "A piece of clothing worn on the top half", t: "Impact 2 • Unit 1", ic: "fashion" },
+          { w: "story", h: "An interesting tale in a book", t: "Impact 2 • Unit 7", ic: "story" }
+        ],
+        A2: [
+          { w: "visible", h: "Easy to see, like bright yellow school buses", t: "Impact 2 • Unit 1", ic: "city" },
+          { w: "virtual", h: "Existing online through computer screens", t: "Impact 2 • Unit 3", ic: "screen" },
+          { w: "website", h: "Pages on the Internet sharing information", t: "Impact 2 • Unit 4", ic: "screen" },
+          { w: "volcano", h: "A mountain that can erupt with hot lava", t: "Impact 2 • Unit 4", ic: "volcano" },
+          { w: "survive", h: "To stay alive in extreme heat or cold", t: "Impact 2 • Unit 5", ic: "lizard" },
+          { w: "edible", h: "Safe and healthy to eat without wasting", t: "Impact 2 • Unit 6", ic: "carrot" },
+          { w: "culture", h: "The art, traditions, and history of a country", t: "Impact 2 • Unit 7", ic: "museum" },
+          { w: "danger", h: "A situation where someone could get hurt", t: "Impact 2 • Unit 8", ic: "rescue" },
+          { w: "colour", h: "Red, blue, green, yellow, or purple", t: "Impact 2 • Unit 1", ic: "purple" },
+          { w: "explorer", h: "A scientist travelling to discover new places", t: "Impact 2 • Unit 4", ic: "explorer" },
+          { w: "gadget", h: "A modern electronic tool or device", t: "Impact 2 • Unit 3", ic: "gadget" },
+          { w: "habitat", h: "The natural home of plants and animals", t: "Impact 2 • Unit 5", ic: "nature" }
+        ],
+        B1: [
+          { w: "represent", h: "To stand for or symbolise an idea or brand", t: "Impact 2 • Unit 1", ic: "purple" },
+          { w: "emergency", h: "A sudden serious situation needing fast rescue", t: "Impact 2 • Unit 8", ic: "rescue" },
+          { w: "chemical", h: "Substance William Perkin mixed in 1856", t: "Impact 2 • Unit 1", ic: "purple" },
+          { w: "cyborg", h: "Human extended by technology (Amber Case)", t: "Impact 2 • Unit 3", ic: "screen" },
+          { w: "submarine", h: "An underwater exploration vessel", t: "Impact 2 • Unit 4", ic: "ocean" },
+          { w: "organism", h: "Any living creature in nature", t: "Impact 2 • Unit 5", ic: "lizard" },
+          { w: "consumer", h: "A person who buys food and goods", t: "Impact 2 • Unit 6", ic: "carrot" },
+          { w: "sculpture", h: "Three-dimensional art outside Bahrain Museum", t: "Impact 2 • Unit 7", ic: "museum" },
+          { w: "eruption", h: "When a volcano sends out ash and lava", t: "Impact 2 • Unit 4", ic: "volcano" },
+          { w: "satellite", h: "Spacecraft orbiting Earth to collect data", t: "Impact 2 • Unit 5", ic: "orbit" },
+          { w: "courage", h: "Being brave during a rescue mission", t: "Impact 2 • Unit 8", ic: "brave" },
+          { w: "factory", h: "Building where dyes and goods are produced", t: "Impact 2 • Unit 1", ic: "factory" }
+        ],
+        B2: [
+          { w: "symbolise", h: "To represent a deeper cultural meaning", t: "Impact 2 • Unit 1", ic: "purple" },
+          { w: "experiment", h: "Scientific test that led to synthetic purple dye", t: "Impact 2 • Unit 1", ic: "purple" },
+          { w: "anthropologist", h: "Scientist who studies human culture and tools", t: "Impact 2 • Unit 3", ic: "explorer" },
+          { w: "exploration", h: "Investigating unknown deep-sea regions", t: "Impact 2 • Unit 4", ic: "ocean" },
+          { w: "extremophile", h: "Tiny organism surviving extreme heat or space", t: "Impact 2 • Unit 5", ic: "lizard" },
+          { w: "astrobiologist", h: "Scientist like Kevin Hand studying life in space", t: "Impact 2 • Unit 5", ic: "orbit" },
+          { w: "nutritious", h: "Full of vitamins and healthy energy", t: "Impact 2 • Unit 6", ic: "carrot" },
+          { w: "misshapen", h: "Having an unusual curved natural shape", t: "Impact 2 • Unit 6", ic: "carrot" },
+          { w: "attraction", h: "A famous cultural place visited by many", t: "Impact 2 • Unit 7", ic: "museum" },
+          { w: "evacuate", h: "To move people safely away from danger", t: "Impact 2 • Unit 8", ic: "rescue" },
+          { w: "geothermal", h: "Heat energy coming from inside Earth", t: "Impact 2 • Unit 4", ic: "volcano" },
+          { w: "technology", h: "Modern digital tools and smart screens", t: "Impact 2 • Unit 3", ic: "screen" }
+        ]
+      };
+
+      // -------------------- IMPACT 3 LISTEN POOLS (15 UNIQUE WORDS PER LEVEL) --------------------
+      var i3Listen = {
+        A1: [
+          { w: "brain", h: "The organ inside the head that controls thinking", t: "Impact 3 • Unit 1", ic: "brain" },
+          { w: "spider", h: "An eight-legged creature that spins a web", t: "Impact 3 • Unit 2", ic: "spider" },
+          { w: "snake", h: "A long reptile without legs studied by Jenny Daltry", t: "Impact 3 • Unit 2", ic: "snake" },
+          { w: "group", h: "Friends or people who belong together", t: "Impact 3 • Unit 3", ic: "group" },
+          { w: "cotton", h: "A soft white natural fibre used for clothes", t: "Impact 3 • Unit 4", ic: "cotton" },
+          { w: "flight", h: "A journey through the air by plane", t: "Impact 3 • Unit 5", ic: "flight" },
+          { w: "orbit", h: "The curved path of a satellite around Earth", t: "Impact 3 • Unit 6", ic: "orbit" },
+          { w: "camera", h: "A device used to capture photos and videos", t: "Impact 3 • Unit 7", ic: "camera" },
+          { w: "story", h: "A tale shared in books or on screens", t: "Impact 3 • Unit 7", ic: "story" },
+          { w: "brave", h: "Showing courage in difficult situations", t: "Impact 3 • Unit 8", ic: "brave" },
+          { w: "lizard", h: "A small four-legged desert reptile", t: "Impact 3 • Unit 2", ic: "lizard" },
+          { w: "rocket", h: "A spacecraft launched into space", t: "Impact 3 • Unit 6", ic: "rocket" },
+          { w: "shirt", h: "A cotton top worn every day", t: "Impact 3 • Unit 4", ic: "fashion" },
+          { w: "screen", h: "The display on a computer or tablet", t: "Impact 3 • Unit 7", ic: "screen" },
+          { w: "explorer", h: "Someone who travels to discover new worlds", t: "Impact 3 • Unit 8", ic: "explorer" }
+        ],
+        A2: [
+          { w: "emotion", h: "A strong feeling in the brain such as joy", t: "Impact 3 • Unit 1", ic: "brain" },
+          { w: "lizard", h: "The Texas horned reptile with clever defences", t: "Impact 3 • Unit 2", ic: "lizard" },
+          { w: "predator", h: "An animal that hunts other animals for food", t: "Impact 3 • Unit 2", ic: "snake" },
+          { w: "belong", h: "To feel accepted as part of a friendly group", t: "Impact 3 • Unit 3", ic: "group" },
+          { w: "fabric", h: "Cloth made from cotton or woven fibres", t: "Impact 3 • Unit 4", ic: "fashion" },
+          { w: "glider", h: "A light aircraft that flies smoothly in air", t: "Impact 3 • Unit 5", ic: "flight" },
+          { w: "rocket", h: "A powerful spacecraft launched into orbit", t: "Impact 3 • Unit 6", ic: "rocket" },
+          { w: "portrait", h: "A painting or photo of a person", t: "Impact 3 • Unit 7", ic: "camera" },
+          { w: "cartoon", h: "An animated visual story on a screen", t: "Impact 3 • Unit 7", ic: "cartoon" },
+          { w: "courage", h: "Being brave when facing a tough challenge", t: "Impact 3 • Unit 8", ic: "brave" },
+          { w: "spider", h: "Helpful eight-legged insect hunter in gardens", t: "Impact 3 • Unit 2", ic: "spider" },
+          { w: "museum", h: "A place displaying famous paintings and art", t: "Impact 3 • Unit 7", ic: "museum" }
+        ],
+        B1: [
+          { w: "adolescent", h: "A teenager whose brain is growing rapidly", t: "Impact 3 • Unit 1", ic: "brain" },
+          { w: "passionate", h: "Having strong enthusiasm for a goal", t: "Impact 3 • Unit 1", ic: "brave" },
+          { w: "beneficial", h: "Helpful and good for gardens like spiders", t: "Impact 3 • Unit 2", ic: "spider" },
+          { w: "reptile", h: "Cold-blooded animal like a snake or lizard", t: "Impact 3 • Unit 2", ic: "snake" },
+          { w: "volunteer", h: "Someone who freely joins a group to help", t: "Impact 3 • Unit 3", ic: "group" },
+          { w: "synthetic", h: "Man-made fabric rather than natural cotton", t: "Impact 3 • Unit 4", ic: "fashion" },
+          { w: "parachute", h: "Canopy used to float safely down through air", t: "Impact 3 • Unit 5", ic: "parachute" },
+          { w: "satellite", h: "Bahrain's Light-1 spacecraft orbiting Earth", t: "Impact 3 • Unit 6", ic: "orbit" },
+          { w: "pioneer", h: "One of the first explorers to try something new", t: "Impact 3 • Unit 8", ic: "explorer" },
+          { w: "narrative", h: "A connected story told through words or art", t: "Impact 3 • Unit 7", ic: "story" },
+          { w: "aviation", h: "The science and art of flight and aircraft", t: "Impact 3 • Unit 5", ic: "flight" },
+          { w: "organism", h: "Any living plant or animal in an ecosystem", t: "Impact 3 • Unit 2", ic: "lizard" }
+        ],
+        B2: [
+          { w: "enthusiastic", h: "Showing intense eagerness and excitement", t: "Impact 3 • Unit 1", ic: "brain" },
+          { w: "herpetologist", h: "Scientist like Jenny Daltry studying snakes", t: "Impact 3 • Unit 2", ic: "snake" },
+          { w: "ecosystem", h: "Web of living creatures depending on each other", t: "Impact 3 • Unit 2", ic: "spider" },
+          { w: "involuntary", h: "Happening naturally without conscious choice", t: "Impact 3 • Unit 3", ic: "group" },
+          { w: "sustainable", h: "Eco-friendly cotton fashion that protects Earth", t: "Impact 3 • Unit 4", ic: "cotton" },
+          { w: "aerodynamic", h: "Shaped to fly smoothly through the air", t: "Impact 3 • Unit 5", ic: "flight" },
+          { w: "radiation", h: "Gamma rays studied by Bahrain's Light-1 satellite", t: "Impact 3 • Unit 6", ic: "orbit" },
+          { w: "sophisticated", h: "Highly advanced modern screen technology", t: "Impact 3 • Unit 7", ic: "screen" },
+          { w: "illustrate", h: "To explain a story using visual drawings", t: "Impact 3 • Unit 7", ic: "story" },
+          { w: "perseverance", h: "Steady courage and effort despite obstacles", t: "Impact 3 • Unit 8", ic: "brave" },
+          { w: "propulsion", h: "The force pushing a rocket into space", t: "Impact 3 • Unit 6", ic: "rocket" },
+          { w: "expedition", h: "An organised scientific journey of discovery", t: "Impact 3 • Unit 8", ic: "explorer" }
+        ]
+      };
+
+      // -------------------- READING POOLS: SIMPLIFIED A1 + GRADED A2 / B1 / B2 --------------------
+      var readingByBookAndLevel = {
+        Impact1: {
+          A1: [
+            { tit: "Impact 1 • Unit 1: Green Parks in Cities", st: "Daniel walks in big cities. He finds green parks, tall trees, and pretty flowers near busy streets.", q: "What does Daniel find in big cities?", opt: ["Green parks and tall trees", "Only snow and ice", "Deep blue oceans", "Big yellow buses"], ic: "city" },
+            { tit: "Impact 1 • Unit 2: Taking Mountain Photos", st: "Jimmy Chin climbs high mountains. He takes photos of climbers. He always checks his safety ropes first.", q: "What does Jimmy Chin check first?", opt: ["His safety ropes", "His school books", "His red bicycle", "His lunch box"], ic: "camera" },
+            { tit: "Impact 1 • Unit 3: Fish That Glow", st: "The deep sea is very dark. Some small fish make blue and green light to see in the dark water.", q: "What colours of light do the fish make?", opt: ["Blue and green", "Black and brown", "Grey and white", "Pink and yellow"], ic: "ocean" },
+            { tit: "Impact 1 • Unit 4: Helping Wild Lions", st: "Amy Dickman works in Tanzania. She helps farmers and wild lions live safely near each other.", q: "Where does Amy Dickman work?", opt: ["In Tanzania", "In London", "In Tokyo", "In Paris"], ic: "lion" },
+            { tit: "Impact 1 • Unit 5: Gold Art in Muharraq", st: "In Muharraq, Bahrain, women sew gold and silver thread on traditional clothes. This art is called kurar.", q: "What colours of thread do women use in kurar?", opt: ["Gold and silver", "Blue and black", "Green and orange", "Grey and brown"], ic: "scarf" },
+            { tit: "Impact 1 • Unit 6: Drawing Cartoons", st: "Artists draw funny characters on paper and computers. Then the pictures move like a real film.", q: "Where do artists draw cartoon characters?", opt: ["On paper and computers", "On heavy stones", "On ocean waves", "On tall trees"], ic: "cartoon" },
+            { tit: "Impact 1 • Unit 7: The Sun Tree", st: "A special solar tree uses sunlight to make clean power. Students can charge their phones under it.", q: "What does the solar tree use to make power?", opt: ["Sunlight", "Cold rain", "Snow", "Sand"], ic: "gadget" },
+            { tit: "Impact 1 • Unit 8: A Box for the Future", st: "Students put letters and photos inside a time capsule box. Children in the future will open it.", q: "What do students put inside the box?", opt: ["Letters and photos", "Fresh apples", "Toy cars", "Water bottles"], ic: "museum" },
+            { tit: "Impact 1 • Unit 1: Life in Manama", st: "Manama is the capital city of Bahrain. It has modern glass towers and old traditional markets.", q: "What is the capital city of Bahrain?", opt: ["Manama", "Cairo", "Riyadh", "Muscat"], ic: "city" },
+            { tit: "Impact 1 • Unit 5: School Uniforms", st: "Many students wear a clean uniform to school. Uniforms help students feel like one team.", q: "How do uniforms help students feel?", opt: ["Like one team", "Very sleepy", "Very cold", "Too busy"], ic: "fashion" },
+            { tit: "Impact 1 • Unit 4: Planting Trees", st: "Trees give fresh air and shade for birds. Planting a tree makes our neighbourhood green and cool.", q: "What do trees give for birds?", opt: ["Fresh air and shade", "Plastic bags", "Loud music", "Hot sand"], ic: "nature" },
+            { tit: "Impact 1 • Unit 8: Visiting the Museum", st: "At the museum, we see old pottery and pearl diving tools from Bahrain's history.", q: "What can we see at the museum?", opt: ["Old pottery and pearl diving tools", "New space rockets", "Fast racing cars", "Fresh vegetables"], ic: "museum" }
+          ],
+          A2: [
+            { tit: "Impact 1 • Unit 1: Walking Across Cities", st: "Explorer Daniel Raven-Ellison walks across major cities to show that urban areas contain green parks, gardens, and surprising wildlife.", q: "What did Daniel Raven-Ellison prove by walking across cities?", opt: ["Cities contain green parks and wildlife", "Cities have no trees at all", "Nobody walks in modern cities", "Cars are banned in all parks"], ic: "city" },
+            { tit: "Impact 1 • Unit 2: Mountain Safety Advice", st: "Climber and photographer Jimmy Chin advises teenagers to prepare carefully and avoid situations where risks are high and control is low.", q: "What advice does Jimmy Chin give to teenagers?", opt: ["Prepare carefully and avoid high-risk situations", "Climb snowy peaks without ropes", "Never take photos outdoors", "Only work inside offices"], ic: "explorer" },
+            { tit: "Impact 1 • Unit 3: Bioluminescence in the Ocean", st: "Marine biologist David Gruber studies bioluminescence in the dark ocean, where sea creatures make blue and green light to communicate.", q: "Why do deep-sea creatures produce light?", opt: ["To communicate and survive in the dark", "To warm up cold ocean currents", "To guide cargo ships", "To grow flowers on rocks"], ic: "ocean" },
+            { tit: "Impact 1 • Unit 4: Villagers and Lions", st: "Conservationist Amy Dickman works in Tanzania to help villagers protect their livestock while keeping wild lions safe in their habitat.", q: "How does Amy Dickman help villagers in Tanzania?", opt: ["She helps protect livestock and wild lions together", "She moves all lions to cold countries", "She closes national parks", "She keeps wild lions inside houses"], ic: "lion" },
+            { tit: "Impact 1 • Unit 5: Beit Al Kurar in Bahrain", st: "At Beit Al Kurar in Muharraq, Bahraini women use fine gold and silver zari thread to hand-embroider traditional thobs and sheilas.", q: "What makes kurar embroidery special?", opt: ["Women hand-embroider garments with gold and silver zari", "It is printed quickly by machines", "It is only made for winter coats", "It uses plastic threads"], ic: "scarf" },
+            { tit: "Impact 1 • Unit 6: Mix and Mash Animation", st: "Modern animators blend hand-drawn sketches with 3D computer graphics to bring characters to life in films and games.", q: "How do modern animators create characters?", opt: ["By combining hand-drawn art with 3D digital graphics", "By carving stone statues", "By writing books without pictures", "By painting on wooden ships"], ic: "cartoon" },
+            { tit: "Impact 1 • Unit 7: Solar-Powered Gadget Tree", st: "A solar-powered tree captures sunlight during the day to charge smartphones and tablets cleanly without using fossil fuels.", q: "How does the solar tree charge devices?", opt: ["By turning sunlight into clean electricity", "By burning coal", "By using river water", "By connecting to a bicycle"], ic: "gadget" },
+            { tit: "Impact 1 • Unit 8: Time Capsules", st: "Communities bury time capsules with letters, photos, and everyday tools so future generations can learn about their ancestors.", q: "Why do people create time capsules?", opt: ["So future generations learn how people lived", "To hide treasure forever", "To replace history lessons", "To close local museums"], ic: "museum" },
+            { tit: "Impact 1 • Unit 2: Underwater Caves", st: "Underwater archaeologists dive into flooded caves to study ancient tools, revealing how early humans lived long ago.", q: "Where do underwater archaeologists search for clues?", opt: ["In flooded caves beneath the water", "On top of snowy mountains", "Inside modern shopping malls", "On space stations"], ic: "explorer" },
+            { tit: "Impact 1 • Unit 5: Recycled Teen Fashion", st: "Creative teenagers turn recycled cotton fabrics into stylish shirts and donate part of the money to environmental charities.", q: "How do teenage eco-designers help the environment?", opt: ["By using recycled fabrics for new clothes", "By throwing away clean shirts", "By banning local tailoring", "By closing cotton farms"], ic: "fashion" },
+            { tit: "Impact 1 • Unit 3: Night Animals", st: "Nocturnal animals such as owls and bats have special eyes and ears that help them hunt safely at night.", q: "When are nocturnal animals active?", opt: ["At night", "Only at noon", "Only in winter", "Never"], ic: "shadow" },
+            { tit: "Impact 1 • Unit 8: Appreciating Ancestors", st: "Learning about past generations helps young people appreciate the hard work and sacrifices of their ancestors.", q: "What does studying history help young people appreciate?", opt: ["The hard work of their ancestors", "Only modern video games", "Fast food restaurants", "Expensive sports cars"], ic: "museum" }
+          ]
+        },
+        Impact2: {
+          A1: [
+            { tit: "Impact 2 • Unit 1: Bright Yellow Buses", st: "Yellow is very easy to see in the morning. Many school buses are yellow so drivers can see them clearly.", q: "Why are many school buses painted yellow?", opt: ["Because yellow is very easy to see", "Because yellow is dark at night", "Because buses hate blue paint", "Because yellow is cold"], ic: "city" },
+            { tit: "Impact 2 • Unit 1: Nature Is Green", st: "Parks and gardens are full of green leaves. Looking at green nature helps students feel calm and happy.", q: "How does green nature help students feel?", opt: ["Calm and happy", "Angry and tired", "Scared of trees", "Cold and hungry"], ic: "nature" },
+            { tit: "Impact 2 • Unit 3: Screen Time Balance", st: "Phones and tablets help us learn English. We should also play sports and talk with friends offline.", q: "What should we do in addition to using phones?", opt: ["Play sports and talk with friends", "Look at screens all night", "Never go outside", "Throw away our books"], ic: "screen" },
+            { tit: "Impact 2 • Unit 4: Exploring the Sea", st: "Scientists use yellow submarines to visit the deep ocean. They take videos of colourful fish and corals.", q: "What colour are the scientists' submarines?", opt: ["Yellow", "Black", "Purple", "Brown"], ic: "ocean" },
+            { tit: "Impact 2 • Unit 5: Tiny Water Bears", st: "Water bears are tiny creatures. They can live in very hot places and very cold ice.", q: "Where can tiny water bears live?", opt: ["In very hot and very cold places", "Only inside school bags", "Only on wooden desks", "Inside red apples"], ic: "lizard" },
+            { tit: "Impact 2 • Unit 6: Funny-Shaped Carrots", st: "Some carrots are curved or bumpy. They taste just as sweet and healthy as straight carrots!", q: "How do curved carrots taste?", opt: ["Sweet and healthy", "Salty like sea water", "Sour like lemons", "Like dry paper"], ic: "carrot" },
+            { tit: "Impact 2 • Unit 7: Bahrain National Museum", st: "Bahrain National Museum is a famous cultural building. Visitors see ancient Dilmun seals and art.", q: "What do visitors see at Bahrain National Museum?", opt: ["Ancient Dilmun seals and art", "Live wild lions", "Snowy ski slopes", "Space rockets"], ic: "museum" },
+            { tit: "Impact 2 • Unit 8: Storm Safety Kit", st: "Before a big storm, families pack clean water, a torch, and a small radio in a safety bag.", q: "What do families pack in a storm safety bag?", opt: ["Clean water, a torch, and a radio", "Heavy glass bowls", "Wet clothes", "Ice cream"], ic: "rescue" },
+            { tit: "Impact 2 • Unit 1: Royal Purple", st: "Long ago, purple dye was very rare and expensive. Only kings and queens wore purple clothes.", q: "Who wore purple clothes long ago?", opt: ["Kings and queens", "Only farmers", "Only fishermen", "Only children"], ic: "purple" },
+            { tit: "Impact 2 • Unit 4: Underwater Volcano", st: "Kick' em Jenny is an underwater volcano. Scientists watch it safely with underwater cameras.", q: "What is Kick' em Jenny?", opt: ["An underwater volcano", "A big red bus", "A desert camel", "A school library"], ic: "volcano" },
+            { tit: "Impact 2 • Unit 2: Cool Classroom Colours", st: "Blue and green are cool colours. They help students focus well when reading and writing.", q: "Which colours help students focus well?", opt: ["Blue and green", "Neon black", "Bright pink", "Dark grey"], ic: "purple" },
+            { tit: "Impact 2 • Unit 6: Eating Healthy Food", st: "Fresh fruits and vegetables give our bodies strong energy for school and sports.", q: "What do fresh fruits and vegetables give us?", opt: ["Strong energy", "Bad headaches", "Sleepy eyes", "Broken shoes"], ic: "carrot" }
+          ],
+          A2: [
+            { tit: "Impact 2 • Unit 1: William Perkin's Discovery", st: "In 1856, 18-year-old chemistry student William Perkin mixed chemicals during an experiment and accidentally created a bright purple dye.", q: "How did William Perkin discover synthetic purple dye?", opt: ["By mixing chemicals during a science experiment", "By collecting sea snails on beaches", "By boiling purple berries", "By importing paint from Rome"], ic: "purple" },
+            { tit: "Impact 2 • Unit 1: Why School Buses Are Yellow", st: "Yellow is one of the most visible colours to the human eye, even in early morning fog, making it ideal for school buses.", q: "Why is yellow used for school buses?", opt: ["It is highly visible even in fog", "It is the cheapest paint", "It disappears in the dark", "It represents royalty"], ic: "city" },
+            { tit: "Impact 2 • Unit 3: Your Virtual Self (Amber Case)", st: "Explorer Amber Case studies how smartphones extend human communication and encourages teenagers to balance screen time with real life.", q: "What does Amber Case encourage teenagers to do?", opt: ["Balance technology use with real-world life", "Spend 24 hours on screens", "Stop using computers", "Throw away dictionaries"], ic: "screen" },
+            { tit: "Impact 2 • Unit 4: E/V Nautilus Expedition", st: "Scientists aboard E/V Nautilus explored underwater volcanoes and streamed live video through a 24-hour website webcam.", q: "How did students watch E/V Nautilus live?", opt: ["Through its 24-hour website webcam", "From a helicopter", "By reading printed letters", "By diving underwater"], ic: "ocean" },
+            { tit: "Impact 2 • Unit 5: Extremophiles (Kevin Hand)", st: "Astrobiologist Kevin Hand studies extremophiles that survive boiling heat and freezing ice to understand life beyond Earth.", q: "Why does Kevin Hand study extremophiles?", opt: ["To learn how life survives extreme environments", "To train pets for TV", "To grow indoor roses", "To design winter coats"], ic: "lizard" },
+            { tit: "Impact 2 • Unit 6: Fighting Food Waste", st: "Campaigner Tristram Stuart encourages shoppers to buy curved carrots and lumpy potatoes because they are nutritious and reduce food waste.", q: "Why should shoppers buy misshapen vegetables?", opt: ["They are nutritious and reduce food waste", "They last for 100 years", "They taste like chocolate", "They are made of plastic"], ic: "carrot" },
+            { tit: "Impact 2 • Unit 7: Bahrain National Museum", st: "Opened in December 1988, Bahrain National Museum preserves 6,000 years of Bahrain's heritage and outdoor sculptures.", q: "How many years of history does Bahrain National Museum preserve?", opt: ["6,000 years", "50 years", "100 years", "200 years"], ic: "museum" },
+            { tit: "Impact 2 • Unit 8: Emergency Readiness", st: "Emergency teams advise families to prepare a safety kit with clean water, a torch, and a battery radio before hurricanes.", q: "What belongs in an emergency safety kit?", opt: ["Clean water, a torch, and a battery radio", "Heavy glass statues", "Old newspapers", "Ice cream"], ic: "rescue" },
+            { tit: "Impact 2 • Unit 2: Colours and Mood", st: "Cool colours like blue and green create a calm classroom atmosphere, whereas warm colours like red feel energetic.", q: "How do cool colours affect a classroom?", opt: ["They create a calm atmosphere", "They make everyone shout", "They turn off the lights", "They make rooms colder"], ic: "nature" },
+            { tit: "Impact 2 • Unit 4: Underwater Shipwrecks", st: "Historic shipwrecks act as artificial reefs for marine life and reveal ancient trade routes across the oceans.", q: "What role do historic shipwrecks play underwater?", opt: ["They shelter marine life and show trade history", "They block all fish", "They cause summer storms", "They freeze sea water"], ic: "ocean" },
+            { tit: "Impact 2 • Unit 7: Street Murals", st: "Community murals bring bright colours and positive messages to city walls and public parks.", q: "Where are community murals painted?", opt: ["On city walls and public spaces", "On airplane wings", "Under deep oceans", "Inside car engines"], ic: "fashion" },
+            { tit: "Impact 2 • Unit 8: Rescue Teams", st: "Trained rescue teams use lifeboats and helicopters to evacuate families safely during floods.", q: "What equipment do rescue teams use during floods?", opt: ["Lifeboats and helicopters", "Bicycles and skateboards", "Paper boats", "Desert camels"], ic: "rescue" }
+          ]
+        },
+        Impact3: {
+          A1: [
+            { tit: "Impact 3 • Unit 1: The Teenage Brain", st: "Your brain grows fast when you are a teenager. Learning new skills and sports makes your brain stronger.", q: "What makes a teenager's brain stronger?", opt: ["Learning new skills and sports", "Sleeping all day long", "Never reading books", "Eating only sweets"], ic: "brain" },
+            { tit: "Impact 3 • Unit 2: Helpful Garden Spiders", st: "Spiders have eight legs. They eat insects that harm garden plants, so spiders help flowers grow.", q: "How many legs does a spider have?", opt: ["Eight legs", "Two legs", "Four legs", "Ten legs"], ic: "spider" },
+            { tit: "Impact 3 • Unit 2: Protecting Snakes", st: "Scientist Jenny Daltry studies snakes. She teaches people that snakes help keep nature balanced.", q: "Who studies snakes in Unit 2?", opt: ["Jenny Daltry", "William Perkin", "Jimmy Chin", "Amber Case"], ic: "snake" },
+            { tit: "Impact 3 • Unit 3: Working in a Team", st: "Students join school clubs to work together. Helping each other makes group projects fun and easy.", q: "Why do students join school clubs?", opt: ["To work together and help each other", "To sit alone in silence", "To break classroom desks", "To miss school exams"], ic: "group" },
+            { tit: "Impact 3 • Unit 4: Soft Cotton Clothes", st: "Cotton comes from a green plant. T-shirts made from organic cotton are soft, cool, and eco-friendly.", q: "Where does cotton come from?", opt: ["From a green plant", "From deep sea rocks", "From plastic bottles", "From metal cans"], ic: "cotton" },
+            { tit: "Impact 3 • Unit 5: Birds and Planes", st: "Birds use wide wings to glide smoothly in the sky. Engineers watch birds to design safe aeroplanes.", q: "What do engineers watch to design aeroplanes?", opt: ["Birds gliding in the sky", "Fish swimming in tanks", "Cars parked on streets", "Rocks on the ground"], ic: "flight" },
+            { tit: "Impact 3 • Unit 6: Bahrain's Light-1 Satellite", st: "Light-1 is a small satellite from Bahrain. It orbits high above Earth to study space light flashes.", q: "Where does Bahrain's Light-1 satellite orbit?", opt: ["High above Earth in space", "Under the Arabian Gulf", "Inside a school library", "On a desert road"], ic: "orbit" },
+            { tit: "Impact 3 • Unit 7: Sharing Visual Stories", st: "Long ago, people painted stories on cave walls. Today, people share stories using cameras and screens.", q: "How do people share visual stories today?", opt: ["Using cameras and screens", "By carving stone wheels", "Only by smoke signals", "Without any pictures"], ic: "camera" },
+            { tit: "Impact 3 • Unit 8: Brave Explorers", st: "Brave explorers travel to high mountains and deep caves. They prepare well before every journey.", q: "What do brave explorers do before every journey?", opt: ["They prepare well", "They forget their maps", "They leave food behind", "They close their eyes"], ic: "brave" },
+            { tit: "Impact 3 • Unit 2: The Desert Lizard", st: "The horned lizard lives in warm deserts. Its brown skin helps it hide safely near desert rocks.", q: "Where does the horned lizard live?", opt: ["In warm deserts", "In icy oceans", "Inside tall towers", "On snowy clouds"], ic: "lizard" },
+            { tit: "Impact 3 • Unit 6: Space Rockets", st: "Rockets carry satellites from Earth into space. Scientists count down before every rocket launch.", q: "What do rockets carry into space?", opt: ["Satellites", "School buses", "Wooden boats", "Garden trees"], ic: "rocket" },
+            { tit: "Impact 3 • Unit 7: Reading Storybooks", st: "Storybooks take readers on exciting adventures around the world without leaving home.", q: "What do storybooks take readers on?", opt: ["Exciting adventures", "Busy highways", "Cold icebergs", "Dark tunnels"], ic: "story" }
+          ],
+          A2: [
+            { tit: "Impact 3 • Unit 1: Teenage Brain Growth", st: "After infancy, the human brain experiences rapid growth during adolescence, making teenage years ideal for learning new languages and skills.", q: "When does the brain grow rapidly after infancy?", opt: ["During adolescence", "Only after age seventy", "During a short nap", "Never"], ic: "brain" },
+            { tit: "Impact 3 • Unit 2: Spiders in the Ecosystem", st: "Writer Stacey Parks explains that spiders eat thousands of crop-damaging insects every year, keeping gardens healthy naturally.", q: "How do spiders help farms and gardens?", opt: ["They eat harmful crop-damaging insects", "They water the flowers", "They plant apple seeds", "They scare away rain"], ic: "spider" },
+            { tit: "Impact 3 • Unit 2: Jenny Daltry's Mission", st: "Herpetologist Jenny Daltry protects misunderstood reptiles like snakes and crocodiles, showing that every creature has a role in nature.", q: "What is Jenny Daltry's profession?", opt: ["Herpetologist and conservationist", "Airplane pilot", "Chef in a hotel", "Car mechanic"], ic: "snake" },
+            { tit: "Impact 3 • Unit 3: Voluntary vs Involuntary Groups", st: "Humans belong to involuntary groups like family, and voluntary groups like school robotics clubs or charity volunteer teams.", q: "Which is a voluntary group?", opt: ["A school robotics or charity club", "The family you are born into", "Your birth order", "Your eye colour"], ic: "group" },
+            { tit: "Impact 3 • Unit 4: Eco-Friendly Cotton", st: "Choosing organic cotton instead of synthetic fast-fashion garments helps keep rivers free from microplastic pollution.", q: "Why is organic cotton better for rivers?", opt: ["It avoids microplastic pollution", "It turns water purple", "It melts in rain", "It weighs ten tons"], ic: "cotton" },
+            { tit: "Impact 3 • Unit 5: Aerodynamics of Flight", st: "By studying how birds soar on warm air currents, engineers design lightweight gliders and safe parachutes.", q: "What helps birds and gliders soar smoothly?", opt: ["Warm air currents", "Heavy iron engines", "Underwater propellers", "Train tracks"], ic: "flight" },
+            { tit: "Impact 3 • Unit 6: Bahrain's Light-1 Nanosatellite", st: "Bahrain's National Space Science Agency collaborated on Light-1, a nanosatellite orbiting Earth to detect terrestrial gamma-ray flashes.", q: "What does Bahrain's Light-1 nanosatellite detect?", opt: ["Terrestrial gamma-ray flashes", "Deep ocean whales", "Desert sandstorms", "City traffic lights"], ic: "orbit" },
+            { tit: "Impact 3 • Unit 7: From Cave Art to Digital Screens", st: "Human storytelling evolved from prehistoric cave paintings to modern cameras, cinema, and cloud-connected screens.", q: "What were humanity's earliest visual stories painted on?", opt: ["Prehistoric cave walls", "Smartwatch screens", "Laptop keyboards", "Airplane wings"], ic: "camera" },
+            { tit: "Impact 3 • Unit 8: Courage and Perseverance", st: "Successful explorers combine careful preparation with courage and perseverance when facing unexpected challenges.", q: "What qualities do successful explorers combine?", opt: ["Preparation, courage, and perseverance", "Carelessness and panic", "Laziness and fear", "Anger and haste"], ic: "brave" },
+            { tit: "Impact 3 • Unit 2: Texas Horned Lizard", st: "The Texas horned lizard hides under desert rocks from ground predators and uses clever defences to survive in the wild.", q: "Where does the Texas horned lizard hide from ground predators?", opt: ["Under desert rocks", "In tall pine trees", "Inside coral reefs", "On snowy roofs"], ic: "lizard" },
+            { tit: "Impact 3 • Unit 5: Safe Parachute Landings", st: "Parachutes use air resistance to slow down descent so skydivers and supply boxes land gently on the ground.", q: "How do parachutes help skydivers land safely?", opt: ["By using air resistance to slow descent", "By firing rocket boosters", "By spinning underwater", "By bouncing on springs"], ic: "parachute" },
+            { tit: "Impact 3 • Unit 7: Visual Storytelling", st: "A single powerful photograph can capture emotion and tell a meaningful story across different cultures.", q: "What can a single powerful photograph do?", opt: ["Capture emotion and tell a story", "Replace all school subjects", "Cook dinner automatically", "Fix broken computers"], ic: "story" }
+          ]
+        }
+      };
+
+      // Build B1 & B2 Reading pools cleanly from A2 + advanced analytical framing
+      ["Impact1", "Impact2", "Impact3"].forEach(function(b) {
+        readingByBookAndLevel[b].B1 = readingByBookAndLevel[b].A2.map(function(item) {
+          return {
+            tit: item.tit,
+            st: item.st + " This real-world example highlights how science, culture, and teamwork solve modern challenges.",
+            q: item.q,
+            opt: item.opt,
+            ic: item.ic
+          };
+        });
+        readingByBookAndLevel[b].B2 = readingByBookAndLevel[b].A2.map(function(item) {
+          return {
+            tit: item.tit + " (Advanced Analysis)",
+            st: item.st + " Researchers emphasize that critical thinking and sustainable innovation are essential for future progress.",
+            q: "Based on the passage, " + item.q.charAt(0).toLowerCase() + item.q.slice(1),
+            opt: item.opt,
+            ic: item.ic
+          };
+        });
+      });
+
+      // -------------------- GRAMMAR POOLS (12 UNIQUE ITEMS PER BOOK) --------------------
       var grammarPools = {
         Impact1: [
-          { q: "The modern skyscraper in Manama _________ surrounded by palm trees.", opt: ["is", "are", "am", "were"], h: "Impact 1 • Unit 1: Singular subject takes 'is' in Present Simple" },
-          { q: "Underwater archaeologists _________ in flooded caves to study ancient history.", opt: ["work", "works", "working", "is work"], h: "Impact 1 • Unit 2: Plural subject 'archaeologists' takes base verb 'work'" },
-          { q: "Look! The nocturnal fireflies _________ brightly in the dark right now.", opt: ["are glowing", "glows", "glowed", "is glowing"], h: "Impact 1 • Unit 3: Present Continuous for actions happening right now" },
-          { q: "Communities _________ protect endangered wildlife and their habitats.", opt: ["must", "shouldn't", "aren't", "didn't"], h: "Impact 1 • Unit 4: Use 'must' for strong obligation" },
-          { q: "In Bahrain, women wear _________ embroidered thobs during celebrations.", opt: ["traditional", "traditionally", "tradition", "traditions"], h: "Impact 1 • Unit 5: Adjective 'traditional' describes the noun" },
-          { q: "This 3D animated film is _________ than the old black-and-white cartoon.", opt: ["more exciting", "most exciting", "excitinger", "as exciting"], h: "Impact 1 • Unit 6: Comparative form 'more + adjective + than'" },
-          { q: "Ten years from now, people _________ use outdated gadgets anymore.", opt: ["won't", "didn't", "weren't", "haven't"], h: "Impact 1 • Unit 7: Future prediction with 'will / won't + base verb'" },
-          { q: "In the past, factory workers _________ long hours to support their families.", opt: ["worked", "work", "working", "are working"], h: "Impact 1 • Unit 8: Past Simple '-ed' for completed past actions" },
-          { q: "That gold-embroidered scarf belongs to Sara. It is _________ scarf.", opt: ["Sara's", "Saras", "Sara is", "Saras's"], h: "Impact 1 • Unit 2: Possessive apostrophe + s ('Sara's')" },
-          { q: "There _________ many historic artefacts displayed in the museum.", opt: ["are", "is", "was", "has"], h: "Impact 1 • Unit 8: Plural noun 'artefacts' takes 'There are'" }
+          { q: "The modern skyscraper in Manama _________ surrounded by palm trees.", opt: ["is", "are", "am", "were"], h: "Singular subject 'skyscraper' takes 'is'", ic: "city" },
+          { q: "Underwater archaeologists _________ in flooded caves to study history.", opt: ["work", "works", "working", "is work"], h: "Plural subject 'archaeologists' takes base verb 'work'", ic: "explorer" },
+          { q: "Look! The fireflies _________ brightly in the dark right now.", opt: ["are glowing", "glows", "glowed", "is glowing"], h: "Present Continuous for actions happening right now", ic: "shadow" },
+          { q: "Communities _________ protect endangered lions and their habitats.", opt: ["must", "shouldn't", "aren't", "didn't"], h: "Use 'must' for strong obligation", ic: "lion" },
+          { q: "In Bahrain, women wear _________ embroidered thobs during festivals.", opt: ["traditional", "traditionally", "tradition", "traditions"], h: "Adjective 'traditional' describes the noun", ic: "scarf" },
+          { q: "This 3D animated film is _________ than the old black-and-white cartoon.", opt: ["more exciting", "most exciting", "excitinger", "as exciting"], h: "Comparative form 'more + adjective + than'", ic: "cartoon" },
+          { q: "Ten years from now, people _________ use outdated gadgets anymore.", opt: ["won't", "didn't", "weren't", "haven't"], h: "Future prediction with 'will / won't + base verb'", ic: "gadget" },
+          { q: "In the past, factory workers _________ long hours every day.", opt: ["worked", "work", "working", "are working"], h: "Past Simple '-ed' for completed past actions", ic: "factory" },
+          { q: "That gold-embroidered scarf belongs to Sara. It is _________ scarf.", opt: ["Sara's", "Saras", "Sara is", "Saras's"], h: "Possessive apostrophe + s ('Sara's')", ic: "scarf" },
+          { q: "There _________ many historic artefacts displayed in the museum.", opt: ["are", "is", "was", "has"], h: "Plural noun 'artefacts' takes 'There are'", ic: "museum" },
+          { q: "Green parks _________ cities cooler and cleaner for residents.", opt: ["make", "makes", "making", "is make"], h: "Plural subject 'parks' takes 'make'", ic: "nature" },
+          { q: "She _________ a camera to take photos of wild animals yesterday.", opt: ["used", "use", "using", "is use"], h: "Past Simple 'used' because of 'yesterday'", ic: "camera" }
         ],
         Impact2: [
-          { q: "The brighter the colour of the frog, _________ it is to predators.", opt: ["the more dangerous", "more dangerous", "most dangerous", "the dangerous"], h: "Impact 2 • Unit 1: Double comparative ('The + comparative..., the + comparative...')" },
-          { q: "Cheerful colours often make students _________ happier and more focused.", opt: ["feel", "to feel", "feeling", "felt"], h: "Impact 2 • Unit 2: 'make + object + base verb'" },
-          { q: "Before GPS existed, sailors _________ navigate using the stars.", opt: ["used to", "use to", "are used to", "using to"], h: "Impact 2 • Unit 4: 'used to + base verb' for past habits" },
-          { q: "Marine scientists _________ several new species near Kick' em Jenny recently.", opt: ["have discovered", "discovered yesterday", "are discover", "was discovering"], h: "Impact 2 • Unit 5: Present Perfect for recent unspecified time" },
-          { q: "If shoppers buy curved carrots, supermarkets _________ less food.", opt: ["will waste", "wasted", "would have wasted", "wasting"], h: "Impact 2 • Unit 6: First Conditional (If + Present Simple, will + verb)" },
-          { q: "While the artist _________ the street mural, a crowd gathered to watch.", opt: ["was painting", "painted", "is painting", "has painted"], h: "Impact 2 • Unit 7: Past Continuous interrupted by Past Simple" },
-          { q: "By the time the rescue team arrived, the villagers _________ to higher ground.", opt: ["had evacuated", "evacuate", "are evacuating", "have evacuate"], h: "Impact 2 • Unit 8: Past Perfect (had + past participle) for earlier past event" },
-          { q: "Blue is a calm colour _________ represents trust and peace.", opt: ["which", "who", "where", "when"], h: "Impact 2 • Unit 1: Relative pronoun 'which' for things/colours" },
-          { q: "You don't need _________ expensive equipment to start recycling at home.", opt: ["any", "many", "a few", "several"], h: "Impact 2 • Unit 6: 'any' with uncountable noun 'equipment' in negative sentences" },
-          { q: "Amber Case asked teenagers _________ about how they use smartphones.", opt: ["to think", "think", "thinking", "thought"], h: "Impact 2 • Unit 3: 'ask + object + to-infinitive'" }
+          { q: "The brighter the colour of the frog, _________ it is to predators.", opt: ["the more dangerous", "more dangerous", "most dangerous", "the dangerous"], h: "Double comparative ('The + comparative..., the + comparative...')", ic: "lizard" },
+          { q: "Cheerful colours often make students _________ happier and calmer.", opt: ["feel", "to feel", "feeling", "felt"], h: "'make + object + base verb'", ic: "purple" },
+          { q: "Before GPS existed, sailors _________ navigate using the stars.", opt: ["used to", "use to", "are used to", "using to"], h: "'used to + base verb' for past habits", ic: "ocean" },
+          { q: "Marine scientists _________ several new species near the volcano recently.", opt: ["have discovered", "discovered yesterday", "are discover", "was discovering"], h: "Present Perfect for recent unspecified time", ic: "volcano" },
+          { q: "If shoppers buy curved carrots, supermarkets _________ less food.", opt: ["will waste", "wasted", "would have wasted", "wasting"], h: "First Conditional (If + Present Simple, will + verb)", ic: "carrot" },
+          { q: "While the artist _________ the mural, a crowd gathered to watch.", opt: ["was painting", "painted", "is painting", "has painted"], h: "Past Continuous interrupted by Past Simple", ic: "fashion" },
+          { q: "By the time the rescue team arrived, families _________ to safety.", opt: ["had evacuated", "evacuate", "are evacuating", "have evacuate"], h: "Past Perfect (had + past participle) for earlier past event", ic: "rescue" },
+          { q: "Blue is a calm colour _________ represents trust and peace.", opt: ["which", "who", "where", "when"], h: "Relative pronoun 'which' for things/colours", ic: "purple" },
+          { q: "You don't need _________ expensive equipment to start recycling.", opt: ["any", "many", "a few", "several"], h: "'any' with uncountable noun 'equipment' in negative sentences", ic: "nature" },
+          { q: "Amber Case asked teenagers _________ about their screen habits.", opt: ["to think", "think", "thinking", "thought"], h: "'ask + object + to-infinitive'", ic: "screen" },
+          { q: "Bahrain National Museum _________ visited by thousands of tourists every year.", opt: ["is", "are", "were", "have"], h: "Singular passive voice 'is visited'", ic: "museum" },
+          { q: "If a storm _________ tomorrow, boats will stay in the harbour.", opt: ["comes", "came", "will come", "coming"], h: "First Conditional: 'If + Present Simple'", ic: "ocean" }
         ],
         Impact3: [
-          { q: "It _________ me very happy when students support each other in class!", opt: ["makes", "make", "making", "is make"], h: "Impact 3 • Unit 1: Using 'It' for emphasis ('It makes me happy when...')" },
-          { q: "You enjoy learning about space exploration, _________?", opt: ["don't you?", "do you?", "aren't you?", "didn't you?"], h: "Impact 3 • Unit 1: Question tag — positive Present Simple takes 'don't you?'" },
-          { q: "Gina just screamed! She _________ seen a huge spider in the cave.", opt: ["must have", "can't to", "shouldn't have", "used to"], h: "Impact 3 • Unit 2: Modal + have + past participle for past certainty" },
-          { q: "Students are allowed _________ the science lab during supervised clubs.", opt: ["to use", "use", "using", "used"], h: "Impact 3 • Unit 2: 'be allowed + to-infinitive'" },
-          { q: "She brought her friend a bouquet of flowers to _________.", opt: ["cheer her up", "knock her over", "lock her out", "break her into"], h: "Impact 3 • Unit 3: Separable phrasal verb meaning 'make someone happier'" },
-          { q: "Organic cotton _________ grown by farmers without toxic chemicals.", opt: ["is", "are", "has", "were"], h: "Impact 3 • Unit 4: Present passive voice (is/are + past participle)" },
-          { q: "Julia said that the Mona Lisa _________ her favourite painting.", opt: ["was", "is being", "will be", "has been"], h: "Impact 3 • Unit 7: Reported speech backshifts 'is' to 'was'" },
-          { q: "If a horned lizard _________ hunted by a hawk, it would squirt blood from its eye.", opt: ["was", "is", "will be", "has been"], h: "Impact 3 • Unit 2: Second Conditional (If + Past Simple, would + verb)" },
-          { q: "The painter asked if he _________ paint her portrait for the exhibition.", opt: ["could", "can", "will", "may to"], h: "Impact 3 • Unit 7: Reported question backshifts 'can' to 'could'" },
-          { q: "There are _________ plastic bags in the ocean; we must reduce waste.", opt: ["too many", "too much", "enough of", "little"], h: "Impact 3 • Unit 4: 'too many' with countable plural nouns" }
+          { q: "It _________ me very happy when friends help each other in class!", opt: ["makes", "make", "making", "is make"], h: "Using 'It' for emphasis ('It makes me happy when...')", ic: "group" },
+          { q: "You enjoy learning about space satellites, _________?", opt: ["don't you?", "do you?", "aren't you?", "didn't you?"], h: "Question tag — positive Present Simple takes 'don't you?'", ic: "orbit" },
+          { q: "Gina just gasped! She _________ seen a huge spider on the web.", opt: ["must have", "can't to", "shouldn't have", "used to"], h: "Modal + have + past participle for past certainty", ic: "spider" },
+          { q: "Students are allowed _________ the science lab during clubs.", opt: ["to use", "use", "using", "used"], h: "'be allowed + to-infinitive'", ic: "brain" },
+          { q: "She brought her friend a gift to _________.", opt: ["cheer her up", "knock her over", "lock her out", "break her into"], h: "Separable phrasal verb meaning 'make someone happier'", ic: "group" },
+          { q: "Organic cotton _________ grown by farmers without toxic sprays.", opt: ["is", "are", "has", "were"], h: "Present passive voice (is/are + past participle)", ic: "cotton" },
+          { q: "Julia said that the portrait _________ her favourite painting.", opt: ["was", "is being", "will be", "has been"], h: "Reported speech backshifts 'is' to 'was'", ic: "camera" },
+          { q: "If a lizard _________ hunted by a hawk, it would hide under a rock.", opt: ["was", "is", "will be", "has been"], h: "Second Conditional (If + Past Simple, would + verb)", ic: "lizard" },
+          { q: "The pilot asked if he _________ test the new glider before noon.", opt: ["could", "can", "will", "may to"], h: "Reported question backshifts 'can' to 'could'", ic: "flight" },
+          { q: "There are _________ plastic bags in the sea; we must recycle more.", opt: ["too many", "too much", "enough of", "little"], h: "'too many' with countable plural nouns", ic: "ocean" },
+          { q: "Snakes are misunderstood reptiles _________ help control pests.", opt: ["that", "who", "where", "when"], h: "Relative pronoun 'that' for animals/things", ic: "snake" },
+          { q: "A rocket must travel very fast _________ reach Earth's orbit.", opt: ["to", "for", "so", "by"], h: "Infinitive of purpose ('to + base verb')", ic: "rocket" }
         ]
       };
 
-      var listenAllMap = { Impact1: i1ListenAll, Impact2: i2ListenAll, Impact3: i3ListenAll };
+      var listenMap = { Impact1: i1Listen, Impact2: i2Listen, Impact3: i3Listen };
 
       books.forEach(function(bookName) {
-        var all40Listen = listenAllMap[bookName];
-        var rPool = readingPools[bookName];
+        var rBookLevels = readingByBookAndLevel[bookName];
         var gPool = grammarPools[bookName];
 
         levels.forEach(function(lvl, lvlIdx) {
-          // 10 distinct Listen & Spell items per level (indices 0..9, 10..19, 20..29, 30..39)
-          var startIdx = lvlIdx * 10;
-          for (var i = 0; i < 10; i++) {
-            var item = all40Listen[startIdx + i];
+          // Listen pool (12-15 unique words per book/level)
+          var lArr = listenMap[bookName][lvl];
+          lArr.forEach(function(item, i) {
             bank[bookName][lvl].listen.push({
               id: bookName + "_" + lvl + "_L_" + (i + 1),
               word: item.w,
@@ -1289,41 +1602,35 @@
               topic: item.t + " • " + lvl,
               iconName: item.ic
             });
-          }
+          });
 
-          // 10 rotated Reading items across all 8 units with level-adapted question framing
-          var lvlFrameR = {
-            A1: " [A1 Beginner Check]",
-            A2: " [A2 Elementary Check]",
-            B1: " [B1 Intermediate Analysis]",
-            B2: " [B2 Advanced Synthesis]"
-          };
-          for (var r = 0; r < 10; r++) {
-            var rItem = rPool[(r + lvlIdx * 2) % rPool.length];
+          // Reading pool (12 unique stories per book/level)
+          var rArr = rBookLevels[lvl];
+          rArr.forEach(function(rItem, r) {
             bank[bookName][lvl].reading.push({
               id: bookName + "_" + lvl + "_R_" + (r + 1),
               title: rItem.tit,
               story: rItem.st,
-              question: rItem.q + lvlFrameR[lvl],
+              question: rItem.q,
               options: rItem.opt,
               correct: 0,
               topic: rItem.tit.split(":")[0] + " • " + lvl,
               iconName: rItem.ic
             });
-          }
+          });
 
-          // 10 rotated Grammar items across all 8 units
-          for (var g = 0; g < 10; g++) {
-            var gItem = gPool[(g + lvlIdx * 3) % gPool.length];
+          // Grammar pool (12 unique grammar questions per book/level)
+          gPool.forEach(function(gItem, g) {
             bank[bookName][lvl].grammar.push({
               id: bookName + "_" + lvl + "_G_" + (g + 1),
               question: gItem.q,
               options: gItem.opt,
               correct: 0,
               hint: gItem.h,
-              topic: gItem.h.split(":")[0] + " • " + lvl
+              topic: getBookDisplayName(bookName) + " Grammar • " + lvl,
+              iconName: gItem.ic || "story"
             });
-          }
+          });
         });
       });
 
@@ -1333,48 +1640,14 @@
     var QUESTION_BANK = buildQuestionBank();
 
     /* ========================================================
-       3. CARTOON SVG VISUAL SCENE ILLUSTRATIONS (MATCHES TOPIC)
-       ======================================================== */
-    function renderVisualScene(iconName, topicLabel) {
-      var container = document.getElementById('visualSceneContainer');
-      if (!container) return;
-      var scenes = {
-        city: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="20" y="96" width="280" height="22" rx="11" fill="#bbf7d0"/><rect x="75" y="34" width="38" height="64" rx="6" fill="#7c3aed"/><rect x="83" y="42" width="8" height="8" rx="2" fill="#fef08a"/><rect x="97" y="42" width="8" height="8" rx="2" fill="#fef08a"/><rect x="83" y="56" width="8" height="8" rx="2" fill="#fef08a"/><rect x="97" y="56" width="8" height="8" rx="2" fill="#fef08a"/><rect x="125" y="20" width="46" height="78" rx="8" fill="#5b21b6"/><rect x="135" y="30" width="10" height="10" rx="2" fill="#fde047"/><rect x="151" y="30" width="10" height="10" rx="2" fill="#fde047"/><rect x="135" y="46" width="10" height="10" rx="2" fill="#fde047"/><rect x="151" y="46" width="10" height="10" rx="2" fill="#fde047"/><circle cx="222" cy="74" r="18" fill="#22c55e"/><rect x="219" y="84" width="6" height="14" fill="#92400e"/><circle cx="255" cy="34" r="14" fill="#fde047"/></svg>',
-        archaeology: '<svg viewBox="0 0 320 130" class="w-full h-full"><polygon points="110,98 160,30 210,98" fill="#f59e0b"/><polygon points="160,30 185,98 210,98" fill="#d97706"/><circle cx="82" cy="52" r="16" fill="#fde68a" stroke="#b45309" stroke-width="3"/><line x1="94" y1="64" x2="112" y2="82" stroke="#78350f" stroke-width="6" stroke-linecap="round"/><rect x="30" y="96" width="260" height="20" rx="10" fill="#fde68a"/></svg>',
-        ocean: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="18" y="16" width="284" height="98" rx="18" fill="#dbeafe"/><ellipse cx="160" cy="64" rx="46" ry="22" fill="#facc15" stroke="#ca8a04" stroke-width="3"/><rect x="148" y="34" width="24" height="12" rx="5" fill="#eab308"/><circle cx="144" cy="64" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/><circle cx="166" cy="64" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/><path d="M35 98 Q95 86 160 98 T285 98" fill="none" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/></svg>',
-        wildlife: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="20" y="88" width="280" height="26" rx="13" fill="#86efac"/><circle cx="160" cy="62" r="32" fill="#fbbf24" stroke="#d97706" stroke-width="5"/><circle cx="160" cy="64" r="22" fill="#fde68a"/><circle cx="151" cy="58" r="3.5" fill="#451a03"/><circle cx="169" cy="58" r="3.5" fill="#451a03"/><polygon points="156,66 164,66 160,71" fill="#b45309"/><path d="M152 75 Q160 80 168 75" stroke="#451a03" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
-        fashion: '<svg viewBox="0 0 320 130" class="w-full h-full"><path d="M120 34 L142 26 Q160 36 178 26 L200 34 L214 58 L194 66 L188 52 L188 102 L132 102 L132 52 L126 66 L106 58 Z" fill="#a855f7" stroke="#6b21a8" stroke-width="3"/><path d="M142 46 L160 56 L178 46" stroke="#fde047" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="160" cy="74" r="7" fill="#fde047"/></svg>',
-        animation: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="92" y="24" width="136" height="82" rx="16" fill="#4c1d95"/><rect x="104" y="34" width="112" height="62" rx="10" fill="#ede9fe"/><polygon points="150,50 150,80 176,65" fill="#7c3aed"/><circle cx="72" cy="44" r="12" fill="#f472b6"/><circle cx="248" cy="84" r="14" fill="#34d399"/></svg>',
-        gadget: '<svg viewBox="0 0 320 130" class="w-full h-full"><circle cx="240" cy="34" r="16" fill="#facc15"/><rect x="132" y="24" width="56" height="84" rx="12" fill="#312e81"/><rect x="139" y="34" width="42" height="58" rx="6" fill="#e0e7ff"/><polygon points="162,46 152,64 161,64 157,80 170,60 161,60" fill="#f59e0b"/></svg>',
-        museum: '<svg viewBox="0 0 320 130" class="w-full h-full"><polygon points="160,18 88,50 232,50" fill="#7c3aed"/><rect x="98" y="50" width="124" height="54" rx="6" fill="#f3e8ff" stroke="#7c3aed" stroke-width="3"/><rect x="112" y="56" width="12" height="42" fill="#c4b5fd"/><rect x="154" y="56" width="12" height="42" fill="#c4b5fd"/><rect x="196" y="56" width="12" height="42" fill="#c4b5fd"/><rect x="86" y="102" width="148" height="10" rx="5" fill="#5b21b6"/></svg>',
-        color: '<svg viewBox="0 0 320 130" class="w-full h-full"><ellipse cx="160" cy="66" rx="64" ry="42" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/><circle cx="132" cy="54" r="11" fill="#ef4444"/><circle cx="162" cy="46" r="11" fill="#3b82f6"/><circle cx="190" cy="58" r="11" fill="#22c55e"/><circle cx="174" cy="82" r="11" fill="#a855f7"/><circle cx="122" cy="76" r="8" fill="#ffffff" stroke="#d97706" stroke-width="2"/></svg>',
-        lizard: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="24" y="90" width="272" height="24" rx="12" fill="#bbf7d0"/><ellipse cx="160" cy="68" rx="44" ry="22" fill="#34d399" stroke="#059669" stroke-width="3"/><circle cx="196" cy="58" r="15" fill="#34d399" stroke="#059669" stroke-width="3"/><circle cx="201" cy="55" r="3.5" fill="#064e3b"/><path d="M116 68 Q92 52 84 68" stroke="#059669" stroke-width="7" fill="none" stroke-linecap="round"/></svg>',
-        space: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="18" y="14" width="284" height="102" rx="18" fill="#1e1b4b"/><circle cx="72" cy="40" r="3" fill="#fde047"/><circle cx="254" cy="36" r="3.5" fill="#fde047"/><circle cx="235" cy="88" r="2.5" fill="#ffffff"/><rect x="142" y="44" width="36" height="42" rx="8" fill="#a78bfa" stroke="#ffffff" stroke-width="2"/><rect x="96" y="52" width="42" height="24" rx="4" fill="#38bdf8"/><rect x="182" y="52" width="42" height="24" rx="4" fill="#38bdf8"/><circle cx="160" cy="65" r="8" fill="#fef08a"/></svg>',
-        screen: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="98" y="22" width="124" height="74" rx="12" fill="#3b0764"/><rect x="106" y="30" width="108" height="58" rx="8" fill="#ddd6fe"/><rect x="146" y="96" width="28" height="10" fill="#6d28d9"/><rect x="128" y="104" width="64" height="8" rx="4" fill="#4c1d95"/><circle cx="160" cy="59" r="15" fill="#8b5cf6"/><path d="M153 59 L158 64 L168 53" stroke="#ffffff" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>'
-      };
-      var svgMarkup = scenes[iconName] || scenes.museum;
-      container.innerHTML = svgMarkup + '<span class="absolute bottom-2 right-3 bg-white/90 text-purple-900 border border-purple-200 px-2.5 py-0.5 rounded-lg text-[10px] font-black">' + (topicLabel || 'Nexly') + '</span>';
-    }
-
-    /* ========================================================
        4. APPLICATION STATE & ISOLATED TEACHER WORKSPACES
+       - UK Voice is PRIMARY & LOCKED ON STARTUP ("UK")
+       - Non-repeating 10-question batches per skill round
        ======================================================== */
     var urlParams = new URLSearchParams(window.location.search);
     var directCode = (urlParams.get('code') || urlParams.get('c') || "").trim().toUpperCase();
     var directBookParam = (urlParams.get('book') || urlParams.get('b') || "").trim();
     var directTeacher = (urlParams.get('teacher') || urlParams.get('t') || "").trim();
-
-    var BOOK_DISPLAY_NAMES = { Impact1: "Impact 1", Impact2: "Impact 2", Impact3: "Impact 3" };
-    var LEVEL_DISPLAY_NAMES = {
-      A1: "A1 (Beginner)",
-      A2: "A2 (Elementary)",
-      B1: "B1 (Intermediate)",
-      B2: "B2 (Advanced)"
-    };
-    var LEVEL_ORDER = ["A1", "A2", "B1", "B2"];
-
-    function getBookDisplayName(b) { return BOOK_DISPLAY_NAMES[b] || "Impact 1"; }
-    function getLevelDisplayName(l) { return LEVEL_DISPLAY_NAMES[l] || "A1 (Beginner)"; }
 
     function detectBookFromCodePattern(code) {
       var c = (code || "").trim().toUpperCase();
@@ -1395,6 +1668,28 @@
         map[b] = {};
         ["A1", "A2", "B1", "B2"].forEach(function(l) {
           map[b][l] = { listen: 0, reading: 0, grammar: 0 };
+        });
+      });
+      return map;
+    }
+
+    function createEmptyBooleanMap() {
+      var map = {};
+      ["Impact1", "Impact2", "Impact3"].forEach(function(b) {
+        map[b] = {};
+        ["A1", "A2", "B1", "B2"].forEach(function(l) {
+          map[b][l] = { listen: false, reading: false, grammar: false };
+        });
+      });
+      return map;
+    }
+
+    function createEmptyBatchMap() {
+      var map = {};
+      ["Impact1", "Impact2", "Impact3"].forEach(function(b) {
+        map[b] = {};
+        ["A1", "A2", "B1", "B2"].forEach(function(l) {
+          map[b][l] = { listen: null, reading: null, grammar: null };
         });
       });
       return map;
@@ -1422,8 +1717,14 @@
       hearts: 5,
       streak: 0,
       xp: 0,
+      // Tracks correct score (0..10) per skill
       completedCounts: createEmptyProgressMap(),
-      questionIndex: createEmptyProgressMap(),
+      // Tracks current question step (0..9) within the 10-question batch
+      batchStep: createEmptyProgressMap(),
+      // Tracks whether the 10-question round for a skill has been finished
+      skillFinished: createEmptyBooleanMap(),
+      // Stores the 10 unique shuffled questions for each skill round
+      activeBatches: createEmptyBatchMap(),
       earnedCertificates: {},
       currentQuestion: null,
       activeOptions: [],
@@ -1435,8 +1736,19 @@
       loggedInTeacherKey: null,
       tempTeacherSignUp: { name: "", email: "", otp: "" },
       tempTeacherRecovery: { key: "", name: "", email: "", otp: "" },
-      voiceAccent: "US"
+      // PRIMARY DEFAULT VOICE IS BRITISH ENGLISH ("UK")
+      voiceAccent: "UK"
     };
+
+    /* Ensures each 10-question round has 10 completely unique, non-repeating questions */
+    function getOrCreateSkillBatch(book, lvl, skill, forceNew) {
+      if (forceNew || !AppState.activeBatches[book][lvl][skill]) {
+        var pool = QUESTION_BANK[book][lvl][skill];
+        var shuffled = shuffleArrayCopy(pool);
+        AppState.activeBatches[book][lvl][skill] = shuffled.slice(0, 10);
+      }
+      return AppState.activeBatches[book][lvl][skill];
+    }
 
     function saveWorkspacesToStorage() {
       try { localStorage.setItem('nexly_isolated_teachers_v4', JSON.stringify(AppState.teachersWorkspaces)); } catch (e) {}
@@ -1496,7 +1808,8 @@
     }
 
     /* ========================================================
-       5. SOUND EFFECTS & HUMAN PRONUNCIATION ENGINE
+       5. DISTINCT SOUND EFFECTS (JOY/APPLAUSE VS ENCOURAGEMENT)
+          & CRYSTAL-CLEAR UK/US HUMAN PRONUNCIATION ENGINE
        ======================================================== */
     var audioCtx = null;
     function getAudioCtx() {
@@ -1504,80 +1817,188 @@
         var Ctx = window.AudioContext || window.webkitAudioContext;
         if (Ctx) audioCtx = new Ctx();
       }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        try { audioCtx.resume(); } catch (e) {}
+      }
       return audioCtx;
     }
 
+    // 1. Single Correct Answer Joyful Chime
     function playSuccessChime() {
       try {
         var ctx = getAudioCtx(); if (!ctx) return;
         var osc = ctx.createOscillator(); var gain = ctx.createGain();
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(523.25, ctx.currentTime);
-        osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.09);
-        osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.18);
+        osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08);
+        osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.16);
         gain.gain.setValueAtTime(0.18, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.42);
         osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(); osc.stop(ctx.currentTime + 0.45);
+        osc.start(); osc.stop(ctx.currentTime + 0.42);
       } catch (e) {}
     }
 
-    function playFanfareChime() {
+    // 2. Single Wrong Answer Gentle "Try Again" Tone (Never harsh!)
+    function playGentleTryAgainTone() {
       try {
         var ctx = getAudioCtx(); if (!ctx) return;
-        var notes = [523.25, 659.25, 783.99, 1046.5];
+        var osc = ctx.createOscillator(); var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(330, ctx.currentTime);
+        osc.frequency.setValueAtTime(277.18, ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.14, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.34);
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime + 0.34);
+      } catch (e) {}
+    }
+
+    // 3. Stage Win: Real Synthesized Applause Claps + Joyful Victory Fanfare!
+    function playApplauseAndFanfare() {
+      try {
+        var ctx = getAudioCtx(); if (!ctx) return;
+        var now = ctx.currentTime;
+
+        // Joyful Victory Fanfare Chords
+        var notes = [523.25, 659.25, 783.99, 1046.5, 1318.5];
         notes.forEach(function(freq, idx) {
-          var osc = ctx.createOscillator(); var gain = ctx.createGain();
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.11);
-          gain.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.11);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.11 + 0.45);
-          osc.connect(gain); gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + idx * 0.11);
-          osc.stop(ctx.currentTime + idx * 0.11 + 0.45);
+          osc.frequency.setValueAtTime(freq, now + idx * 0.11);
+          gain.gain.setValueAtTime(0.2, now + idx * 0.11);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.11 + 0.55);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.11);
+          osc.stop(now + idx * 0.11 + 0.55);
+        });
+
+        // Multi-burst Realistic Hand-Clap Applause (24 staggered applause claps over 2.2s)
+        var bufferSize = Math.floor(ctx.sampleRate * 0.09);
+        var noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        var data = noiseBuffer.getChannelData(0);
+        for (var i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.022));
+        }
+
+        for (var c = 0; c < 26; c++) {
+          var clapTime = now + 0.15 + (c * 0.08) + (Math.random() * 0.03);
+          var src = ctx.createBufferSource();
+          src.buffer = noiseBuffer;
+
+          var filter = ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.value = 1100 + Math.random() * 750;
+          filter.Q.value = 1.4;
+
+          var clapGain = ctx.createGain();
+          var envPeak = (c < 20) ? 0.22 : 0.12;
+          clapGain.gain.setValueAtTime(envPeak, clapTime);
+          clapGain.gain.exponentialRampToValueAtTime(0.001, clapTime + 0.085);
+
+          src.connect(filter);
+          filter.connect(clapGain);
+          clapGain.connect(ctx.destination);
+          src.start(clapTime);
+        }
+      } catch (e) {}
+    }
+
+    // 4. Warm Supportive Encouragement Melody (For Low Score — Completely Separate from Victory Applause!)
+    function playEncouragementMelody() {
+      try {
+        var ctx = getAudioCtx(); if (!ctx) return;
+        var now = ctx.currentTime;
+        var notes = [392.00, 440.00, 493.88, 523.25];
+        notes.forEach(function(freq, idx) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.16);
+          gain.gain.setValueAtTime(0.15, now + idx * 0.16);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.16 + 0.45);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.16);
+          osc.stop(now + idx * 0.16 + 0.45);
         });
       } catch (e) {}
     }
 
-    function playErrorBuzz() {
+    function launchCelebrationConfetti() {
+      var colors = ['#7c3aed', '#facc15', '#10b981', '#ec4899', '#3b82f6', '#f97316'];
+      for (var i = 0; i < 42; i++) {
+        var el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.backgroundColor = colors[i % colors.length];
+        el.style.animationDuration = (2.0 + Math.random() * 1.4) + 's';
+        el.style.animationDelay = (Math.random() * 0.4) + 's';
+        document.body.appendChild(el);
+        (function(node) {
+          setTimeout(function() { if (node && node.parentNode) node.parentNode.removeChild(node); }, 3800);
+        })(el);
+      }
+    }
+
+    // Pre-cache clean voices so pronunciation is 100% crisp and never robotic
+    var cachedVoices = [];
+    function refreshVoiceList() {
       try {
-        var ctx = getAudioCtx(); if (!ctx) return;
-        var osc = ctx.createOscillator(); var gain = ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(190, ctx.currentTime);
-        osc.frequency.linearRampToValueAtTime(140, ctx.currentTime + 0.25);
-        gain.gain.setValueAtTime(0.14, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.28);
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.start(); osc.stop(ctx.currentTime + 0.28);
+        if ('speechSynthesis' in window) {
+          cachedVoices = window.speechSynthesis.getVoices() || [];
+        }
       } catch (e) {}
+    }
+    refreshVoiceList();
+    if ('speechSynthesis' in window && typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
+      window.speechSynthesis.onvoiceschanged = refreshVoiceList;
     }
 
     window.toggleVoiceAccent = function() {
-      AppState.voiceAccent = (AppState.voiceAccent === "US") ? "UK" : "US";
+      AppState.voiceAccent = (AppState.voiceAccent === "UK") ? "US" : "UK";
       var btn = document.getElementById('voiceAccentToggleBtn');
-      if (btn) btn.innerText = (AppState.voiceAccent === "US") ? "🇺🇸 US Voice" : "🇬🇧 UK Voice";
-      showToast("Pronunciation switched to " + AppState.voiceAccent + " English");
+      if (btn) btn.innerText = (AppState.voiceAccent === "UK") ? "🇬🇧 UK Voice" : "🇺🇸 US Voice";
+      var lbl = document.getElementById('listenNormalLabel');
+      if (lbl) lbl.innerText = "Listen (" + AppState.voiceAccent + " • 1.0x)";
+      showToast("Pronunciation switched to " + (AppState.voiceAccent === "UK" ? "British English (UK)" : "American English (US)"));
     };
 
     function speakHumanEnglish(text, rate) {
       if (!text) return;
+      var cleanText = String(text).trim();
       try {
         if ('speechSynthesis' in window) {
           window.speechSynthesis.cancel();
-          var utter = new SpeechSynthesisUtterance(text);
-          utter.lang = (AppState.voiceAccent === "UK") ? "en-GB" : "en-US";
-          utter.rate = rate || 0.95;
+          refreshVoiceList();
+          var utter = new SpeechSynthesisUtterance(cleanText);
+          var targetLang = (AppState.voiceAccent === "UK") ? "en-GB" : "en-US";
+          utter.lang = targetLang;
+          // Optimal clarity rate: 0.90 for clear normal speech, 0.55 for clear slow speech (never robotic)
+          utter.rate = rate || 0.90;
           utter.pitch = 1.0;
+          utter.volume = 1.0;
 
-          var blockedNames = /organ|bubbles|bells|cellos|boing|zarvox|trinoids|whisper|bad news|good news|pipe|bahh|albert|fred|junior|princess|ralph/i;
-          var voices = window.speechSynthesis.getVoices() || [];
-          var preferred = voices.find(function(v) {
-            return v.lang && v.lang.indexOf(utter.lang) === 0 && !blockedNames.test(v.name) && /samantha|daniel|google|aria|jenny|libby|natural|serena|alex/i.test(v.name);
-          }) || voices.find(function(v) {
-            return v.lang && v.lang.indexOf("en") === 0 && !blockedNames.test(v.name);
+          var blockedNames = /organ|bubbles|bells|cellos|boing|zarvox|trinoids|whisper|bad news|good news|pipe|bahh|albert|fred|junior|princess|ralph|espeak/i;
+          var naturalPattern = (AppState.voiceAccent === "UK")
+            ? /google uk english|sonia|libby|ryan|daniel|serena|kate|arthur|oliver|natural|online/i
+            : /google us english|aria|jenny|guy|samantha|ava|allison|natural|online/i;
+
+          var exactLangVoices = cachedVoices.filter(function(v) {
+            return v.lang && v.lang.toLowerCase().indexOf(targetLang.toLowerCase()) === 0 && !blockedNames.test(v.name);
           });
-          if (preferred) utter.voice = preferred;
+          var anyEnglishVoices = cachedVoices.filter(function(v) {
+            return v.lang && v.lang.toLowerCase().indexOf("en") === 0 && !blockedNames.test(v.name);
+          });
+
+          var chosenVoice = exactLangVoices.find(function(v) { return naturalPattern.test(v.name); })
+            || exactLangVoices[0]
+            || anyEnglishVoices.find(function(v) { return naturalPattern.test(v.name); })
+            || anyEnglishVoices[0];
+
+          if (chosenVoice) utter.voice = chosenVoice;
           window.speechSynthesis.speak(utter);
         }
       } catch (e) {}
@@ -1585,12 +2006,12 @@
 
     window.playCurrentWord = function(speedRate) {
       if (!AppState.currentQuestion || !AppState.currentQuestion.word) return;
-      speakHumanEnglish(AppState.currentQuestion.word, speedRate || 1.0);
+      speakHumanEnglish(AppState.currentQuestion.word, speedRate || 0.90);
     };
 
     window.readPassageAloud = function() {
       if (!AppState.currentQuestion || !AppState.currentQuestion.story) return;
-      speakHumanEnglish(AppState.currentQuestion.story, 0.92);
+      speakHumanEnglish(AppState.currentQuestion.story, 0.88);
     };
 
     function showToast(msg) {
@@ -1603,15 +2024,16 @@
     }
 
     /* ========================================================
-       6. EXERCISE LOADER, 10-QUESTION SKILL MASTERY & CERTIFICATE TRIGGER
+       6. STRICT 10-QUESTION SKILL ROUNDS (NON-INFINITE, ZERO REPETITION)
        ======================================================== */
     function loadCurrentExercise() {
       var book = AppState.currentBook;
       var lvl = AppState.currentLevel;
       var skill = AppState.currentSkill;
-      var list = QUESTION_BANK[book][lvl][skill];
-      var idx = AppState.questionIndex[book][lvl][skill] % list.length;
-      var q = list[idx];
+
+      var batch = getOrCreateSkillBatch(book, lvl, skill, false);
+      var stepIdx = Math.min(9, Math.max(0, AppState.batchStep[book][lvl][skill]));
+      var q = batch[stepIdx];
 
       AppState.currentQuestion = q;
       AppState.typedInput = "";
@@ -1619,13 +2041,17 @@
       AppState.answeredCurrent = false;
 
       document.getElementById('questionTopicBadge').innerText = q.topic || (getBookDisplayName(book) + " • " + lvl);
-      document.getElementById('questionCounterTag').innerText = "Question #" + (idx + 1) + " of 10";
+      document.getElementById('questionCounterTag').innerText = "Question " + (stepIdx + 1) + " of 10";
       document.getElementById('cefrLevelBadge').innerText = getLevelDisplayName(lvl);
       document.getElementById('feedbackBanner').classList.add('hidden');
       document.getElementById('checkAnswerBtn').classList.remove('hidden');
       document.getElementById('nextQuestionBtn').classList.add('hidden');
 
-      renderVisualScene(q.iconName || (skill === 'grammar' ? 'museum' : 'city'), q.topic || getBookDisplayName(book));
+      var normalLbl = document.getElementById('listenNormalLabel');
+      if (normalLbl) normalLbl.innerText = "Listen (" + AppState.voiceAccent + " • 1.0x)";
+
+      // Render exact word-matched cartoon illustration
+      renderVisualScene(q.iconName || 'story', q.topic || getBookDisplayName(book));
 
       document.getElementById('listenView').classList.toggle('hidden', skill !== 'listen');
       document.getElementById('readingView').classList.toggle('hidden', skill !== 'reading');
@@ -1690,7 +2116,8 @@
       var loginOpen = !document.getElementById('loginModal').classList.contains('hidden');
       var teacherOpen = !document.getElementById('teacherModal').classList.contains('hidden');
       var certOpen = !document.getElementById('certificateModal').classList.contains('hidden');
-      if (loginOpen || teacherOpen || certOpen) return;
+      var skillResOpen = !document.getElementById('skillResultModal').classList.contains('hidden');
+      if (loginOpen || teacherOpen || certOpen || skillResOpen) return;
       if (document.activeElement === hiddenInp) return;
 
       if (e.key === 'Backspace') {
@@ -1783,61 +2210,242 @@
       var book = AppState.currentBook;
       var lvl = AppState.currentLevel;
       var skill = AppState.currentSkill;
+      var currentStep = AppState.batchStep[book][lvl][skill];
 
       if (isCorrect) {
         AppState.xp += 15;
         AppState.streak += 1;
-        var prevCount = AppState.completedCounts[book][lvl][skill];
-        var newCount = Math.min(10, prevCount + 1);
-        AppState.completedCounts[book][lvl][skill] = newCount;
+        var prevScore = AppState.completedCounts[book][lvl][skill];
+        var newScore = Math.min(10, prevScore + 1);
+        AppState.completedCounts[book][lvl][skill] = newScore;
 
         fb.className = "mt-5 rounded-2xl p-4 border-2 border-emerald-400 bg-emerald-50 text-emerald-950 text-center animate-pop";
-        fbTitle.innerText = "🌟 Brilliant! +15 XP (" + newCount + "/10)";
+        fbTitle.innerText = "🌟 Brilliant! +15 XP (Score: " + newScore + "/10)";
         fbSub.innerText = correctExplanation;
         playSuccessChime();
-
-        updateTopMetrics();
-        updateEnrolledStudentScore();
-
-        // Check if all 3 skills in this level reached 10/10!
-        var prog = AppState.completedCounts[book][lvl];
-        if (prog.listen >= 10 && prog.reading >= 10 && prog.grammar >= 10) {
-          var certKey = book + "_" + lvl;
-          AppState.earnedCertificates[certKey] = true;
-          updateEnrolledStudentScore();
-          setTimeout(function() {
-            window.openOfficialCertificate(false);
-          }, 700);
-        } else if (prevCount < 10 && newCount === 10) {
-          showToast("🎯 ممتاز! أتممتِ 10/10 في هذه المهارة! انتقلي للمهارات المتبقية لإصدار الشهادة.");
-        }
       } else {
         AppState.hearts = Math.max(1, AppState.hearts - 1);
         AppState.streak = 0;
-        fb.className = "mt-5 rounded-2xl p-4 border-2 border-rose-400 bg-rose-50 text-rose-950 text-center animate-pop";
-        fbTitle.innerText = "💡 Keep Trying!";
+        fb.className = "mt-5 rounded-2xl p-4 border-2 border-amber-400 bg-amber-50 text-amber-950 text-center animate-pop";
+        fbTitle.innerText = "💡 Not quite — Keep going!";
         fbSub.innerText = correctExplanation;
-        playErrorBuzz();
-        updateTopMetrics();
-        updateEnrolledStudentScore();
+        playGentleTryAgainTone();
       }
+
+      updateTopMetrics();
+      updateEnrolledStudentScore();
 
       fb.classList.remove('hidden');
       document.getElementById('checkAnswerBtn').classList.add('hidden');
-      document.getElementById('nextQuestionBtn').classList.remove('hidden');
+      var nextBtn = document.getElementById('nextQuestionBtn');
+      if (currentStep >= 9) {
+        nextBtn.innerText = "🏁 SHOW SKILL RESULT (10/10 DONE)";
+      } else {
+        nextBtn.innerText = "NEXT QUESTION (" + (currentStep + 2) + "/10) ➔";
+      }
+      nextBtn.classList.remove('hidden');
     };
 
     window.loadNextQuestion = function() {
       var book = AppState.currentBook;
       var lvl = AppState.currentLevel;
       var skill = AppState.currentSkill;
-      AppState.questionIndex[book][lvl][skill] += 1;
+      var step = AppState.batchStep[book][lvl][skill];
+
+      if (step >= 9) {
+        // Reached the end of the 10-question round! Do NOT loop infinitely.
+        AppState.skillFinished[book][lvl][skill] = true;
+        openSkillStageResultModal();
+        return;
+      }
+
+      AppState.batchStep[book][lvl][skill] = step + 1;
       loadCurrentExercise();
     };
 
     window.skipCurrentQuestion = function() {
-      window.loadNextQuestion();
+      var book = AppState.currentBook;
+      var lvl = AppState.currentLevel;
+      var skill = AppState.currentSkill;
+      var step = AppState.batchStep[book][lvl][skill];
+
+      if (step >= 9) {
+        AppState.skillFinished[book][lvl][skill] = true;
+        openSkillStageResultModal();
+        return;
+      }
+      AppState.batchStep[book][lvl][skill] = step + 1;
+      loadCurrentExercise();
     };
+
+    /* ========================================================
+       7. SKILL STAGE RESULT MODAL & LEVEL COMPLETION EVALUATION
+          (Distinct Applause for Success vs Gentle Motivation for Retry)
+       ======================================================== */
+    function openSkillStageResultModal() {
+      var book = AppState.currentBook;
+      var lvl = AppState.currentLevel;
+      var skill = AppState.currentSkill;
+      var score = AppState.completedCounts[book][lvl][skill];
+      var isPassed = (score >= 6);
+
+      var modal = document.getElementById('skillResultModal');
+      var card = document.getElementById('skillResultCard');
+      var emojiEl = document.getElementById('skillResultEmoji');
+      var stageTagEl = document.getElementById('skillResultStageTag');
+      var headingEl = document.getElementById('skillResultHeading');
+      var scoreBoxEl = document.getElementById('skillResultScoreBox');
+      var scoreNumEl = document.getElementById('skillResultScoreNumber');
+      var motTextEl = document.getElementById('skillResultMotivationText');
+      var primaryBtn = document.getElementById('skillResultPrimaryBtn');
+
+      stageTagEl.innerText = SKILL_LABELS[skill] + " • " + getBookDisplayName(book) + " (" + lvl + ")";
+      scoreNumEl.innerText = score + " / 10";
+
+      var skillIdx = SKILL_ORDER.indexOf(skill);
+      var hasNextSkill = (skillIdx >= 0 && skillIdx < SKILL_ORDER.length - 1);
+      var nextSkillKey = hasNextSkill ? SKILL_ORDER[skillIdx + 1] : null;
+
+      if (isPassed) {
+        card.className = "bg-white rounded-[2rem] border-4 border-emerald-400 shadow-2xl w-full max-w-md p-6 sm:p-8 text-center animate-pop space-y-4";
+        emojiEl.className = "w-20 h-20 mx-auto rounded-3xl bg-emerald-100 border-2 border-emerald-300 flex items-center justify-center text-4xl shadow-md";
+        emojiEl.innerText = (score >= 9) ? "🏆" : "👏";
+        headingEl.innerText = (score >= 9) ? "مذهل! أداء متفوق ومبهر!" : "أحسنتِ! اجتزتِ هذه المهارة بنجاح!";
+        scoreBoxEl.className = "bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-4 space-y-1.5";
+        scoreNumEl.className = "font-chunky text-3xl font-bold text-emerald-950";
+        motTextEl.className = "text-xs sm:text-sm font-bold text-emerald-900 leading-relaxed pt-1";
+        motTextEl.innerText = "👏 تصفيق حار لكِ! حققتِ نتيجة رائعة في مهارة " + SKILL_LABELS[skill] + ". واصلي تقدمكِ الآن!";
+
+        if (hasNextSkill) {
+          primaryBtn.className = "btn-3d btn-3d-green w-full py-3.5 px-5 rounded-2xl font-chunky text-sm sm:text-base font-bold";
+          primaryBtn.innerText = "➡️ الانتقال إلى المهارة التالية (" + SKILL_LABELS[nextSkillKey] + ")";
+        } else {
+          primaryBtn.className = "btn-3d btn-3d-purple w-full py-3.5 px-5 rounded-2xl font-chunky text-sm sm:text-base font-bold";
+          primaryBtn.innerText = "🎓 عرض النتيجة النهائية للمستوى والشهادة ➔";
+        }
+
+        // Play Victory Applause + Fanfare & Confetti!
+        playApplauseAndFanfare();
+        launchCelebrationConfetti();
+      } else {
+        // Low score (< 6/10): Warm, supportive encouragement — NO victory applause!
+        card.className = "bg-white rounded-[2rem] border-4 border-amber-400 shadow-2xl w-full max-w-md p-6 sm:p-8 text-center animate-pop space-y-4";
+        emojiEl.className = "w-20 h-20 mx-auto rounded-3xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center text-4xl shadow-md";
+        emojiEl.innerText = "💪";
+        headingEl.innerText = "محاولة جيدة! لا تستسلمي، أنتِ قادرة!";
+        scoreBoxEl.className = "bg-amber-50 border-2 border-amber-300 rounded-2xl p-4 space-y-1.5";
+        scoreNumEl.className = "font-chunky text-3xl font-bold text-amber-950";
+        motTextEl.className = "text-xs sm:text-sm font-bold text-amber-950 leading-relaxed pt-1";
+        motTextEl.innerText = "🌱 التعلم رحلة جميلة! كل محاولة تقرّبكِ أكثر من الإتقان. أعيدي التدريب بأسئلة جديدة لترفعي درجتكِ أو انتقلي للمهارة التالية.";
+
+        if (hasNextSkill) {
+          primaryBtn.className = "btn-3d btn-3d-purple w-full py-3.5 px-5 rounded-2xl font-chunky text-sm sm:text-base font-bold";
+          primaryBtn.innerText = "➡️ متابعة إلى المهارة التالية (" + SKILL_LABELS[nextSkillKey] + ")";
+        } else {
+          primaryBtn.className = "btn-3d btn-3d-amber w-full py-3.5 px-5 rounded-2xl font-chunky text-sm sm:text-base font-bold";
+          primaryBtn.innerText = "📊 عرض ملخص درجات المستوى ➔";
+        }
+
+        // Play gentle warm encouragement melody (distinct from applause)
+        playEncouragementMelody();
+      }
+
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+
+    window.retryCurrentSkillFreshBatch = function() {
+      var book = AppState.currentBook;
+      var lvl = AppState.currentLevel;
+      var skill = AppState.currentSkill;
+
+      // Reset current skill round with a fresh shuffled batch of 10 unique questions
+      AppState.completedCounts[book][lvl][skill] = 0;
+      AppState.batchStep[book][lvl][skill] = 0;
+      AppState.skillFinished[book][lvl][skill] = false;
+      getOrCreateSkillBatch(book, lvl, skill, true);
+
+      var modal = document.getElementById('skillResultModal');
+      if (modal) { modal.classList.add('hidden'); modal.style.display = 'none'; }
+      updateTopMetrics();
+      loadCurrentExercise();
+      showToast("🔄 بدأت جولة جديدة من 10 أسئلة متنوعة!");
+    };
+
+    window.handleSkillResultPrimaryAction = function() {
+      var modal = document.getElementById('skillResultModal');
+      if (modal) { modal.classList.add('hidden'); modal.style.display = 'none'; }
+
+      var book = AppState.currentBook;
+      var lvl = AppState.currentLevel;
+      var skill = AppState.currentSkill;
+      var skillIdx = SKILL_ORDER.indexOf(skill);
+
+      if (skillIdx >= 0 && skillIdx < SKILL_ORDER.length - 1) {
+        // Move smoothly to the next skill in the level
+        var nextSkill = SKILL_ORDER[skillIdx + 1];
+        switchSkillTabUI(nextSkill);
+        loadCurrentExercise();
+      } else {
+        // Finished all 3 skills! Evaluate overall level performance
+        evaluateFullLevelCompletion();
+      }
+    };
+
+    function evaluateFullLevelCompletion() {
+      var book = AppState.currentBook;
+      var lvl = AppState.currentLevel;
+      var prog = AppState.completedCounts[book][lvl];
+      var totalScore = prog.listen + prog.reading + prog.grammar;
+
+      // High-achiever / passing threshold: >= 18/30 overall (or >= 6/10 average)
+      if (totalScore >= 18) {
+        var certKey = book + "_" + lvl;
+        AppState.earnedCertificates[certKey] = true;
+        updateEnrolledStudentScore();
+        window.openOfficialCertificate(false);
+      } else {
+        // Show warm, supportive Level Summary Modal encouraging the student to keep learning & improve
+        var modal = document.getElementById('levelSummaryModal');
+        document.getElementById('lvlSumListenScore').innerText = prog.listen + " / 10";
+        document.getElementById('lvlSumReadingScore').innerText = prog.reading + " / 10";
+        document.getElementById('lvlSumGrammarScore').innerText = prog.grammar + " / 10";
+        document.getElementById('lvlSumTitle').innerText = "أحسنتِ المحاولة! مجموعكِ " + totalScore + " / 30";
+        document.getElementById('lvlSumCoachingTitle').innerText = "🌟 رسالة تحفيزية للاستمرار والتفوق:";
+        document.getElementById('lvlSumCoachingBody').innerText =
+          "لا تيأسي أبداً! إكمالكِ لجميع المهارات خطوة رائعة تدل على اجتهادكِ. للحصول على شهادة الاجتياز الرسمية (18/30 فأكثر)، أعيدي التدريب على المهارة ذات الدرجة الأقل بأسئلة جديدة وستنجحين بكل تأكيد!";
+        playEncouragementMelody();
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+      }
+    }
+
+    window.handleLevelSummaryAction = function() {
+      var modal = document.getElementById('levelSummaryModal');
+      if (modal) { modal.classList.add('hidden'); modal.style.display = 'none'; }
+
+      // Find the skill with the lowest score in the current level and reset it with fresh questions
+      var book = AppState.currentBook;
+      var lvl = AppState.currentLevel;
+      var prog = AppState.completedCounts[book][lvl];
+      var lowestSkill = "listen";
+      if (prog.reading < prog[lowestSkill]) lowestSkill = "reading";
+      if (prog.grammar < prog[lowestSkill]) lowestSkill = "grammar";
+
+      switchSkillTabUI(lowestSkill);
+      window.retryCurrentSkillFreshBatch();
+    };
+
+    function switchSkillTabUI(skillName) {
+      AppState.currentSkill = skillName;
+      document.querySelectorAll('.skill-tab').forEach(function(t) {
+        if (t.getAttribute('data-skill') === skillName) {
+          t.className = "skill-tab skill-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 flex items-center gap-1.5";
+        } else {
+          t.className = "skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5";
+        }
+      });
+    }
 
     /* Curriculum (Book), Level, & Skill Switchers */
     document.querySelectorAll('.book-pill').forEach(function(btn) {
@@ -1864,11 +2472,8 @@
 
     document.querySelectorAll('.skill-tab').forEach(function(tab) {
       tab.onclick = function() {
-        AppState.currentSkill = tab.getAttribute('data-skill');
-        document.querySelectorAll('.skill-tab').forEach(function(t) {
-          if (t === tab) t.className = "skill-tab skill-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 flex items-center gap-1.5";
-          else t.className = "skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5";
-        });
+        var sk = tab.getAttribute('data-skill');
+        switchSkillTabUI(sk);
         loadCurrentExercise();
       };
     });
@@ -1929,7 +2534,7 @@
     }
 
     /* ========================================================
-       7. CERTIFICATE MODAL (SHOWS REGISTERED TEACHER + CREATOR MARGIN)
+       8. CERTIFICATE MODAL (SHOWS REGISTERED TEACHER + CREATOR MARGIN)
        ======================================================== */
     window.openOfficialCertificate = function(isTeacherPreview) {
       var modal = document.getElementById('certificateModal');
@@ -1941,6 +2546,7 @@
       var stuClassEl = document.getElementById('certStudentClass');
       var bookBadgeEl = document.getElementById('certBookBadge');
       var lvlBadgeEl = document.getElementById('certLevelBadge');
+      var scoreBadgeEl = document.getElementById('certFinalScoreBadge');
       var dateEl = document.getElementById('certIssueDate');
       var teacherSigEl = document.getElementById('certClassTeacherName');
 
@@ -1956,20 +2562,22 @@
         if (stuClassEl) stuClassEl.innerText = "Class: Grade 8 • Section 1";
         if (bookBadgeEl) bookBadgeEl.innerText = "📘 Curriculum: " + getBookDisplayName(AppState.currentBook);
         if (lvlBadgeEl) lvlBadgeEl.innerText = "⭐ Level: " + getLevelDisplayName(AppState.currentLevel);
+        if (scoreBadgeEl) scoreBadgeEl.innerText = "🌟 Score: 30 / 30";
         if (teacherSigEl) teacherSigEl.innerText = regTeacherName;
       } else {
+        var prog = AppState.completedCounts[AppState.currentBook][AppState.currentLevel];
+        var total30 = prog.listen + prog.reading + prog.grammar;
         if (ribbon) ribbon.classList.add('hidden');
         if (stuNameEl) stuNameEl.innerText = AppState.user.name || "Outstanding Student";
         var codePart = AppState.user.classCode ? (" • Code: " + AppState.user.classCode) : " • Free Practice";
         if (stuClassEl) stuClassEl.innerText = "Class: " + (AppState.user.gradeClass || "Grade 8") + codePart;
         if (bookBadgeEl) bookBadgeEl.innerText = "📘 Curriculum: " + getBookDisplayName(AppState.currentBook);
         if (lvlBadgeEl) lvlBadgeEl.innerText = "⭐ Level: " + getLevelDisplayName(AppState.currentLevel);
+        if (scoreBadgeEl) scoreBadgeEl.innerText = "🌟 Score: " + total30 + " / 30";
 
-        // Display the registered class teacher's name below signature!
         var classTeacher = AppState.user.teacherName || "Independent Practice";
         if (teacherSigEl) teacherSigEl.innerText = classTeacher;
 
-        // Configure Next Level Button (A1 -> A2 -> B1 -> B2 Advanced)
         var curIdx = LEVEL_ORDER.indexOf(AppState.currentLevel);
         if (nextBtn) {
           if (curIdx >= 0 && curIdx < LEVEL_ORDER.length - 1) {
@@ -1981,7 +2589,8 @@
             nextBtn.classList.remove('hidden');
           }
         }
-        playFanfareChime();
+        playApplauseAndFanfare();
+        launchCelebrationConfetti();
       }
 
       modal.classList.remove('hidden');
@@ -2003,14 +2612,7 @@
       if (curIdx >= 0 && curIdx < LEVEL_ORDER.length - 1) {
         var nextLvl = LEVEL_ORDER[curIdx + 1];
         applyActiveBookAndLevelUI(AppState.currentBook, nextLvl);
-        AppState.currentSkill = "listen";
-        document.querySelectorAll('.skill-tab').forEach(function(t) {
-          if (t.getAttribute('data-skill') === "listen") {
-            t.className = "skill-tab skill-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 flex items-center gap-1.5";
-          } else {
-            t.className = "skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5";
-          }
-        });
+        switchSkillTabUI("listen");
         loadCurrentExercise();
         showToast("🚀 أهلاً بكِ في المستوى الجديد: " + getLevelDisplayName(nextLvl));
       } else {
@@ -2019,7 +2621,7 @@
     };
 
     /* ========================================================
-       8. STRICT AUTHENTICATION GATE & LOGIN LOGIC (STUDENT & TEACHER)
+       9. STRICT AUTHENTICATION GATE & LOGIN LOGIC (STUDENT & TEACHER)
        ======================================================== */
     function unlockAppAfterAuth() {
       AppState.isAuthenticated = true;
@@ -2069,7 +2671,7 @@
     window.closeLoginModal = function() {
       if (!AppState.isAuthenticated) {
         showToast("🔒 لا يمكن الدخول للموقع إلا بعد تسجيل الدخول كطالبة أو معلمة!");
-        playErrorBuzz();
+        playGentleTryAgainTone();
         return;
       }
       var m = document.getElementById('loginModal');
@@ -2159,7 +2761,7 @@
       if (!sName || !sClass) {
         errEl.innerText = "⚠️ يرجى كتابة اسمكِ الكامل والصف / الشعبة أولاً";
         errEl.classList.remove('hidden');
-        playErrorBuzz();
+        playGentleTryAgainTone();
         return;
       }
 
@@ -2189,7 +2791,7 @@
       if (!sCode || sCode.length < 2) {
         errEl.innerText = "⚠️ يرجى كتابة كود الصف من المعلمة (أو اختاري الدخول بدون كود من الأعلى)";
         errEl.classList.remove('hidden');
-        playErrorBuzz();
+        playGentleTryAgainTone();
         return;
       }
       errEl.classList.add('hidden');
@@ -2288,7 +2890,7 @@
       if (!idVal || !pwVal) {
         errTxt.innerText = "⚠️ يرجى كتابة الاسم أو الإيميل وكلمة المرور";
         errBox.classList.remove('hidden');
-        playErrorBuzz();
+        playGentleTryAgainTone();
         return;
       }
 
@@ -2296,14 +2898,14 @@
       if (!found) {
         errTxt.innerText = "⚠️ لم تقومي بالتسجيل في الموقع بعد! هذا الحساب غير مسجل على هذا الجهاز.";
         errBox.classList.remove('hidden');
-        playErrorBuzz();
+        playGentleTryAgainTone();
         return;
       }
 
       if (found.data.password !== pwVal) {
         errTxt.innerText = "⚠️ كلمة المرور غير صحيحة! تأكدي منها أو اضغطي Forgot Password.";
         errBox.classList.remove('hidden');
-        playErrorBuzz();
+        playGentleTryAgainTone();
         return;
       }
 
@@ -2326,7 +2928,7 @@
       if (!name || !email || email.indexOf('@') === -1) {
         errEl.innerText = "⚠️ يرجى كتابة اسم المعلمة وبريد إلكتروني صحيح";
         errEl.classList.remove('hidden');
-        playErrorBuzz();
+        playGentleTryAgainTone();
         return;
       }
       errEl.classList.add('hidden');
@@ -2429,7 +3031,7 @@
     };
 
     /* ========================================================
-       9. TEACHER PORTAL: CLASSES & DELETE WARNING
+       10. TEACHER PORTAL: CLASSES & DELETE WARNING
        ======================================================== */
     window.openTeacherPortal = function() {
       var ws = getActiveTeacherWorkspace();
@@ -2460,32 +3062,6 @@
       lockAppToLogin();
       window.switchLoginRole('teacher');
       showToast("🔒 تم تسجيل الخروج من بوابة المعلمة.");
-    };
-
-    /* ========================================================
-       9. TEACHER PORTAL: CLASSES & DELETE WARNING
-       ======================================================== */
-    window.openTeacherPortal = function() {
-      var ws = getActiveTeacherWorkspace();
-      if (!ws) { window.openLoginModal(); window.switchLoginRole('teacher'); return; }
-      document.getElementById('activeTeacherDisplayName').innerText = ws.displayName;
-      renderTeacherCodes();
-      renderStudentTable();
-      var m = document.getElementById('teacherModal');
-      if (m) { m.classList.remove('hidden'); m.style.display = 'flex'; }
-    };
-
-    window.closeTeacherModal = function() {
-      var m = document.getElementById('teacherModal');
-      if (m) { m.classList.add('hidden'); m.style.display = 'none'; }
-    };
-
-    window.logoutTeacher = function() {
-      AppState.loggedInTeacherKey = null;
-      window.closeTeacherModal();
-      window.openLoginModal();
-      window.switchLoginRole('teacher');
-      showToast("تم تسجيل الخروج من بوابة المعلمة.");
     };
 
     function renderTeacherCodes() {
@@ -2596,7 +3172,7 @@
       document.getElementById('delClassStudentCount').innerText = stuCount;
       var modal = document.getElementById('deleteClassConfirmModal');
       if (modal) { modal.classList.remove('hidden'); modal.style.display = 'flex'; }
-      playErrorBuzz();
+      playGentleTryAgainTone();
     };
 
     window.closeDeleteClassModal = function() {
@@ -2673,7 +3249,7 @@
     };
 
     /* ========================================================
-       10. INITIALIZATION ON PAGE LOAD
+       11. INITIALIZATION ON PAGE LOAD (UK VOICE DEFAULT)
        ======================================================== */
     if (directCode) {
       var codeInp = document.getElementById('stuCodeInput');
