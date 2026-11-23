@@ -265,6 +265,9 @@
     </div>
   </div>
 
+  <!-- ==================== PROTECTED APPLICATION SHELL (HIDDEN UNTIL LOGIN) ==================== -->
+  <div id="appMainShell" class="hidden flex-1 flex flex-col justify-between">
+
   <!-- ==================== TOP NAVIGATION HEADER ==================== -->
   <header class="w-full bg-white/85 backdrop-blur-md border-b-2 border-purple-200/80 sticky top-0 z-40 shadow-xs">
     <div class="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
@@ -510,11 +513,19 @@
     <a href="mailto:Hameeda.ahmed@hotmail.com" class="underline hover:text-purple-950">Hameeda.ahmed@hotmail.com</a>
   </footer>
 
+  </div>
+  <!-- ==================== END PROTECTED APPLICATION SHELL ==================== -->
+
   <!-- ======================================================================
-       MODAL 1: WELCOME & STUDENT / TEACHER LOGIN MODAL
+       MODAL 1: MANDATORY WELCOME & STUDENT / TEACHER LOGIN GATE
        ====================================================================== -->
-  <div id="loginModal" class="fixed inset-0 z-50 bg-[#1e073b]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+  <div id="loginModal" class="fixed inset-0 z-50 bg-[#1e073b]/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-[2rem] border-4 border-purple-200 shadow-2xl w-full max-w-md p-5 sm:p-7 my-auto animate-pop">
+
+      <!-- Mandatory Login Lock Badge -->
+      <div class="mb-3 bg-purple-900 text-white px-3 py-1.5 rounded-xl text-center text-[11px] font-extrabold tracking-wide shadow-xs">
+        🔒 يجب تسجيل الدخول كطالبة أو معلمة للمتابعة • Mandatory Login
+      </div>
 
       <!-- Top Mascot Logo & Permanent Creator Credit -->
       <div class="text-center mb-4">
@@ -778,6 +789,16 @@
           </button>
         </div>
       </div>
+
+      <!-- Return to Active Session Button (Shown ONLY if user is already logged in and opened Switch Account) -->
+      <div id="returnToActiveSessionBox" class="hidden mt-4 pt-3 border-t border-purple-100 flex items-center justify-between gap-2">
+        <button type="button" onclick="window.closeLoginModal()" class="flex-1 bg-purple-100 hover:bg-purple-200 text-purple-900 py-2 px-3 rounded-xl text-xs font-extrabold cursor-pointer">
+          ← العودة إلى جلستي الحالية
+        </button>
+        <button type="button" onclick="window.logoutCurrentUser()" class="bg-rose-100 hover:bg-rose-200 text-rose-800 py-2 px-3 rounded-xl text-xs font-extrabold cursor-pointer">
+          🚪 تسجيل خروج
+        </button>
+      </div>
     </div>
   </div>
 
@@ -805,7 +826,7 @@
           <button type="button" onclick="window.logoutTeacher()" class="bg-rose-100 hover:bg-rose-200 text-rose-800 px-3 py-2 rounded-xl text-xs font-extrabold cursor-pointer">
             🚪 خروج
           </button>
-          <button type="button" onclick="window.closeTeacherModal()" class="w-9 h-9 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 font-black cursor-pointer">✕</button>
+          <button type="button" onclick="window.logoutTeacher()" title="إغلاق وتسجيل الخروج" class="w-9 h-9 rounded-xl bg-purple-50 hover:bg-rose-100 hover:text-rose-700 text-purple-900 font-black cursor-pointer">✕</button>
         </div>
       </div>
 
@@ -1380,6 +1401,7 @@
     }
 
     var AppState = {
+      isAuthenticated: false,
       user: {
         name: "",
         gradeClass: "",
@@ -1997,13 +2019,59 @@
     };
 
     /* ========================================================
-       8. MODAL & AUTHENTICATION LOGIC (STUDENT & TEACHER)
+       8. STRICT AUTHENTICATION GATE & LOGIN LOGIC (STUDENT & TEACHER)
        ======================================================== */
+    function unlockAppAfterAuth() {
+      AppState.isAuthenticated = true;
+      var shell = document.getElementById('appMainShell');
+      if (shell) {
+        shell.classList.remove('hidden');
+        shell.style.display = 'flex';
+      }
+      var retBox = document.getElementById('returnToActiveSessionBox');
+      if (retBox) retBox.classList.remove('hidden');
+    }
+
+    function lockAppToLogin() {
+      AppState.isAuthenticated = false;
+      var shell = document.getElementById('appMainShell');
+      if (shell) {
+        shell.classList.add('hidden');
+        shell.style.display = 'none';
+      }
+      var retBox = document.getElementById('returnToActiveSessionBox');
+      if (retBox) retBox.classList.add('hidden');
+      var m = document.getElementById('loginModal');
+      if (m) {
+        m.classList.remove('hidden');
+        m.style.display = 'flex';
+      }
+    }
+
+    window.logoutCurrentUser = function() {
+      AppState.loggedInTeacherKey = null;
+      AppState.user.name = "";
+      window.closeTeacherModal();
+      lockAppToLogin();
+      showToast("🔒 تم تسجيل الخروج. يرجى تسجيل الدخول للمتابعة.");
+    };
+
     window.openLoginModal = function() {
+      var retBox = document.getElementById('returnToActiveSessionBox');
+      if (retBox) {
+        if (AppState.isAuthenticated) retBox.classList.remove('hidden');
+        else retBox.classList.add('hidden');
+      }
       var m = document.getElementById('loginModal');
       if (m) { m.classList.remove('hidden'); m.style.display = 'flex'; }
     };
+
     window.closeLoginModal = function() {
+      if (!AppState.isAuthenticated) {
+        showToast("🔒 لا يمكن الدخول للموقع إلا بعد تسجيل الدخول كطالبة أو معلمة!");
+        playErrorBuzz();
+        return;
+      }
       var m = document.getElementById('loginModal');
       if (m) { m.classList.add('hidden'); m.style.display = 'none'; }
     };
@@ -2109,6 +2177,7 @@
         };
         applyActiveBookAndLevelUI(chosenFreeBook, "A1");
         document.getElementById('activeUserName').innerText = sName + " (Free)";
+        unlockAppAfterAuth();
         playSuccessChime();
         window.closeLoginModal();
         showToast("🎒 دخلتِ في وضع التدريب الحر (" + getBookDisplayName(chosenFreeBook) + ") من مستوى A1.");
@@ -2144,6 +2213,7 @@
       applyActiveBookAndLevelUI(assignedBook, "A1");
       document.getElementById('activeUserName').innerText = sName;
       updateEnrolledStudentScore();
+      unlockAppAfterAuth();
       playSuccessChime();
       window.closeLoginModal();
       showToast("✅ أهلاً " + sName + "! تم دخولكِ إلى " + getBookDisplayName(assignedBook) + " (المعلمة: " + resolvedTeacherName + ")");
@@ -2239,6 +2309,10 @@
 
       errBox.classList.add('hidden');
       AppState.loggedInTeacherKey = found.key;
+      AppState.user.role = "teacher";
+      AppState.user.name = found.data.displayName;
+      document.getElementById('activeUserName').innerText = "👩‍🏫 " + found.data.displayName;
+      unlockAppAfterAuth();
       playSuccessChime();
       window.closeLoginModal();
       window.openTeacherPortal();
@@ -2299,7 +2373,11 @@
       };
       saveWorkspacesToStorage();
       AppState.loggedInTeacherKey = key;
+      AppState.user.role = "teacher";
+      AppState.user.name = AppState.tempTeacherSignUp.name;
+      document.getElementById('activeUserName').innerText = "👩‍🏫 " + AppState.tempTeacherSignUp.name;
       document.getElementById('inAppMailBanner').classList.add('hidden');
+      unlockAppAfterAuth();
       playSuccessChime();
       window.closeLoginModal();
       window.openTeacherPortal();
@@ -2339,11 +2417,49 @@
         ws.password = newPw;
         saveWorkspacesToStorage();
         AppState.loggedInTeacherKey = AppState.tempTeacherRecovery.key;
+        AppState.user.role = "teacher";
+        AppState.user.name = ws.displayName;
+        document.getElementById('activeUserName').innerText = "👩‍🏫 " + ws.displayName;
+        unlockAppAfterAuth();
         playSuccessChime();
         window.closeLoginModal();
         window.openTeacherPortal();
         showToast("🔓 تم تحديث كلمة المرور والاحتفاظ بجميع صفوفكِ بنجاح!");
       }
+    };
+
+    /* ========================================================
+       9. TEACHER PORTAL: CLASSES & DELETE WARNING
+       ======================================================== */
+    window.openTeacherPortal = function() {
+      var ws = getActiveTeacherWorkspace();
+      if (!ws) {
+        lockAppToLogin();
+        window.switchLoginRole('teacher');
+        return;
+      }
+      document.getElementById('activeTeacherDisplayName').innerText = ws.displayName;
+      renderTeacherCodes();
+      renderStudentTable();
+      var m = document.getElementById('teacherModal');
+      if (m) { m.classList.remove('hidden'); m.style.display = 'flex'; }
+    };
+
+    window.closeTeacherModal = function() {
+      var m = document.getElementById('teacherModal');
+      if (m) { m.classList.add('hidden'); m.style.display = 'none'; }
+      if (!AppState.isAuthenticated) {
+        lockAppToLogin();
+      }
+    };
+
+    window.logoutTeacher = function() {
+      AppState.loggedInTeacherKey = null;
+      AppState.user.name = "";
+      window.closeTeacherModal();
+      lockAppToLogin();
+      window.switchLoginRole('teacher');
+      showToast("🔒 تم تسجيل الخروج من بوابة المعلمة.");
     };
 
     /* ========================================================
