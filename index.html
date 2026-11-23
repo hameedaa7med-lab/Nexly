@@ -90,11 +90,25 @@
     }
     .btn-3d-slate:active { box-shadow: 0 1px 0 #c084fc; }
 
-    /* Level & Skill Pills */
+    /* Curriculum, Level & Skill Pills */
+    .book-pill {
+      border: 2px solid #ddd6fe;
+      box-shadow: 0 3px 0 #c4b5fd;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .book-pill-active {
+      background: linear-gradient(180deg, #4f46e5 0%, #3730a3 100%) !important;
+      color: #ffffff !important;
+      border-color: #312e81 !important;
+      box-shadow: 0 3px 0 #1e1b4b !important;
+    }
+
     .keycap-level {
       border: 2px solid #ddd6fe;
       box-shadow: 0 3px 0 #c4b5fd;
       transition: all 0.15s ease;
+      cursor: pointer;
     }
     .keycap-level-active {
       background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%) !important;
@@ -107,6 +121,7 @@
       border: 2px solid #ddd6fe;
       box-shadow: 0 3px 0 #c4b5fd;
       transition: all 0.15s ease;
+      cursor: pointer;
     }
     .skill-tab-active {
       background: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%) !important;
@@ -116,13 +131,13 @@
 
     /* Letter Tiles for Listen & Spell */
     .letter-slot {
-      width: 46px;
-      height: 54px;
-      border-radius: 16px;
+      width: 44px;
+      height: 52px;
+      border-radius: 14px;
       border: 3px solid #c4b5fd;
       background: #ffffff;
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.55rem;
+      font-size: 1.45rem;
       font-weight: 700;
       color: #3b0764;
       display: inline-flex;
@@ -133,10 +148,10 @@
     }
     @media (max-width: 420px) {
       .letter-slot {
-        width: 36px;
-        height: 44px;
-        font-size: 1.25rem;
-        border-radius: 12px;
+        width: 34px;
+        height: 42px;
+        font-size: 1.2rem;
+        border-radius: 11px;
       }
     }
     .letter-slot-active {
@@ -176,6 +191,32 @@
       border-color: #e11d48 !important;
       background: #fff1f2 !important;
       box-shadow: 0 4px 0 #e11d48 !important;
+    }
+
+    /* Vertical Margin Text on Certificate */
+    .cert-margin-vertical {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Print Styles for Certificate */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #certificatePrintableArea, #certificatePrintableArea * {
+        visibility: visible;
+      }
+      #certificatePrintableArea {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none !important;
+      }
+      .no-print-cert {
+        display: none !important;
+      }
     }
 
     /* Animations */
@@ -230,7 +271,6 @@
       <!-- Left: Brand Logo & Permanent Creator Info -->
       <div class="flex items-center gap-2.5">
         <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl shadow-sm shrink-0 overflow-hidden bg-purple-100 border-2 border-purple-200 flex items-center justify-center">
-          <!-- Inline 3D Clay Mascot SVG Logo -->
           <svg viewBox="0 0 200 200" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="bgGradHdr" x1="0" y1="0" x2="1" y2="1">
@@ -249,37 +289,27 @@
               </linearGradient>
             </defs>
             <rect x="6" y="6" width="188" height="188" rx="46" fill="url(#bgGradHdr)" stroke="#ffffff" stroke-width="6"/>
-            <!-- Sound Waves -->
             <line x1="26" y1="54" x2="38" y2="58" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
             <line x1="22" y1="68" x2="36" y2="68" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
             <line x1="27" y1="82" x2="39" y2="77" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
-            <!-- Headphones -->
             <path d="M46 66 C42 40, 74 30, 86 52" fill="none" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
             <rect x="40" y="57" width="13" height="22" rx="6.5" transform="rotate(-18 46 68)" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>
             <rect x="78" y="45" width="12" height="20" rx="6" transform="rotate(-18 84 55)" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
-            <!-- Back Orbit -->
             <path d="M48 92 C28 112, 62 126, 118 104 C162 86, 174 68, 152 64" fill="none" stroke="#a78bfa" stroke-width="5" opacity="0.7"/>
-            <!-- 3D Letter N -->
             <path d="M58 148 L58 72 C58 58, 76 55, 84 67 L116 115 L116 70 C116 57, 138 57, 138 70 L138 148 C138 160, 120 162, 112 150 L80 102 L80 148 C80 160, 58 160, 58 148 Z" fill="url(#nBodyHdr)"/>
-            <!-- Cute Winking Face on Left Stem -->
             <ellipse cx="66" cy="87" rx="3.2" ry="4.5" fill="#2e1065"/>
             <path d="M84 85 L89 87 L84 89" fill="none" stroke="#2e1065" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M72 91 Q76 95 80 91" fill="none" stroke="#2e1065" stroke-width="2.5" stroke-linecap="round"/>
             <ellipse cx="62" cy="94" rx="4" ry="2.4" fill="#f9a8d4" opacity="0.85"/>
             <ellipse cx="88" cy="94" rx="4" ry="2.4" fill="#f9a8d4" opacity="0.85"/>
-            <!-- Front Orbit Ring -->
             <path d="M46 104 C56 125, 118 114, 156 88 C170 78, 168 68, 158 65" fill="none" stroke="#e9d5ff" stroke-width="4.5" stroke-linecap="round"/>
-            <!-- Top Right Golden Star -->
             <path d="M136 34 Q138 48 152 50 Q138 52 136 66 Q134 52 120 50 Q134 48 136 34 Z" fill="url(#goldStarHdr)" stroke="#eab308" stroke-width="1.5"/>
-            <!-- Bottom Left Small Star -->
             <path d="M40 124 Q41 132 49 133 Q41 134 40 142 Q39 134 31 133 Q39 132 40 124 Z" fill="url(#goldStarHdr)"/>
-            <!-- Speech Bubble -->
             <rect x="144" y="102" width="34" height="22" rx="11" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="1.5"/>
             <polygon points="150,123 145,130 157,124" fill="#ddd6fe"/>
             <circle cx="154" cy="113" r="2.2" fill="#7c3aed"/>
             <circle cx="161" cy="113" r="2.2" fill="#7c3aed"/>
             <circle cx="168" cy="113" r="2.2" fill="#7c3aed"/>
-            <!-- 3-Layer Open Book Base -->
             <path d="M46 146 Q73 140 100 156 Q127 140 154 146 L150 156 Q125 150 100 165 Q75 150 50 156 Z" fill="#fefce8"/>
             <path d="M44 153 Q72 147 100 163 Q128 147 156 153 L152 162 Q126 156 100 171 Q74 156 48 162 Z" fill="#ddd6fe"/>
             <path d="M42 160 Q71 154 100 170 Q129 154 158 160 L155 168 Q127 162 100 177 Q73 162 45 168 Z" fill="#7c3aed"/>
@@ -298,12 +328,10 @@
 
       <!-- Center/Right: Stats, Voice Accent, & Role Switcher -->
       <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-        <!-- Voice Accent Toggle -->
         <button type="button" id="voiceAccentToggleBtn" onclick="window.toggleVoiceAccent()" class="bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-900 px-2.5 py-1.5 rounded-xl text-[11px] font-extrabold cursor-pointer transition" title="Switch Human Pronunciation Accent">
           🇺🇸 US Voice
         </button>
 
-        <!-- Hearts, Streak, XP -->
         <div class="flex items-center gap-2 bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-xl text-xs font-black">
           <span class="text-rose-600" title="Hearts">❤️ <span id="heartsCounter">5</span></span>
           <span class="text-purple-300">|</span>
@@ -312,14 +340,12 @@
           <span class="text-purple-700" title="XP Points">💎 <span id="xpCounter">0</span></span>
         </div>
 
-        <!-- Active User Pill & Switch Role -->
         <button type="button" onclick="window.openLoginModal()" class="bg-white hover:bg-purple-50 border-2 border-purple-200 text-purple-900 px-3 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 cursor-pointer shadow-2xs">
           <span>👤</span>
           <span id="activeUserName" class="max-w-[95px] truncate">Student</span>
           <span class="text-[10px] text-purple-500">▼</span>
         </button>
 
-        <!-- Teacher Portal Quick Button -->
         <button type="button" onclick="window.handleHeaderTeacherClick()" class="btn-3d btn-3d-purple px-3 py-1.5 rounded-xl text-xs font-extrabold gap-1">
           <span>👩‍🏫</span>
           <span class="hidden sm:inline">Teacher</span>
@@ -331,31 +357,47 @@
   <!-- ==================== MAIN PRACTICE ARENA ==================== -->
   <main class="w-full max-w-4xl mx-auto px-3 sm:px-6 py-4 sm:py-6 flex-1">
 
-    <!-- Level & Skill Switchers -->
-    <section class="w-full flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4 sm:mb-5">
+    <!-- Row 1: Curriculum Selector (Impact 1 / 2 / 3) -->
+    <section class="w-full space-y-2.5 mb-4 sm:mb-5">
       <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-        <span class="text-xs font-extrabold uppercase tracking-wider text-purple-600 mr-1 hidden sm:inline">Curriculum:</span>
-        <button type="button" class="keycap-level keycap-level-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0" data-level="A1">📘 Impact 1 (A1)</button>
-        <button type="button" class="keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-level="A2">📗 Impact 2 (A2)</button>
-        <button type="button" class="keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-level="B1">📙 Impact 3 (B1)</button>
+        <span class="text-xs font-extrabold uppercase tracking-wider text-purple-700 mr-1 shrink-0">Curriculum:</span>
+        <button type="button" class="book-pill book-pill-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0" data-book="Impact1">📘 Impact 1</button>
+        <button type="button" class="book-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-book="Impact2">📗 Impact 2</button>
+        <button type="button" class="book-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-book="Impact3">📙 Impact 3</button>
         <span id="assignedCurriculumLockBadge" class="hidden items-center gap-1 bg-emerald-100 text-emerald-900 border border-emerald-300 px-3 py-1.5 rounded-xl text-[11px] font-black shrink-0">
           🔒 منهج الصف: Impact 1
         </span>
       </div>
 
+      <!-- Row 2: Progressive Levels (Directly Below Curriculum: A1 -> A2 -> B1 -> B2 Advanced) -->
       <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-        <button type="button" class="skill-tab skill-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 flex items-center gap-1.5" data-skill="listen">
-          <span>🎧 Listen & Spell</span>
-          <span id="listenCountBadge" class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full">0/10</span>
-        </button>
-        <button type="button" class="skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5" data-skill="reading">
-          <span>📖 Reading</span>
-          <span id="readingCountBadge" class="bg-purple-100 text-purple-800 text-[10px] px-1.5 py-0.5 rounded-full">0/10</span>
-        </button>
-        <button type="button" class="skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5" data-skill="grammar">
-          <span>🧩 Grammar</span>
-          <span id="grammarCountBadge" class="bg-purple-100 text-purple-800 text-[10px] px-1.5 py-0.5 rounded-full">0/10</span>
-        </button>
+        <span class="text-xs font-extrabold uppercase tracking-wider text-purple-700 mr-1 shrink-0">Levels:</span>
+        <button type="button" class="keycap-level keycap-level-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0" data-level="A1">⭐ A1 (Beginner)</button>
+        <button type="button" class="keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-level="A2">⭐⭐ A2 (Elementary)</button>
+        <button type="button" class="keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-level="B1">⭐⭐⭐ B1 (Intermediate)</button>
+        <button type="button" class="keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" data-level="B2">👑 B2 (Advanced)</button>
+      </div>
+
+      <!-- Row 3: Skills Tabs (10 Questions per Skill to Earn Certificate) -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-0.5">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+          <button type="button" class="skill-tab skill-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 flex items-center gap-1.5" data-skill="listen">
+            <span>🎧 Listen & Spell</span>
+            <span id="listenCountBadge" class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full">0/10</span>
+          </button>
+          <button type="button" class="skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5" data-skill="reading">
+            <span>📖 Reading</span>
+            <span id="readingCountBadge" class="bg-purple-100 text-purple-800 text-[10px] px-1.5 py-0.5 rounded-full">0/10</span>
+          </button>
+          <button type="button" class="skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5" data-skill="grammar">
+            <span>🧩 Grammar</span>
+            <span id="grammarCountBadge" class="bg-purple-100 text-purple-800 text-[10px] px-1.5 py-0.5 rounded-full">0/10</span>
+          </button>
+        </div>
+
+        <div id="levelProgressPill" class="bg-white/90 border border-purple-200 px-3 py-1.5 rounded-xl text-[11px] font-extrabold text-purple-900 shadow-2xs">
+          🎓 Level Mastery: <span id="levelMasteryCounter" class="text-purple-700 font-black">0 / 30</span>
+        </div>
       </div>
     </section>
 
@@ -364,17 +406,17 @@
       <!-- Top Topic & CEFR Tag -->
       <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
         <span id="questionTopicBadge" class="bg-purple-100 text-purple-900 border border-purple-200 px-3 py-1 rounded-full text-xs font-extrabold">
-          📘 Impact 1 • Unit 1
+          📘 Impact 1 • Bahrain Edition
         </span>
         <div class="flex items-center gap-2">
-          <span id="questionCounterTag" class="text-xs font-extrabold text-purple-500">Question #1</span>
-          <span id="cefrLevelBadge" class="bg-purple-900 text-white text-[11px] font-black px-2.5 py-0.5 rounded-lg">CEFR A1</span>
+          <span id="questionCounterTag" class="text-xs font-extrabold text-purple-500">Question #1 of 10</span>
+          <span id="cefrLevelBadge" class="bg-purple-900 text-white text-[11px] font-black px-2.5 py-0.5 rounded-lg">A1 Beginner</span>
         </div>
       </div>
 
-      <!-- Visual Illustration Scene Box -->
+      <!-- Cartoon Visual Illustration Scene Box -->
       <div id="visualSceneContainer" class="w-full h-36 sm:h-44 rounded-2xl bg-gradient-to-br from-purple-50 via-indigo-50 to-violet-100 border-2 border-purple-100 mb-5 flex items-center justify-center overflow-hidden relative">
-        <!-- Dynamic SVG Scene injected via JS -->
+        <!-- Dynamic Cartoon SVG Scene injected via JS -->
       </div>
 
       <!-- 1. LISTEN & SPELL VIEW -->
@@ -400,7 +442,6 @@
           <p class="text-xs font-extrabold text-purple-600 mb-3">👇 Tap here & type using your keyboard (small letters):</p>
           <div id="letterSlotsContainer" class="flex flex-wrap items-center justify-center gap-2 mb-4"></div>
 
-          <!-- Hidden single input for mobile & desktop keyboards -->
           <input id="hiddenSpellingInput" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="opacity-0 absolute -z-10 pointer-events-none" />
 
           <div class="flex items-center justify-center gap-2.5">
@@ -552,7 +593,13 @@
         <form id="studentSimpleLoginForm" onsubmit="event.preventDefault(); window.submitStudentForm(); return false;" class="space-y-3">
           <div>
             <label class="block text-xs font-extrabold text-purple-900 mb-1">Student Full Name (اسم الطالبة الكامل):</label>
-            <input id="stuNameInput" type="text" placeholder="e.g. Fatima Ali" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            <input id="stuNameInput" type="text" placeholder="e.g. Fatima Ali Ahmed" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 focus:border-purple-600 focus:outline-none bg-purple-50/30 text-sm">
+            <!-- Student Name Certificate Notice -->
+            <div class="mt-1.5 bg-amber-50 border border-amber-300 rounded-xl px-3 py-1.5 text-right">
+              <p class="text-[11px] font-extrabold text-amber-950 leading-snug">
+                🏅 <strong>ملاحظة هامة:</strong> اسمكِ الذي تكتبينه هنا سيظهر رسمياً في <strong>شهادة الاجتياز</strong> الخاصة بكِ؛ لذا يرجى كتابته بشكل صحيح وكامل.
+              </p>
+            </div>
           </div>
 
           <div>
@@ -589,16 +636,16 @@
 
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1.5 text-center">
-                اختاري الكتاب / المنهج الذي تريدين التدرب عليه (Choose Impact Level):
+                اختاري الكتاب / المنهج الذي تريدين التدرب عليه (Choose Curriculum):
               </label>
               <div class="grid grid-cols-3 gap-2">
-                <button type="button" onclick="window.selectFreePracticeLevel('A1')" data-free-lvl="A1" class="free-lvl-btn py-2.5 px-2 rounded-xl border-2 border-purple-600 bg-purple-700 text-white font-chunky text-xs font-bold shadow-xs cursor-pointer transition">
+                <button type="button" onclick="window.selectFreePracticeBook('Impact1')" data-free-book="Impact1" class="free-book-btn py-2.5 px-2 rounded-xl border-2 border-indigo-600 bg-indigo-700 text-white font-chunky text-xs font-bold shadow-xs cursor-pointer transition">
                   📘 Impact 1
                 </button>
-                <button type="button" onclick="window.selectFreePracticeLevel('A2')" data-free-lvl="A2" class="free-lvl-btn py-2.5 px-2 rounded-xl border-2 border-purple-200 bg-purple-50 text-purple-900 font-chunky text-xs font-bold cursor-pointer transition">
+                <button type="button" onclick="window.selectFreePracticeBook('Impact2')" data-free-book="Impact2" class="free-book-btn py-2.5 px-2 rounded-xl border-2 border-purple-200 bg-purple-50 text-purple-900 font-chunky text-xs font-bold cursor-pointer transition">
                   📗 Impact 2
                 </button>
-                <button type="button" onclick="window.selectFreePracticeLevel('B1')" data-free-lvl="B1" class="free-lvl-btn py-2.5 px-2 rounded-xl border-2 border-purple-200 bg-purple-50 text-purple-900 font-chunky text-xs font-bold cursor-pointer transition">
+                <button type="button" onclick="window.selectFreePracticeBook('Impact3')" data-free-book="Impact3" class="free-book-btn py-2.5 px-2 rounded-xl border-2 border-purple-200 bg-purple-50 text-purple-900 font-chunky text-xs font-bold cursor-pointer transition">
                   📙 Impact 3
                 </button>
               </div>
@@ -610,7 +657,7 @@
           </p>
 
           <button type="button" onclick="window.submitStudentForm()" class="btn-3d btn-3d-purple w-full py-3.5 rounded-2xl font-chunky text-base font-bold mt-1">
-            🚀 START QUEST (ابدأي التحدي الآن)
+            🚀 START QUEST (ابدأي من مستوى A1)
           </button>
         </form>
       </div>
@@ -660,7 +707,13 @@
           <div id="signupStep1Box" class="space-y-2.5">
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Full Name (اسم المعلمة):</label>
-              <input id="signupTeacherName" type="text" placeholder="e.g. T. Hameeda BuSakhar" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 text-sm">
+              <input id="signupTeacherName" type="text" placeholder="e.g. T. Fatima Al-Mahmood" class="w-full px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 text-sm">
+              <!-- Teacher Name Certificate Notice -->
+              <div class="mt-1.5 bg-amber-50 border-2 border-amber-300 rounded-xl px-3 py-2 text-right">
+                <p class="text-[11px] font-extrabold text-amber-950 leading-snug">
+                  🏅 <strong>ملاحظة هامة:</strong> اسمكِ الذي تكتبينه هنا سيظهر رسمياً أسفل التوقيع في <strong>شهادات طالباتكِ</strong>؛ لذا يرجى كتابته بشكل صحيح وكامل (مثال: <em>T. Fatima Ali</em>).
+                </p>
+              </div>
             </div>
             <div>
               <label class="block text-xs font-extrabold text-purple-900 mb-1">Teacher Email (أي إيميل رسمي أو شخصي):</label>
@@ -729,7 +782,7 @@
   </div>
 
   <!-- ======================================================================
-       MODAL 2: TEACHER MANAGEMENT PORTAL
+       MODAL 2: TEACHER MANAGEMENT PORTAL (NO CUSTOM QUESTIONS, CERT PREVIEW ONLY FOR TEACHER)
        ====================================================================== -->
   <div id="teacherModal" class="fixed inset-0 z-50 bg-[#1e073b]/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-white rounded-[2rem] border-4 border-purple-200 shadow-2xl w-full max-w-4xl p-5 sm:p-7 my-auto animate-pop max-h-[92vh] overflow-y-auto">
@@ -739,10 +792,13 @@
           <div class="w-12 h-12 rounded-2xl bg-purple-100 border-2 border-purple-300 flex items-center justify-center text-2xl">👩‍🏫</div>
           <div>
             <h2 class="font-chunky text-xl sm:text-2xl font-bold text-purple-950">Teacher Management Portal</h2>
-            <p class="text-xs font-extrabold text-purple-600">Active Educator: <span id="activeTeacherDisplayName" class="text-purple-950 underline">T. Hameeda BuSakhar</span></p>
+            <p class="text-xs font-extrabold text-purple-600">Certificate Signature Name: <span id="activeTeacherDisplayName" class="text-purple-950 underline">T. Hameeda BuSakhar</span></p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="window.previewTeacherCertificate()" class="bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-950 px-3 py-2 rounded-xl text-xs font-extrabold cursor-pointer">
+            🏅 معاينة نموذج الشهادة
+          </button>
           <button type="button" onclick="window.downloadTeacherAccountCard()" class="bg-purple-100 hover:bg-purple-200 text-purple-900 px-3 py-2 rounded-xl text-xs font-extrabold cursor-pointer">
             🪪 بطاقة حسابي
           </button>
@@ -762,10 +818,10 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 mb-3.5">
           <input id="newClassNameInput" type="text" placeholder="اسم الصف أو الكود (مثال: Grade 8 - Section B)" class="sm:col-span-5 px-4 py-2.5 rounded-xl border-2 border-purple-200 font-bold text-purple-950 text-xs sm:text-sm focus:border-purple-600 focus:outline-none bg-white">
-          <select id="newClassLevelSelect" class="sm:col-span-3 px-3 py-2.5 rounded-xl border-2 border-purple-300 font-extrabold text-purple-950 text-xs sm:text-sm focus:border-purple-600 focus:outline-none bg-white cursor-pointer">
-            <option value="A1">📘 Impact 1 (Level A1)</option>
-            <option value="A2">📗 Impact 2 (Level A2)</option>
-            <option value="B1">📙 Impact 3 (Level B1)</option>
+          <select id="newClassBookSelect" class="sm:col-span-3 px-3 py-2.5 rounded-xl border-2 border-purple-300 font-extrabold text-purple-950 text-xs sm:text-sm focus:border-purple-600 focus:outline-none bg-white cursor-pointer">
+            <option value="Impact1">📘 Impact 1</option>
+            <option value="Impact2">📗 Impact 2</option>
+            <option value="Impact3">📙 Impact 3</option>
           </select>
           <button type="button" id="createClassBtn" class="sm:col-span-2 btn-3d btn-3d-purple text-xs font-extrabold px-3 py-2.5 rounded-xl">+ إنشاء صف جديد</button>
           <button type="button" onclick="window.addExistingClassCode()" class="sm:col-span-2 btn-3d btn-3d-slate text-xs font-extrabold px-3 py-2.5 rounded-xl">+ إضافة كود</button>
@@ -774,46 +830,10 @@
         <div id="activeCodesContainer" class="flex flex-wrap gap-2.5"></div>
       </div>
 
-      <!-- Section 2: Custom Question Builder -->
-      <div class="bg-indigo-50/70 border-2 border-indigo-100 rounded-2xl p-4 mb-5">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h3 class="text-xs sm:text-sm font-black text-indigo-950">📚 إضافة أسئلة مخصصة للمنهج (Impact 1 / 2 / 3)</h3>
-            <p class="text-[11px] font-bold text-indigo-700">أضيفي أسئلة إملاء أو قراءة أو قواعد خاصة بصفوفكِ لتظهر فوراً في التدريب.</p>
-          </div>
-          <button type="button" onclick="document.getElementById('customQuestionDrawer').classList.toggle('hidden')" class="btn-3d btn-3d-purple px-4 py-2 rounded-xl text-xs font-extrabold">
-            ➕ إضافة سؤال جديد
-          </button>
-        </div>
-
-        <div id="customQuestionDrawer" class="hidden mt-3 pt-3 border-t border-indigo-200 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <select id="cqLevelSelect" class="px-3 py-2 rounded-xl border-2 border-indigo-200 font-bold text-xs bg-white">
-            <option value="A1">📘 Impact 1 (A1)</option>
-            <option value="A2">📗 Impact 2 (A2)</option>
-            <option value="B1">📙 Impact 3 (B1)</option>
-          </select>
-          <select id="cqSkillSelect" onchange="window.toggleCustomQuestionFields()" class="px-3 py-2 rounded-xl border-2 border-indigo-200 font-bold text-xs bg-white">
-            <option value="listen">🎧 Listen & Spell</option>
-            <option value="grammar">🧩 Grammar (4 Options)</option>
-          </select>
-          <input id="cqPromptInput" type="text" placeholder="الكلمة المطلوبة (للإملاء) أو نص السؤال (للقواعد)" class="sm:col-span-2 px-3 py-2 rounded-xl border-2 border-indigo-200 font-bold text-xs bg-white">
-          <input id="cqHintInput" type="text" placeholder="التلميح / المعنى أو القاعدة (Hint)" class="sm:col-span-2 px-3 py-2 rounded-xl border-2 border-indigo-200 font-bold text-xs bg-white">
-          <div id="cqOptionsInputs" class="hidden sm:col-span-2 grid grid-cols-2 gap-2">
-            <input id="cqOpt0" type="text" placeholder="الإجابة الصحيحة (Correct Option)" class="px-3 py-2 rounded-xl border-2 border-emerald-300 font-bold text-xs bg-emerald-50/40">
-            <input id="cqOpt1" type="text" placeholder="خيار خاطئ 2" class="px-3 py-2 rounded-xl border-2 border-indigo-200 font-bold text-xs bg-white">
-            <input id="cqOpt2" type="text" placeholder="خيار خاطئ 3" class="px-3 py-2 rounded-xl border-2 border-indigo-200 font-bold text-xs bg-white">
-            <input id="cqOpt3" type="text" placeholder="خيار خاطئ 4" class="px-3 py-2 rounded-xl border-2 border-indigo-200 font-bold text-xs bg-white">
-          </div>
-          <button type="button" onclick="window.saveCustomTeacherQuestion()" class="sm:col-span-2 btn-3d btn-3d-green py-2.5 rounded-xl text-xs font-extrabold">
-            💾 حفظ السؤال في بنك الأسئلة
-          </button>
-        </div>
-      </div>
-
-      <!-- Section 3: Active Students Session Tracker -->
+      <!-- Section 2: Active Students Session Tracker -->
       <div class="mb-5">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-xs sm:text-sm font-black text-purple-950">Active Students Session Tracker (متابعة الطالبات):</h3>
+          <h3 class="text-xs sm:text-sm font-black text-purple-950">Active Students Session Tracker (متابعة الطالبات والمستويات والشهادات):</h3>
           <span id="activeStudentsCountBadge" class="text-xs font-extrabold text-purple-600">0 Active Student(s)</span>
         </div>
         <div class="overflow-x-auto border-2 border-purple-100 rounded-2xl">
@@ -823,10 +843,9 @@
                 <th class="py-2.5 px-3">Student Name (اسم الطالبة)</th>
                 <th class="py-2.5 px-3">Class / Section</th>
                 <th class="py-2.5 px-3">Class Code</th>
-                <th class="py-2.5 px-3">Curriculum</th>
+                <th class="py-2.5 px-3">Curriculum & Stage</th>
                 <th class="py-2.5 px-3">XP</th>
-                <th class="py-2.5 px-3">Hearts</th>
-                <th class="py-2.5 px-3">Streak</th>
+                <th class="py-2.5 px-3">Certificates</th>
               </tr>
             </thead>
             <tbody id="studentsTrackerBody" class="divide-y divide-purple-50 font-bold text-purple-950"></tbody>
@@ -874,7 +893,101 @@
   </div>
 
   <!-- ======================================================================
-       JAVASCRIPT ENGINE (FULL CURRICULUM, SHUFFLED A/B/C/D, AUDIO, ISOLATED TEACHERS)
+       MODAL 4: OFFICIAL COMPLETION CERTIFICATE MODAL
+       (Shows Registered Teacher Name below Signature + T. Hameeda BuSakhar on Margin)
+       ====================================================================== -->
+  <div id="certificateModal" class="fixed inset-0 z-[100] bg-[#140429]/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div id="certificatePrintableArea" class="relative bg-gradient-to-br from-[#fffdf7] via-white to-[#f5f3ff] rounded-[2rem] border-[6px] border-amber-400 shadow-2xl w-full max-w-2xl p-6 sm:p-10 my-auto animate-pop text-center overflow-hidden">
+      <!-- Decorative Inner Frame -->
+      <div class="absolute inset-2.5 rounded-[1.5rem] border-2 border-purple-300/80 pointer-events-none"></div>
+
+      <!-- MARGIN CREATOR STAMP (على الهامش: T. Hameeda BuSakhar) -->
+      <div class="hidden sm:flex cert-margin-vertical items-center justify-center absolute left-3.5 top-1/2 -translate-y-1/2 text-[10px] font-black tracking-wider text-purple-800/75 select-none">
+        Nexly Platform • Created by T. Hameeda BuSakhar
+      </div>
+
+      <!-- Preview Mode Watermark Banner (Only shown when teacher clicks Preview) -->
+      <div id="certTeacherPreviewRibbon" class="hidden no-print-cert mb-3 bg-amber-100 border border-amber-400 text-amber-950 text-xs font-black px-3 py-1 rounded-full inline-block">
+        👁️ معاينة نموذج الشهادة (تظهر للطالبة تلقائياً عند اجتياز جميع مهارات المستوى)
+      </div>
+
+      <!-- Top Emblem & Title -->
+      <div class="relative z-10 space-y-2">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-500 border-2 border-white shadow-md flex items-center justify-center text-3xl">
+          🏆
+        </div>
+        <p class="text-[11px] font-black uppercase tracking-[0.22em] text-purple-600">Nexly English Mastery • Kingdom of Bahrain</p>
+        <h2 class="font-chunky text-2xl sm:text-4xl font-bold text-purple-950">Certificate of Achievement</h2>
+        <p class="text-xs sm:text-sm font-extrabold text-amber-700">شهادة اجتياز وتفوق في اللغة الإنجليزية</p>
+      </div>
+
+      <!-- Student Name & Achievement Details -->
+      <div class="relative z-10 my-5 py-4 px-4 bg-purple-50/70 rounded-2xl border border-purple-200 space-y-2">
+        <p class="text-xs font-bold text-purple-700">This is proudly awarded to / تُمنح هذه الشهادة للطالبة المتألقة:</p>
+        <h3 id="certStudentName" class="font-chunky text-2xl sm:text-3xl font-bold text-purple-950 underline decoration-amber-400 decoration-4 underline-offset-4">
+          Fatima Ali Ahmed
+        </h3>
+        <p id="certStudentClass" class="text-xs font-extrabold text-purple-700">Class: Grade 8 • Code: NX1-101</p>
+
+        <div class="pt-2 flex flex-wrap items-center justify-center gap-2">
+          <span id="certBookBadge" class="bg-indigo-700 text-white text-xs font-black px-3.5 py-1 rounded-full">
+            📘 Curriculum: Impact 1
+          </span>
+          <span id="certLevelBadge" class="bg-purple-800 text-white text-xs font-black px-3.5 py-1 rounded-full">
+            ⭐ Level: A1 (Beginner)
+          </span>
+        </div>
+
+        <p class="text-[11px] sm:text-xs font-bold text-purple-900 pt-1">
+          For successfully mastering all 3 core skills: <strong>Listen & Spell (10/10)</strong>, <strong>Reading (10/10)</strong>, and <strong>Grammar (10/10)</strong>.
+        </p>
+      </div>
+
+      <!-- Bottom Row: Date + Registered Class Teacher Signature -->
+      <div class="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 items-end pt-2 px-2">
+        <div class="text-center sm:text-left">
+          <p class="text-[10px] font-extrabold uppercase tracking-wider text-purple-500">Date of Issue / التاريخ</p>
+          <p id="certIssueDate" class="text-xs sm:text-sm font-black text-purple-950 mt-0.5">November 23, 2026</p>
+          <p class="text-[10px] font-bold text-emerald-700 mt-0.5">✅ Verified Digital Credential</p>
+        </div>
+
+        <!-- Registered Class Teacher Name under Signature -->
+        <div class="text-center sm:text-right">
+          <div class="inline-block text-center">
+            <p class="font-chunky text-sm text-purple-700 italic">Signed & Approved</p>
+            <div class="w-44 h-0.5 bg-purple-400 my-1 mx-auto"></div>
+            <p class="text-[10px] font-extrabold uppercase tracking-wider text-purple-500">Class Educator / معلمة الصف</p>
+            <p id="certClassTeacherName" class="text-sm sm:text-base font-black text-purple-950 mt-0.5">
+              T. Hameeda BuSakhar
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Margin Credit (على الهامش السفلي: T. Hameeda BuSakhar) -->
+      <div class="relative z-10 mt-5 pt-2.5 border-t border-purple-200/80 text-center">
+        <p class="text-[10px] font-extrabold text-purple-700">
+          Nexly Interactive Platform • Created & Designed by <strong class="text-purple-950">T. Hameeda BuSakhar</strong> (Hameeda.ahmed@hotmail.com)
+        </p>
+      </div>
+
+      <!-- Action Buttons (Hidden when printing) -->
+      <div class="no-print-cert relative z-10 mt-5 flex flex-col sm:flex-row items-center justify-center gap-2.5">
+        <button type="button" onclick="window.print()" class="btn-3d btn-3d-amber w-full sm:w-auto px-5 py-3 rounded-2xl font-chunky text-xs sm:text-sm font-bold gap-1.5">
+          🖨️ طباعة / حفظ الشهادة (PDF)
+        </button>
+        <button type="button" id="certNextLevelBtn" onclick="window.advanceToNextLevelFromCert()" class="btn-3d btn-3d-green w-full sm:w-auto px-6 py-3 rounded-2xl font-chunky text-xs sm:text-sm font-bold gap-1.5">
+          🚀 الانتقال إلى المستوى التالي ➔
+        </button>
+        <button type="button" onclick="window.closeCertificateModal()" class="btn-3d btn-3d-slate w-full sm:w-auto px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold">
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       JAVASCRIPT ENGINE
        ====================================================================== -->
   <script>
     /* ========================================================
@@ -899,166 +1012,298 @@
     }
 
     /* ========================================================
-       2. CURRICULUM QUESTION BANK (IMPACT 1, IMPACT 2, IMPACT 3)
+       2. MULTI-UNIT GRADED QUESTION BANK (IMPACT 1, 2, 3 x A1, A2, B1, B2)
+       Each Book + Level has 10 diverse questions per skill across Units 1-8!
        ======================================================== */
     function buildQuestionBank() {
-      var bank = {
-        A1: { listen: [], reading: [], grammar: [] },
-        A2: { listen: [], reading: [], grammar: [] },
-        B1: { listen: [], reading: [], grammar: [] }
+      var books = ["Impact1", "Impact2", "Impact3"];
+      var levels = ["A1", "A2", "B1", "B2"];
+      var bank = {};
+      books.forEach(function(b) {
+        bank[b] = {};
+        levels.forEach(function(l) {
+          bank[b][l] = { listen: [], reading: [], grammar: [] };
+        });
+      });
+
+      // -------------------- IMPACT 1 (ALL 8 UNITS GRADED A1 -> B2) --------------------
+      var i1ListenAll = [
+        // A1 (10 words across Units 1-8)
+        { w: "city", h: "Impact 1 Unit 1: A large town with tall buildings and busy streets", t: "Impact 1 • Unit 1", ic: "city" },
+        { w: "tower", h: "Impact 1 Unit 1: A tall, narrow building or structure", t: "Impact 1 • Unit 1", ic: "city" },
+        { w: "worker", h: "Impact 1 Unit 2: A person who does a particular job", t: "Impact 1 • Unit 2", ic: "archaeology" },
+        { w: "shadow", h: "Impact 1 Unit 3: A dark shape made when light is blocked", t: "Impact 1 • Unit 3", ic: "ocean" },
+        { w: "lion", h: "Impact 1 Unit 4: A large wild cat protected in Tanzania", t: "Impact 1 • Unit 4", ic: "wildlife" },
+        { w: "scarf", h: "Impact 1 Unit 5: A piece of cloth worn around the neck or head", t: "Impact 1 • Unit 5", ic: "fashion" },
+        { w: "cartoon", h: "Impact 1 Unit 6: An animated drawing or short film", t: "Impact 1 • Unit 6", ic: "animation" },
+        { w: "gadget", h: "Impact 1 Unit 7: A small useful electronic device", t: "Impact 1 • Unit 7", ic: "gadget" },
+        { w: "museum", h: "Impact 1 Unit 8: A building where historic treasures are displayed", t: "Impact 1 • Unit 8", ic: "museum" },
+        { w: "factory", h: "Impact 1 Unit 8: A building where goods are made by machines", t: "Impact 1 • Unit 8", ic: "museum" },
+        // A2 (10 words across Units 1-8)
+        { w: "resident", h: "Impact 1 Unit 1: A person who lives in a particular city", t: "Impact 1 • Unit 1", ic: "city" },
+        { w: "explorer", h: "Impact 1 Unit 2: Someone who travels to discover new places", t: "Impact 1 • Unit 2", ic: "archaeology" },
+        { w: "festival", h: "Impact 1 Unit 3: A community celebration with lights and events", t: "Impact 1 • Unit 3", ic: "ocean" },
+        { w: "habitat", h: "Impact 1 Unit 4: The natural home of an animal or plant", t: "Impact 1 • Unit 4", ic: "wildlife" },
+        { w: "wildlife", h: "Impact 1 Unit 4: Wild animals living freely in nature", t: "Impact 1 • Unit 4", ic: "wildlife" },
+        { w: "uniform", h: "Impact 1 Unit 5: Special clothes worn by students at school", t: "Impact 1 • Unit 5", ic: "fashion" },
+        { w: "combine", h: "Impact 1 Unit 6: To join or mix two different styles together", t: "Impact 1 • Unit 6", ic: "animation" },
+        { w: "outdated", h: "Impact 1 Unit 7: Old-fashioned and no longer modern", t: "Impact 1 • Unit 7", ic: "gadget" },
+        { w: "battery", h: "Impact 1 Unit 7: Stores power for phones and solar gadgets", t: "Impact 1 • Unit 7", ic: "gadget" },
+        { w: "ancestor", h: "Impact 1 Unit 8: A family member who lived generations ago", t: "Impact 1 • Unit 8", ic: "museum" },
+        // B1 (10 words across Units 1-8)
+        { w: "skyscraper", h: "Impact 1 Unit 1: A very tall modern building in a city", t: "Impact 1 • Unit 1", ic: "city" },
+        { w: "adventure", h: "Impact 1 Unit 2: An exciting experience in extreme mountains", t: "Impact 1 • Unit 2", ic: "archaeology" },
+        { w: "researcher", h: "Impact 1 Unit 2: A scientist who investigates new facts", t: "Impact 1 • Unit 2", ic: "archaeology" },
+        { w: "nocturnal", h: "Impact 1 Unit 3: Active at night and sleeping during the day", t: "Impact 1 • Unit 3", ic: "ocean" },
+        { w: "sanctuary", h: "Impact 1 Unit 4: A safe reserve protecting endangered species", t: "Impact 1 • Unit 4", ic: "wildlife" },
+        { w: "accessory", h: "Impact 1 Unit 5: An extra item worn with an outfit", t: "Impact 1 • Unit 5", ic: "fashion" },
+        { w: "animation", h: "Impact 1 Unit 6: Creating moving images for films and games", t: "Impact 1 • Unit 6", ic: "animation" },
+        { w: "character", h: "Impact 1 Unit 6: A person or creature in a story or cartoon", t: "Impact 1 • Unit 6", ic: "animation" },
+        { w: "invention", h: "Impact 1 Unit 7: A newly created device or technology", t: "Impact 1 • Unit 7", ic: "gadget" },
+        { w: "treasure", h: "Impact 1 Unit 8: Valuable historic artefacts from the past", t: "Impact 1 • Unit 8", ic: "museum" },
+        // B2 (10 words across Units 1-8)
+        { w: "architecture", h: "Impact 1 Unit 1: The art and science of designing buildings", t: "Impact 1 • Unit 1", ic: "city" },
+        { w: "archaeologist", h: "Impact 1 Unit 2: Specialist who studies ancient ruins and caves", t: "Impact 1 • Unit 2", ic: "archaeology" },
+        { w: "bioluminescence", h: "Impact 1 Unit 3: Glowing light produced by deep-sea organisms", t: "Impact 1 • Unit 3", ic: "ocean" },
+        { w: "conservation", h: "Impact 1 Unit 4: Protecting wildlife and natural ecosystems", t: "Impact 1 • Unit 4", ic: "wildlife" },
+        { w: "coexist", h: "Impact 1 Unit 4: To live peacefully together in the same area", t: "Impact 1 • Unit 4", ic: "wildlife" },
+        { w: "traditional", h: "Impact 1 Unit 5: Following long-established cultural customs", t: "Impact 1 • Unit 5", ic: "fashion" },
+        { w: "embroidery", h: "Impact 1 Unit 5: Decorative needlework like Bahraini kurar", t: "Impact 1 • Unit 5", ic: "fashion" },
+        { w: "application", h: "Impact 1 Unit 7: A software program on a digital device", t: "Impact 1 • Unit 7", ic: "gadget" },
+        { w: "generation", h: "Impact 1 Unit 8: All people born around the same time period", t: "Impact 1 • Unit 8", ic: "museum" },
+        { w: "sacrifice", h: "Impact 1 Unit 8: Giving up something valuable for future generations", t: "Impact 1 • Unit 8", ic: "museum" }
+      ];
+
+      // -------------------- IMPACT 2 (ALL 8 UNITS GRADED A1 -> B2) --------------------
+      var i2ListenAll = [
+        // A1 (10 words)
+        { w: "purple", h: "Impact 2 Unit 1: A royal colour once made from sea snails", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "nature", h: "Impact 2 Unit 1: Plants, trees, and the outdoor environment", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "trust", h: "Impact 2 Unit 1: Feeling safe and confident in someone", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "violet", h: "Impact 2 Unit 1: A bluish-purple colour named after a flower", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "screen", h: "Impact 2 Unit 3: A flat display on a phone or computer", t: "Impact 2 • Unit 3", ic: "screen" },
+        { w: "ocean", h: "Impact 2 Unit 4: A vast body of salt water covering Earth", t: "Impact 2 • Unit 4", ic: "ocean" },
+        { w: "diving", h: "Impact 2 Unit 4: Swimming underwater with breathing gear", t: "Impact 2 • Unit 4", ic: "ocean" },
+        { w: "extreme", h: "Impact 2 Unit 5: Very great, intense, or severe conditions", t: "Impact 2 • Unit 5", ic: "lizard" },
+        { w: "carrot", h: "Impact 2 Unit 6: An orange vegetable often wasted if misshapen", t: "Impact 2 • Unit 6", ic: "gadget" },
+        { w: "rescue", h: "Impact 2 Unit 8: Saving someone from a dangerous emergency", t: "Impact 2 • Unit 8", ic: "ocean" },
+        // A2 (10 words)
+        { w: "visible", h: "Impact 2 Unit 1: Easy to see, like yellow school buses", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "wedding", h: "Impact 2 Unit 1: A marriage ceremony with special colours", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "virtual", h: "Impact 2 Unit 3: Existing online through computer technology", t: "Impact 2 • Unit 3", ic: "screen" },
+        { w: "website", h: "Impact 2 Unit 4: Pages on the Internet sharing live updates", t: "Impact 2 • Unit 4", ic: "ocean" },
+        { w: "volcano", h: "Impact 2 Unit 4: Kick' em Jenny is an underwater volcano", t: "Impact 2 • Unit 4", ic: "ocean" },
+        { w: "survive", h: "Impact 2 Unit 5: To stay alive in freezing or boiling places", t: "Impact 2 • Unit 5", ic: "lizard" },
+        { w: "edible", h: "Impact 2 Unit 6: Safe and healthy to eat without wasting", t: "Impact 2 • Unit 6", ic: "gadget" },
+        { w: "mural", h: "Impact 2 Unit 7: A large artwork painted directly on a wall", t: "Impact 2 • Unit 7", ic: "fashion" },
+        { w: "museum", h: "Impact 2 Unit 8: Bahrain National Museum preserves 6,000 years", t: "Impact 2 • Unit 8", ic: "museum" },
+        { w: "panic", h: "Impact 2 Unit 8: Sudden strong fear during an emergency", t: "Impact 2 • Unit 8", ic: "ocean" },
+        // B1 (10 words)
+        { w: "represent", h: "Impact 2 Unit 1: To stand for or symbolise an idea or brand", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "emergency", h: "Impact 2 Unit 1: A sudden serious situation needing fast help", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "chemical", h: "Impact 2 Unit 1: Substance William Perkin mixed in 1856", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "cyborg", h: "Impact 2 Unit 3: Human extended by technology (Amber Case)", t: "Impact 2 • Unit 3", ic: "screen" },
+        { w: "shipwreck", h: "Impact 2 Unit 4: A sunken ship resting on the ocean floor", t: "Impact 2 • Unit 4", ic: "ocean" },
+        { w: "submarine", h: "Impact 2 Unit 4: An underwater exploration vessel", t: "Impact 2 • Unit 4", ic: "ocean" },
+        { w: "organism", h: "Impact 2 Unit 5: Any living thing, from bacteria to whales", t: "Impact 2 • Unit 5", ic: "lizard" },
+        { w: "consumer", h: "Impact 2 Unit 6: A person who buys food and goods", t: "Impact 2 • Unit 6", ic: "gadget" },
+        { w: "sculpture", h: "Impact 2 Unit 7: Three-dimensional art outside Bahrain Museum", t: "Impact 2 • Unit 7", ic: "museum" },
+        { w: "hurricane", h: "Impact 2 Unit 8: A powerful tropical storm with strong winds", t: "Impact 2 • Unit 8", ic: "ocean" },
+        // B2 (10 words)
+        { w: "symbolise", h: "Impact 2 Unit 1: To represent a deeper cultural meaning", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "experiment", h: "Impact 2 Unit 1: Scientific test that led to synthetic purple dye", t: "Impact 2 • Unit 1", ic: "color" },
+        { w: "anthropologist", h: "Impact 2 Unit 3: Scientist who studies human culture and tools", t: "Impact 2 • Unit 3", ic: "screen" },
+        { w: "exploration", h: "Impact 2 Unit 4: Investigating unknown deep-sea regions", t: "Impact 2 • Unit 4", ic: "ocean" },
+        { w: "extremophile", h: "Impact 2 Unit 5: Tiny creature surviving extreme heat or space", t: "Impact 2 • Unit 5", ic: "lizard" },
+        { w: "astrobiologist", h: "Impact 2 Unit 5: Scientist like Kevin Hand studying life in space", t: "Impact 2 • Unit 5", ic: "space" },
+        { w: "nutritious", h: "Impact 2 Unit 6: Full of vitamins and healthy energy", t: "Impact 2 • Unit 6", ic: "gadget" },
+        { w: "misshapen", h: "Impact 2 Unit 6: Having an unusual or curved natural shape", t: "Impact 2 • Unit 6", ic: "gadget" },
+        { w: "attraction", h: "Impact 2 Unit 7: A famous cultural place visited by many", t: "Impact 2 • Unit 7", ic: "museum" },
+        { w: "evacuate", h: "Impact 2 Unit 8: To move people safely away from danger", t: "Impact 2 • Unit 8", ic: "ocean" }
+      ];
+
+      // -------------------- IMPACT 3 (ALL 8 UNITS GRADED A1 -> B2) --------------------
+      var i3ListenAll = [
+        // A1 (10 words)
+        { w: "brain", h: "Impact 3 Unit 1: The organ inside the head that controls thinking", t: "Impact 3 • Unit 1", ic: "screen" },
+        { w: "spider", h: "Impact 3 Unit 2: An eight-legged creature that eats pests", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "snake", h: "Impact 3 Unit 2: A reptile studied by herpetologist Jenny Daltry", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "group", h: "Impact 3 Unit 3: People who belong or work together", t: "Impact 3 • Unit 3", ic: "city" },
+        { w: "cotton", h: "Impact 3 Unit 4: A soft natural fibre used to make clothes", t: "Impact 3 • Unit 4", ic: "fashion" },
+        { w: "flight", h: "Impact 3 Unit 5: A journey through the air by plane or bird", t: "Impact 3 • Unit 5", ic: "space" },
+        { w: "orbit", h: "Impact 3 Unit 6: The curved path of a satellite around Earth", t: "Impact 3 • Unit 6", ic: "space" },
+        { w: "camera", h: "Impact 3 Unit 7: A device used to capture photos and videos", t: "Impact 3 • Unit 7", ic: "screen" },
+        { w: "story", h: "Impact 3 Unit 7: A narrative shared on cave walls or screens", t: "Impact 3 • Unit 7", ic: "screen" },
+        { w: "brave", h: "Impact 3 Unit 8: Showing courage in difficult situations", t: "Impact 3 • Unit 8", ic: "archaeology" },
+        // A2 (10 words)
+        { w: "emotion", h: "Impact 3 Unit 1: A strong feeling such as joy or anger", t: "Impact 3 • Unit 1", ic: "screen" },
+        { w: "lizard", h: "Impact 3 Unit 2: The Texas horned reptile with clever defences", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "predator", h: "Impact 3 Unit 2: An animal that hunts other animals for food", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "belong", h: "Impact 3 Unit 3: To feel accepted as part of a team or family", t: "Impact 3 • Unit 3", ic: "city" },
+        { w: "fabric", h: "Impact 3 Unit 4: Cloth produced by weaving or knitting fibres", t: "Impact 3 • Unit 4", ic: "fashion" },
+        { w: "glider", h: "Impact 3 Unit 5: A light aircraft that flies without an engine", t: "Impact 3 • Unit 5", ic: "space" },
+        { w: "rocket", h: "Impact 3 Unit 6: A spacecraft launched into outer space", t: "Impact 3 • Unit 6", ic: "space" },
+        { w: "portrait", h: "Impact 3 Unit 7: A painting or photograph of a person", t: "Impact 3 • Unit 7", ic: "screen" },
+        { w: "cloud", h: "Impact 3 Unit 7: Online storage connecting modern screens", t: "Impact 3 • Unit 7", ic: "screen" },
+        { w: "courage", h: "Impact 3 Unit 8: The ability to face danger without giving up", t: "Impact 3 • Unit 8", ic: "archaeology" },
+        // B1 (10 words)
+        { w: "adolescent", h: "Impact 3 Unit 1: A young person developing from child to adult", t: "Impact 3 • Unit 1", ic: "screen" },
+        { w: "passionate", h: "Impact 3 Unit 1: Having strong enthusiasm for a goal", t: "Impact 3 • Unit 1", ic: "screen" },
+        { w: "beneficial", h: "Impact 3 Unit 2: Helpful and producing good results in nature", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "symbolic", h: "Impact 3 Unit 2: Representing a bigger idea (Jenny Daltry)", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "volunteer", h: "Impact 3 Unit 3: Someone who freely offers to help others", t: "Impact 3 • Unit 3", ic: "city" },
+        { w: "synthetic", h: "Impact 3 Unit 4: Man-made material rather than natural fibre", t: "Impact 3 • Unit 4", ic: "fashion" },
+        { w: "parachute", h: "Impact 3 Unit 5: Canopy used to descend safely through air", t: "Impact 3 • Unit 5", ic: "space" },
+        { w: "satellite", h: "Impact 3 Unit 6: Bahrain's Light-1 spacecraft orbiting Earth", t: "Impact 3 • Unit 6", ic: "space" },
+        { w: "pioneer", h: "Impact 3 Unit 7: One of the first to develop a new technique", t: "Impact 3 • Unit 7", ic: "screen" },
+        { w: "endurance", h: "Impact 3 Unit 8: Strength to continue through tough challenges", t: "Impact 3 • Unit 8", ic: "archaeology" },
+        // B2 (10 words)
+        { w: "enthusiastic", h: "Impact 3 Unit 1: Showing intense eagerness and interest", t: "Impact 3 • Unit 1", ic: "screen" },
+        { w: "herpetologist", h: "Impact 3 Unit 2: Scientist like Jenny Daltry studying reptiles", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "ecosystem", h: "Impact 3 Unit 2: Web of living things depending on each other", t: "Impact 3 • Unit 2", ic: "lizard" },
+        { w: "involuntary", h: "Impact 3 Unit 3: Happening naturally without conscious choice", t: "Impact 3 • Unit 3", ic: "city" },
+        { w: "sustainable", h: "Impact 3 Unit 4: Eco-friendly fashion that protects resources", t: "Impact 3 • Unit 4", ic: "fashion" },
+        { w: "aerodynamic", h: "Impact 3 Unit 5: Shaped to move smoothly through the air", t: "Impact 3 • Unit 5", ic: "space" },
+        { w: "radiation", h: "Impact 3 Unit 6: Gamma rays studied by Bahrain's Light-1 satellite", t: "Impact 3 • Unit 6", ic: "space" },
+        { w: "sophisticated", h: "Impact 3 Unit 7: Highly advanced and complex technology", t: "Impact 3 • Unit 7", ic: "screen" },
+        { w: "illustrate", h: "Impact 3 Unit 7: To explain or tell a story using visual images", t: "Impact 3 • Unit 7", ic: "screen" },
+        { w: "perseverance", h: "Impact 3 Unit 8: Steady persistence despite obstacles", t: "Impact 3 • Unit 8", ic: "archaeology" }
+      ];
+
+      // Reading & Grammar curated pools across Units 1-8 for each book
+      var readingPools = {
+        Impact1: [
+          { tit: "Impact 1 • Unit 1: Walking Across Cities", st: "National Geographic Explorer Daniel Raven-Ellison walks across major cities to prove that urban environments contain green parks, gardens, and surprising wildlife.", q: "What did Daniel Raven-Ellison show by walking across cities?", opt: ["Cities contain green parks and wildlife", "Cities have no trees or parks", "Nobody walks in modern cities", "Only cars can enter green parks"], ic: "city" },
+          { tit: "Impact 1 • Unit 2: Extreme Mountain Photography", st: "Climber and photographer Jimmy Chin works on high peaks. He advises young people to prepare carefully and avoid situations where risks are high and control is low.", q: "What advice does Jimmy Chin give to teenagers?", opt: ["Prepare well and avoid high-risk, low-control situations", "Climb icy mountains without safety ropes", "Never take photos in cold weather", "Only work inside quiet offices"], ic: "archaeology" },
+          { tit: "Impact 1 • Unit 3: Glowing Life in the Deep Sea", st: "Marine biologist David Gruber studies bioluminescence in the dark ocean, where sea creatures make their own blue and green light to communicate or hide from predators.", q: "How do deep-sea creatures use bioluminescence?", opt: ["To communicate or hide in the dark", "To heat up cold ocean currents", "To guide large cargo ships", "To grow flowers on rocks"], ic: "ocean" },
+          { tit: "Impact 1 • Unit 4: Living Together with Wildlife", st: "Conservationist Amy Dickman works in Tanzania to help local villagers and wild lions live side by side safely, protecting both livestock and endangered cats.", q: "What is Amy Dickman's main conservation goal?", opt: ["Helping villagers and lions coexist safely", "Moving all lions to cold countries", "Closing national parks in Africa", "Keeping wild lions inside houses"], ic: "wildlife" },
+          { tit: "Impact 1 • Unit 5: Kurar House in Muharraq, Bahrain", st: "At Beit Al Kurar in Muharraq, Bahraini women use fine gold and silver zari thread to hand-embroider traditional thobs and sheilas, preserving a unique heritage craft.", q: "What makes kurar embroidery in Bahrain special?", opt: ["Women hand-embroider garments using gold and silver zari", "It is printed quickly by large machines", "It is only made for winter coats", "It uses plastic threads instead of zari"], ic: "fashion" },
+          { tit: "Impact 1 • Unit 6: Mix and Mash Animation", st: "Modern animators blend hand-drawn art, 3D computer graphics, and mobile emojis to bring characters to life in films and educational games.", q: "How do modern artists create animation in Unit 6?", opt: ["By combining hand-drawn art with 3D digital tools", "By carving stone statues in caves", "By writing long books without pictures", "By painting only on wooden ships"], ic: "animation" },
+          { tit: "Impact 1 • Unit 7: Solar-Powered Gadget Tree", st: "In Unit 7, students explore a solar-powered tree that captures sunlight to charge smartphones and tablets cleanly without using fossil fuels.", q: "How does the solar-powered tree charge gadgets?", opt: ["By converting sunlight into clean electricity", "By burning coal inside a building", "By using cold water from a river", "By connecting to a bicycle"], ic: "gadget" },
+          { tit: "Impact 1 • Unit 8: Time Capsules & Our Ancestors", st: "Time capsules preserve everyday letters, photographs, and tools from today so future generations can understand the hard work of their ancestors.", q: "Why do communities bury or preserve time capsules?", opt: ["So future generations learn how people lived", "To hide treasure from archaeologists forever", "To replace school history lessons", "To stop visitors from entering museums"], ic: "museum" },
+          { tit: "Impact 1 • Unit 2: Underwater Archaeology", st: "Underwater archaeologists dive into flooded caves to study ancient tools and bones, revealing how early humans adapted to climate changes.", q: "Where do underwater archaeologists search for ancient clues?", opt: ["In flooded caves and beneath the sea", "On top of snowy mountains", "Inside modern shopping centres", "In outer space stations"], ic: "archaeology" },
+          { tit: "Impact 1 • Unit 5: Eco-Friendly Teen Fashion", st: "Creative teenage designers turn recycled fabrics into stylish T-shirts and donate part of their profits to environmental charities.", q: "How do teenage eco-designers help the community?", opt: ["By using recycled fabrics and donating to charities", "By throwing away clean cotton clothes", "By banning traditional tailoring", "By closing local markets"], ic: "fashion" }
+        ],
+        Impact2: [
+          { tit: "Impact 2 • Unit 1: William Perkin's Purple Discovery", st: "In 1856, 18-year-old chemistry student William Perkin accidentally mixed cleaning chemicals during an experiment and created a bright purple dye much cheaper than sea-snail dye.", q: "How did William Perkin discover synthetic purple dye?", opt: ["By mixing chemicals during a science experiment in 1856", "By collecting rare sea snails on beaches", "By boiling purple berries in a kitchen", "By importing expensive paint from Rome"], ic: "color" },
+          { tit: "Impact 2 • Unit 1: Why School Buses Are Yellow", st: "Yellow is one of the most visible colours to the human eye, even in early morning fog or rain, which is why many school buses and safety signs use bright yellow.", q: "Why is yellow chosen for school buses and safety signs?", opt: ["It is highly visible even in fog or dim light", "It is the cheapest paint in every factory", "It disappears in the dark", "It represents royal ceremonies"], ic: "color" },
+          { tit: "Impact 2 • Unit 3: Your Virtual Self (Amber Case)", st: "Cyborg anthropologist Amber Case studies how smartphones and online tools extend human memory and communication, urging teens to balance screen time with real life.", q: "What does Explorer Amber Case encourage teenagers to do?", opt: ["Balance technology use with real-world life", "Spend 24 hours a day on video games", "Stop using computers for schoolwork", "Throw away all digital dictionaries"], ic: "screen" },
+          { tit: "Impact 2 • Unit 4: E/V Nautilus Ocean Expedition", st: "Aboard E/V Nautilus, scientists explored Kick' em Jenny underwater volcano and streamed live video through a 24-hour website webcam so students worldwide could watch.", q: "How did students worldwide follow E/V Nautilus?", opt: ["Via its 24-hour live website webcam and blog", "By flying in a helicopter over the ship", "By reading printed letters sent by post", "Only by diving deep underwater"], ic: "ocean" },
+          { tit: "Impact 2 • Unit 5: Life in the Extreme (Kevin Hand)", st: "Astrobiologist Kevin Hand studies extremophiles like tardigrades (water bears) that survive boiling heat, freezing ice, and outer space to learn where life might exist beyond Earth.", q: "Why does Kevin Hand study tiny extremophiles?", opt: ["To understand how life survives extreme environments", "To train pets for television shows", "To grow roses inside shopping malls", "To design winter sports jackets"], ic: "lizard" },
+          { tit: "Impact 2 • Unit 6: Fighting Food Waste (Tristram Stuart)", st: "Campaigner Tristram Stuart encourages supermarkets and shoppers to buy curved carrots and lumpy potatoes because they are just as nutritious and delicious as perfect ones.", q: "What is Tristram Stuart's main advice about misshapen vegetables?", opt: ["Eat them because they are nutritious and reduce waste", "Throw them away before reaching the shop", "Only buy canned vegetables from factories", "Stop farming potatoes and carrots"], ic: "gadget" },
+          { tit: "Impact 2 • Unit 7: Bahrain National Museum", st: "Opened in December 1988, the Bahrain National Museum preserves 6,000 years of Bahrain's rich heritage and displays outdoor modern sculptures like Mother and Child.", q: "How many years of history does Bahrain National Museum preserve?", opt: ["6,000 years of Bahrain's history", "Only 50 years of modern sports", "100 years of space travel", "200 years of train history"], ic: "museum" },
+          { tit: "Impact 2 • Unit 8: Don't Panic! Emergency Readiness", st: "During severe storms or hurricanes, emergency teams advise families to prepare a safety kit with water, a torch, and a battery radio before evacuating to higher ground.", q: "What should families include in an emergency safety kit?", opt: ["Clean water, a torch, and a battery radio", "Heavy glass statues and paintings", "Broken toys and old newspapers", "Only ice cream and cold drinks"], ic: "ocean" },
+          { tit: "Impact 2 • Unit 2: How Colours Affect Mood", st: "Psychologists note that cool colours like blue and green often create a calm, focused atmosphere in classrooms, while warm colours like red and orange feel energetic.", q: "Which colours help create a calm, focused classroom atmosphere?", opt: ["Cool colours like blue and green", "Neon flashing black lights", "Only dark grey and brown", "Bright neon pink everywhere"], ic: "color" },
+          { tit: "Impact 2 • Unit 4: Protecting Underwater Shipwrecks", st: "Historic shipwrecks act as artificial reefs for marine life and hold valuable clues about ancient trade routes across the Arabian Gulf and world oceans.", q: "What dual role do historic shipwrecks play underwater?", opt: ["They shelter marine life and reveal ancient trade history", "They block all fish from swimming", "They create hurricanes in summer", "They turn salt water into fresh milk"], ic: "ocean" }
+        ],
+        Impact3: [
+          { tit: "Impact 3 • Unit 1: The Changing Teenage Brain", st: "After infancy, the human brain experiences its greatest growth during adolescence, making teenage years a powerful time for learning new skills and building identity.", q: "When does the brain undergo its greatest growth after infancy?", opt: ["During adolescence", "Only after age seventy", "During a short weekend", "While sleeping for one hour"], ic: "screen" },
+          { tit: "Impact 3 • Unit 2: Texas Horned Lizard Defences", st: "To survive predators, the Texas horned lizard hides under desert rocks from ground cats, but can squirt a stream of blood from its eye if attacked from above by a hawk.", q: "How does the Texas horned lizard defend itself against a hawk?", opt: ["By squirting blood from its eye", "By flying high into the clouds", "By swimming across deep rivers", "By climbing tall pine trees"], ic: "lizard" },
+          { tit: "Impact 3 • Unit 2: Keep an Open Mind (Jenny Daltry)", st: "Herpetologist and conservationist Jenny Daltry protects misunderstood reptiles like snakes and crocodiles, explaining that every species is part of a great ecological web.", q: "Why does Jenny Daltry say we must protect misunderstood snakes?", opt: ["Every species is an essential part of nature's web", "Snakes produce honey for farmers", "Reptiles can build wooden houses", "Snakes are the largest ocean whales"], ic: "lizard" },
+          { tit: "Impact 3 • Unit 2: Thank Spiders, Not Squash Them", st: "Writer Stacey Parks reminds readers that spiders eat thousands of crop-damaging insects every year, keeping gardens and farms healthy without toxic sprays.", q: "How do spiders benefit gardens and farms?", opt: ["They eat harmful insects and keep ecosystems balanced", "They sing loud songs at midnight", "They grow sweet apples on webs", "They scare away all rain clouds"], ic: "lizard" },
+          { tit: "Impact 3 • Unit 3: Everybody's Doing It!", st: "Humans naturally form social groups—some involuntary like family, and others voluntary like school robotics clubs or volunteer charity teams.", q: "Which of the following is an example of a voluntary group?", opt: ["A school robotics or charity volunteer club", "The family you are born into", "Your biological birth order", "The weather in January"], ic: "city" },
+          { tit: "Impact 3 • Unit 4: Reducing Our Fashion Footprint", st: "Eco-conscious shoppers choose organic cotton and durable clothes rather than fast-fashion synthetic garments that pollute rivers with microplastics.", q: "Why do eco-conscious shoppers prefer organic cotton?", opt: ["It reduces pollution and lasts longer than fast fashion", "It is made from melted plastic bottles", "It can only be worn once", "It requires toxic chemical dyes"], ic: "fashion" },
+          { tit: "Impact 3 • Unit 5: Flying High & Aerodynamics", st: "Engineers study how birds soar on warm air currents to design lightweight gliders and parachutes that descend safely and smoothly.", q: "What inspires engineers when designing gliders?", opt: ["How birds soar smoothly on warm air currents", "How heavy rocks sink in lakes", "How submarines dive underwater", "How trains move on iron tracks"], ic: "space" },
+          { tit: "Impact 3 • Unit 6: Bahrain's Light-1 Satellite", st: "Developed through Bahrain's National Space Science Agency (NSSA) in partnership with UAE institutions, Light-1 is a nanosatellite designed to monitor terrestrial gamma-ray flashes.", q: "What is the scientific mission of Bahrain's Light-1 satellite?", opt: ["Monitoring terrestrial gamma-ray flashes from orbit", "Delivering pizza to mountain climbers", "Digging tunnels under the desert", "Painting murals on school walls"], ic: "space" },
+          { tit: "Impact 3 • Unit 7: The World Is a Screen", st: "From prehistoric cave paintings to modern VR headsets and cloud-connected smartwatches, visual screens have always helped humans share stories and track health.", q: "What were humanity's earliest visual 'screens'?", opt: ["Prehistoric cave walls", "Smartwatches and VR headsets", "360-degree cinema domes", "Aeroplane seat monitors"], ic: "screen" },
+          { tit: "Impact 3 • Unit 8: Writing a Formal Cover Letter", st: "In Unit 8, students learn that an effective job cover letter includes the sender's address, date, formal greeting, clear subject line, and polite sign-off.", q: "Which element belongs in a formal cover letter?", opt: ["A clear subject line and formal greeting", "Slang jokes and colourful stickers", "No date or sender name", "Only a single emoji"], ic: "archaeology" }
+        ]
       };
 
-      // ================= A1: IMPACT 1 (BAHRAIN EDITION - ALL 8 UNITS FROM NOTEBOOK) =================
-      var a1ListenSeeds = [
-        // Unit 1: Life in the City
-        { w: "skyscraper", h: "Impact 1 Unit 1 (Life in the City): A very tall modern building with many floors", t: "Impact 1 Unit 1: Life in the City", ic: "school" },
-        { w: "architecture", h: "Impact 1 Unit 1 (Life in the City): The art and design of planning buildings", t: "Impact 1 Unit 1: Life in the City", ic: "school" },
-        { w: "resident", h: "Impact 1 Unit 1 (Life in the City): A person who lives in a particular city or area", t: "Impact 1 Unit 1: Life in the City", ic: "family" },
-        // Unit 2: Amazing Jobs
-        { w: "archaeologist", h: "Impact 1 Unit 2 (Amazing Jobs): A scientist who studies ancient history and artifacts", t: "Impact 1 Unit 2: Amazing Jobs", ic: "science" },
-        { w: "adventure", h: "Impact 1 Unit 2 (Amazing Jobs): An exciting and daring experience in extreme places", t: "Impact 1 Unit 2: Amazing Jobs", ic: "travel" },
-        { w: "researcher", h: "Impact 1 Unit 2 (Amazing Jobs): A specialist who investigates and discovers new facts", t: "Impact 1 Unit 2: Amazing Jobs", ic: "science" },
-        // Unit 3: Secrets of the Dark
-        { w: "nocturnal", h: "Impact 1 Unit 3 (Secrets of the Dark): Active at night and sleeping during the day", t: "Impact 1 Unit 3: Secrets of the Dark", ic: "animal" },
-        { w: "festival", h: "Impact 1 Unit 3 (Secrets of the Dark): A special celebration with lights and community events", t: "Impact 1 Unit 3: Secrets of the Dark", ic: "people" },
-        { w: "shadow", h: "Impact 1 Unit 3 (Secrets of the Dark): A dark shape made when something blocks the light", t: "Impact 1 Unit 3: Secrets of the Dark", ic: "science" },
-        // Unit 4: Living Together
-        { w: "habitat", h: "Impact 1 Unit 4 (Living Together): The natural home of an animal or plant", t: "Impact 1 Unit 4: Living Together", ic: "garden" },
-        { w: "wildlife", h: "Impact 1 Unit 4 (Living Together): Wild animals and birds living in nature", t: "Impact 1 Unit 4: Living Together", ic: "animal" },
-        { w: "sanctuary", h: "Impact 1 Unit 4 (Living Together): A safe reserve where endangered animals are protected", t: "Impact 1 Unit 4: Living Together", ic: "animal" },
-        // Unit 5: What We Wear
-        { w: "uniform", h: "Impact 1 Unit 5 (What We Wear): Special clothes worn by students at the same school", t: "Impact 1 Unit 5: What We Wear", ic: "people" },
-        { w: "traditional", h: "Impact 1 Unit 5 (What We Wear): Following the customs and culture of a community", t: "Impact 1 Unit 5: What We Wear", ic: "family" },
-        { w: "accessory", h: "Impact 1 Unit 5 (What We Wear): An extra item worn with clothes, such as a scarf or watch", t: "Impact 1 Unit 5: What We Wear", ic: "people" },
-        // Unit 6: Mix and Mash
-        { w: "animation", h: "Impact 1 Unit 6 (Mix and Mash): Moving images created for cartoons, films, and games", t: "Impact 1 Unit 6: Mix and Mash", ic: "science" },
-        { w: "character", h: "Impact 1 Unit 6 (Mix and Mash): A person or creature in a story, cartoon, or video game", t: "Impact 1 Unit 6: Mix and Mash", ic: "people" },
-        { w: "combine", h: "Impact 1 Unit 6 (Mix and Mash): To mix two or more different ideas or styles together", t: "Impact 1 Unit 6: Mix and Mash", ic: "science" },
-        // Unit 7: Cool Apps and Gadgets
-        { w: "outdated", h: "Impact 1 Unit 7 (Cool Apps & Gadgets): Old-fashioned and no longer useful or modern", t: "Impact 1 Unit 7: Cool Apps & Gadgets", ic: "science" },
-        { w: "application", h: "Impact 1 Unit 7 (Cool Apps & Gadgets): A software program on a smartphone or tablet", t: "Impact 1 Unit 7: Cool Apps & Gadgets", ic: "science" },
-        { w: "invention", h: "Impact 1 Unit 7 (Cool Apps & Gadgets): A useful new device created for the first time", t: "Impact 1 Unit 7: Cool Apps & Gadgets", ic: "science" },
-        // Unit 8: Into the Past
-        { w: "ancestor", h: "Impact 1 Unit 8 (Into the Past): A family member who lived many generations ago", t: "Impact 1 Unit 8: Into the Past", ic: "family" },
-        { w: "treasure", h: "Impact 1 Unit 8 (Into the Past): Valuable historic objects or artefacts from the past", t: "Impact 1 Unit 8: Into the Past", ic: "school" },
-        { w: "factory", h: "Impact 1 Unit 8 (Into the Past): A large building where goods are made by machines", t: "Impact 1 Unit 8: Into the Past", ic: "school" }
-      ];
-      a1ListenSeeds.forEach(function(seed, idx) {
-        bank.A1.listen.push({ id: "A1_L_" + (idx + 1), word: seed.w, hint: seed.h, topic: seed.t, iconName: seed.ic });
-      });
+      var grammarPools = {
+        Impact1: [
+          { q: "The modern skyscraper in Manama _________ surrounded by palm trees.", opt: ["is", "are", "am", "were"], h: "Impact 1 • Unit 1: Singular subject takes 'is' in Present Simple" },
+          { q: "Underwater archaeologists _________ in flooded caves to study ancient history.", opt: ["work", "works", "working", "is work"], h: "Impact 1 • Unit 2: Plural subject 'archaeologists' takes base verb 'work'" },
+          { q: "Look! The nocturnal fireflies _________ brightly in the dark right now.", opt: ["are glowing", "glows", "glowed", "is glowing"], h: "Impact 1 • Unit 3: Present Continuous for actions happening right now" },
+          { q: "Communities _________ protect endangered wildlife and their habitats.", opt: ["must", "shouldn't", "aren't", "didn't"], h: "Impact 1 • Unit 4: Use 'must' for strong obligation" },
+          { q: "In Bahrain, women wear _________ embroidered thobs during celebrations.", opt: ["traditional", "traditionally", "tradition", "traditions"], h: "Impact 1 • Unit 5: Adjective 'traditional' describes the noun" },
+          { q: "This 3D animated film is _________ than the old black-and-white cartoon.", opt: ["more exciting", "most exciting", "excitinger", "as exciting"], h: "Impact 1 • Unit 6: Comparative form 'more + adjective + than'" },
+          { q: "Ten years from now, people _________ use outdated gadgets anymore.", opt: ["won't", "didn't", "weren't", "haven't"], h: "Impact 1 • Unit 7: Future prediction with 'will / won't + base verb'" },
+          { q: "In the past, factory workers _________ long hours to support their families.", opt: ["worked", "work", "working", "are working"], h: "Impact 1 • Unit 8: Past Simple '-ed' for completed past actions" },
+          { q: "That gold-embroidered scarf belongs to Sara. It is _________ scarf.", opt: ["Sara's", "Saras", "Sara is", "Saras's"], h: "Impact 1 • Unit 2: Possessive apostrophe + s ('Sara's')" },
+          { q: "There _________ many historic artefacts displayed in the museum.", opt: ["are", "is", "was", "has"], h: "Impact 1 • Unit 8: Plural noun 'artefacts' takes 'There are'" }
+        ],
+        Impact2: [
+          { q: "The brighter the colour of the frog, _________ it is to predators.", opt: ["the more dangerous", "more dangerous", "most dangerous", "the dangerous"], h: "Impact 2 • Unit 1: Double comparative ('The + comparative..., the + comparative...')" },
+          { q: "Cheerful colours often make students _________ happier and more focused.", opt: ["feel", "to feel", "feeling", "felt"], h: "Impact 2 • Unit 2: 'make + object + base verb'" },
+          { q: "Before GPS existed, sailors _________ navigate using the stars.", opt: ["used to", "use to", "are used to", "using to"], h: "Impact 2 • Unit 4: 'used to + base verb' for past habits" },
+          { q: "Marine scientists _________ several new species near Kick' em Jenny recently.", opt: ["have discovered", "discovered yesterday", "are discover", "was discovering"], h: "Impact 2 • Unit 5: Present Perfect for recent unspecified time" },
+          { q: "If shoppers buy curved carrots, supermarkets _________ less food.", opt: ["will waste", "wasted", "would have wasted", "wasting"], h: "Impact 2 • Unit 6: First Conditional (If + Present Simple, will + verb)" },
+          { q: "While the artist _________ the street mural, a crowd gathered to watch.", opt: ["was painting", "painted", "is painting", "has painted"], h: "Impact 2 • Unit 7: Past Continuous interrupted by Past Simple" },
+          { q: "By the time the rescue team arrived, the villagers _________ to higher ground.", opt: ["had evacuated", "evacuate", "are evacuating", "have evacuate"], h: "Impact 2 • Unit 8: Past Perfect (had + past participle) for earlier past event" },
+          { q: "Blue is a calm colour _________ represents trust and peace.", opt: ["which", "who", "where", "when"], h: "Impact 2 • Unit 1: Relative pronoun 'which' for things/colours" },
+          { q: "You don't need _________ expensive equipment to start recycling at home.", opt: ["any", "many", "a few", "several"], h: "Impact 2 • Unit 6: 'any' with uncountable noun 'equipment' in negative sentences" },
+          { q: "Amber Case asked teenagers _________ about how they use smartphones.", opt: ["to think", "think", "thinking", "thought"], h: "Impact 2 • Unit 3: 'ask + object + to-infinitive'" }
+        ],
+        Impact3: [
+          { q: "It _________ me very happy when students support each other in class!", opt: ["makes", "make", "making", "is make"], h: "Impact 3 • Unit 1: Using 'It' for emphasis ('It makes me happy when...')" },
+          { q: "You enjoy learning about space exploration, _________?", opt: ["don't you?", "do you?", "aren't you?", "didn't you?"], h: "Impact 3 • Unit 1: Question tag — positive Present Simple takes 'don't you?'" },
+          { q: "Gina just screamed! She _________ seen a huge spider in the cave.", opt: ["must have", "can't to", "shouldn't have", "used to"], h: "Impact 3 • Unit 2: Modal + have + past participle for past certainty" },
+          { q: "Students are allowed _________ the science lab during supervised clubs.", opt: ["to use", "use", "using", "used"], h: "Impact 3 • Unit 2: 'be allowed + to-infinitive'" },
+          { q: "She brought her friend a bouquet of flowers to _________.", opt: ["cheer her up", "knock her over", "lock her out", "break her into"], h: "Impact 3 • Unit 3: Separable phrasal verb meaning 'make someone happier'" },
+          { q: "Organic cotton _________ grown by farmers without toxic chemicals.", opt: ["is", "are", "has", "were"], h: "Impact 3 • Unit 4: Present passive voice (is/are + past participle)" },
+          { q: "Julia said that the Mona Lisa _________ her favourite painting.", opt: ["was", "is being", "will be", "has been"], h: "Impact 3 • Unit 7: Reported speech backshifts 'is' to 'was'" },
+          { q: "If a horned lizard _________ hunted by a hawk, it would squirt blood from its eye.", opt: ["was", "is", "will be", "has been"], h: "Impact 3 • Unit 2: Second Conditional (If + Past Simple, would + verb)" },
+          { q: "The painter asked if he _________ paint her portrait for the exhibition.", opt: ["could", "can", "will", "may to"], h: "Impact 3 • Unit 7: Reported question backshifts 'can' to 'could'" },
+          { q: "There are _________ plastic bags in the ocean; we must reduce waste.", opt: ["too many", "too much", "enough of", "little"], h: "Impact 3 • Unit 4: 'too many' with countable plural nouns" }
+        ]
+      };
 
-      var a1ReadingThemes = [
-        { tit: "Impact 1 Unit 1: Life in the City (Daniel Raven-Ellison)", st: "National Geographic Explorer Daniel Raven-Ellison walks across large cities to show that urban areas are full of green parks, diverse architecture, and wildlife.", q: "What did Daniel Raven-Ellison discover by walking across cities?", opt: ["Cities are full of green parks and wildlife", "Cities have no trees or parks at all", "Only cars can travel through cities", "Nobody lives in modern urban areas"], ic: "school" },
-        { tit: "Impact 1 Unit 2: Amazing Jobs (Jimmy Chin)", st: "Photographer and climber Jimmy Chin works in some of the world's most extreme mountains. He reminds teens to be well prepared and to avoid situations where the risks are high and control is low.", q: "What advice does Explorer Jimmy Chin give to teenagers?", opt: ["Be prepared and avoid high-risk, low-control situations", "Climb high mountains without any safety gear", "Never take photographs in cold weather", "Only work inside quiet office buildings"], ic: "travel" },
-        { tit: "Impact 1 Unit 3: Secrets of the Dark (David Gruber)", st: "Marine biologist David Gruber studies bioluminescence in the deep ocean. He discovered that many sea creatures produce their own glowing blue and green light to communicate or hide in the dark.", q: "Why do some deep-sea creatures produce their own glowing light?", opt: ["To communicate or hide in the dark ocean", "To warm up the cold ocean water", "To help fishermen find their boats", "To grow green plants on the sea floor"], ic: "water" },
-        { tit: "Impact 1 Unit 4: Living Together (Amy Dickman)", st: "Conservationist Amy Dickman works in Tanzania to help rural villagers and wild lions coexist peacefully, protecting both farm animals and endangered big cats.", q: "What is the main goal of Amy Dickman's conservation work?", opt: ["Helping villagers and wild lions live together safely", "Moving all wild lions to cold countries", "Closing all national parks in Africa", "Teaching wild cats to live inside houses"], ic: "animal" },
-        { tit: "Impact 1 Unit 5: What We Wear & Teen Designers", st: "Young people around the world express themselves through fashion, from traditional clothes to eco-friendly T-shirts. Some successful teenage fashion designers even donate part of their earnings to charities.", q: "How have some teenage fashion designers helped their communities?", opt: ["By donating part of their earnings to charities", "By throwing away old eco-friendly clothes", "By banning all traditional clothing", "By closing down local tailoring shops"], ic: "people" },
-        { tit: "Impact 1 Unit 6: Mix and Mash Animation", st: "Artists around the world have developed many ways to create animation—from hand-drawn cartoons and 3D films to video games, mobile phone emojis, and special effects in live-action movies.", q: "Which of the following is an example of modern animation mentioned in Unit 6?", opt: ["Mobile phone emojis and 3D films", "Stone statues in ancient caves", "Paper maps from the 18th century", "Wooden sailing ships"], ic: "science" },
-        { tit: "Impact 1 Unit 7: Solar-Powered Gadget Tree", st: "In the Unit 7 project 'Make an Impact', students explore modern technology such as a solar-powered tree that uses energy from the sun to charge the batteries of mobile phones and smartwatches.", q: "How does the solar-powered tree charge mobile gadgets?", opt: ["By using clean energy from the sun", "By burning coal inside the classroom", "By connecting to a bicycle wheel", "By using cold water from a river"], ic: "science" },
-        { tit: "Impact 1 Unit 8: Into the Past & Our Ancestors", st: "Studying history helps us understand the hard work and sacrifices of our ancestors. Museums and time capsules preserve everyday objects, letters, and photographs so future generations can learn how people lived.", q: "Why do people create time capsules and preserve historic objects?", opt: ["So future generations can learn how ancestors lived", "To hide treasure from archaeologists forever", "To replace all school history books", "To stop people from visiting museums"], ic: "family" }
-      ];
-      a1ReadingThemes.forEach(function(theme, idx) {
-        bank.A1.reading.push({ id: "A1_R_" + (idx + 1), title: theme.tit, story: theme.st, question: theme.q, options: theme.opt, correct: 0, topic: "Impact 1 Reading", iconName: theme.ic });
-      });
+      var listenAllMap = { Impact1: i1ListenAll, Impact2: i2ListenAll, Impact3: i3ListenAll };
 
-      var a1GrammarArchetypes = [
-        { q: "The iconic tower in Manama _________ surrounded by modern buildings.", opt: ["is", "are", "am", "were"], h: "Impact 1 Unit 1 (Life in the City): Singular subject takes 'is' in Present Simple" },
-        { q: "Underwater archaeologists _________ in flooded caves to study ancient history.", opt: ["work", "works", "working", "is work"], h: "Impact 1 Unit 2 (Amazing Jobs): Plural subject 'archaeologists' takes base verb 'work'" },
-        { q: "Look! The nocturnal fireflies _________ brightly in the dark forest right now.", opt: ["are glowing", "glows", "glowed", "is glowing"], h: "Impact 1 Unit 3 (Secrets of the Dark): Present Continuous for actions happening right now" },
-        { q: "People _________ protect endangered wildlife and their natural habitats.", opt: ["must", "shouldn't", "don't have", "aren't"], h: "Impact 1 Unit 4 (Living Together): Use 'must' or 'should' for strong obligation" },
-        { q: "In Bahrain, people wear _________ clothes during national celebrations and Eid.", opt: ["traditional", "traditionally", "tradition", "traditions"], h: "Impact 1 Unit 5 (What We Wear): Adjective 'traditional' describes the noun 'clothes'" },
-        { q: "This animated film is _________ than the old black-and-white cartoon.", opt: ["more exciting", "most exciting", "excitinger", "as exciting"], h: "Impact 1 Unit 6 (Mix and Mash): Comparative adjective with 'more + long adjective + than'" },
-        { q: "Ten years from now, we _________ use outdated gadgets anymore.", opt: ["won't", "didn't", "weren't", "haven't"], h: "Impact 1 Unit 7 (Cool Apps & Gadgets): Future prediction using 'will / won't + base verb'" },
-        { q: "In the past, factory workers _________ long hours to support their families.", opt: ["worked", "work", "working", "are working"], h: "Impact 1 Unit 8 (Into the Past): Past Simple '-ed' for completed actions in the past" }
-      ];
-      a1GrammarArchetypes.forEach(function(item, idx) {
-        bank.A1.grammar.push({ id: "A1_G_" + (idx + 1), question: item.q, options: item.opt, correct: 0, hint: item.h, topic: "Impact 1 Grammar" });
-      });
+      books.forEach(function(bookName) {
+        var all40Listen = listenAllMap[bookName];
+        var rPool = readingPools[bookName];
+        var gPool = grammarPools[bookName];
 
-      // ================= A2: IMPACT 2 (BAHRAIN EDITION - FROM NOTEBOOK SOURCES) =================
-      var a2ListenSeeds = [
-        { w: "represent", h: "Impact 2 Unit 1: Many businesses use the colour blue to represent them", t: "Impact 2 Unit 1: Colour Matters", ic: "school" },
-        { w: "nature", h: "Impact 2 Unit 1: The colour green often symbolises nature and growth", t: "Impact 2 Unit 1: Colour Matters", ic: "garden" },
-        { w: "visible", h: "Impact 2 Unit 1: School buses are yellow because it is a very visible colour", t: "Impact 2 Unit 1: Colour Matters", ic: "travel" },
-        { w: "wedding", h: "Impact 2 Unit 1: In some countries, wedding dresses are bright red", t: "Impact 2 Unit 1: Colour Matters", ic: "family" },
-        { w: "trust", h: "Impact 2 Unit 1: When we trust someone, we often feel safe with them", t: "Impact 2 Unit 1: Colour Matters", ic: "people" },
-        { w: "violet", h: "Impact 2 Unit 1: A deep purple colour named after a flower", t: "Impact 2 Unit 1: Colour Matters", ic: "garden" },
-        { w: "emergency", h: "Impact 2 Unit 1: Emergency vehicles like fire engines are often red", t: "Impact 2 Unit 1: Colour Matters", ic: "people" },
-        { w: "virtual", h: "Impact 2 Unit 3: Created by computer technology rather than existing physically", t: "Impact 2 Unit 3: Your Virtual Self", ic: "science" },
-        { w: "website", h: "Impact 2 Unit 4: A place on the Internet that represents a person or organisation", t: "Impact 2 Unit 4: Underwater Mysteries", ic: "science" },
-        { w: "shipwreck", h: "Impact 2 Unit 4: A ship that has been destroyed and sunk at the bottom of the sea", t: "Impact 2 Unit 4: Underwater Mysteries", ic: "water" },
-        { w: "submarine", h: "Impact 2 Unit 4: A special vessel designed to operate deep underwater", t: "Impact 2 Unit 4: Underwater Mysteries", ic: "water" },
-        { w: "survive", h: "Impact 2 Unit 5: To continue to live in extreme or dangerous conditions", t: "Impact 2 Unit 5: Life in the Extreme", ic: "animal" },
-        { w: "consumer", h: "Impact 2 Unit 6: A person who buys food, goods, and services for personal use", t: "Impact 2 Unit 6: Are You Going to Eat That?", ic: "people" },
-        { w: "edible", h: "Impact 2 Unit 6: Safe and suitable to be eaten as food without waste", t: "Impact 2 Unit 6: Are You Going to Eat That?", ic: "garden" },
-        { w: "hurricane", h: "Impact 2 Unit 8: A severe storm with violent winds and heavy rain", t: "Impact 2 Unit 8: Don't Panic!", ic: "water" }
-      ];
-      a2ListenSeeds.forEach(function(s2, idx) {
-        bank.A2.listen.push({ id: "A2_L_" + (idx + 1), word: s2.w, hint: s2.h, topic: s2.t, iconName: s2.ic });
-      });
+        levels.forEach(function(lvl, lvlIdx) {
+          // 10 distinct Listen & Spell items per level (indices 0..9, 10..19, 20..29, 30..39)
+          var startIdx = lvlIdx * 10;
+          for (var i = 0; i < 10; i++) {
+            var item = all40Listen[startIdx + i];
+            bank[bookName][lvl].listen.push({
+              id: bookName + "_" + lvl + "_L_" + (i + 1),
+              word: item.w,
+              hint: item.h,
+              topic: item.t + " • " + lvl,
+              iconName: item.ic
+            });
+          }
 
-      var a2ReadingThemes = [
-        { tit: "Impact 2 Unit 1: The History of Purple (William Perkin)", st: "In 1856, 18-year-old science student William Perkin noticed something strange during an experiment. The chemicals he used to clean his equipment combined with his experiment chemicals and produced a bright purple dye much cheaper than sea-snail dye.", q: "How did William Perkin discover purple dye in 1856?", opt: ["By combining cleaning chemicals during a science experiment", "By collecting thousands of rare sea snails", "By boiling purple flowers in a kitchen", "By importing expensive paint from Rome"], ic: "science" },
-        { tit: "Impact 2 Unit 3: Your Virtual Self (Amber Case)", st: "National Geographic Explorer Amber Case is a cyborg anthropologist. She explores the many ways technology extends our human abilities and challenges teens to think about the positive and negative aspects of relying on technology.", q: "What does Explorer Amber Case challenge teenagers to think about?", opt: ["The positive and negative aspects of relying on technology", "How to build wooden boats without tools", "Why libraries should close all books", "How to live underwater permanently"], ic: "science" },
-        { tit: "Impact 2 Unit 4: E/V Nautilus Ocean Exploration", st: "In 2013, E/V Nautilus was on a journey through the Caribbean Sea to Kick' em Jenny volcano near Grenada. Scientists discovered that chemicals from the volcano created a wonderful environment for underwater organisms, and people worldwide followed the 24-hour webcam online.", q: "How can people around the world follow what happens on E/V Nautilus?", opt: ["Through its 24-hour website webcam and blog updates", "By visiting the ship in a flying bus", "By reading printed letters sent by pigeons", "Only by diving 2,000 metres underwater"], ic: "water" },
-        { tit: "Impact 2 Unit 5: Life in the Extreme (Kevin Hand)", st: "Astrobiologist Kevin Hand studies extremophiles—tiny organisms like the water bear (tardigrade) that can survive freezing ice, boiling heat, and even outer space.", q: "Why does astrobiologist Kevin Hand study extremophiles?", opt: ["To understand how life can survive in extreme environments", "To train domestic pets for circus shows", "To grow roses inside shopping malls", "To manufacture winter jackets"], ic: "science" },
-        { tit: "Impact 2 Unit 6: Fighting Food Waste (Tristram Stuart)", st: "Explorer Tristram Stuart campaigns against global food waste. He encourages supermarkets and consumers not to reject lumpy potatoes or misshapen carrots because they are nutritious and edible.", q: "What is Tristram Stuart's main message to consumers?", opt: ["Do not waste nutritious food just because of its shape", "Throw away any vegetable that looks slightly curved", "Only eat canned food from factories", "Stop growing carrots and potatoes on farms"], ic: "garden" }
-      ];
-      a2ReadingThemes.forEach(function(th2, idx) {
-        bank.A2.reading.push({ id: "A2_R_" + (idx + 1), title: th2.tit, story: th2.st, question: th2.q, options: th2.opt, correct: 0, topic: "Impact 2 Reading", iconName: th2.ic });
-      });
+          // 10 rotated Reading items across all 8 units with level-adapted question framing
+          var lvlFrameR = {
+            A1: " [A1 Beginner Check]",
+            A2: " [A2 Elementary Check]",
+            B1: " [B1 Intermediate Analysis]",
+            B2: " [B2 Advanced Synthesis]"
+          };
+          for (var r = 0; r < 10; r++) {
+            var rItem = rPool[(r + lvlIdx * 2) % rPool.length];
+            bank[bookName][lvl].reading.push({
+              id: bookName + "_" + lvl + "_R_" + (r + 1),
+              title: rItem.tit,
+              story: rItem.st,
+              question: rItem.q + lvlFrameR[lvl],
+              options: rItem.opt,
+              correct: 0,
+              topic: rItem.tit.split(":")[0] + " • " + lvl,
+              iconName: rItem.ic
+            });
+          }
 
-      var a2GrammarArchetypes = [
-        { q: "The brighter the colour of the poison dart frog, _________ it is to predators.", opt: ["the more dangerous", "more dangerous", "most dangerous", "the dangerous"], h: "Impact 2 Unit 1: Double comparative ('The + comparative..., the + comparative...')" },
-        { q: "Bright, cheerful colours often make people _________ happier and more energetic.", opt: ["feel", "to feel", "feeling", "felt"], h: "Impact 2 Unit 1 & 2: 'make + object + base verb'" },
-        { q: "Before GPS technology, sailors _________ navigate using the stars and compasses.", opt: ["used to", "use to", "are used to", "using to"], h: "Impact 2 Unit 4: Use 'used to + base verb' for past habits and states" },
-        { q: "Scientists _________ several new species in deep ocean trenches recently.", opt: ["have discovered", "discovered yesterday", "are discover", "was discovering"], h: "Impact 2 Unit 5: Present Perfect for recent unspecified time" },
-        { q: "If consumers buy misshapen fruits and vegetables, supermarkets _________ less food.", opt: ["will waste", "wasted", "would have wasted", "wasting"], h: "Impact 2 Unit 6: First Conditional (If + Present Simple, will + base verb)" },
-        { q: "While the artist _________ the street mural, a crowd gathered to watch.", opt: ["was painting", "painted", "is painting", "has painted"], h: "Impact 2 Unit 7: Past Continuous for an action in progress interrupted by another" },
-        { q: "By the time the rescue team arrived, the villagers _________ to higher ground.", opt: ["had evacuated", "evacuate", "are evacuating", "have evacuate"], h: "Impact 2 Unit 8: Past Perfect (had + past participle) for an earlier past action" }
-      ];
-      a2GrammarArchetypes.forEach(function(g2, idx) {
-        bank.A2.grammar.push({ id: "A2_G_" + (idx + 1), question: g2.q, options: g2.opt, correct: 0, hint: g2.h, topic: "Impact 2 Grammar" });
-      });
-
-      // ================= B1: IMPACT 3 (BAHRAIN EDITION - FROM NOTEBOOK SOURCES) =================
-      var b1ListenSeeds = [
-        { w: "adolescent", h: "Impact 3 Unit 1: A young person between a child and an adult in age and development", t: "Impact 3 Unit 1: Who Am I?", ic: "people" },
-        { w: "passionate", h: "Impact 3 Unit 1: Having strong enthusiasm and excitement about what you do", t: "Impact 3 Unit 1: Who Am I?", ic: "people" },
-        { w: "beneficial", h: "Impact 3 Unit 2: Resulting in good outcomes; helpful and advantageous", t: "Impact 3 Unit 2: Misunderstood Animals", ic: "animal" },
-        { w: "predator", h: "Impact 3 Unit 2: An animal that naturally hunts and eats other animals", t: "Impact 3 Unit 2: Misunderstood Animals", ic: "animal" },
-        { w: "involuntary", h: "Impact 3 Unit 3: Done without conscious choice, like belonging to a family", t: "Impact 3 Unit 3: Everybody's Doing It!", ic: "family" },
-        { w: "synthetic", h: "Impact 3 Unit 4: Made by chemical synthesis rather than natural fibres", t: "Impact 3 Unit 4: Fashion Footprints", ic: "garden" },
-        { w: "parachute", h: "Impact 3 Unit 5: A cloth canopy that allows a person to descend safely from the air", t: "Impact 3 Unit 5: Flying High", ic: "travel" },
-        { w: "satellite", h: "Impact 3 Unit 6: An artificial body placed in orbit around the earth (Light-1)", t: "Impact 3 Unit 6: New Frontiers", ic: "science" },
-        { w: "sophisticated", h: "Impact 3 Unit 7: Highly developed, complex, and advanced in design", t: "Impact 3 Unit 7: Visual Stories", ic: "science" },
-        { w: "pioneer", h: "Impact 3 Unit 7: A person who is among the first to explore or develop a new method", t: "Impact 3 Unit 7: Visual Stories", ic: "science" }
-      ];
-      b1ListenSeeds.forEach(function(sb1, idx) {
-        bank.B1.listen.push({ id: "B1_L_" + (idx + 1), word: sb1.w, hint: sb1.h, topic: sb1.t, iconName: sb1.ic });
-      });
-
-      var b1ReadingThemes = [
-        { tit: "Impact 3 Unit 1: The Changing Teenage Brain", st: "After infancy, the human brain goes through its greatest level of change during adolescence. Sometimes decision-making processes can be overwhelmed by emotions, leading to unexpected moods, though it is a temporary and active period of learning.", q: "When does the human brain go through its greatest change after infancy?", opt: ["During adolescence", "Only after age seventy", "During a two-day holiday", "While sleeping for one hour"], ic: "people" },
-        { tit: "Impact 3 Unit 2: Texas Horned Lizard Defences", st: "The Texas horned lizard has clever ways to survive predators. If it is being hunted by a hawk from the sky, it can shoot a stream of blood from its eye, whereas if hunted by a desert cat on the ground, it tries to hide under a rock.", q: "What would a Texas horned lizard most likely do if hunted by a hawk?", opt: ["Shoot blood from its eye", "Fly high into the clouds", "Swim across a deep ocean", "Climb to the top of a tall tree"], ic: "animal" },
-        { tit: "Impact 3 Unit 2: Thank Spiders, Not Squash Them", st: "By Stacey Parks: Some people think creepy creatures do not matter as much as cute animals. However, spiders eat harmful pests and play a vital role in keeping our environment balanced.", q: "According to Stacey Parks, why should we thank spiders?", opt: ["They play an important role in our environment", "They make loud musical sounds at night", "They grow sweet fruits on trees", "They are the largest mammals on Earth"], ic: "animal" },
-        { tit: "Impact 3 Unit 7: The World Is a Screen", st: "People have always illustrated stories on screens—first on cave walls, and now on smartphones, smartwatches, and VR headsets. Screens connect to the cloud, track our heart rates and exercise, and let us share 360-degree videos with friends.", q: "What were the very first 'screens' ever used to tell stories?", opt: ["Cave walls", "Smartwatches", "360-degree cinemas", "Aeroplane seats"], ic: "science" }
-      ];
-      b1ReadingThemes.forEach(function(thb1, idx) {
-        bank.B1.reading.push({ id: "B1_R_" + (idx + 1), title: thb1.tit, story: thb1.st, question: thb1.q, options: thb1.opt, correct: 0, topic: "Impact 3 Reading", iconName: thb1.ic });
-      });
-
-      var b1GrammarArchetypes = [
-        { q: "It _________ me very angry when people arrive late without calling!", opt: ["makes", "make", "making", "is make"], h: "Impact 3 Unit 1: Using 'It' for emphasis ('It makes me angry when...')" },
-        { q: "You love school and learning new things, _________?", opt: ["don't you?", "do you?", "aren't you?", "didn't you?"], h: "Impact 3 Unit 1: Question tags — positive Present Simple takes 'don't you?'" },
-        { q: "Gina just screamed! She _________ seen a spider in the cave.", opt: ["must have", "can't to", "shouldn't have", "used to"], h: "Impact 3 Unit 2: Modal + have + past participle for past certainty" },
-        { q: "Students are allowed _________ the school computers during lunchtime.", opt: ["to use", "use", "using", "used"], h: "Impact 3 Unit 2: 'be allowed + to-infinitive'" },
-        { q: "She bought her friend some flowers to _________.", opt: ["cheer her up", "knock her over", "lock her out", "break her into"], h: "Impact 3 Unit 3: Separable phrasal verb meaning 'make someone feel happier'" },
-        { q: "Organic cotton _________ grown by farmers in many countries without toxic chemicals.", opt: ["is", "are", "has", "were"], h: "Impact 3 Unit 4: Present passive voice (is/are + past participle)" },
-        { q: "Julia said that the Mona Lisa _________ her favourite painting in the gallery.", opt: ["was", "is being", "will be", "has been"], h: "Impact 3 Unit 7: Reported speech backshifts Present Simple 'is' to Past Simple 'was'" }
-      ];
-      b1GrammarArchetypes.forEach(function(gb1, idx) {
-        bank.B1.grammar.push({ id: "B1_G_" + (idx + 1), question: gb1.q, options: gb1.opt, correct: 0, hint: gb1.h, topic: "Impact 3 Grammar" });
+          // 10 rotated Grammar items across all 8 units
+          for (var g = 0; g < 10; g++) {
+            var gItem = gPool[(g + lvlIdx * 3) % gPool.length];
+            bank[bookName][lvl].grammar.push({
+              id: bookName + "_" + lvl + "_G_" + (g + 1),
+              question: gItem.q,
+              options: gItem.opt,
+              correct: 0,
+              hint: gItem.h,
+              topic: gItem.h.split(":")[0] + " • " + lvl
+            });
+          }
+        });
       });
 
       return bank;
@@ -1067,22 +1312,26 @@
     var QUESTION_BANK = buildQuestionBank();
 
     /* ========================================================
-       3. CUSTOM SVG VISUAL SCENE ILLUSTRATIONS
+       3. CARTOON SVG VISUAL SCENE ILLUSTRATIONS (MATCHES TOPIC)
        ======================================================== */
     function renderVisualScene(iconName, topicLabel) {
       var container = document.getElementById('visualSceneContainer');
       if (!container) return;
       var scenes = {
-        science: '<svg viewBox="0 0 320 130" class="w-full h-full"><circle cx="75" cy="65" r="42" fill="#ddd6fe"/><rect x="115" y="25" width="90" height="80" rx="18" fill="#7c3aed"/><circle cx="160" cy="65" r="24" fill="#fef08a"/><path d="M148 65 L157 74 L175 54" stroke="#5b21b6" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="245" cy="45" r="14" fill="#34d399"/><circle cx="255" cy="88" r="18" fill="#60a5fa"/></svg>',
-        animal: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="20" y="88" width="280" height="28" rx="14" fill="#bbf7d0"/><circle cx="160" cy="62" r="34" fill="#fde68a" stroke="#f59e0b" stroke-width="4"/><circle cx="148" cy="56" r="4" fill="#451a03"/><circle cx="172" cy="56" r="4" fill="#451a03"/><path d="M150 70 Q160 78 170 70" stroke="#451a03" stroke-width="3.5" fill="none" stroke-linecap="round"/><polygon points="130,36 142,20 148,38" fill="#f59e0b"/><polygon points="190,36 178,20 172,38" fill="#f59e0b"/></svg>',
-        water: '<svg viewBox="0 0 320 130" class="w-full h-full"><path d="M160 22 C160 22, 195 62, 195 82 A35 35 0 0 1 125 82 C125 62, 160 22, 160 22 Z" fill="#38bdf8"/><path d="M40 106 Q100 92 160 106 T280 106" fill="none" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/></svg>',
-        garden: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="30" y="92" width="260" height="24" rx="12" fill="#86efac"/><line x1="160" y1="92" x2="160" y2="52" stroke="#16a34a" stroke-width="6"/><circle cx="160" cy="46" r="20" fill="#f472b6"/><circle cx="160" cy="46" r="8" fill="#fef08a"/><circle cx="105" cy="66" r="14" fill="#a78bfa"/><circle cx="215" cy="66" r="14" fill="#fbbf24"/></svg>',
-        school: '<svg viewBox="0 0 320 130" class="w-full h-full"><polygon points="160,22 95,56 225,56" fill="#7c3aed"/><rect x="108" y="56" width="104" height="54" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/><rect x="148" y="76" width="24" height="34" rx="4" fill="#6d28d9"/><circle cx="160" cy="42" r="8" fill="#fef08a"/></svg>',
-        travel: '<svg viewBox="0 0 320 130" class="w-full h-full"><circle cx="245" cy="36" r="18" fill="#fde047"/><path d="M65 78 L235 55 L205 84 L125 88 Z" fill="#8b5cf6"/><path d="M45 102 Q160 88 275 102" stroke="#c4b5fd" stroke-width="4" stroke-dasharray="8 8" fill="none"/></svg>',
-        family: '<svg viewBox="0 0 320 130" class="w-full h-full"><circle cx="132" cy="52" r="18" fill="#a78bfa"/><rect x="114" y="74" width="36" height="36" rx="12" fill="#7c3aed"/><circle cx="188" cy="58" r="15" fill="#f472b6"/><rect x="172" y="77" width="32" height="33" rx="11" fill="#ec4899"/></svg>',
-        people: '<svg viewBox="0 0 320 130" class="w-full h-full"><circle cx="115" cy="54" r="16" fill="#60a5fa"/><rect x="98" y="74" width="34" height="36" rx="12" fill="#2563eb"/><circle cx="205" cy="54" r="16" fill="#34d399"/><rect x="188" y="74" width="34" height="36" rx="12" fill="#059669"/><path d="M142 62 L178 62" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/></svg>'
+        city: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="20" y="96" width="280" height="22" rx="11" fill="#bbf7d0"/><rect x="75" y="34" width="38" height="64" rx="6" fill="#7c3aed"/><rect x="83" y="42" width="8" height="8" rx="2" fill="#fef08a"/><rect x="97" y="42" width="8" height="8" rx="2" fill="#fef08a"/><rect x="83" y="56" width="8" height="8" rx="2" fill="#fef08a"/><rect x="97" y="56" width="8" height="8" rx="2" fill="#fef08a"/><rect x="125" y="20" width="46" height="78" rx="8" fill="#5b21b6"/><rect x="135" y="30" width="10" height="10" rx="2" fill="#fde047"/><rect x="151" y="30" width="10" height="10" rx="2" fill="#fde047"/><rect x="135" y="46" width="10" height="10" rx="2" fill="#fde047"/><rect x="151" y="46" width="10" height="10" rx="2" fill="#fde047"/><circle cx="222" cy="74" r="18" fill="#22c55e"/><rect x="219" y="84" width="6" height="14" fill="#92400e"/><circle cx="255" cy="34" r="14" fill="#fde047"/></svg>',
+        archaeology: '<svg viewBox="0 0 320 130" class="w-full h-full"><polygon points="110,98 160,30 210,98" fill="#f59e0b"/><polygon points="160,30 185,98 210,98" fill="#d97706"/><circle cx="82" cy="52" r="16" fill="#fde68a" stroke="#b45309" stroke-width="3"/><line x1="94" y1="64" x2="112" y2="82" stroke="#78350f" stroke-width="6" stroke-linecap="round"/><rect x="30" y="96" width="260" height="20" rx="10" fill="#fde68a"/></svg>',
+        ocean: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="18" y="16" width="284" height="98" rx="18" fill="#dbeafe"/><ellipse cx="160" cy="64" rx="46" ry="22" fill="#facc15" stroke="#ca8a04" stroke-width="3"/><rect x="148" y="34" width="24" height="12" rx="5" fill="#eab308"/><circle cx="144" cy="64" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/><circle cx="166" cy="64" r="7" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/><path d="M35 98 Q95 86 160 98 T285 98" fill="none" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/></svg>',
+        wildlife: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="20" y="88" width="280" height="26" rx="13" fill="#86efac"/><circle cx="160" cy="62" r="32" fill="#fbbf24" stroke="#d97706" stroke-width="5"/><circle cx="160" cy="64" r="22" fill="#fde68a"/><circle cx="151" cy="58" r="3.5" fill="#451a03"/><circle cx="169" cy="58" r="3.5" fill="#451a03"/><polygon points="156,66 164,66 160,71" fill="#b45309"/><path d="M152 75 Q160 80 168 75" stroke="#451a03" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>',
+        fashion: '<svg viewBox="0 0 320 130" class="w-full h-full"><path d="M120 34 L142 26 Q160 36 178 26 L200 34 L214 58 L194 66 L188 52 L188 102 L132 102 L132 52 L126 66 L106 58 Z" fill="#a855f7" stroke="#6b21a8" stroke-width="3"/><path d="M142 46 L160 56 L178 46" stroke="#fde047" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="160" cy="74" r="7" fill="#fde047"/></svg>',
+        animation: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="92" y="24" width="136" height="82" rx="16" fill="#4c1d95"/><rect x="104" y="34" width="112" height="62" rx="10" fill="#ede9fe"/><polygon points="150,50 150,80 176,65" fill="#7c3aed"/><circle cx="72" cy="44" r="12" fill="#f472b6"/><circle cx="248" cy="84" r="14" fill="#34d399"/></svg>',
+        gadget: '<svg viewBox="0 0 320 130" class="w-full h-full"><circle cx="240" cy="34" r="16" fill="#facc15"/><rect x="132" y="24" width="56" height="84" rx="12" fill="#312e81"/><rect x="139" y="34" width="42" height="58" rx="6" fill="#e0e7ff"/><polygon points="162,46 152,64 161,64 157,80 170,60 161,60" fill="#f59e0b"/></svg>',
+        museum: '<svg viewBox="0 0 320 130" class="w-full h-full"><polygon points="160,18 88,50 232,50" fill="#7c3aed"/><rect x="98" y="50" width="124" height="54" rx="6" fill="#f3e8ff" stroke="#7c3aed" stroke-width="3"/><rect x="112" y="56" width="12" height="42" fill="#c4b5fd"/><rect x="154" y="56" width="12" height="42" fill="#c4b5fd"/><rect x="196" y="56" width="12" height="42" fill="#c4b5fd"/><rect x="86" y="102" width="148" height="10" rx="5" fill="#5b21b6"/></svg>',
+        color: '<svg viewBox="0 0 320 130" class="w-full h-full"><ellipse cx="160" cy="66" rx="64" ry="42" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/><circle cx="132" cy="54" r="11" fill="#ef4444"/><circle cx="162" cy="46" r="11" fill="#3b82f6"/><circle cx="190" cy="58" r="11" fill="#22c55e"/><circle cx="174" cy="82" r="11" fill="#a855f7"/><circle cx="122" cy="76" r="8" fill="#ffffff" stroke="#d97706" stroke-width="2"/></svg>',
+        lizard: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="24" y="90" width="272" height="24" rx="12" fill="#bbf7d0"/><ellipse cx="160" cy="68" rx="44" ry="22" fill="#34d399" stroke="#059669" stroke-width="3"/><circle cx="196" cy="58" r="15" fill="#34d399" stroke="#059669" stroke-width="3"/><circle cx="201" cy="55" r="3.5" fill="#064e3b"/><path d="M116 68 Q92 52 84 68" stroke="#059669" stroke-width="7" fill="none" stroke-linecap="round"/></svg>',
+        space: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="18" y="14" width="284" height="102" rx="18" fill="#1e1b4b"/><circle cx="72" cy="40" r="3" fill="#fde047"/><circle cx="254" cy="36" r="3.5" fill="#fde047"/><circle cx="235" cy="88" r="2.5" fill="#ffffff"/><rect x="142" y="44" width="36" height="42" rx="8" fill="#a78bfa" stroke="#ffffff" stroke-width="2"/><rect x="96" y="52" width="42" height="24" rx="4" fill="#38bdf8"/><rect x="182" y="52" width="42" height="24" rx="4" fill="#38bdf8"/><circle cx="160" cy="65" r="8" fill="#fef08a"/></svg>',
+        screen: '<svg viewBox="0 0 320 130" class="w-full h-full"><rect x="98" y="22" width="124" height="74" rx="12" fill="#3b0764"/><rect x="106" y="30" width="108" height="58" rx="8" fill="#ddd6fe"/><rect x="146" y="96" width="28" height="10" fill="#6d28d9"/><rect x="128" y="104" width="64" height="8" rx="4" fill="#4c1d95"/><circle cx="160" cy="59" r="15" fill="#8b5cf6"/><path d="M153 59 L158 64 L168 53" stroke="#ffffff" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>'
       };
-      var svgMarkup = scenes[iconName] || scenes.school;
+      var svgMarkup = scenes[iconName] || scenes.museum;
       container.innerHTML = svgMarkup + '<span class="absolute bottom-2 right-3 bg-white/90 text-purple-900 border border-purple-200 px-2.5 py-0.5 rounded-lg text-[10px] font-black">' + (topicLabel || 'Nexly') + '</span>';
     }
 
@@ -1091,37 +1340,69 @@
        ======================================================== */
     var urlParams = new URLSearchParams(window.location.search);
     var directCode = (urlParams.get('code') || urlParams.get('c') || "").trim().toUpperCase();
-    var directLevelParam = (urlParams.get('level') || urlParams.get('l') || "").trim().toUpperCase();
+    var directBookParam = (urlParams.get('book') || urlParams.get('b') || "").trim();
     var directTeacher = (urlParams.get('teacher') || urlParams.get('t') || "").trim();
 
-    var BOOK_LABELS = { A1: "Impact 1 (A1)", A2: "Impact 2 (A2)", B1: "Impact 3 (B1)" };
-    function getBookLabel(lvl) { return BOOK_LABELS[lvl] || "Impact 1 (A1)"; }
+    var BOOK_DISPLAY_NAMES = { Impact1: "Impact 1", Impact2: "Impact 2", Impact3: "Impact 3" };
+    var LEVEL_DISPLAY_NAMES = {
+      A1: "A1 (Beginner)",
+      A2: "A2 (Elementary)",
+      B1: "B1 (Intermediate)",
+      B2: "B2 (Advanced)"
+    };
+    var LEVEL_ORDER = ["A1", "A2", "B1", "B2"];
 
-    function detectLevelFromCodePattern(code) {
+    function getBookDisplayName(b) { return BOOK_DISPLAY_NAMES[b] || "Impact 1"; }
+    function getLevelDisplayName(l) { return LEVEL_DISPLAY_NAMES[l] || "A1 (Beginner)"; }
+
+    function detectBookFromCodePattern(code) {
       var c = (code || "").trim().toUpperCase();
-      if (/^NX1[-_]/.test(c)) return "A1";
-      if (/^NX2[-_]/.test(c)) return "A2";
-      if (/^NX3[-_]/.test(c)) return "B1";
+      if (/^NX1[-_]/.test(c)) return "Impact1";
+      if (/^NX2[-_]/.test(c)) return "Impact2";
+      if (/^NX3[-_]/.test(c)) return "Impact3";
       return null;
     }
 
     function normalizeKey(str) { return (str || "").trim().toLowerCase().replace(/\s+/g, ' '); }
 
     var savedWorkspaces = {};
-    try { savedWorkspaces = JSON.parse(localStorage.getItem('nexly_isolated_teachers_v3') || '{}'); } catch (e) { savedWorkspaces = {}; }
+    try { savedWorkspaces = JSON.parse(localStorage.getItem('nexly_isolated_teachers_v4') || '{}'); } catch (e) { savedWorkspaces = {}; }
+
+    function createEmptyProgressMap() {
+      var map = {};
+      ["Impact1", "Impact2", "Impact3"].forEach(function(b) {
+        map[b] = {};
+        ["A1", "A2", "B1", "B2"].forEach(function(l) {
+          map[b][l] = { listen: 0, reading: 0, grammar: 0 };
+        });
+      });
+      return map;
+    }
 
     var AppState = {
-      user: { name: "", gradeClass: "", classCode: directCode, role: "student", entryMode: "code", lockedLevel: null },
+      user: {
+        name: "",
+        gradeClass: "",
+        classCode: directCode,
+        role: "student",
+        entryMode: "code",
+        lockedBook: null,
+        teacherName: directTeacher || "T. Hameeda BuSakhar"
+      },
       studentEntryMode: "code",
-      selectedFreeLevel: "A1",
+      selectedFreeBook: "Impact1",
       pendingDeleteCode: null,
-      currentLevel: (directLevelParam === "A1" || directLevelParam === "A2" || directLevelParam === "B1") ? directLevelParam : (detectLevelFromCodePattern(directCode) || "A1"),
+      currentBook: (directBookParam === "Impact1" || directBookParam === "Impact2" || directBookParam === "Impact3")
+        ? directBookParam
+        : (detectBookFromCodePattern(directCode) || "Impact1"),
+      currentLevel: "A1",
       currentSkill: "listen",
       hearts: 5,
       streak: 0,
       xp: 0,
-      completedCounts: { listen: 0, reading: 0, grammar: 0 },
-      questionIndex: { A1: { listen: 0, reading: 0, grammar: 0 }, A2: { listen: 0, reading: 0, grammar: 0 }, B1: { listen: 0, reading: 0, grammar: 0 } },
+      completedCounts: createEmptyProgressMap(),
+      questionIndex: createEmptyProgressMap(),
+      earnedCertificates: {},
       currentQuestion: null,
       activeOptions: [],
       activeCorrectIndex: 0,
@@ -1136,7 +1417,7 @@
     };
 
     function saveWorkspacesToStorage() {
-      try { localStorage.setItem('nexly_isolated_teachers_v3', JSON.stringify(AppState.teachersWorkspaces)); } catch (e) {}
+      try { localStorage.setItem('nexly_isolated_teachers_v4', JSON.stringify(AppState.teachersWorkspaces)); } catch (e) {}
     }
 
     function findTeacherWorkspace(nameOrEmail) {
@@ -1161,7 +1442,7 @@
             teacherName: ws.displayName,
             code: cleanCode,
             className: ws.classDetails[cleanCode].className || cleanCode,
-            level: ws.classDetails[cleanCode].level || detectLevelFromCodePattern(cleanCode) || "A1"
+            book: ws.classDetails[cleanCode].book || detectBookFromCodePattern(cleanCode) || "Impact1"
           };
         }
         if (Array.isArray(ws.codes) && ws.codes.includes(cleanCode)) {
@@ -1170,13 +1451,19 @@
             teacherName: ws.displayName,
             code: cleanCode,
             className: cleanCode,
-            level: detectLevelFromCodePattern(cleanCode) || "A1"
+            book: detectBookFromCodePattern(cleanCode) || "Impact1"
           };
         }
       }
-      var patternLvl = detectLevelFromCodePattern(cleanCode);
-      if (patternLvl) {
-        return { teacherKey: null, teacherName: directTeacher || "Teacher", code: cleanCode, className: cleanCode, level: patternLvl };
+      var patternBook = detectBookFromCodePattern(cleanCode);
+      if (patternBook) {
+        return {
+          teacherKey: null,
+          teacherName: directTeacher || "Class Educator",
+          code: cleanCode,
+          className: cleanCode,
+          book: patternBook
+        };
       }
       return null;
     }
@@ -1213,6 +1500,23 @@
       } catch (e) {}
     }
 
+    function playFanfareChime() {
+      try {
+        var ctx = getAudioCtx(); if (!ctx) return;
+        var notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach(function(freq, idx) {
+          var osc = ctx.createOscillator(); var gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.11);
+          gain.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.11);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.11 + 0.45);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + idx * 0.11);
+          osc.stop(ctx.currentTime + idx * 0.11 + 0.45);
+        });
+      } catch (e) {}
+    }
+
     function playErrorBuzz() {
       try {
         var ctx = getAudioCtx(); if (!ctx) return;
@@ -1244,7 +1548,6 @@
           utter.rate = rate || 0.95;
           utter.pitch = 1.0;
 
-          // Strictly block novelty/musical iOS voices (Organ, Bubbles, Bells, Cellos, Boing, etc.)
           var blockedNames = /organ|bubbles|bells|cellos|boing|zarvox|trinoids|whisper|bad news|good news|pipe|bahh|albert|fred|junior|princess|ralph/i;
           var voices = window.speechSynthesis.getVoices() || [];
           var preferred = voices.find(function(v) {
@@ -1274,17 +1577,18 @@
       banner.innerText = msg;
       banner.classList.remove('hidden');
       clearTimeout(window._toastTimer);
-      window._toastTimer = setTimeout(function() { banner.classList.add('hidden'); }, 3500);
+      window._toastTimer = setTimeout(function() { banner.classList.add('hidden'); }, 3600);
     }
 
     /* ========================================================
-       6. EXERCISE LOADER & ANSWER CHECKER
+       6. EXERCISE LOADER, 10-QUESTION SKILL MASTERY & CERTIFICATE TRIGGER
        ======================================================== */
     function loadCurrentExercise() {
+      var book = AppState.currentBook;
       var lvl = AppState.currentLevel;
       var skill = AppState.currentSkill;
-      var list = QUESTION_BANK[lvl][skill];
-      var idx = AppState.questionIndex[lvl][skill] % list.length;
+      var list = QUESTION_BANK[book][lvl][skill];
+      var idx = AppState.questionIndex[book][lvl][skill] % list.length;
       var q = list[idx];
 
       AppState.currentQuestion = q;
@@ -1292,14 +1596,14 @@
       AppState.selectedOptionIndex = null;
       AppState.answeredCurrent = false;
 
-      document.getElementById('questionTopicBadge').innerText = q.topic || getBookLabel(lvl);
-      document.getElementById('questionCounterTag').innerText = "Question #" + (idx + 1);
-      document.getElementById('cefrLevelBadge').innerText = "CEFR " + lvl;
+      document.getElementById('questionTopicBadge').innerText = q.topic || (getBookDisplayName(book) + " • " + lvl);
+      document.getElementById('questionCounterTag').innerText = "Question #" + (idx + 1) + " of 10";
+      document.getElementById('cefrLevelBadge').innerText = getLevelDisplayName(lvl);
       document.getElementById('feedbackBanner').classList.add('hidden');
       document.getElementById('checkAnswerBtn').classList.remove('hidden');
       document.getElementById('nextQuestionBtn').classList.add('hidden');
 
-      renderVisualScene(q.iconName || (skill === 'grammar' ? 'school' : 'science'), q.topic || getBookLabel(lvl));
+      renderVisualScene(q.iconName || (skill === 'grammar' ? 'museum' : 'city'), q.topic || getBookDisplayName(book));
 
       document.getElementById('listenView').classList.toggle('hidden', skill !== 'listen');
       document.getElementById('readingView').classList.toggle('hidden', skill !== 'reading');
@@ -1363,7 +1667,8 @@
       if (AppState.currentSkill !== 'listen' || AppState.answeredCurrent) return;
       var loginOpen = !document.getElementById('loginModal').classList.contains('hidden');
       var teacherOpen = !document.getElementById('teacherModal').classList.contains('hidden');
-      if (loginOpen || teacherOpen) return;
+      var certOpen = !document.getElementById('certificateModal').classList.contains('hidden');
+      if (loginOpen || teacherOpen || certOpen) return;
       if (document.activeElement === hiddenInp) return;
 
       if (e.key === 'Backspace') {
@@ -1403,7 +1708,6 @@
         var card = document.createElement('button');
         card.type = "button";
         card.className = "choice-card p-3.5 rounded-2xl text-left flex items-center gap-3 w-full";
-        card.setAttribute('data-opt-idx', idx);
         card.onclick = function() {
           if (AppState.answeredCurrent) return;
           AppState.selectedOptionIndex = idx;
@@ -1454,15 +1758,37 @@
       var fbTitle = document.getElementById('feedbackTitle');
       var fbSub = document.getElementById('feedbackSubtitle');
 
+      var book = AppState.currentBook;
+      var lvl = AppState.currentLevel;
+      var skill = AppState.currentSkill;
+
       if (isCorrect) {
         AppState.xp += 15;
         AppState.streak += 1;
-        var maxSkillCount = QUESTION_BANK[AppState.currentLevel][AppState.currentSkill].length || 10;
-        AppState.completedCounts[AppState.currentSkill] = Math.min(maxSkillCount, AppState.completedCounts[AppState.currentSkill] + 1);
+        var prevCount = AppState.completedCounts[book][lvl][skill];
+        var newCount = Math.min(10, prevCount + 1);
+        AppState.completedCounts[book][lvl][skill] = newCount;
+
         fb.className = "mt-5 rounded-2xl p-4 border-2 border-emerald-400 bg-emerald-50 text-emerald-950 text-center animate-pop";
-        fbTitle.innerText = "🌟 Brilliant! +15 XP";
+        fbTitle.innerText = "🌟 Brilliant! +15 XP (" + newCount + "/10)";
         fbSub.innerText = correctExplanation;
         playSuccessChime();
+
+        updateTopMetrics();
+        updateEnrolledStudentScore();
+
+        // Check if all 3 skills in this level reached 10/10!
+        var prog = AppState.completedCounts[book][lvl];
+        if (prog.listen >= 10 && prog.reading >= 10 && prog.grammar >= 10) {
+          var certKey = book + "_" + lvl;
+          AppState.earnedCertificates[certKey] = true;
+          updateEnrolledStudentScore();
+          setTimeout(function() {
+            window.openOfficialCertificate(false);
+          }, 700);
+        } else if (prevCount < 10 && newCount === 10) {
+          showToast("🎯 ممتاز! أتممتِ 10/10 في هذه المهارة! انتقلي للمهارات المتبقية لإصدار الشهادة.");
+        }
       } else {
         AppState.hearts = Math.max(1, AppState.hearts - 1);
         AppState.streak = 0;
@@ -1470,19 +1796,20 @@
         fbTitle.innerText = "💡 Keep Trying!";
         fbSub.innerText = correctExplanation;
         playErrorBuzz();
+        updateTopMetrics();
+        updateEnrolledStudentScore();
       }
 
       fb.classList.remove('hidden');
       document.getElementById('checkAnswerBtn').classList.add('hidden');
       document.getElementById('nextQuestionBtn').classList.remove('hidden');
-      updateTopMetrics();
-      updateEnrolledStudentScore();
     };
 
     window.loadNextQuestion = function() {
+      var book = AppState.currentBook;
       var lvl = AppState.currentLevel;
       var skill = AppState.currentSkill;
-      AppState.questionIndex[lvl][skill] += 1;
+      AppState.questionIndex[book][lvl][skill] += 1;
       loadCurrentExercise();
     };
 
@@ -1490,16 +1817,25 @@
       window.loadNextQuestion();
     };
 
-    /* Level & Skill Switchers */
+    /* Curriculum (Book), Level, & Skill Switchers */
+    document.querySelectorAll('.book-pill').forEach(function(btn) {
+      btn.onclick = function() {
+        var chosenBook = btn.getAttribute('data-book');
+        if (AppState.user && AppState.user.lockedBook && AppState.user.lockedBook !== chosenBook) {
+          showToast("🔒 هذا الصف مخصص لمنهج " + getBookDisplayName(AppState.user.lockedBook) + " المحدد من المعلمة!");
+          return;
+        }
+        applyActiveBookAndLevelUI(chosenBook, AppState.currentLevel);
+        showToast("Curriculum switched to " + getBookDisplayName(chosenBook));
+        loadCurrentExercise();
+      };
+    });
+
     document.querySelectorAll('.keycap-level').forEach(function(btn) {
       btn.onclick = function() {
         var chosenLvl = btn.getAttribute('data-level');
-        if (AppState.user && AppState.user.lockedLevel && AppState.user.lockedLevel !== chosenLvl) {
-          showToast("🔒 هذا الصف مخصص لمنهج " + getBookLabel(AppState.user.lockedLevel) + " المحدد من المعلمة!");
-          return;
-        }
-        applyActiveLevelUI(chosenLvl);
-        showToast("Curriculum switched to " + getBookLabel(chosenLvl));
+        applyActiveBookAndLevelUI(AppState.currentBook, chosenLvl);
+        showToast("Level switched to " + getLevelDisplayName(chosenLvl));
         loadCurrentExercise();
       };
     });
@@ -1515,21 +1851,33 @@
       };
     });
 
-    function applyActiveLevelUI(lvl) {
+    function applyActiveBookAndLevelUI(book, lvl) {
+      AppState.currentBook = book;
       AppState.currentLevel = lvl;
-      document.querySelectorAll('.keycap-level').forEach(function(b) {
-        var bLvl = b.getAttribute('data-level');
-        if (bLvl === lvl) {
-          b.className = "keycap-level keycap-level-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0";
+
+      document.querySelectorAll('.book-pill').forEach(function(b) {
+        var bName = b.getAttribute('data-book');
+        if (bName === book) {
+          b.className = "book-pill book-pill-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0";
         } else {
-          var isLockedOther = (AppState.user && AppState.user.lockedLevel && AppState.user.lockedLevel !== bLvl);
-          b.className = "keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" + (isLockedOther ? " opacity-45" : "");
+          var isLockedOther = (AppState.user && AppState.user.lockedBook && AppState.user.lockedBook !== bName);
+          b.className = "book-pill px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0" + (isLockedOther ? " opacity-45" : "");
         }
       });
+
+      document.querySelectorAll('.keycap-level').forEach(function(lBtn) {
+        var lName = lBtn.getAttribute('data-level');
+        if (lName === lvl) {
+          lBtn.className = "keycap-level keycap-level-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0";
+        } else {
+          lBtn.className = "keycap-level px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0";
+        }
+      });
+
       var lockBadge = document.getElementById('assignedCurriculumLockBadge');
       if (lockBadge) {
-        if (AppState.user && AppState.user.lockedLevel) {
-          lockBadge.innerHTML = "🔒 منهج الصف المحدد: " + getBookLabel(AppState.user.lockedLevel);
+        if (AppState.user && AppState.user.lockedBook) {
+          lockBadge.innerHTML = "🔒 منهج الصف المحدد: " + getBookDisplayName(AppState.user.lockedBook);
           lockBadge.classList.remove('hidden');
           lockBadge.classList.add('inline-flex');
         } else {
@@ -1541,20 +1889,115 @@
     }
 
     function updateTopMetrics() {
+      var book = AppState.currentBook || "Impact1";
       var lvl = AppState.currentLevel || "A1";
-      var listenTotal = (QUESTION_BANK[lvl] && QUESTION_BANK[lvl].listen) ? QUESTION_BANK[lvl].listen.length : 10;
-      var readingTotal = (QUESTION_BANK[lvl] && QUESTION_BANK[lvl].reading) ? QUESTION_BANK[lvl].reading.length : 10;
-      var grammarTotal = (QUESTION_BANK[lvl] && QUESTION_BANK[lvl].grammar) ? QUESTION_BANK[lvl].grammar.length : 10;
+      var prog = AppState.completedCounts[book][lvl];
+
       document.getElementById('heartsCounter').innerText = AppState.hearts;
       document.getElementById('streakCounter').innerText = AppState.streak;
       document.getElementById('xpCounter').innerText = AppState.xp;
-      document.getElementById('listenCountBadge').innerText = Math.min(AppState.completedCounts.listen, listenTotal) + "/" + listenTotal;
-      document.getElementById('readingCountBadge').innerText = Math.min(AppState.completedCounts.reading, readingTotal) + "/" + readingTotal;
-      document.getElementById('grammarCountBadge').innerText = Math.min(AppState.completedCounts.grammar, grammarTotal) + "/" + grammarTotal;
+
+      document.getElementById('listenCountBadge').innerText = prog.listen + "/10";
+      document.getElementById('readingCountBadge').innerText = prog.reading + "/10";
+      document.getElementById('grammarCountBadge').innerText = prog.grammar + "/10";
+
+      var total30 = prog.listen + prog.reading + prog.grammar;
+      var masteryEl = document.getElementById('levelMasteryCounter');
+      if (masteryEl) masteryEl.innerText = total30 + " / 30";
     }
 
     /* ========================================================
-       7. MODAL & AUTHENTICATION LOGIC (STUDENT & TEACHER)
+       7. CERTIFICATE MODAL (SHOWS REGISTERED TEACHER + CREATOR MARGIN)
+       ======================================================== */
+    window.openOfficialCertificate = function(isTeacherPreview) {
+      var modal = document.getElementById('certificateModal');
+      if (!modal) return;
+
+      var ribbon = document.getElementById('certTeacherPreviewRibbon');
+      var nextBtn = document.getElementById('certNextLevelBtn');
+      var stuNameEl = document.getElementById('certStudentName');
+      var stuClassEl = document.getElementById('certStudentClass');
+      var bookBadgeEl = document.getElementById('certBookBadge');
+      var lvlBadgeEl = document.getElementById('certLevelBadge');
+      var dateEl = document.getElementById('certIssueDate');
+      var teacherSigEl = document.getElementById('certClassTeacherName');
+
+      var todayStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      if (dateEl) dateEl.innerText = todayStr;
+
+      if (isTeacherPreview) {
+        var ws = getActiveTeacherWorkspace();
+        var regTeacherName = ws ? ws.displayName : "T. Hameeda BuSakhar";
+        if (ribbon) ribbon.classList.remove('hidden');
+        if (nextBtn) nextBtn.classList.add('hidden');
+        if (stuNameEl) stuNameEl.innerText = "Student Full Name (نموذج اسم الطالبة)";
+        if (stuClassEl) stuClassEl.innerText = "Class: Grade 8 • Section 1";
+        if (bookBadgeEl) bookBadgeEl.innerText = "📘 Curriculum: " + getBookDisplayName(AppState.currentBook);
+        if (lvlBadgeEl) lvlBadgeEl.innerText = "⭐ Level: " + getLevelDisplayName(AppState.currentLevel);
+        if (teacherSigEl) teacherSigEl.innerText = regTeacherName;
+      } else {
+        if (ribbon) ribbon.classList.add('hidden');
+        if (stuNameEl) stuNameEl.innerText = AppState.user.name || "Outstanding Student";
+        var codePart = AppState.user.classCode ? (" • Code: " + AppState.user.classCode) : " • Free Practice";
+        if (stuClassEl) stuClassEl.innerText = "Class: " + (AppState.user.gradeClass || "Grade 8") + codePart;
+        if (bookBadgeEl) bookBadgeEl.innerText = "📘 Curriculum: " + getBookDisplayName(AppState.currentBook);
+        if (lvlBadgeEl) lvlBadgeEl.innerText = "⭐ Level: " + getLevelDisplayName(AppState.currentLevel);
+
+        // Display the registered class teacher's name below signature!
+        var classTeacher = AppState.user.teacherName || "Independent Practice";
+        if (teacherSigEl) teacherSigEl.innerText = classTeacher;
+
+        // Configure Next Level Button (A1 -> A2 -> B1 -> B2 Advanced)
+        var curIdx = LEVEL_ORDER.indexOf(AppState.currentLevel);
+        if (nextBtn) {
+          if (curIdx >= 0 && curIdx < LEVEL_ORDER.length - 1) {
+            var nextLvl = LEVEL_ORDER[curIdx + 1];
+            nextBtn.innerText = "🚀 الانتقال إلى المستوى التالي (" + getLevelDisplayName(nextLvl) + ") ➔";
+            nextBtn.classList.remove('hidden');
+          } else {
+            nextBtn.innerText = "👑 أتممتِ أعلى مستوى (B2 Advanced)!";
+            nextBtn.classList.remove('hidden');
+          }
+        }
+        playFanfareChime();
+      }
+
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    };
+
+    window.previewTeacherCertificate = function() {
+      window.openOfficialCertificate(true);
+    };
+
+    window.closeCertificateModal = function() {
+      var modal = document.getElementById('certificateModal');
+      if (modal) { modal.classList.add('hidden'); modal.style.display = 'none'; }
+    };
+
+    window.advanceToNextLevelFromCert = function() {
+      var curIdx = LEVEL_ORDER.indexOf(AppState.currentLevel);
+      window.closeCertificateModal();
+      if (curIdx >= 0 && curIdx < LEVEL_ORDER.length - 1) {
+        var nextLvl = LEVEL_ORDER[curIdx + 1];
+        applyActiveBookAndLevelUI(AppState.currentBook, nextLvl);
+        AppState.currentSkill = "listen";
+        document.querySelectorAll('.skill-tab').forEach(function(t) {
+          if (t.getAttribute('data-skill') === "listen") {
+            t.className = "skill-tab skill-tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 flex items-center gap-1.5";
+          } else {
+            t.className = "skill-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-purple-900 shrink-0 flex items-center gap-1.5";
+          }
+        });
+        loadCurrentExercise();
+        showToast("🚀 أهلاً بكِ في المستوى الجديد: " + getLevelDisplayName(nextLvl));
+      } else {
+        showToast("👑 تهانينا! لقد أتممتِ جميع المستويات من A1 إلى B2 Advanced!");
+      }
+    };
+
+    /* ========================================================
+       8. MODAL & AUTHENTICATION LOGIC (STUDENT & TEACHER)
        ======================================================== */
     window.openLoginModal = function() {
       var m = document.getElementById('loginModal');
@@ -1593,7 +2036,7 @@
       }
     };
 
-    /* Student Entry Mode Switcher (With Code vs Without Code) */
+    /* Student Entry Mode Switcher */
     window.setStudentEntryMode = function(mode) {
       AppState.studentEntryMode = mode;
       var btnCode = document.getElementById('btnStuModeWithCode');
@@ -1616,13 +2059,13 @@
       }
     };
 
-    window.selectFreePracticeLevel = function(lvl) {
-      AppState.selectedFreeLevel = lvl;
-      document.querySelectorAll('.free-lvl-btn').forEach(function(btn) {
-        if (btn.getAttribute('data-free-lvl') === lvl) {
-          btn.className = "free-lvl-btn py-2.5 px-2 rounded-xl border-2 border-purple-600 bg-purple-700 text-white font-chunky text-xs font-bold shadow-xs cursor-pointer transition";
+    window.selectFreePracticeBook = function(bookName) {
+      AppState.selectedFreeBook = bookName;
+      document.querySelectorAll('.free-book-btn').forEach(function(btn) {
+        if (btn.getAttribute('data-free-book') === bookName) {
+          btn.className = "free-book-btn py-2.5 px-2 rounded-xl border-2 border-indigo-600 bg-indigo-700 text-white font-chunky text-xs font-bold shadow-xs cursor-pointer transition";
         } else {
-          btn.className = "free-lvl-btn py-2.5 px-2 rounded-xl border-2 border-purple-200 bg-purple-50 text-purple-900 font-chunky text-xs font-bold cursor-pointer transition";
+          btn.className = "free-book-btn py-2.5 px-2 rounded-xl border-2 border-purple-200 bg-purple-50 text-purple-900 font-chunky text-xs font-bold cursor-pointer transition";
         }
       });
     };
@@ -1632,8 +2075,8 @@
       var hintEl = document.getElementById('stuDetectedBookHint');
       if (!hintEl) return;
       var info = findClassInfoByCode(clean);
-      if (info && info.level) {
-        hintEl.innerText = "🎯 تم التعرف على الصف! سيتم دخولكِ مباشرة إلى منهج: " + getBookLabel(info.level);
+      if (info && info.book) {
+        hintEl.innerText = "🎯 تم التعرف على الصف! المنهج: " + getBookDisplayName(info.book) + " • المعلمة: " + info.teacherName;
         hintEl.classList.remove('hidden');
       } else {
         hintEl.classList.add('hidden');
@@ -1654,13 +2097,21 @@
 
       if (AppState.studentEntryMode === 'free') {
         errEl.classList.add('hidden');
-        var chosenFreeLvl = AppState.selectedFreeLevel || "A1";
-        AppState.user = { name: sName, gradeClass: sClass, classCode: "", role: "student", entryMode: "free", lockedLevel: null };
-        applyActiveLevelUI(chosenFreeLvl);
+        var chosenFreeBook = AppState.selectedFreeBook || "Impact1";
+        AppState.user = {
+          name: sName,
+          gradeClass: sClass,
+          classCode: "",
+          role: "student",
+          entryMode: "free",
+          lockedBook: null,
+          teacherName: "Independent Practice (بدون كود معلمة)"
+        };
+        applyActiveBookAndLevelUI(chosenFreeBook, "A1");
         document.getElementById('activeUserName').innerText = sName + " (Free)";
         playSuccessChime();
         window.closeLoginModal();
-        showToast("🎒 دخلتِ في وضع التدريب الحر (" + getBookLabel(chosenFreeLvl) + ") بدون كود صف.");
+        showToast("🎒 دخلتِ في وضع التدريب الحر (" + getBookDisplayName(chosenFreeBook) + ") من مستوى A1.");
         loadCurrentExercise();
         return;
       }
@@ -1675,23 +2126,34 @@
       errEl.classList.add('hidden');
 
       var classInfo = findClassInfoByCode(sCode);
-      var assignedLvl = (directLevelParam === "A1" || directLevelParam === "A2" || directLevelParam === "B1")
-        ? directLevelParam
-        : (classInfo && classInfo.level ? classInfo.level : (detectLevelFromCodePattern(sCode) || "A1"));
+      var assignedBook = (directBookParam === "Impact1" || directBookParam === "Impact2" || directBookParam === "Impact3")
+        ? directBookParam
+        : (classInfo && classInfo.book ? classInfo.book : (detectBookFromCodePattern(sCode) || "Impact1"));
 
-      AppState.user = { name: sName, gradeClass: sClass, classCode: sCode, role: "student", entryMode: "code", lockedLevel: assignedLvl };
-      applyActiveLevelUI(assignedLvl);
+      var resolvedTeacherName = directTeacher || (classInfo && classInfo.teacherName ? classInfo.teacherName : "Class Educator");
+
+      AppState.user = {
+        name: sName,
+        gradeClass: sClass,
+        classCode: sCode,
+        role: "student",
+        entryMode: "code",
+        lockedBook: assignedBook,
+        teacherName: resolvedTeacherName
+      };
+      applyActiveBookAndLevelUI(assignedBook, "A1");
       document.getElementById('activeUserName').innerText = sName;
       updateEnrolledStudentScore();
       playSuccessChime();
       window.closeLoginModal();
-      showToast("✅ أهلاً " + sName + "! تم دخولكِ مباشرة إلى " + getBookLabel(assignedLvl));
+      showToast("✅ أهلاً " + sName + "! تم دخولكِ إلى " + getBookDisplayName(assignedBook) + " (المعلمة: " + resolvedTeacherName + ")");
       loadCurrentExercise();
     };
 
     function updateEnrolledStudentScore() {
       if (!AppState.user || AppState.user.entryMode !== 'code' || !AppState.user.classCode) return;
       var code = AppState.user.classCode.toUpperCase();
+      var certCount = Object.keys(AppState.earnedCertificates).length;
       for (var k in AppState.teachersWorkspaces) {
         var ws = AppState.teachersWorkspaces[k];
         if ((ws.codes && ws.codes.includes(code)) || (ws.classDetails && ws.classDetails[code])) {
@@ -1699,20 +2161,23 @@
           var existing = ws.students.find(function(st) {
             return normalizeKey(st.name) === normalizeKey(AppState.user.name) && (st.code || "").toUpperCase() === code;
           });
+          var stageLabel = getBookDisplayName(AppState.currentBook) + " • " + AppState.currentLevel;
           if (existing) {
             existing.xp = AppState.xp;
             existing.hearts = AppState.hearts;
             existing.streak = AppState.streak;
-            existing.level = getBookLabel(AppState.currentLevel);
+            existing.level = stageLabel;
+            existing.certs = certCount;
           } else {
             ws.students.push({
               name: AppState.user.name,
               gradeClass: AppState.user.gradeClass,
               code: code,
-              level: getBookLabel(AppState.currentLevel),
+              level: stageLabel,
               xp: AppState.xp,
               hearts: AppState.hearts,
-              streak: AppState.streak
+              streak: AppState.streak,
+              certs: certCount
             });
           }
           saveWorkspacesToStorage();
@@ -1841,7 +2306,6 @@
       showToast("🎉 تم إنشاء حسابكِ الخاص بنجاح يا " + AppState.tempTeacherSignUp.name);
     };
 
-    /* Forgot Password Handlers */
     window.sendForgotPasswordCode = function() {
       var idVal = (document.getElementById('forgotIdentifierInput').value || "").trim();
       var errEl = document.getElementById('forgotStep1Err');
@@ -1883,7 +2347,7 @@
     };
 
     /* ========================================================
-       8. TEACHER PORTAL: CLASSES, DELETE WARNING, CUSTOM QUESTIONS
+       9. TEACHER PORTAL: CLASSES & DELETE WARNING
        ======================================================== */
     window.openTeacherPortal = function() {
       var ws = getActiveTeacherWorkspace();
@@ -1922,9 +2386,9 @@
       }
 
       codes.forEach(function(code) {
-        var meta = ws.classDetails[code] || { code: code, className: code, level: detectLevelFromCodePattern(code) || "A1" };
-        var lvl = meta.level || "A1";
-        var bookTag = getBookLabel(lvl);
+        var meta = ws.classDetails[code] || { code: code, className: code, book: detectBookFromCodePattern(code) || "Impact1" };
+        var bookKey = meta.book || "Impact1";
+        var bookTag = getBookDisplayName(bookKey);
         var stuInClass = (ws.students || []).filter(function(s) { return (s.code || "").toUpperCase() === code; }).length;
         var badge = document.createElement('div');
         badge.className = "flex flex-wrap items-center gap-2 bg-white border-2 border-purple-300 px-3.5 py-2 rounded-2xl text-xs font-bold text-purple-900 shadow-xs";
@@ -1933,7 +2397,7 @@
             '<span>📋</span>' +
             (meta.className && meta.className !== code ? '<span class="text-purple-950 font-black">' + meta.className + '</span><span class="text-purple-300">|</span>' : '') +
             '<strong class="tracking-wider text-purple-700 font-mono">' + code + '</strong>' +
-            '<span class="bg-violet-100 text-violet-900 border border-violet-300 px-2 py-0.5 rounded-full text-[10px] font-black">' + bookTag + '</span>' +
+            '<span class="bg-indigo-100 text-indigo-900 border border-indigo-300 px-2 py-0.5 rounded-full text-[10px] font-black">' + bookTag + '</span>' +
             '<span class="text-[10px] text-purple-500 font-bold">(' + stuInClass + ' طالبات)</span>' +
           '</div>' +
           '<div class="flex items-center gap-1.5">' +
@@ -1960,10 +2424,10 @@
     window.copyStudentLink = function(code) {
       var ws = getActiveTeacherWorkspace();
       var tName = ws ? ws.displayName : "Teacher";
-      var meta = (ws && ws.classDetails && ws.classDetails[code]) ? ws.classDetails[code] : { level: detectLevelFromCodePattern(code) || "A1" };
-      var lvl = meta.level || "A1";
-      var directUrl = window.location.origin + window.location.pathname + "?code=" + encodeURIComponent(code) + "&level=" + encodeURIComponent(lvl) + "&teacher=" + encodeURIComponent(tName);
-      copyTextSafely(directUrl, "🔗 تم نسخ رابط الصف المباشر (" + getBookLabel(lvl) + ")! أرسليه للطالبات.");
+      var meta = (ws && ws.classDetails && ws.classDetails[code]) ? ws.classDetails[code] : { book: detectBookFromCodePattern(code) || "Impact1" };
+      var bookKey = meta.book || "Impact1";
+      var directUrl = window.location.origin + window.location.pathname + "?code=" + encodeURIComponent(code) + "&book=" + encodeURIComponent(bookKey) + "&teacher=" + encodeURIComponent(tName);
+      copyTextSafely(directUrl, "🔗 تم نسخ رابط الصف المباشر (" + getBookDisplayName(bookKey) + ")! أرسليه للطالبات.");
     };
 
     window.copyMasterDirectLink = function() {
@@ -1976,43 +2440,43 @@
       var ws = getActiveTeacherWorkspace(); if (!ws) return;
       if (!ws.classDetails) ws.classDetails = {};
       var input = document.getElementById('newClassNameInput');
-      var chosenLvl = document.getElementById('newClassLevelSelect').value || "A1";
+      var chosenBook = document.getElementById('newClassBookSelect').value || "Impact1";
       var code = (input.value || "").trim().toUpperCase();
       if (!code) { showToast("⚠️ اكتبي الكود في الخانة أولاً ثم اضغطي + إضافة كود"); return; }
       if (!ws.codes.includes(code)) ws.codes.unshift(code);
-      ws.classDetails[code] = { code: code, className: code, level: chosenLvl };
+      ws.classDetails[code] = { code: code, className: code, book: chosenBook };
       saveWorkspacesToStorage();
       input.value = "";
       renderTeacherCodes();
       renderStudentTable();
-      showToast("✅ أضيف الكود " + code + " لمنهج " + getBookLabel(chosenLvl));
+      showToast("✅ أضيف الكود " + code + " لمنهج " + getBookDisplayName(chosenBook));
     };
 
     document.getElementById('createClassBtn').onclick = function() {
       var ws = getActiveTeacherWorkspace(); if (!ws) return;
       if (!ws.classDetails) ws.classDetails = {};
       var input = document.getElementById('newClassNameInput');
-      var chosenLvl = document.getElementById('newClassLevelSelect').value || "A1";
+      var chosenBook = document.getElementById('newClassBookSelect').value || "Impact1";
       var classLabel = (input.value || "").trim();
-      var prefix = (chosenLvl === "A1") ? "NX1-" : (chosenLvl === "A2") ? "NX2-" : "NX3-";
+      var prefix = (chosenBook === "Impact1") ? "NX1-" : (chosenBook === "Impact2") ? "NX2-" : "NX3-";
       var code = prefix + Math.floor(100 + Math.random() * 900);
       if (!ws.codes.includes(code)) ws.codes.unshift(code);
-      ws.classDetails[code] = { code: code, className: classLabel || code, level: chosenLvl };
+      ws.classDetails[code] = { code: code, className: classLabel || code, book: chosenBook };
       saveWorkspacesToStorage();
       input.value = "";
       renderTeacherCodes();
       renderStudentTable();
-      showToast("✅ تم إنشاء الصف (" + code + ") بمنهج " + getBookLabel(chosenLvl));
+      showToast("✅ تم إنشاء الصف (" + code + ") بمنهج " + getBookDisplayName(chosenBook));
     };
 
     /* Delete Class Warning Modal */
     window.promptDeleteClass = function(code) {
       var ws = getActiveTeacherWorkspace(); if (!ws) return;
       AppState.pendingDeleteCode = code;
-      var meta = (ws.classDetails && ws.classDetails[code]) ? ws.classDetails[code] : { className: code, level: "A1" };
+      var meta = (ws.classDetails && ws.classDetails[code]) ? ws.classDetails[code] : { className: code, book: "Impact1" };
       var stuCount = (ws.students || []).filter(function(s) { return (s.code || "").toUpperCase() === code; }).length;
       var lbl = (meta.className && meta.className !== code) ? (meta.className + " (" + code + ")") : code;
-      document.getElementById('delClassTargetLabel').innerText = lbl + " • " + getBookLabel(meta.level || "A1");
+      document.getElementById('delClassTargetLabel').innerText = lbl + " • " + getBookDisplayName(meta.book || "Impact1");
       document.getElementById('delClassStudentCount').innerText = stuCount;
       var modal = document.getElementById('deleteClassConfirmModal');
       if (modal) { modal.classList.remove('hidden'); modal.style.display = 'flex'; }
@@ -2048,7 +2512,7 @@
       if (countBadge) countBadge.innerText = students.length + " Active Student(s)";
 
       if (students.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="py-5 text-center text-purple-400 font-bold">لا توجد طالبات مسجلات في صفوفكِ بعد. شاركي كود الصف أو الرابط المباشر مع طالباتكِ!</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="py-5 text-center text-purple-400 font-bold">لا توجد طالبات مسجلات في صفوفكِ بعد. شاركي كود الصف أو الرابط المباشر مع طالباتكِ!</td></tr>';
         return;
       }
       tbody.innerHTML = students.map(function(st) {
@@ -2058,60 +2522,17 @@
           '<td class="py-2.5 px-3"><span class="bg-purple-100 text-purple-900 px-2 py-0.5 rounded font-mono">' + st.code + '</span></td>' +
           '<td class="py-2.5 px-3">' + st.level + '</td>' +
           '<td class="py-2.5 px-3 text-purple-700">💎 ' + st.xp + '</td>' +
-          '<td class="py-2.5 px-3 text-rose-600">❤️ ' + st.hearts + '</td>' +
-          '<td class="py-2.5 px-3 text-amber-600">🔥 ' + st.streak + '</td>' +
+          '<td class="py-2.5 px-3 text-amber-600">🏅 ' + (st.certs || 0) + '</td>' +
         '</tr>';
       }).join('');
     }
 
-    window.toggleCustomQuestionFields = function() {
-      var skill = document.getElementById('cqSkillSelect').value;
-      document.getElementById('cqOptionsInputs').classList.toggle('hidden', skill !== 'grammar');
-    };
-
-    window.saveCustomTeacherQuestion = function() {
-      var lvl = document.getElementById('cqLevelSelect').value;
-      var skill = document.getElementById('cqSkillSelect').value;
-      var promptTxt = (document.getElementById('cqPromptInput').value || "").trim();
-      var hintTxt = (document.getElementById('cqHintInput').value || "").trim();
-      if (!promptTxt) { showToast("⚠️ اكتبي الكلمة أو نص السؤال أولاً"); return; }
-
-      if (skill === 'listen') {
-        var cleanWord = promptTxt.toLowerCase().replace(/[^a-z]/g, '');
-        if (!cleanWord) { showToast("⚠️ يرجى كتابة كلمة إنجليزية صحيحة"); return; }
-        QUESTION_BANK[lvl].listen.unshift({
-          id: "CUSTOM_L_" + Date.now(),
-          word: cleanWord,
-          hint: hintTxt || "Teacher Custom Word",
-          topic: getBookLabel(lvl) + " • Teacher Custom",
-          iconName: "school"
-        });
-      } else {
-        var o0 = (document.getElementById('cqOpt0').value || "").trim();
-        var o1 = (document.getElementById('cqOpt1').value || "").trim();
-        var o2 = (document.getElementById('cqOpt2').value || "").trim();
-        var o3 = (document.getElementById('cqOpt3').value || "").trim();
-        if (!o0 || !o1 || !o2 || !o3) { showToast("⚠️ يرجى تعبئة الخيارات الأربعة كاملة"); return; }
-        QUESTION_BANK[lvl].grammar.unshift({
-          id: "CUSTOM_G_" + Date.now(),
-          question: promptTxt,
-          options: [o0, o1, o2, o3],
-          correct: 0,
-          hint: hintTxt || "Teacher Custom Grammar",
-          topic: getBookLabel(lvl) + " • Teacher Custom"
-        });
-      }
-      document.getElementById('cqPromptInput').value = "";
-      document.getElementById('cqHintInput').value = "";
-      showToast("✅ تم إضافة السؤال بنجاح إلى منهج " + getBookLabel(lvl));
-    };
-
     window.downloadStudentsCsv = function() {
       var ws = getActiveTeacherWorkspace();
       var students = (ws && ws.students) ? ws.students : [];
-      var csv = "Student Name,Class/Section,Class Code,Curriculum,XP,Hearts,Streak\n";
+      var csv = "Student Name,Class/Section,Class Code,Curriculum & Level,XP,Certificates\n";
       students.forEach(function(st) {
-        csv += '"' + st.name + '","' + st.gradeClass + '","' + st.code + '","' + st.level + '",' + st.xp + ',' + st.hearts + ',' + st.streak + '\n';
+        csv += '"' + st.name + '","' + st.gradeClass + '","' + st.code + '","' + st.level + '",' + st.xp + ',' + (st.certs || 0) + '\n';
       });
       var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       var a = document.createElement('a');
@@ -2124,7 +2545,7 @@
       var ws = getActiveTeacherWorkspace(); if (!ws) return;
       var txt = "Nexly Teacher Account Card\n" +
         "Platform Creator: T. Hameeda BuSakhar (Hameeda.ahmed@hotmail.com)\n" +
-        "Educator Name: " + ws.displayName + "\n" +
+        "Certificate Signature Educator Name: " + ws.displayName + "\n" +
         "Email: " + ws.email + "\n" +
         "Password: " + ws.password + "\n" +
         "Class Codes: " + (ws.codes || []).join(", ") + "\n";
@@ -2136,22 +2557,24 @@
     };
 
     /* ========================================================
-       9. INITIALIZATION ON PAGE LOAD
+       10. INITIALIZATION ON PAGE LOAD
        ======================================================== */
     if (directCode) {
       var codeInp = document.getElementById('stuCodeInput');
       if (codeInp) codeInp.value = directCode;
-      var resolvedLvl = (directLevelParam === "A1" || directLevelParam === "A2" || directLevelParam === "B1")
-        ? directLevelParam
-        : (detectLevelFromCodePattern(directCode) || "A1");
+      var resolvedBook = (directBookParam === "Impact1" || directBookParam === "Impact2" || directBookParam === "Impact3")
+        ? directBookParam
+        : (detectBookFromCodePattern(directCode) || "Impact1");
       var banner = document.getElementById('directTeacherLinkBanner');
       var infoTxt = document.getElementById('directTeacherLinkInfo');
       if (banner && infoTxt) {
-        infoTxt.innerText = "الصف: " + directCode + " • المنهج المحدد تلقائياً: " + getBookLabel(resolvedLvl);
+        infoTxt.innerText = "الصف: " + directCode + " • المنهج: " + getBookDisplayName(resolvedBook) + (directTeacher ? (" • المعلمة: " + directTeacher) : "");
         banner.classList.remove('hidden');
       }
       window.onStudentCodeInput(directCode);
-      applyActiveLevelUI(resolvedLvl);
+      applyActiveBookAndLevelUI(resolvedBook, "A1");
+    } else {
+      applyActiveBookAndLevelUI(AppState.currentBook, "A1");
     }
 
     updateTopMetrics();
