@@ -289,49 +289,93 @@
     <div class="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
       <!-- Left: Brand Logo & Permanent Creator Info -->
       <div class="flex items-center gap-2.5">
-        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl shadow-sm shrink-0 overflow-hidden bg-purple-100 border-2 border-purple-200 flex items-center justify-center">
-          <svg viewBox="0 0 200 200" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-md shrink-0 overflow-hidden bg-[#ebe2ff] border-2 border-purple-200 flex items-center justify-center">
+          <svg viewBox="0 0 240 240" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="bgGradHdr" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#ede4ff"/>
-                <stop offset="100%" stop-color="#d8c7ff"/>
+              <linearGradient id="hdrBgGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f1ebff"/>
+                <stop offset="100%" stop-color="#dfd2ff"/>
               </linearGradient>
-              <linearGradient id="nBodyHdr" x1="0" y1="0" x2="0.8" y2="1">
-                <stop offset="0%" stop-color="#a78bfa"/>
-                <stop offset="55%" stop-color="#7c3aed"/>
-                <stop offset="100%" stop-color="#5b21b6"/>
+              <linearGradient id="hdrN3dSide" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6d28d9"/>
+                <stop offset="100%" stop-color="#4c1d95"/>
               </linearGradient>
-              <linearGradient id="goldStarHdr" x1="0" y1="0" x2="1" y2="1">
+              <linearGradient id="hdrNBody" x1="0.15" y1="0.05" x2="0.85" y2="0.95">
+                <stop offset="0%" stop-color="#b49bff"/>
+                <stop offset="45%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#6d28d9"/>
+              </linearGradient>
+              <linearGradient id="hdrBandGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#9b72ff"/>
+                <stop offset="100%" stop-color="#6d28d9"/>
+              </linearGradient>
+              <linearGradient id="hdrStarGrad" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stop-color="#fef08a"/>
                 <stop offset="55%" stop-color="#facc15"/>
                 <stop offset="100%" stop-color="#eab308"/>
               </linearGradient>
             </defs>
-            <rect x="6" y="6" width="188" height="188" rx="46" fill="url(#bgGradHdr)" stroke="#ffffff" stroke-width="6"/>
-            <line x1="26" y1="54" x2="38" y2="58" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
-            <line x1="22" y1="68" x2="36" y2="68" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
-            <line x1="27" y1="82" x2="39" y2="77" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M46 66 C42 40, 74 30, 86 52" fill="none" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
-            <rect x="40" y="57" width="13" height="22" rx="6.5" transform="rotate(-18 46 68)" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>
-            <rect x="78" y="45" width="12" height="20" rx="6" transform="rotate(-18 84 55)" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
-            <path d="M48 92 C28 112, 62 126, 118 104 C162 86, 174 68, 152 64" fill="none" stroke="#a78bfa" stroke-width="5" opacity="0.7"/>
-            <path d="M58 148 L58 72 C58 58, 76 55, 84 67 L116 115 L116 70 C116 57, 138 57, 138 70 L138 148 C138 160, 120 162, 112 150 L80 102 L80 148 C80 160, 58 160, 58 148 Z" fill="url(#nBodyHdr)"/>
-            <ellipse cx="66" cy="87" rx="3.2" ry="4.5" fill="#2e1065"/>
-            <path d="M84 85 L89 87 L84 89" fill="none" stroke="#2e1065" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M72 91 Q76 95 80 91" fill="none" stroke="#2e1065" stroke-width="2.5" stroke-linecap="round"/>
-            <ellipse cx="62" cy="94" rx="4" ry="2.4" fill="#f9a8d4" opacity="0.85"/>
-            <ellipse cx="88" cy="94" rx="4" ry="2.4" fill="#f9a8d4" opacity="0.85"/>
-            <path d="M46 104 C56 125, 118 114, 156 88 C170 78, 168 68, 158 65" fill="none" stroke="#e9d5ff" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M136 34 Q138 48 152 50 Q138 52 136 66 Q134 52 120 50 Q134 48 136 34 Z" fill="url(#goldStarHdr)" stroke="#eab308" stroke-width="1.5"/>
-            <path d="M40 124 Q41 132 49 133 Q41 134 40 142 Q39 134 31 133 Q39 132 40 124 Z" fill="url(#goldStarHdr)"/>
-            <rect x="144" y="102" width="34" height="22" rx="11" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="1.5"/>
-            <polygon points="150,123 145,130 157,124" fill="#ddd6fe"/>
-            <circle cx="154" cy="113" r="2.2" fill="#7c3aed"/>
-            <circle cx="161" cy="113" r="2.2" fill="#7c3aed"/>
-            <circle cx="168" cy="113" r="2.2" fill="#7c3aed"/>
-            <path d="M46 146 Q73 140 100 156 Q127 140 154 146 L150 156 Q125 150 100 165 Q75 150 50 156 Z" fill="#fefce8"/>
-            <path d="M44 153 Q72 147 100 163 Q128 147 156 153 L152 162 Q126 156 100 171 Q74 156 48 162 Z" fill="#ddd6fe"/>
-            <path d="M42 160 Q71 154 100 170 Q129 154 158 160 L155 168 Q127 162 100 177 Q73 162 45 168 Z" fill="#7c3aed"/>
+
+            <!-- Soft Lavender Rounded Squircle Background & Crisp White Inner Frame -->
+            <rect x="0" y="0" width="240" height="240" rx="52" fill="url(#hdrBgGrad)"/>
+            <rect x="16" y="16" width="208" height="208" rx="46" fill="none" stroke="#ffffff" stroke-width="5.5"/>
+
+            <!-- Sound Waves Left of Headphones -->
+            <line x1="36" y1="71" x2="46" y2="75" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
+            <line x1="33" y1="84" x2="44" y2="84" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
+            <line x1="38" y1="97" x2="47" y2="92" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
+
+            <!-- Cute Purple Headphones on Top-Left of N -->
+            <path d="M55 82 C49 52, 84 40, 98 66" fill="none" stroke="url(#hdrBandGrad)" stroke-width="8" stroke-linecap="round"/>
+            <rect x="49" y="72" width="14" height="24" rx="7" transform="rotate(-18 56 84)" fill="#f8f5ff" stroke="#7c3aed" stroke-width="3"/>
+            <rect x="56" y="73" width="8" height="22" rx="4" transform="rotate(-18 60 84)" fill="#6d28d9"/>
+            <rect x="89" y="59" width="13" height="22" rx="6.5" transform="rotate(-18 95 70)" fill="#f3e8ff" stroke="#7c3aed" stroke-width="3"/>
+            <rect x="86" y="60" width="7" height="20" rx="3.5" transform="rotate(-18 89 70)" fill="#6d28d9"/>
+
+            <!-- Back Orbiting Swoosh Ring -->
+            <path d="M82 104 C54 114, 52 132, 82 136" fill="none" stroke="#a78bfa" stroke-width="7.5" stroke-linecap="round"/>
+            <path d="M166 76 C192 74, 202 84, 186 98" fill="none" stroke="#a78bfa" stroke-width="7.5" stroke-linecap="round"/>
+
+            <!-- 3D Extruded Depth Shadow of Letter N -->
+            <path d="M84 164 L84 91 C84 74, 108 70, 118 85 L146 128 L146 86 C146 70, 173 70, 173 86 L173 164 C173 178, 150 180, 140 166 L112 123 L112 164 C112 178, 84 178, 84 164 Z" fill="url(#hdrN3dSide)" transform="translate(-4, 4)"/>
+
+            <!-- Main Glossy 3D Puffy Letter N -->
+            <path d="M82 162 L82 89 C82 72, 106 68, 116 83 L144 126 L144 84 C144 68, 171 68, 171 84 L171 162 C171 176, 148 178, 138 164 L110 121 L110 162 C110 176, 82 176, 82 162 Z" fill="url(#hdrNBody)" stroke="#6d28d9" stroke-width="2"/>
+
+            <!-- Glossy Specular 3D Highlights on N -->
+            <path d="M88 89 C88 78, 102 76, 109 86 L136 127" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.45"/>
+            <path d="M150 84 C150 75, 165 75, 165 84 L165 112" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.4"/>
+
+            <!-- Cute Kawaii Face on N -->
+            <ellipse cx="98" cy="103" rx="4.2" ry="5.6" fill="#2e1065"/>
+            <circle cx="96.8" cy="101" r="1.4" fill="#ffffff"/>
+            <path d="M123 100 L117 103 L123 106" fill="none" stroke="#2e1065" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M106 107 Q110.5 112 115 107" fill="none" stroke="#2e1065" stroke-width="3.2" stroke-linecap="round"/>
+            <ellipse cx="93" cy="112" rx="5.2" ry="3.2" fill="#f9a8d4"/>
+            <ellipse cx="127" cy="112" rx="5.2" ry="3.2" fill="#f9a8d4"/>
+
+            <!-- Front Orbiting Swoosh Ring Wrapping Across N -->
+            <path d="M110 134 C142 132, 174 114, 189 96" fill="none" stroke="#c4b5fd" stroke-width="7" stroke-linecap="round"/>
+            <path d="M112 133 C143 131, 173 114, 188 97" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+
+            <!-- Big Golden 4-Point Star on Top-Right of N -->
+            <path d="M167 44 Q170 61 187 64 Q170 67 167 84 Q164 67 147 64 Q164 61 167 44 Z" fill="url(#hdrStarGrad)" stroke="#eab308" stroke-width="2" stroke-linejoin="round"/>
+
+            <!-- Small Golden 4-Point Star on Lower-Left -->
+            <path d="M51 130 Q53 140 63 142 Q53 144 51 154 Q49 144 39 142 Q49 140 51 130 Z" fill="url(#hdrStarGrad)" stroke="#eab308" stroke-width="1.5" stroke-linejoin="round"/>
+
+            <!-- Cute Speech Bubble on Middle-Right -->
+            <rect x="176" y="110" width="38" height="25" rx="12.5" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="2"/>
+            <polygon points="183,133 178,141 191,134" fill="#ddd6fe"/>
+            <circle cx="187" cy="122.5" r="2.6" fill="#7c3aed"/>
+            <circle cx="195" cy="122.5" r="2.6" fill="#7c3aed"/>
+            <circle cx="203" cy="122.5" r="2.6" fill="#7c3aed"/>
+
+            <!-- Open 3D Book at the Base of N -->
+            <path d="M62 168 Q92 162 120 180 Q148 162 178 168 L174 179 Q146 173 120 190 Q94 173 66 179 Z" fill="#6d28d9"/>
+            <path d="M64 161 Q93 155 120 173 Q147 155 176 161 L173 171 Q146 165 120 182 Q94 165 67 171 Z" fill="#ddd6fe"/>
+            <path d="M68 152 Q95 146 120 164 Q145 146 172 152 L169 163 Q144 157 120 174 Q96 157 71 163 Z" fill="#fffdf7" stroke="#e9d5ff" stroke-width="1.5"/>
+            <line x1="120" y1="164" x2="120" y2="189" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round"/>
           </svg>
         </div>
 
@@ -543,35 +587,95 @@
         🔒 يجب تسجيل الدخول كطالبة أو معلمة للمتابعة • Mandatory Login
       </div>
 
-      <!-- Top Mascot Logo & Permanent Creator Credit -->
+      <!-- Top Mascot Logo & Permanent Creator Credit (Ultra-Clear Self-Contained 3D Icon) -->
       <div class="text-center mb-4">
-        <div class="w-20 h-20 mx-auto mb-2.5 rounded-3xl shadow-md overflow-hidden border-2 border-purple-200 animate-logo-float">
-          <svg viewBox="0 0 200 200" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6" y="6" width="188" height="188" rx="46" fill="url(#bgGradHdr)" stroke="#ffffff" stroke-width="6"/>
-            <line x1="26" y1="54" x2="38" y2="58" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
-            <line x1="22" y1="68" x2="36" y2="68" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
-            <line x1="27" y1="82" x2="39" y2="77" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M46 66 C42 40, 74 30, 86 52" fill="none" stroke="#7c3aed" stroke-width="7" stroke-linecap="round"/>
-            <rect x="40" y="57" width="13" height="22" rx="6.5" transform="rotate(-18 46 68)" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>
-            <rect x="78" y="45" width="12" height="20" rx="6" transform="rotate(-18 84 55)" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
-            <path d="M48 92 C28 112, 62 126, 118 104 C162 86, 174 68, 152 64" fill="none" stroke="#a78bfa" stroke-width="5" opacity="0.7"/>
-            <path d="M58 148 L58 72 C58 58, 76 55, 84 67 L116 115 L116 70 C116 57, 138 57, 138 70 L138 148 C138 160, 120 162, 112 150 L80 102 L80 148 C80 160, 58 160, 58 148 Z" fill="url(#nBodyHdr)"/>
-            <ellipse cx="66" cy="87" rx="3.2" ry="4.5" fill="#2e1065"/>
-            <path d="M84 85 L89 87 L84 89" fill="none" stroke="#2e1065" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M72 91 Q76 95 80 91" fill="none" stroke="#2e1065" stroke-width="2.5" stroke-linecap="round"/>
-            <ellipse cx="62" cy="94" rx="4" ry="2.4" fill="#f9a8d4" opacity="0.85"/>
-            <ellipse cx="88" cy="94" rx="4" ry="2.4" fill="#f9a8d4" opacity="0.85"/>
-            <path d="M46 104 C56 125, 118 114, 156 88 C170 78, 168 68, 158 65" fill="none" stroke="#e9d5ff" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M136 34 Q138 48 152 50 Q138 52 136 66 Q134 52 120 50 Q134 48 136 34 Z" fill="url(#goldStarHdr)" stroke="#eab308" stroke-width="1.5"/>
-            <path d="M40 124 Q41 132 49 133 Q41 134 40 142 Q39 134 31 133 Q39 132 40 124 Z" fill="url(#goldStarHdr)"/>
-            <rect x="144" y="102" width="34" height="22" rx="11" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="1.5"/>
-            <polygon points="150,123 145,130 157,124" fill="#ddd6fe"/>
-            <circle cx="154" cy="113" r="2.2" fill="#7c3aed"/>
-            <circle cx="161" cy="113" r="2.2" fill="#7c3aed"/>
-            <circle cx="168" cy="113" r="2.2" fill="#7c3aed"/>
-            <path d="M46 146 Q73 140 100 156 Q127 140 154 146 L150 156 Q125 150 100 165 Q75 150 50 156 Z" fill="#fefce8"/>
-            <path d="M44 153 Q72 147 100 163 Q128 147 156 153 L152 162 Q126 156 100 171 Q74 156 48 162 Z" fill="#ddd6fe"/>
-            <path d="M42 160 Q71 154 100 170 Q129 154 158 160 L155 168 Q127 162 100 177 Q73 162 45 168 Z" fill="#7c3aed"/>
+        <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-2.5 rounded-[1.75rem] shadow-lg overflow-hidden border-2 border-purple-200 bg-[#ebe2ff] animate-logo-float">
+          <svg viewBox="0 0 240 240" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="modalBgGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f1ebff"/>
+                <stop offset="100%" stop-color="#dfd2ff"/>
+              </linearGradient>
+              <linearGradient id="modalN3dSide" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6d28d9"/>
+                <stop offset="100%" stop-color="#4c1d95"/>
+              </linearGradient>
+              <linearGradient id="modalNBody" x1="0.15" y1="0.05" x2="0.85" y2="0.95">
+                <stop offset="0%" stop-color="#b49bff"/>
+                <stop offset="45%" stop-color="#8b5cf6"/>
+                <stop offset="100%" stop-color="#6d28d9"/>
+              </linearGradient>
+              <linearGradient id="modalBandGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#9b72ff"/>
+                <stop offset="100%" stop-color="#6d28d9"/>
+              </linearGradient>
+              <linearGradient id="modalStarGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="55%" stop-color="#facc15"/>
+                <stop offset="100%" stop-color="#eab308"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Soft Lavender Rounded Squircle Background & Crisp White Inner Frame -->
+            <rect x="0" y="0" width="240" height="240" rx="52" fill="url(#modalBgGrad)"/>
+            <rect x="16" y="16" width="208" height="208" rx="46" fill="none" stroke="#ffffff" stroke-width="5.5"/>
+
+            <!-- Sound Waves Left of Headphones -->
+            <line x1="36" y1="71" x2="46" y2="75" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
+            <line x1="33" y1="84" x2="44" y2="84" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
+            <line x1="38" y1="97" x2="47" y2="92" stroke="#7c3aed" stroke-width="4.5" stroke-linecap="round"/>
+
+            <!-- Cute Purple Headphones on Top-Left of N -->
+            <path d="M55 82 C49 52, 84 40, 98 66" fill="none" stroke="url(#modalBandGrad)" stroke-width="8" stroke-linecap="round"/>
+            <rect x="49" y="72" width="14" height="24" rx="7" transform="rotate(-18 56 84)" fill="#f8f5ff" stroke="#7c3aed" stroke-width="3"/>
+            <rect x="56" y="73" width="8" height="22" rx="4" transform="rotate(-18 60 84)" fill="#6d28d9"/>
+            <rect x="89" y="59" width="13" height="22" rx="6.5" transform="rotate(-18 95 70)" fill="#f3e8ff" stroke="#7c3aed" stroke-width="3"/>
+            <rect x="86" y="60" width="7" height="20" rx="3.5" transform="rotate(-18 89 70)" fill="#6d28d9"/>
+
+            <!-- Back Orbiting Swoosh Ring -->
+            <path d="M82 104 C54 114, 52 132, 82 136" fill="none" stroke="#a78bfa" stroke-width="7.5" stroke-linecap="round"/>
+            <path d="M166 76 C192 74, 202 84, 186 98" fill="none" stroke="#a78bfa" stroke-width="7.5" stroke-linecap="round"/>
+
+            <!-- 3D Extruded Depth Shadow of Letter N -->
+            <path d="M84 164 L84 91 C84 74, 108 70, 118 85 L146 128 L146 86 C146 70, 173 70, 173 86 L173 164 C173 178, 150 180, 140 166 L112 123 L112 164 C112 178, 84 178, 84 164 Z" fill="url(#modalN3dSide)" transform="translate(-4, 4)"/>
+
+            <!-- Main Glossy 3D Puffy Letter N -->
+            <path d="M82 162 L82 89 C82 72, 106 68, 116 83 L144 126 L144 84 C144 68, 171 68, 171 84 L171 162 C171 176, 148 178, 138 164 L110 121 L110 162 C110 176, 82 176, 82 162 Z" fill="url(#modalNBody)" stroke="#6d28d9" stroke-width="2"/>
+
+            <!-- Glossy Specular 3D Highlights on N -->
+            <path d="M88 89 C88 78, 102 76, 109 86 L136 127" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.45"/>
+            <path d="M150 84 C150 75, 165 75, 165 84 L165 112" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" opacity="0.4"/>
+
+            <!-- Cute Kawaii Face on N -->
+            <ellipse cx="98" cy="103" rx="4.2" ry="5.6" fill="#2e1065"/>
+            <circle cx="96.8" cy="101" r="1.4" fill="#ffffff"/>
+            <path d="M123 100 L117 103 L123 106" fill="none" stroke="#2e1065" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M106 107 Q110.5 112 115 107" fill="none" stroke="#2e1065" stroke-width="3.2" stroke-linecap="round"/>
+            <ellipse cx="93" cy="112" rx="5.2" ry="3.2" fill="#f9a8d4"/>
+            <ellipse cx="127" cy="112" rx="5.2" ry="3.2" fill="#f9a8d4"/>
+
+            <!-- Front Orbiting Swoosh Ring Wrapping Across N -->
+            <path d="M110 134 C142 132, 174 114, 189 96" fill="none" stroke="#c4b5fd" stroke-width="7" stroke-linecap="round"/>
+            <path d="M112 133 C143 131, 173 114, 188 97" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+
+            <!-- Big Golden 4-Point Star on Top-Right of N -->
+            <path d="M167 44 Q170 61 187 64 Q170 67 167 84 Q164 67 147 64 Q164 61 167 44 Z" fill="url(#modalStarGrad)" stroke="#eab308" stroke-width="2" stroke-linejoin="round"/>
+
+            <!-- Small Golden 4-Point Star on Lower-Left -->
+            <path d="M51 130 Q53 140 63 142 Q53 144 51 154 Q49 144 39 142 Q49 140 51 130 Z" fill="url(#modalStarGrad)" stroke="#eab308" stroke-width="1.5" stroke-linejoin="round"/>
+
+            <!-- Cute Speech Bubble on Middle-Right -->
+            <rect x="176" y="110" width="38" height="25" rx="12.5" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="2"/>
+            <polygon points="183,133 178,141 191,134" fill="#ddd6fe"/>
+            <circle cx="187" cy="122.5" r="2.6" fill="#7c3aed"/>
+            <circle cx="195" cy="122.5" r="2.6" fill="#7c3aed"/>
+            <circle cx="203" cy="122.5" r="2.6" fill="#7c3aed"/>
+
+            <!-- Open 3D Book at the Base of N -->
+            <path d="M62 168 Q92 162 120 180 Q148 162 178 168 L174 179 Q146 173 120 190 Q94 173 66 179 Z" fill="#6d28d9"/>
+            <path d="M64 161 Q93 155 120 173 Q147 155 176 161 L173 171 Q146 165 120 182 Q94 165 67 171 Z" fill="#ddd6fe"/>
+            <path d="M68 152 Q95 146 120 164 Q145 146 172 152 L169 163 Q144 157 120 174 Q96 157 71 163 Z" fill="#fffdf7" stroke="#e9d5ff" stroke-width="1.5"/>
+            <line x1="120" y1="164" x2="120" y2="189" stroke="#8b5cf6" stroke-width="2.2" stroke-linecap="round"/>
           </svg>
         </div>
 
@@ -1875,7 +1979,7 @@
           osc.stop(now + idx * 0.11 + 0.55);
         });
 
-        // Multi-burst Realistic Hand-Clap Applause (24 staggered applause claps over 2.2s)
+        // Multi-burst Realistic Hand-Clap Applause (26 staggered applause claps over 2.2s)
         var bufferSize = Math.floor(ctx.sampleRate * 0.09);
         var noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         var data = noiseBuffer.getChannelData(0);
